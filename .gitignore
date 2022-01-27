@@ -1,7 +1,6 @@
 .idea/
 target/
 *.iml
-*.xml
 .DS_Store
 .gitattributes
 gen/
