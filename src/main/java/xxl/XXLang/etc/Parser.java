@@ -9,6 +9,7 @@ import xxl.lang.XXLParser;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Parser {
 
@@ -55,7 +56,58 @@ public class Parser {
         this.file = new File(str);
     }
 
+    public void parse(boolean ask) throws IOException {
+
+        System.out.println("Enter the path to your file now:\n");
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine();
+        this.file = new File(s);
+        this.str = s;
+
+        lang.resolveImport("System");
+
+        if (this.file != null) {
+
+            XXLLexer lexer = new XXLLexer(CharStreams.fromFileName(this.file.getName()));
+            XXLParser parser = new XXLParser(new CommonTokenStream(lexer));
+            parser.setBuildParseTree(true);
+            ParseTree tree = parser.parse();
+
+            lang.visitor.visit(tree);
+
+        } else if (this.s != null) {
+
+            XXLLexer lexer = new XXLLexer(this.s);
+            XXLParser parser = new XXLParser(new CommonTokenStream(lexer));
+            parser.setBuildParseTree(true);
+            ParseTree tree = parser.parse();
+
+            lang.visitor.visit(tree);
+
+        } else if (this.str != null) {
+
+            XXLLexer lexer = new XXLLexer(CharStreams.fromFileName(this.str));
+            XXLParser parser = new XXLParser(new CommonTokenStream(lexer));
+            parser.setBuildParseTree(true);
+            ParseTree tree = parser.parse();
+
+            lang.visitor.visit(tree);
+        } else if (this.non != null) {
+
+            XXLLexer lexer = new XXLLexer(CharStreams.fromString(this.non));
+            XXLParser parser = new XXLParser(new CommonTokenStream(lexer));
+            parser.setBuildParseTree(true);
+            ParseTree tree = parser.parse();
+
+            lang.visitor.visit(tree);
+
+        }
+
+
+    }
+
     public void parse() throws IOException {
+        lang.resolveImport("System");
 
         if (this.file != null) {
 
