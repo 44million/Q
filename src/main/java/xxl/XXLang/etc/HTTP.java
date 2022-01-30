@@ -8,7 +8,7 @@ import java.io.OutputStream;
 
 import static xxl.XXLang.etc.lang.response;
 
-public class BasicHTTPHandler implements HttpHandler {
+public class HTTP implements HttpHandler {
 
     @Override
     public void handle(HttpExchange he) throws IOException {

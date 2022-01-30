@@ -1,8 +1,9 @@
 package xxl;
 
-import org.antlr.v4.runtime.*;
-import xxl.XXLang.etc.*;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
 import xxl.XXLang.etc.Parser;
+import xxl.XXLang.etc.lang;
 
 public class Main {
 

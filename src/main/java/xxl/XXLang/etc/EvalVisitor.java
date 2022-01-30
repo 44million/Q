@@ -97,7 +97,7 @@ public class EvalVisitor extends XXLBaseVisitor<XValue> {
             int port = Integer.parseInt(x.asString());
 
             HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-            server.createContext("/", new BasicHTTPHandler());
+            server.createContext("/", new HTTP());
             server.setExecutor(null);
             server.start();
 
