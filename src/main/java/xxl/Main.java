@@ -62,10 +62,6 @@ public class Main {
                 }
             }).start();
 
-            for (Window w : lang.wins) {
-                System.out.println(w.name + " <--");
-            }
-
         } catch (Exception e) {
 
             String err = "[FATAL] " + e.getMessage();

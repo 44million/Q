@@ -88,8 +88,13 @@ public class Parser {
             XXLParser parser = new XXLParser(new CommonTokenStream(lexer));
             parser.setBuildParseTree(true);
             ParseTree tree = parser.parse();
-
-            lang.visitor.visit(tree);
+            try {
+                lang.visitor.visit(tree);
+            } catch (Exception e) {
+                if (e.getMessage().contains("Function.exists()")) {
+                    System.out.print("");
+                }
+            }
 
         } else if (this.str != null) {
 

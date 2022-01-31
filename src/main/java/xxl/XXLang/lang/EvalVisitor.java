@@ -44,13 +44,16 @@ public class EvalVisitor extends XXLBaseVisitor<XValue> {
         String id = ctx.Identifier().getText() + params.size();
 
         try {
-            if (functions.get(id).exists() && (functions.get(id).params.equals(params))) {
+            if (functions.get(id).exists()) {
                 System.out.println("[FATAL] Function: '" + id + "' already exists.");
                 System.exit(0);
             }
-
         } catch (Exception e) {
-            System.out.print(e.getMessage());
+            String s = e.getMessage();
+            if (e.getMessage().contains("Function.exists()")) {
+                s = "";
+            }
+            System.out.print(s);
         }
 
         functions.put(id, new Function(scope, params, block));
@@ -109,15 +112,6 @@ public class EvalVisitor extends XXLBaseVisitor<XValue> {
 
     @Override
     public XValue visitWindowCreateStatement(XXLParser.WindowCreateStatementContext ctx) {
-        System.out.println("reached window create statement");
-
-        XValue newVal = this.visit(ctx.Identifier());
-
-            XValue val = scope.resolve(ctx.Identifier().getText());
-            setAtIndex(ctx, null, val, newVal);
-
-            String id = ctx.Identifier().getText();
-            scope.assign(id, newVal);
 
         List<XValue> list = new ArrayList<>();
         if (ctx.exprList() != null) {
@@ -125,14 +119,15 @@ public class EvalVisitor extends XXLBaseVisitor<XValue> {
                 list.add(this.visit(ex));
             }
         }
-
-        if (list.get(0).isString() && list.get(1).isNumber() && list.get(2).isNumber()) {
+        // Window w = new Window("Name", x, y);
+        if (list.get(0).isString() && list.get(1).isString() && list.get(2).isString()) {
 
             xxl.XXLang.libs.Window window = new Window(list.get(0).asString(), Integer.parseInt(list.get(1).asString()), Integer.parseInt(list.get(2).asString()));
+            window.setName(ctx.Identifier().getText());
             lang.wins.add(window);
 
         } else {
-            System.out.println("Incorrect");
+            System.out.println("Incorrect layout, Window class accepts the following: Window(name:str, x-axis:str, y-axis:str);");
         }
         return XValue.VOID;
     }
@@ -341,7 +336,7 @@ public class EvalVisitor extends XXLBaseVisitor<XValue> {
 
         try {
             lang.lst.addAll(parser.parse(false));
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 

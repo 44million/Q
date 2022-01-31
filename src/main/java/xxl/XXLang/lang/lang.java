@@ -69,7 +69,7 @@ public class lang {
     public static Window getWinByName(String name) {
 
         for (Window xc : wins) {
-            if (xc.name.equals(name)) {
+            if (xc.realName.equals(name)) {
                 return xc;
             }
         }

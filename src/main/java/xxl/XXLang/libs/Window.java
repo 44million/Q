@@ -10,11 +10,16 @@ public class Window {
     private int x, y;
     public String name;
     private JFrame f;
+    public String realName;
 
     public Window(String name, int x, int y) {
         this.x = x;
         this.y = y;
         this.name = name;
+    }
+
+    public void setName(String name) {
+        this.realName = name;
     }
 
     public void instantiate() {
