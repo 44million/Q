@@ -1,5 +1,7 @@
 package xxl.XXLang.etc;
 
+import xxl.XXLang.lang.XValue;
+
 import java.util.HashMap;
 import java.util.Map;
 

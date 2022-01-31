@@ -1,4 +1,4 @@
-// Generated from C:/Users/Bosque/Downloads/repo/xxl/src/main/java/xxl/XXLang/etc\XXL.g4 by ANTLR 4.9.2
+// Generated from C:/Users/Bosque/Documents/GitHub/xxl/src/main/java/xxl/XXLang/etc\XXL.g4 by ANTLR 4.9.2
 package xxl.lang;
 
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
@@ -200,6 +200,38 @@ public interface XXLVisitor<T> extends ParseTreeVisitor<T> {
      * @return the visitor result
      */
     T visitWebServerStatement(XXLParser.WebServerStatementContext ctx);
+
+    /**
+     * Visit a parse tree produced by {@link XXLParser#windowCreateStatement}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitWindowCreateStatement(XXLParser.WindowCreateStatementContext ctx);
+
+    /**
+     * Visit a parse tree produced by {@link XXLParser#windowRenderStatement}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitWindowRenderStatement(XXLParser.WindowRenderStatementContext ctx);
+
+    /**
+     * Visit a parse tree produced by {@link XXLParser#windowAddCompStatement}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitWindowAddCompStatement(XXLParser.WindowAddCompStatementContext ctx);
+
+    /**
+     * Visit a parse tree produced by {@link XXLParser#componentCreateStatement}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitComponentCreateStatement(XXLParser.ComponentCreateStatementContext ctx);
 
     /**
      * Visit a parse tree produced by {@link XXLParser#addWebServerTextStatement}.

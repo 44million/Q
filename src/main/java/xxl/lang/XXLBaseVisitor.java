@@ -1,4 +1,4 @@
-// Generated from C:/Users/Bosque/Downloads/repo/xxl/src/main/java/xxl/XXLang/etc\XXL.g4 by ANTLR 4.9.2
+// Generated from C:/Users/Bosque/Documents/GitHub/xxl/src/main/java/xxl/XXLang/etc\XXL.g4 by ANTLR 4.9.2
 package xxl.lang;
 
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
@@ -262,6 +262,50 @@ public class XXLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements XX
      */
     @Override
     public T visitWebServerStatement(XXLParser.WebServerStatementContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override
+    public T visitWindowCreateStatement(XXLParser.WindowCreateStatementContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override
+    public T visitWindowRenderStatement(XXLParser.WindowRenderStatementContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override
+    public T visitWindowAddCompStatement(XXLParser.WindowAddCompStatementContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override
+    public T visitComponentCreateStatement(XXLParser.ComponentCreateStatementContext ctx) {
         return visitChildren(ctx);
     }
 

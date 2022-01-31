@@ -1,4 +1,4 @@
-package xxl.XXLang.etc;
+package xxl.XXLang.lang;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -6,7 +6,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import static xxl.XXLang.etc.lang.response;
+import static xxl.XXLang.lang.lang.response;
 
 public class HTTP implements HttpHandler {
 

@@ -1,4 +1,4 @@
-package xxl.XXLang.etc;
+package xxl.XXLang.lang;
 
 import com.sun.net.httpserver.HttpServer;
 import org.antlr.v4.runtime.CharStreams;
@@ -6,6 +6,11 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import xxl.XXLang.etc.EvalException;
+import xxl.XXLang.etc.Parser;
+import xxl.XXLang.etc.ReturnValue;
+import xxl.XXLang.etc.Scope;
+import xxl.XXLang.libs.Window;
 import xxl.lang.XXLBaseVisitor;
 import xxl.lang.XXLLexer;
 import xxl.lang.XXLParser;
@@ -49,6 +54,89 @@ public class EvalVisitor extends XXLBaseVisitor<XValue> {
         }
 
         functions.put(id, new Function(scope, params, block));
+        return XValue.VOID;
+    }
+
+    @Override
+    public XValue visitWindowRenderStatement(XXLParser.WindowRenderStatementContext ctx) {
+
+        String id = ctx.Identifier().getText();
+
+        Window w = lang.getWinByName(id);
+
+        if (w == null) {
+            return XValue.VOID;
+        } else {
+            w.instantiate();
+        }
+        return XValue.VOID;
+    }
+
+    @Override
+    public XValue visitWindowAddCompStatement(XXLParser.WindowAddCompStatementContext ctx) {
+
+        XValue v = this.visit(ctx.expression());
+
+        if (lang.getWinByName(ctx.Identifier().getText()) == null || lang.getCompByName(ctx.expression()))
+
+        return XValue.VOID;
+    }
+
+    @Override
+    public XValue visitComponentCreateStatement(XXLParser.ComponentCreateStatementContext ctx) {
+
+        XValue newVal = this.visit(ctx.Identifier());
+
+        XValue val = scope.resolve(ctx.Identifier().getText());
+        List<ExpressionContext> exps = ctx.exprList().expression();
+        setAtIndex(ctx, exps, val, newVal);
+
+        String id = ctx.Identifier().getText();
+        scope.assign(id, newVal);
+
+        List<XValue> list = new ArrayList<>();
+        if (ctx.exprList() != null) {
+            for (ExpressionContext ex : ctx.exprList().expression()) {
+                list.add(this.visit(ex));
+            }
+        }
+
+        // Component c = new Component("text", "Hello World!");
+        if (list.get(0).isString() && list.get(1).isString()) {
+
+            xxl.XXLang.libs.Window.XComponent xcomp = new Window.XComponent(list.get(0).asString(), list.get(1).asString(), id);
+            lang.comps.add(xcomp);
+
+        }
+
+        return XValue.VOID;
+    }
+
+    @Override
+    public XValue visitWindowCreateStatement(XXLParser.WindowCreateStatementContext ctx) {
+
+        XValue newVal = this.visit(ctx.Identifier());
+
+            XValue val = scope.resolve(ctx.Identifier().getText());
+            List<ExpressionContext> exps = ctx.exprList().expression();
+            setAtIndex(ctx, exps, val, newVal);
+
+            String id = ctx.Identifier().getText();
+            scope.assign(id, newVal);
+
+        List<XValue> list = new ArrayList<>();
+        if (ctx.exprList() != null) {
+            for (ExpressionContext ex : ctx.exprList().expression()) {
+                list.add(this.visit(ex));
+            }
+        }
+
+        if (list.get(0).isString() && list.get(1).isNumber() && list.get(2).isNumber()) {
+
+            xxl.XXLang.libs.Window window = new Window(list.get(0).asString(), Integer.parseInt(list.get(1).asString()), Integer.parseInt(list.get(2).asString()));
+            lang.wins.add(window);
+
+        }
         return XValue.VOID;
     }
 

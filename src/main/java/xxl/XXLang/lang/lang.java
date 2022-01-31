@@ -1,6 +1,9 @@
-package xxl.XXLang.etc;
+package xxl.XXLang.lang;
 
 import org.antlr.v4.runtime.Token;
+import xxl.XXLang.etc.Parser;
+import xxl.XXLang.etc.Scope;
+import xxl.XXLang.libs.Window;
 
 import java.io.*;
 import java.util.*;
@@ -14,6 +17,8 @@ public class lang {
     public static List<File> parsed = new ArrayList<>();
     public static List<XClass> classes = new ArrayList<>();
     public static List<Token> lst = new ArrayList<>();
+    public static List<Window> wins = new ArrayList<>();
+    public static List<Window.XComponent> comps = new ArrayList<>();
 
     public static void resolveImport(String imp) {
 
@@ -44,6 +49,26 @@ public class lang {
     public static XClass getClassByName(String name) {
 
         for (XClass xc : classes) {
+            if (xc.name.equals(name)) {
+                return xc;
+            }
+        }
+        return null;
+    }
+
+    public static Window.XComponent getCompByName(String comp) {
+
+        for (Window.XComponent xcomp : comps) {
+            if (xcomp.name.equals(comp)) {
+                return xcomp;
+            }
+        }
+        return null;
+    }
+
+    public static Window getWinByName(String name) {
+
+        for (Window xc : wins) {
             if (xc.name.equals(name)) {
                 return xc;
             }

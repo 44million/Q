@@ -1,4 +1,4 @@
-package xxl.XXLang.etc;
+package xxl.XXLang.lang;
 
 import java.util.List;
 

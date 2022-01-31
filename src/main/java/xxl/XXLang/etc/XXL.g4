@@ -24,6 +24,10 @@ statement
  | constructorStatement
  | defaultCall ';'
  | waitStatement ';'
+ | windowCreateStatement ';'
+ | windowAddCompStatement ';'
+ | windowRenderStatement ';'
+ | componentCreateStatement ';'
  ;
 
 assignment
@@ -91,6 +95,22 @@ webServerStatement
  : 'create WebServer' '(' expression ')'
  ;
 
+windowCreateStatement
+ : Window Identifier '=' New Window '(' exprList ')'
+ ;
+
+windowRenderStatement
+ : Identifier '.' Render '(' ')'
+ ;
+
+windowAddCompStatement
+ : Identifier '.' AddComponent '(' expression ')'
+ ;
+
+componentCreateStatement
+ : Component Identifier '=' New Component '(' exprList ')'
+ ;
+
 addWebServerTextStatement
  : AddWSText '(' expression ')'
  ;
@@ -147,6 +167,11 @@ indexes
  ;
 
 Println  : 'std:ln';
+Component: 'Component';
+Render   : 'render';
+AddComponent : 'addComp';
+New      : 'new';
+Window   : 'new Window';
 Var      : 'var';
 AddWSText: 'WebServer.changeText';
 Import   : 'import';

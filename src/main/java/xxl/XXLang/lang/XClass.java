@@ -1,5 +1,6 @@
-package xxl.XXLang.etc;
+package xxl.XXLang.lang;
 
+import xxl.XXLang.etc.Parser;
 import xxl.lang.XXLParser;
 
 import java.util.ArrayList;

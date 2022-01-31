@@ -1,4 +1,4 @@
-// Generated from C:/Users/Bosque/Downloads/repo/xxl/src/main/java/xxl/XXLang/etc\XXL.g4 by ANTLR 4.9.2
+// Generated from C:/Users/Bosque/Documents/GitHub/xxl/src/main/java/xxl/XXLang/etc\XXL.g4 by ANTLR 4.9.2
 package xxl.lang;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
@@ -341,6 +341,62 @@ public interface XXLListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     void exitWebServerStatement(XXLParser.WebServerStatementContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link XXLParser#windowCreateStatement}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterWindowCreateStatement(XXLParser.WindowCreateStatementContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link XXLParser#windowCreateStatement}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitWindowCreateStatement(XXLParser.WindowCreateStatementContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link XXLParser#windowRenderStatement}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterWindowRenderStatement(XXLParser.WindowRenderStatementContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link XXLParser#windowRenderStatement}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitWindowRenderStatement(XXLParser.WindowRenderStatementContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link XXLParser#windowAddCompStatement}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterWindowAddCompStatement(XXLParser.WindowAddCompStatementContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link XXLParser#windowAddCompStatement}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitWindowAddCompStatement(XXLParser.WindowAddCompStatementContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link XXLParser#componentCreateStatement}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterComponentCreateStatement(XXLParser.ComponentCreateStatementContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link XXLParser#componentCreateStatement}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitComponentCreateStatement(XXLParser.ComponentCreateStatementContext ctx);
 
     /**
      * Enter a parse tree produced by {@link XXLParser#addWebServerTextStatement}.

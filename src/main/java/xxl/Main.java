@@ -1,21 +1,15 @@
 package xxl;
 
 import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenFactory;
-import org.antlr.v4.runtime.Token;
-import xxl.XXLang.etc.Installer;
 import xxl.XXLang.etc.Parser;
-import xxl.XXLang.etc.lang;
+import xxl.XXLang.lang.lang;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
-import static com.ibm.icu.text.PluralRules.Operand.f;
-import static xxl.XXLang.etc.lang.lst;
+import static xxl.XXLang.lang.lang.lst;
 
 public class Main {
 

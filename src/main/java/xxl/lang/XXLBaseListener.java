@@ -1,4 +1,4 @@
-// Generated from C:/Users/Bosque/Downloads/repo/xxl/src/main/java/xxl/XXLang/etc\XXL.g4 by ANTLR 4.9.2
+// Generated from C:/Users/Bosque/Documents/GitHub/xxl/src/main/java/xxl/XXLang/etc\XXL.g4 by ANTLR 4.9.2
 package xxl.lang;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -423,6 +423,78 @@ public class XXLBaseListener implements XXLListener {
      */
     @Override
     public void exitWebServerStatement(XXLParser.WebServerStatementContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void enterWindowCreateStatement(XXLParser.WindowCreateStatementContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitWindowCreateStatement(XXLParser.WindowCreateStatementContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void enterWindowRenderStatement(XXLParser.WindowRenderStatementContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitWindowRenderStatement(XXLParser.WindowRenderStatementContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void enterWindowAddCompStatement(XXLParser.WindowAddCompStatementContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitWindowAddCompStatement(XXLParser.WindowAddCompStatementContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void enterComponentCreateStatement(XXLParser.ComponentCreateStatementContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitComponentCreateStatement(XXLParser.ComponentCreateStatementContext ctx) {
     }
 
     /**
