@@ -9,6 +9,9 @@ import xxl.XXLang.etc.lang;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static com.ibm.icu.text.PluralRules.Operand.f;
@@ -25,9 +28,6 @@ public class Main {
 
             String path = "src/main/xxl/Main.x".trim();
 
-            Parser parser = new Parser(CharStreams.fromFileName(path));
-            lst.addAll(parser.parse(false));
-
             File output = new File(path.replaceAll("\\.x", ".comp"));
 
             if (!output.exists()) {
@@ -38,12 +38,16 @@ public class Main {
                 }
             }
 
+            lang.FileUtil n = new lang.FileUtil(path);
             FileWriter f = new FileWriter(output);
 
-            for (Token t : lst) {
-                f.write(t.getText());
-            }
+            f.write("compgen at: [<" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")) + "> src:[<" + new File(path).getAbsolutePath() + ">]\n\n");
+            lang.genComp(n.getCharCount(), output, f);
+            f.write("compgen finished at: <" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")) + ">\t[(\"" + output.getAbsolutePath() + "\")]\n");
             f.close();
+
+            Parser parser = new Parser(CharStreams.fromFileName(path));
+            lst.addAll(parser.parse(false));
 
         } catch (Exception e) {
 

@@ -2,11 +2,8 @@ package xxl.XXLang.etc;
 
 import org.antlr.v4.runtime.Token;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 public class lang {
 
@@ -54,4 +51,57 @@ public class lang {
         return null;
     }
 
+    public static String getRandom(String[] array) {
+        int rnd = new Random().nextInt(array.length);
+        return array[rnd];
+    }
+
+    public static void genComp(long n, File f, FileWriter w) {
+
+        String[] nn = new String[] {
+          "0", "1"
+        };
+
+        long cntr = 0;
+        long con = 1;
+
+        while (cntr < n) {
+            try {
+                String s = "@" + getRandom(nn) + "\t$";
+
+                if (con == 3) {
+                    s += "\t$";
+                } else if (con == 6) {
+                    s += "\n@";
+                    con = 0;
+                }
+
+                w.write(s);
+                cntr++;
+                con++;
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public static class FileUtil {
+        static BufferedReader reader = null;
+
+        public FileUtil(String filePath) throws FileNotFoundException {
+            File file = new File(filePath);
+            FileInputStream fileStream = new FileInputStream(file);
+            InputStreamReader input = new InputStreamReader(fileStream);
+            reader = new BufferedReader(input);
+        }
+
+        public long getCharCount() throws IOException {
+            long charCount = 0;
+            String data;
+            while ((data = reader.readLine()) != null) {
+                charCount += data.length();
+            }
+            return charCount;
+        }
+    }
 }

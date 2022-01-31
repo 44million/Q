@@ -1,6 +1,6 @@
 class Main
     void main()
-        std:ln("std:ln(boob);");
+        std:ln("std:ln(Hello World);");
 
         std:ln("Enter text: ");
         x = input();
