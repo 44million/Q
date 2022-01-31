@@ -1,5 +1,7 @@
 package xxl.XXLang.etc;
 
+import org.antlr.v4.runtime.Token;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +16,7 @@ public class lang {
     public static String response = "Hello World!";
     public static List<File> parsed = new ArrayList<>();
     public static List<XClass> classes = new ArrayList<>();
+    public static List<Token> lst = new ArrayList<>();
 
     public static void resolveImport(String imp) {
 
@@ -29,7 +32,7 @@ public class lang {
 
         Parser parser = new Parser(file);
         try {
-            parser.parse();
+            lang.lst.addAll(parser.parse(false));
         } catch (Exception e) {
 
             if (imp.equals("System")) {

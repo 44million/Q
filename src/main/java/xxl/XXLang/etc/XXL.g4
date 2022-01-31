@@ -1,9 +1,5 @@
 grammar XXL;
 
-options {
-
-}
-
 parse
  : block EOF
  ;

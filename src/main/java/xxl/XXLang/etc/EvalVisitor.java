@@ -18,10 +18,7 @@ import java.lang.String;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static xxl.lang.XXLParser.*;
 
@@ -60,7 +57,7 @@ public class EvalVisitor extends XXLBaseVisitor<XValue> {
 
         Parser parser = new Parser().fromText(ctx.block().getText());
         try {
-            parser.parse();
+            lang.lst.addAll(parser.parse(false));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -75,10 +72,14 @@ public class EvalVisitor extends XXLBaseVisitor<XValue> {
         Parser parser = new Parser().fromText(ctx.block(0).getText());
 
         try {
-            parser.parse();
+            lang.lst.addAll(parser.parse(false));
         } catch (Exception e) {
             parser = new Parser().fromText(ctx.block(1).getText());
-            parser.parseSafe();
+            try {
+                lang.lst.addAll(parser.parse(false));
+            } catch (Exception s) {
+                System.out.println(e.getMessage());
+            }
             err = new XValue(e.getMessage());
 
             String id = ctx.Identifier().getText();
@@ -227,7 +228,7 @@ public class EvalVisitor extends XXLBaseVisitor<XValue> {
                 return XValue.VOID;
             }
 
-            lang.getClassByName(ctx.Identifier().getText()).xc.exec();
+            Objects.requireNonNull(Objects.requireNonNull(lang.getClassByName(ctx.Identifier().getText()))).xc.exec();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -251,7 +252,13 @@ public class EvalVisitor extends XXLBaseVisitor<XValue> {
     @Override
     public XValue visitClassStatement(XXLParser.ClassStatementContext ctx) {
 
-        Parser.execBlock(ctx.block().getText());
+        Parser parser = new Parser().fromText(ctx.block().getText());
+
+        try {
+            lang.lst.addAll(parser.parse(false));
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
 
         return XValue.VOID;
 /*

@@ -1,19 +1,15 @@
 class Main
     void main()
-        std:ln("Test");
+        std:ln("std:ln(boob);");
 
-        port = "8000";
-        create WebServer(port);
-        WebServer.changeText(port);
-        std:ln("WebServer online! Visit it at localhost:" + port);
-
-
-        std:ln("Enter text for the WebServer: ");
+        std:ln("Enter text: ");
         x = input();
 
-        WebServer.changeText(x);
-
-        std:ln("Text changed to: " + x);
+        std:ln("your text: " + x);
 
     endf
 endc
+
+if (1 < 2) do
+    std:ln("Hello World");
+endf
