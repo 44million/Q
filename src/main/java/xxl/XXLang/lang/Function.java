@@ -11,7 +11,7 @@ import java.util.Map;
 public class Function {
 
     private final Scope parentScope;
-    private final List<TerminalNode> params;
+    public final List<TerminalNode> params;
     private final ParseTree block;
 
     public Function(Scope parentScope, List<TerminalNode> params, ParseTree block) {

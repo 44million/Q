@@ -96,7 +96,7 @@ webServerStatement
  ;
 
 windowCreateStatement
- : Window Identifier '=' New Window '(' exprList ')'
+ : 'Window' Identifier '=' 'new Window' '(' exprList ')'
  ;
 
 windowRenderStatement
@@ -108,7 +108,7 @@ windowAddCompStatement
  ;
 
 componentCreateStatement
- : Component Identifier '=' New Component '(' exprList ')'
+ : 'Component' Identifier '=' 'new Component' '(' exprList ')'
  ;
 
 addWebServerTextStatement

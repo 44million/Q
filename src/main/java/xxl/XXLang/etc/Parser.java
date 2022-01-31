@@ -111,6 +111,7 @@ public class Parser {
         }
 
         assert lexer != null;
+        lexer.reset();
         CommonTokenStream commonTokenStream = new CommonTokenStream(lexer);
         commonTokenStream.fill();
         return commonTokenStream.getTokens();

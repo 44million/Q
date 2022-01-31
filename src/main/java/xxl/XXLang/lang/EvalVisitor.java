@@ -44,13 +44,13 @@ public class EvalVisitor extends XXLBaseVisitor<XValue> {
         String id = ctx.Identifier().getText() + params.size();
 
         try {
-            if (functions.get(id).exists()) {
+            if (functions.get(id).exists() && (functions.get(id).params.equals(params))) {
                 System.out.println("[FATAL] Function: '" + id + "' already exists.");
                 System.exit(0);
             }
 
         } catch (Exception e) {
-            System.out.print("");
+            System.out.print(e.getMessage());
         }
 
         functions.put(id, new Function(scope, params, block));
@@ -62,12 +62,10 @@ public class EvalVisitor extends XXLBaseVisitor<XValue> {
 
         String id = ctx.Identifier().getText();
 
-        Window w = lang.getWinByName(id);
-
-        if (w == null) {
+        if (lang.getWinByName(id) == null) {
             return XValue.VOID;
         } else {
-            w.instantiate();
+            lang.getWinByName(id).instantiate();
         }
         return XValue.VOID;
     }
@@ -77,7 +75,7 @@ public class EvalVisitor extends XXLBaseVisitor<XValue> {
 
         XValue v = this.visit(ctx.expression());
 
-        if (lang.getWinByName(ctx.Identifier().getText()) == null || lang.getCompByName(ctx.expression()))
+//        if (lang.getWinByName(ctx.Identifier().getText()) == null || lang.getCompByName(ctx.expression()))
 
         return XValue.VOID;
     }
@@ -103,23 +101,20 @@ public class EvalVisitor extends XXLBaseVisitor<XValue> {
 
         // Component c = new Component("text", "Hello World!");
         if (list.get(0).isString() && list.get(1).isString()) {
-
             xxl.XXLang.libs.Window.XComponent xcomp = new Window.XComponent(list.get(0).asString(), list.get(1).asString(), id);
             lang.comps.add(xcomp);
-
         }
-
         return XValue.VOID;
     }
 
     @Override
     public XValue visitWindowCreateStatement(XXLParser.WindowCreateStatementContext ctx) {
+        System.out.println("reached window create statement");
 
         XValue newVal = this.visit(ctx.Identifier());
 
             XValue val = scope.resolve(ctx.Identifier().getText());
-            List<ExpressionContext> exps = ctx.exprList().expression();
-            setAtIndex(ctx, exps, val, newVal);
+            setAtIndex(ctx, null, val, newVal);
 
             String id = ctx.Identifier().getText();
             scope.assign(id, newVal);
@@ -136,6 +131,8 @@ public class EvalVisitor extends XXLBaseVisitor<XValue> {
             xxl.XXLang.libs.Window window = new Window(list.get(0).asString(), Integer.parseInt(list.get(1).asString()), Integer.parseInt(list.get(2).asString()));
             lang.wins.add(window);
 
+        } else {
+            System.out.println("Incorrect");
         }
         return XValue.VOID;
     }

@@ -7,6 +7,9 @@ class Main
 
         std:ln("your text: " + x);
 
+        Window win = new Window(130, 400);
+        win.render();
+
     endf
 endc
 
