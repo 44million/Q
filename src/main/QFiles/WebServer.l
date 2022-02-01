@@ -1,3 +1,0 @@
-func CreateServer(s)
-
-endf
