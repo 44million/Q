@@ -287,6 +287,60 @@ public class XXLBaseListener implements XXLListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
+    public void enterFileObjectInitializeStatement(XXLParser.FileObjectInitializeStatementContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitFileObjectInitializeStatement(XXLParser.FileObjectInitializeStatementContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void enterFileWriteStatement(XXLParser.FileWriteStatementContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitFileWriteStatement(XXLParser.FileWriteStatementContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void enterVerifyFileStatement(XXLParser.VerifyFileStatementContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitVerifyFileStatement(XXLParser.VerifyFileStatementContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
     public void enterDefaultCall(XXLParser.DefaultCallContext ctx) {
     }
 

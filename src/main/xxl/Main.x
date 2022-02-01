@@ -1,4 +1,4 @@
-#import src.main.xxl.Windows;
+#import src.main.xxl.BT;
 
 class Main
     void main()
@@ -18,3 +18,5 @@ endf
 
 Window win = new Window("Hello", "600", "450");
 win.render();
+
+init();

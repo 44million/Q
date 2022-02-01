@@ -231,6 +231,48 @@ public interface XXLListener extends ParseTreeListener {
     void exitConstructorStatement(XXLParser.ConstructorStatementContext ctx);
 
     /**
+     * Enter a parse tree produced by {@link XXLParser#fileObjectInitializeStatement}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterFileObjectInitializeStatement(XXLParser.FileObjectInitializeStatementContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link XXLParser#fileObjectInitializeStatement}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitFileObjectInitializeStatement(XXLParser.FileObjectInitializeStatementContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link XXLParser#fileWriteStatement}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterFileWriteStatement(XXLParser.FileWriteStatementContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link XXLParser#fileWriteStatement}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitFileWriteStatement(XXLParser.FileWriteStatementContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link XXLParser#verifyFileStatement}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterVerifyFileStatement(XXLParser.VerifyFileStatementContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link XXLParser#verifyFileStatement}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitVerifyFileStatement(XXLParser.VerifyFileStatementContext ctx);
+
+    /**
      * Enter a parse tree produced by {@link XXLParser#defaultCall}.
      *
      * @param ctx the parse tree

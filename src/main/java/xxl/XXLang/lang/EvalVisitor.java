@@ -15,10 +15,7 @@ import xxl.lang.XXLBaseVisitor;
 import xxl.lang.XXLLexer;
 import xxl.lang.XXLParser;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.String;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
@@ -58,6 +55,44 @@ public class EvalVisitor extends XXLBaseVisitor<XValue> {
 
         functions.put(id, new Function(scope, params, block));
         return XValue.VOID;
+    }
+
+    @Override
+    public XValue visitFileObjectInitializeStatement(XXLParser.FileObjectInitializeStatementContext ctx) {
+
+        XValue xv = new XValue(this.visit(ctx.expression()));
+        File file = new File(xv.asString());
+
+        lang.files.put(ctx.Identifier().get(0).getText(), file);
+
+        return XValue.VOID;
+    }
+
+    @Override
+    public XValue visitFileWriteStatement(XXLParser.FileWriteStatementContext ctx) {
+        try {
+            FileWriter fw = new FileWriter(lang.files.get(ctx.Identifier().getText()));
+            XValue x = new XValue(this.visit(ctx.expression()));
+
+            fw.write(x.asString());
+            fw.close();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return XValue.VOID;
+    }
+
+    @Override
+    public XValue visitVerifyFileStatement(XXLParser.VerifyFileStatementContext ctx) {
+
+        XValue xv = new XValue(this.visit(ctx.expression()));
+
+        if (new File(xv.asString()).exists()) {
+            return new XValue(true);
+        }
+
+        return new XValue(false);
     }
 
     @Override

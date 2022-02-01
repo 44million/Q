@@ -184,6 +184,39 @@ public class XXLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements XX
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
+    public T visitFileObjectInitializeStatement(XXLParser.FileObjectInitializeStatementContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override
+    public T visitFileWriteStatement(XXLParser.FileWriteStatementContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override
+    public T visitVerifyFileStatement(XXLParser.VerifyFileStatementContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override
     public T visitDefaultCall(XXLParser.DefaultCallContext ctx) {
         return visitChildren(ctx);
     }

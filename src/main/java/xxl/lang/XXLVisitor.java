@@ -138,6 +138,30 @@ public interface XXLVisitor<T> extends ParseTreeVisitor<T> {
     T visitConstructorStatement(XXLParser.ConstructorStatementContext ctx);
 
     /**
+     * Visit a parse tree produced by {@link XXLParser#fileObjectInitializeStatement}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitFileObjectInitializeStatement(XXLParser.FileObjectInitializeStatementContext ctx);
+
+    /**
+     * Visit a parse tree produced by {@link XXLParser#fileWriteStatement}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitFileWriteStatement(XXLParser.FileWriteStatementContext ctx);
+
+    /**
+     * Visit a parse tree produced by {@link XXLParser#verifyFileStatement}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitVerifyFileStatement(XXLParser.VerifyFileStatementContext ctx);
+
+    /**
      * Visit a parse tree produced by {@link XXLParser#defaultCall}.
      *
      * @param ctx the parse tree

@@ -47,7 +47,7 @@ public class Main {
 
                     int cntr = 1;
                     for (Token t : lst) {
-                        f.append(String.valueOf(t.getType())).append(" ");
+                        f.append(t.toString()).append(" ");
 
                         if (cntr == 3) {
                             cntr = 0;

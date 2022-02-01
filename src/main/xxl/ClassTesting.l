@@ -10,3 +10,4 @@ endc
 void main()
     ClassTesting.default();
 endf
+

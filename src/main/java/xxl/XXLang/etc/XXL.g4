@@ -28,6 +28,9 @@ statement
  | windowAddCompStatement ';'
  | windowRenderStatement ';'
  | componentCreateStatement ';'
+ | fileObjectInitializeStatement ';'
+ | fileWriteStatement ';'
+ | verifyFileStatement ';'
  ;
 
 assignment
@@ -61,6 +64,18 @@ elseIfStat
 
 constructorStatement
  : '$' Identifier 'void default' '(' indexes* ')' block End
+ ;
+
+fileObjectInitializeStatement
+ : 'File' Identifier '=' 'new File' '(' expression ')'
+ ;
+
+fileWriteStatement
+ : Identifier '.' 'append' '(' expression ')'
+ ;
+
+verifyFileStatement
+ : 'verify' '(' expression ')'
  ;
 
 defaultCall
