@@ -2,13 +2,15 @@
 
 class Main
     void main()
-        std:ln("Test");
 
-        port = "8000";
+        std:ln("Enter the port for your webserver now:");
+        port = input();
+
         create WebServer(port);
         std:ln("Enter text for webserver now:");
         text = input();
         WebServer.changeText(text);
+
         std:ln("WebServer online! Visit it at localhost:" + port);
 
         init();

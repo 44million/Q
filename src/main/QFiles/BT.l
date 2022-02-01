@@ -8,7 +8,7 @@ func init()
     std:ln("Name successfully set to: " + name);
     std:ln("Generating files...");
 
-    path = "src/main/QParserAndLexer/ClassTesting.l";
+    path = "src/main/QFiles/ClassTesting.l";
 
     File f = new File(path);
 
