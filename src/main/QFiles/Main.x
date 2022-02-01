@@ -6,7 +6,9 @@ class Main
 
         port = "8000";
         create WebServer(port);
-        WebServer.changeText(port);
+        std:ln("Enter text for webserver now:");
+        text = input();
+        WebServer.changeText(text);
         std:ln("WebServer online! Visit it at localhost:" + port);
 
         init();
