@@ -1,4 +1,4 @@
-// Generated from /Users/harryharbuck-marlowe/Desktop/xxl/src/main/java/xxl/XXLang/etc/Q.g4 by ANTLR 4.9.2
+// Generated from /Users/harryharbuck-marlowe/Desktop/Q/src/main/java/Q/QLang/etc/Q.g4 by ANTLR 4.9.2
 package QParserAndLexer.lang;
 
 import org.antlr.v4.runtime.*;
@@ -26,7 +26,7 @@ public class QParser extends Parser {
             GT = 55, LT = 56, Add = 57, Subtract = 58, Multiply = 59, Divide = 60, Modulus = 61,
             OBrace = 62, CBrace = 63, OBracket = 64, CBracket = 65, OParen = 66, CParen = 67,
             SColon = 68, Assign = 69, Comma = 70, QMark = 71, Colon = 72, Bool = 73, Number = 74,
-            Identifier = 75, String = 76, Comment = 77, Space = 78;
+            Identifier = 75, String = 76, Comment = 77, LongString = 78, Space = 79;
     public static final int
             RULE_parse = 0, RULE_block = 1, RULE_statement = 2, RULE_assignment = 3,
             RULE_reAssignment = 4, RULE_functionCall = 5, RULE_ifStatement = 6, RULE_ifStat = 7,
@@ -46,7 +46,7 @@ public class QParser extends Parser {
     @Deprecated
     public static final String[] tokenNames;
     public static final String _serializedATN =
-            "\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3P\u01cf\4\2\t\2\4" +
+            "\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3Q\u01cf\4\2\t\2\4" +
                     "\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t" +
                     "\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22" +
                     "\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31" +
@@ -285,7 +285,7 @@ public class QParser extends Parser {
                 "Pow", "Excl", "GT", "LT", "Add", "Subtract", "Multiply", "Divide", "Modulus",
                 "OBrace", "CBrace", "OBracket", "CBracket", "OParen", "CParen", "SColon",
                 "Assign", "Comma", "QMark", "Colon", "Bool", "Number", "Identifier",
-                "String", "Comment", "Space"
+                "String", "Comment", "LongString", "Space"
         };
     }
 

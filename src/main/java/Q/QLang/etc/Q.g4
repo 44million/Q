@@ -257,15 +257,15 @@ Identifier
 String
  : ["] ( ~["\r\n\\] | '\\' ~[\r\n] )* ["]
  | ['] ( ~['\r\n\\] | '\\' ~[\r\n] )* [']
- | LongString
+
  ;
 
 Comment
  : ( '//' ~[\r\n]* | '/*' .*? '*/' ) -> skip
  ;
 
-LongString
- : '"""' ( ~[\r\n] | '"""' )* '"""'
+JavaTextBlock
+ : ["""] ( ~["""] | '\\' ~[\r\n] )* ["""]
  ;
 
 Space

@@ -1,4 +1,4 @@
-// Generated from /Users/harryharbuck-marlowe/Desktop/xxl/src/main/java/xxl/XXLang/etc/Q.g4 by ANTLR 4.9.2
+// Generated from /Users/harryharbuck-marlowe/Desktop/Q/src/main/java/Q/QLang/etc/Q.g4 by ANTLR 4.9.2
 package QParserAndLexer.lang;
 
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
