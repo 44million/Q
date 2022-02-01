@@ -307,13 +307,10 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
 
         try {
 
-            if (currentPath.contains("QFiles")) {
-                lexer = new QLexer(CharStreams.fromFileName(currentPath + "/" + path + ".l"));
-            } else {
-                lexer = new QLexer(CharStreams.fromFileName(currentPath + "/QFiles/" + path + ".l"));
-            }
+            lexer = new QLexer(CharStreams.fromFileName(currentPath + "/" + path + ".l"));
         } catch (IOException e) {
             System.out.println("[FATAL] Library or File not found: " + path);
+            System.out.println(e.getMessage());
             System.exit(0);
         }
         QParser parser = new QParser(new CommonTokenStream(lexer));
