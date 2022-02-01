@@ -1,3 +1,4 @@
-#QLang 2.0
+
+# QLang 2.0
 
 * better
