@@ -16,7 +16,9 @@ func init()
 
     final = s + s1 + s2 + s3 + s4;
 
-    File f = new File("src/main/xxl/ClassTesting.l");
+    path = "src/main/xxl/ClassTesting.l";
+
+    File f = new File(path);
 
     verify(f);
 
