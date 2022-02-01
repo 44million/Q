@@ -1,5 +1,6 @@
 package xxl.XXLang.lang;
 
+import java.io.File;
 import java.util.List;
 
 public class XValue implements Comparable<XValue> {
@@ -16,11 +17,11 @@ public class XValue implements Comparable<XValue> {
 
     public XValue(Object v) {
         if (v == null) {
-            throw new RuntimeException("v is null.");
+            throw new RuntimeException("[ERROR] v is null.");
         }
         value = v;
         // only accept boolean, list, number or string types
-        if (!(isBoolean() || isList() || isNumber() || isString())) {
+        if (!(isBoolean() || isList() || isNumber() || isString() || isFile())) {
             throw new RuntimeException("invalid data type: " + v + " (" + v.getClass() + ")");
         }
     }
@@ -31,6 +32,10 @@ public class XValue implements Comparable<XValue> {
 
     public Double asDouble() {
         return ((Number) value).doubleValue();
+    }
+
+    public File asFile() {
+        return ((File) value);
     }
 
     public Long asLong() {
@@ -88,6 +93,10 @@ public class XValue implements Comparable<XValue> {
 
     public boolean isBoolean() {
         return value instanceof Boolean;
+    }
+
+    public boolean isFile() {
+        return value instanceof File;
     }
 
     public boolean isNumber() {

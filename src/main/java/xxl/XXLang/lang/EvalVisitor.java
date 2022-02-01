@@ -60,8 +60,14 @@ public class EvalVisitor extends XXLBaseVisitor<XValue> {
     @Override
     public XValue visitFileObjectInitializeStatement(XXLParser.FileObjectInitializeStatementContext ctx) {
 
-        XValue xv = new XValue(this.visit(ctx.expression()));
-        File file = new File(xv.asString());
+        XValue v = this.visit(ctx.expression());
+
+        if (!v.isString()) {
+            System.out.println("[FATAL] The file class accepts only :str arguments");
+            System.exit(0);
+        }
+
+        File file = new File(v.asString());
 
         lang.files.put(ctx.Identifier().get(0).getText(), file);
 
@@ -78,7 +84,7 @@ public class EvalVisitor extends XXLBaseVisitor<XValue> {
             fw.close();
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + " <----");
         }
         return XValue.VOID;
     }
