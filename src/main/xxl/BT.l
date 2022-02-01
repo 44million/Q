@@ -1,11 +1,3 @@
-class BT
-
-    void main()
-
-    endf
-
-endc
-
 func init()
 
     std:ln("Welcome to the XXL build tool!");

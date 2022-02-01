@@ -4,10 +4,14 @@ class Main
     void main()
         std:ln("Test");
 
-        std:ln("Enter text: ");
-        x = input();
+        std:ln("WebServer online at localhost:8000");
 
-        std:ln("your text: " + x);
+        port = "8000";
+        create WebServer(port);
+        WebServer.changeText(port);
+        std:ln("WebServer online! Visit it at localhost:" + port);
+
+        init();
 
     endf
 endc
@@ -18,5 +22,3 @@ endf
 
 Window win = new Window("Hello", "600", "450");
 win.render();
-
-init();
