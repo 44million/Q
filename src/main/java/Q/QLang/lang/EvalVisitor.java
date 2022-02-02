@@ -2,23 +2,24 @@ package Q.QLang.lang;
 
 import Q.QLang.etc.EvalException;
 import Q.QLang.etc.Parser;
+import Q.QLang.etc.ReturnValue;
+import Q.QLang.etc.Scope;
 import Q.QLang.libs.Window;
+import QParserAndLexer.lang.QBaseVisitor;
+import QParserAndLexer.lang.QLexer;
+import QParserAndLexer.lang.QParser;
 import com.sun.net.httpserver.HttpServer;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import Q.QLang.etc.ReturnValue;
-import Q.QLang.etc.Scope;
-import QParserAndLexer.lang.QBaseVisitor;
-import QParserAndLexer.lang.QLexer;
-import QParserAndLexer.lang.QParser;
 
 import java.io.*;
 import java.lang.String;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -291,7 +292,8 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
         }
 
         for (File f : lang.parsed) {
-            String currentPath = System.getProperty("user.dir");
+            Path currentRelativePath = Paths.get("");
+            String currentPath = currentRelativePath.toAbsolutePath().toString();
 
             File file = new File(currentPath + "/" + path + ".l");
             if (f.getPath().equals(file.getPath())) {
@@ -300,7 +302,8 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
         }
 
         QLexer lexer = null;
-        String currentPath = System.getProperty("user.dir");
+        Path currentRelativePath = Paths.get("");
+        String currentPath = currentRelativePath.toAbsolutePath().toString();
 
         File file = new File(currentPath + "/" + path + ".l");
         lang.parsed.add(file);

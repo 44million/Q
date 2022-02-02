@@ -4,7 +4,7 @@ import java.io.File;
 
 public class QFile {
 
-    private File file;
+    private final File file;
     private boolean called;
 
     public QFile(File f, boolean called) {

@@ -1,9 +1,9 @@
 package Q.QLang.lang;
 
-import Q.QLang.libs.Window;
-import org.antlr.v4.runtime.Token;
 import Q.QLang.etc.Parser;
 import Q.QLang.etc.Scope;
+import Q.QLang.libs.Window;
+import org.antlr.v4.runtime.Token;
 
 import java.io.*;
 import java.util.*;

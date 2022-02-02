@@ -1,13 +1,13 @@
 package Q.QLang.etc;
 
 import Q.QLang.lang.lang;
+import QParserAndLexer.lang.QLexer;
+import QParserAndLexer.lang.QParser;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
-import QParserAndLexer.lang.QLexer;
-import QParserAndLexer.lang.QParser;
 
 import java.io.File;
 import java.io.IOException;

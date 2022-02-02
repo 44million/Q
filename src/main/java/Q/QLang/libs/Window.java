@@ -7,10 +7,10 @@ import java.awt.*;
 
 public class Window {
 
-    public String name;
-    public String realName;
     private final int x;
     private final int y;
+    public String name;
+    public String realName;
     private JFrame f;
 
     public Window(String name, int x, int y) {
@@ -46,9 +46,9 @@ public class Window {
     }
 
     public static class XComponent {
-        public String name;
         private final String type;
         private final String s;
+        public String name;
         private String win;
 
         public XComponent(String type, String s, String name) {
