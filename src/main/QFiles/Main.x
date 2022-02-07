@@ -9,7 +9,7 @@ class Main
         create WebServer(port);
         std:ln("Enter text for webserver now:");
         text = input();
-        WebServer.changeText("<body>" + text + "</body>");
+        WebServer.changeText("<body><big>" + text + "</big></body>");
 
         std:ln("WebServer online! Visit it at localhost:" + port);
 
