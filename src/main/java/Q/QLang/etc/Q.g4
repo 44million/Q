@@ -114,6 +114,10 @@ windowCreateStatement
  : 'Window' Identifier '=' 'new Window' '(' exprList ')'
  ;
 
+objectCreateStatement
+ : Identifier Identifier '=' 'new' Identifier '(' exprlist* ')'
+ ;
+
 windowRenderStatement
  : Identifier '.' Render '(' ')'
  ;
