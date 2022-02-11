@@ -42,7 +42,7 @@ reAssignment
  ;
 
 functionCall
- : Identifier '(' exprList? ')' #identifierFunctionCall
+ : ( Identifier '.' )* Identifier '(' exprList? ')' #identifierFunctionCall
  | Println '(' expression? ')'  #printlnFunctionCall
  | Print '(' expression ')'     #printFunctionCall
  | Assert '(' expression ')'    #assertFunctionCall
@@ -56,7 +56,7 @@ ifStatement
 
 ifStat
  : If '(' expression ')' Do block
- ;
+ ; 
 
 elseIfStat
  : Else If '(' expression ')' Do block
