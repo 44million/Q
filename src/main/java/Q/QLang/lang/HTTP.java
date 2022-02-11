@@ -9,11 +9,15 @@ import java.io.OutputStream;
 public class HTTP implements HttpHandler {
 
     @Override
-    public void handle(HttpExchange he) throws IOException {
-        he.sendResponseHeaders(200, lang.response.length());
-        OutputStream os = he.getResponseBody();
-        os.write(lang.response.getBytes());
-        os.close();
+    public void handle(HttpExchange he) {
+        try {
+            he.sendResponseHeaders(200, lang.response.length());
+            OutputStream os = he.getResponseBody();
+            os.write(lang.response.getBytes());
+            os.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage() + " in http file");
+        }
     }
 
 }
