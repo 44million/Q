@@ -7,12 +7,21 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.List;
 import java.util.Map;
+import java.io.File;
 
 public class Function {
 
     public final List<TerminalNode> params;
     private final Scope parentScope;
     private final ParseTree block;
+    public String fileName;
+
+    public Function(Scope parentScope, List<TerminalNode> params, ParseTree block, String fname) {
+        this.parentScope = parentScope;
+        this.params = params;
+        this.block = block;
+        this.fileName = fname;
+    }
 
     public Function(Scope parentScope, List<TerminalNode> params, ParseTree block) {
         this.parentScope = parentScope;
