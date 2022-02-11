@@ -15,6 +15,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import javax.xml.crypto.dsig.XMLValidateContext;
 import java.io.*;
 import java.lang.String;
 import java.net.InetSocketAddress;
@@ -157,7 +158,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
 
         List<QValue> list = new ArrayList<>();
         if (ctx.exprList() != null) {
-            for (ExpressionContext ex : ctx.exprList().expression()) {
+            for (ExprListContext ex : ctx.exprList()) {
                 list.add(this.visit(ex));
             }
         }
@@ -169,7 +170,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
             lang.wins.add(window);
 
         } else {
-            System.out.println("Incorrect layout, Window class accepts the following: Window(name:str, x-axis:str, y-axis:str);");
+            System.out.println("Incorrect window layout Window class accepts the following: Window(name:str, x-axis:str, y-axis:str);");
         }
         return QValue.VOID;
     }
@@ -227,7 +228,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
         } catch (Exception e) {
             System.out.println("[ERROR] " + e.getMessage());
         }
-        return new QValue("");
+        return QValue.VOID;
     }
 
     @Override
@@ -324,22 +325,6 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
 
         return null;
 
-    }
-
-    @Override
-    public QValue visitConstructorStatement(QParser.ConstructorStatementContext ctx) {
-
-        QClass.XCon xcon = new QClass.XCon(ctx.indexes(), ctx.block().getText(), ctx.Identifier().getText());
-
-        if (lang.getClassByName(xcon.name) != null) {
-            try {
-                lang.getClassByName(xcon.name).setXc(xcon);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-
-        }
-        return QValue.VOID;
     }
 
     @Override
@@ -854,9 +839,35 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
     }
 
     @Override
+    public QValue visitObjectCreateStatement(QParser.ObjectCreateStatementContext ctx) {
+
+        File f = new File("iq2uy3t4n09c87yn82not472y4n28tycty4873y4nct87y2b348y&&#@^7t48273y4c87y48ty1n2874tyo87y.i3uh4t");
+
+        try {
+           f = lang.files.get(ctx.Identifier(0).getText() + ".l");
+        } catch (Exception e) {
+            System.out.println("Class: " + ctx.Identifier(0).getText() + " has not been imported.");
+            System.exit(0);
+        }
+
+        QObject qo = new QObject(ctx.Identifier(1).getText(), ctx.Identifier(0).getText(), f);
+        qo.verify();
+
+        lang.objects.add(qo);
+
+        return QValue.VOID;
+    }
+
+    @Override
     public QValue visitIdentifierFunctionCall(IdentifierFunctionCallContext ctx) {
-        List<ExpressionContext> params = ctx.exprList() != null ? ctx.exprList().expression() : new ArrayList<ExpressionContext>();
-        String id = ctx.Identifier().getText() + params.size();
+
+        List<ExpressionContext> params = ctx.exprList() != null ? ctx.exprList().expression() : new ArrayList<>();
+        String id = ctx.Identifier().get(1).getText() + params.size();
+
+        if (lang.getObjByName(ctx.Identifier(0).getText()) == null || lang.getFileByName(ctx.Identifier(0).getText()) == null) {
+            System.out.println("File or Object: " + ctx.Identifier(0).getText() + " not found.");
+        }
+
         Function function;
         if ((function = functions.get(id)) != null) {
             List<QValue> args = new ArrayList<>(params.size());

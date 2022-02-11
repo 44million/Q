@@ -31,6 +31,7 @@ statement
  | fileObjectInitializeStatement ';'
  | fileWriteStatement ';'
  | verifyFileStatement ';'
+ | objectCreateStatement ';'
  ;
 
 assignment
@@ -63,11 +64,11 @@ elseIfStat
  ;
 
 constructorStatement
- : '$' Identifier 'void default' '(' indexes* ')' block End
+ : '$' Identifier 'void default' '(' exprList* ')' block End
  ;
 
 fileObjectInitializeStatement
- : 'create' 'new' Identifier 'as' Identifier '(' indexes* ')'
+ : 'create' 'new' 'File' 'as' Identifier '(' expression ')'
  ;
 
 fileWriteStatement
@@ -107,15 +108,15 @@ whileStatement
  ;
 
 webServerStatement
- : 'create' 'new' 'WebServer' 'as' Identifier '(' indexes* ')'
+ : 'create' 'new' 'WebServer' 'as' Identifier '(' expression ')'
  ;
 
 windowCreateStatement
- : 'create' 'new' 'Window' 'as' Identifier '(' indexes* ')'
+ : 'create' 'new' 'Window' 'as' Identifier '(' exprList* ')'
  ;
 
 objectCreateStatement
- : 'create' 'new' Identifier 'as' Identifier '(' indexes* ')'
+ : 'create' 'new' Identifier 'as' Identifier '(' exprList* ')'
  ;  
 
 windowRenderStatement
