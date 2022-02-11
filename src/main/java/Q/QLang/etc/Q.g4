@@ -67,7 +67,7 @@ constructorStatement
  ;
 
 fileObjectInitializeStatement
- : 'File' Identifier '=' 'new File' '(' expression ')'
+ : 'create' 'new' Identifier 'as' Identifier '(' indexes* ')'
  ;
 
 fileWriteStatement
@@ -107,12 +107,16 @@ whileStatement
  ;
 
 webServerStatement
- : 'create WebServer' '(' expression ')'
+ : 'create' 'new' 'WebServer' 'as' Identifier '(' indexes* ')'
  ;
 
 windowCreateStatement
- : 'Window' Identifier '=' 'new Window' '(' exprList ')'
+ : 'create' 'new' 'Window' 'as' Identifier '(' indexes* ')'
  ;
+
+objectCreateStatement
+ : 'create' 'new' Identifier 'as' Identifier '(' indexes* ')'
+ ;  
 
 windowRenderStatement
  : Identifier '.' Render '(' ')'

@@ -20,6 +20,7 @@ public class lang {
     public static List<Window> wins = new ArrayList<>();
     public static List<Window.XComponent> comps = new ArrayList<>();
     public static HashMap<String, File> files = new HashMap<>();
+    public static List<QObject> objects = new ArrayList<>();
 
     public static void resolveImport(String imp) {
 
