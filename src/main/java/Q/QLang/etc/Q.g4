@@ -31,7 +31,6 @@ statement
  | fileObjectInitializeStatement ';'
  | fileWriteStatement ';'
  | verifyFileStatement ';'
- | objectCreateStatement ';'
  ;
 
 assignment
@@ -43,7 +42,7 @@ reAssignment
  ;
 
 functionCall
- : ( Identifier '.' )* Identifier '(' exprList? ')' #identifierFunctionCall
+ : Identifier '(' exprList? ')' #identifierFunctionCall
  | Println '(' expression? ')'  #printlnFunctionCall
  | Print '(' expression ')'     #printFunctionCall
  | Assert '(' expression ')'    #assertFunctionCall
@@ -57,18 +56,18 @@ ifStatement
 
 ifStat
  : If '(' expression ')' Do block
- ; 
+ ;
 
 elseIfStat
  : Else If '(' expression ')' Do block
  ;
 
 constructorStatement
- : '$' Identifier 'void default' '(' exprList* ')' block End
+ : '$' Identifier 'void default' '(' indexes* ')' block End
  ;
 
 fileObjectInitializeStatement
- : 'create' 'new' 'File' 'as' Identifier '(' expression ')'
+ : 'File' Identifier '=' 'new File' '(' expression ')'
  ;
 
 fileWriteStatement
@@ -101,23 +100,23 @@ importStatement
 
 tryCatchStatement
  : Try block Catch '(' Identifier ')' block End
- ; 
+ ;
 
 whileStatement
  : While '(' expression ')' Do block End
  ;
 
 webServerStatement
- : 'create' 'new' 'WebServer' 'as' Identifier '(' expression ')'
+ : 'create WebServer' '(' expression ')'
  ;
 
 windowCreateStatement
- : 'create' 'new' 'Window' 'as' Identifier '(' exprList* ')'
+ : 'Window' Identifier '=' 'new Window' '(' exprList ')'
  ;
 
 objectCreateStatement
- : 'create' 'new' Identifier 'as' Identifier '(' exprList* ')'
- ;  
+ : Identifier Identifier '=' 'new' Identifier '(' exprList* ')'
+ ;
 
 windowRenderStatement
  : Identifier '.' Render '(' ')'
