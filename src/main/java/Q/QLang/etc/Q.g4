@@ -100,7 +100,7 @@ importStatement
 
 tryCatchStatement
  : Try block Catch '(' Identifier ')' block End
- ;
+ ; 
 
 whileStatement
  : While '(' expression ')' Do block End
@@ -112,10 +112,6 @@ webServerStatement
 
 windowCreateStatement
  : 'Window' Identifier '=' 'new Window' '(' exprList ')'
- ;
-
-objectCreateStatement
- : Identifier Identifier '=' 'new' Identifier '(' exprList* ')'
  ;
 
 windowRenderStatement

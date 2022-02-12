@@ -6,11 +6,7 @@ import Q.QLang.libs.Window;
 import org.antlr.v4.runtime.Token;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
-
-import com.google.common.base.Charsets;
 
 public class lang {
 
@@ -24,7 +20,6 @@ public class lang {
     public static List<Window> wins = new ArrayList<>();
     public static List<Window.XComponent> comps = new ArrayList<>();
     public static HashMap<String, File> files = new HashMap<>();
-    public static List<QObject> objects = new ArrayList<>();
 
     public static void resolveImport(String imp) {
 
@@ -50,46 +45,6 @@ public class lang {
             System.out.println("Import not resolved: " + imp);
         }
 
-    }
-
-    public static String getAllText(File file) {
-
-        if (!file.exists()) {
-            return "";
-        }
-
-        String s;
-
-        try {
-            String data = Files.readString(Path.of("/your/directory/path/file.txt"));
-            s = data;
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            s = "";
-        }
-        return s;
-    }
-
-    public static File getFileByName(String name) {
-
-        for (File o : parsed) {
-            if (o.getName().replace(".l", "").equals(name)) {
-                return o;
-            }
-        }
-
-        return null;
-    }
-
-    public static QObject getObjByName(String name) {
-
-        for (QObject o : objects) {
-            if (o.name.equals(name)) {
-                return o;
-            }
-        }
-
-        return null;
     }
 
     public static QClass getClassByName(String name) {
