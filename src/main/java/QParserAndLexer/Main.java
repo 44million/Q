@@ -16,6 +16,65 @@ import static Q.QLang.lang.lang.lst;
 public class Main {
 
     public static void main(String[] args) {
+        try {
+
+            String path = System.getProperty("user.dir") + "/src/main/QFiles/Main.x";
+
+            System.out.println(new File(path).exists());
+            System.out.println(new File(path).canRead());
+
+            System.out.println(path);
+
+            Parser parser = new Parser(path);
+            lst.addAll(parser.parse(false));
+
+            File output = new File(path.replaceAll("\\.x", ".qlang"));
+
+            if (!output.exists()) {
+                try {
+                    output.createNewFile();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+
+            new Thread(() -> {
+                try {
+
+                    lang.FileUtil n = new lang.FileUtil(path);
+                    FileWriter f = new FileWriter(output);
+
+                    f.append("Total CharCount: ").append(String.valueOf(n.getCharCount())).append("\n");
+
+                    int cntr = 1;
+                    for (Token t : lst) {
+                        f.append(t.toString()).append(" ");
+
+                        if (cntr == 3) {
+                            cntr = 0;
+                            f.append("\n");
+                        }
+                        cntr++;
+                    }
+
+                    f.close();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }).start();
+
+        } catch (Exception e) {
+            String err = "[ERROR] " + e.getMessage();
+
+            if (err.endsWith(".x")) {
+                err += " (file not found)";
+            }
+
+            System.out.println(err);
+        }
+    }
+
+    public static void alt(String[] args) {
 
         try {
 

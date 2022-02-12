@@ -91,7 +91,7 @@ functionDecl
  ;
 
 forStatement
- : For Identifier '=' expression To expression Do block End
+ : For '(' Identifier '=' expression To expression ')' Do block End
  ;
 
 importStatement

@@ -15,7 +15,7 @@ public class Installer {
                                                     
                          func isEven(n)\s
                              var result = false;
-                             if n % 2 == 0 do
+                             if (n % 2 == 0) do
                                  result = true;
                              else do
                                  result = false;
@@ -86,8 +86,8 @@ public class Installer {
             s += "/";
         }
 
-        File dir = new File(s + ".XXLsys/");
-        s += ".XXLsys/";
+        File dir = new File(s + ".qsys/");
+        s += ".qsys/";
 
         if (!dir.exists()) {
             try {
@@ -100,7 +100,7 @@ public class Installer {
 
         FileWriter f = null;
 
-        File ff = new File(s + "Math.l");
+        File ff = new File(s + "Math.u");
 
         if (!ff.exists()) {
             try {

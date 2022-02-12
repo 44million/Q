@@ -295,7 +295,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
             Path currentRelativePath = Paths.get("");
             String currentPath = currentRelativePath.toAbsolutePath().toString();
 
-            File file = new File(currentPath + "/" + path + ".l");
+            File file = new File(currentPath + "/" + path + ".u");
             if (f.getPath().equals(file.getPath())) {
                 return null;
             }
@@ -305,12 +305,12 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
         Path currentRelativePath = Paths.get("");
         String currentPath = currentRelativePath.toAbsolutePath().toString();
 
-        File file = new File(currentPath + "/" + path + ".l");
+        File file = new File(currentPath + "/" + path + ".u");
         lang.parsed.add(file);
 
         try {
 
-            lexer = new QLexer(CharStreams.fromFileName(currentPath + "/" + path + ".l"));
+            lexer = new QLexer(CharStreams.fromFileName(currentPath + "/" + path + ".u"));
         } catch (IOException e) {
             System.out.println("[FATAL] Library or File not found: " + path);
             System.out.println(e.getMessage());

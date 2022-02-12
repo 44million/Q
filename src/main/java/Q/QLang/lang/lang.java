@@ -23,7 +23,7 @@ public class lang {
 
     public static void resolveImport(String imp) {
 
-        File file = new File(System.getProperty("user.dir") + "/" + imp + ".l");
+        File file = new File(System.getProperty("user.dir") + "/" + imp + ".u");
 
         for (File f : lang.parsed) {
             if (f.getPath().equals(file.getPath())) {
