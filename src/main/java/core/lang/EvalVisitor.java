@@ -259,7 +259,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
 
         QValue x = this.visit(ctx.expression());
 
-        core.libs.WebServer w = new WebServer(Integer.parseInt(x.asString()));
+        core.libs.WebServer w = new WebServer(Integer.parseInt(x.asString()), ctx.Identifier().getText());
         w.launch();
 
         lang.webs.add(w);
