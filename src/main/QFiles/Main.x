@@ -1,4 +1,4 @@
-#import src.main.QFiles.BT;
+#github "https://github.com/primevibetime/temp/blob/main/Import.l"
 
 class Main
     void main()
@@ -12,8 +12,6 @@ class Main
         WebServer.changeText("<body><big>" + text + "</big></body>");
 
         std:ln("WebServer online! Visit it at localhost:" + port);
-
-        init();
 
     endf
 endc

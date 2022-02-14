@@ -23,6 +23,18 @@
         </dependency>
 
         <dependency>
+            <groupId>org.kohsuke</groupId>
+            <artifactId>github-api</artifactId>
+            <version>1.301</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jgit</groupId>
+            <artifactId>org.eclipse.jgit</artifactId>
+            <version>5.4.2.201908231537-r</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-maven-plugin</artifactId>
             <version>${antlr4.version}</version>
@@ -55,7 +67,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>QParserAndLexer.Main</mainClass>
+                            <mainClass>main.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -93,7 +105,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>QParserAndLexer.Main</mainClass>
+                    <mainClass>main.Main</mainClass>
                 </configuration>
             </plugin>
 
@@ -106,7 +118,7 @@
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
                             <mainClass>
-                                QParserAndLexer.Main
+                                main.Main
                             </mainClass>
                         </manifest>
                     </archive>
