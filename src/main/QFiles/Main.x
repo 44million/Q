@@ -1,7 +1,8 @@
 #github "https://github.com/primevibetime/temp/blob/main/Import.l"
 
+
 class Main
-    void main()
+    func main()
 
         std:ln("Enter the port for your webserver now:");
         port = input();
@@ -16,9 +17,4 @@ class Main
     endf
 endc
 
-if (1 < 2) do
-    std:ln("If Statement Test");
-endf
-
-Window win = new Window("Hello", "600", "450");
-win.render();
+run(150000);

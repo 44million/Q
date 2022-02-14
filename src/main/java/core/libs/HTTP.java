@@ -1,7 +1,8 @@
-package core.lang;
+package core.libs;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import core.lang.lang;
 
 import java.io.IOException;
 import java.io.OutputStream;

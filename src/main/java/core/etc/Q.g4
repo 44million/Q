@@ -122,7 +122,7 @@ whileStatement
  ;
 
 webServerStatement
- : 'create WebServer' '(' expression ')'
+ : 'WebServer' Identifier '=' 'new' 'WebServer' '(' expression ')'
  ;
 
 windowCreateStatement
@@ -142,7 +142,7 @@ componentCreateStatement
  ;
 
 addWebServerTextStatement
- : AddWSText '(' expression ')'
+ : Identifier '.' 'changeText' '(' expression ')'
  ;
 
 waitStatement
@@ -150,7 +150,7 @@ waitStatement
  ;
 
 mainFunctionStatement
- : 'void main()' block End
+ : 'func main()' block End
  ;
 
 idList

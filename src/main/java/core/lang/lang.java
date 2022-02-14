@@ -2,6 +2,7 @@ package core.lang;
 
 import core.etc.Parser;
 import core.etc.Scope;
+import core.libs.WebServer;
 import core.libs.Window;
 import org.antlr.v4.runtime.Token;
 
@@ -24,6 +25,7 @@ public class lang {
     public static List<Window> wins = new ArrayList<>();
     public static List<Window.XComponent> comps = new ArrayList<>();
     public static List<CFunction> funcs = new ArrayList<>();
+    public static List<WebServer> webs = new ArrayList<>();
     public static HashMap<String, File> files = new HashMap<>();
     public static Parser parser = new Parser();
 
@@ -158,6 +160,16 @@ public class lang {
 
         for (QClass xc : classes) {
             if (xc.name.equals(name)) {
+                return xc;
+            }
+        }
+        return null;
+    }
+
+    public static WebServer getWebByName(int name) {
+
+        for (WebServer xc : webs) {
+            if (xc.port == (name)) {
                 return xc;
             }
         }

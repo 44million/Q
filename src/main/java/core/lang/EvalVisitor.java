@@ -8,6 +8,8 @@ import core.etc.Scope;
 import core.interp.QBaseVisitor;
 import core.interp.QLexer;
 import core.interp.QParser;
+import core.libs.HTTP;
+import core.libs.WebServer;
 import core.libs.Window;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -39,13 +41,23 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
     public QValue visitObjFunctionCall(QParser.ObjFunctionCallContext ctx) {
 
         String className = ctx.Identifier(0).getText();
+        System.out.println(className);
 
         if (lang.getClassByName(className) == null) {
             System.out.println("[FATAL] The class you are tying to extend into: '" + ctx.Identifier(1).getText() + "' cannot be found. Make sure it has been parsed.");
             System.exit(0);
         }
         try {
-            lang.getFuncByName(ctx.Identifier(1).getText()).call(this.visit(ctx.idList()).asList(), functions);
+
+            List<QValue> fr;
+
+            if (this.visit(ctx.idList()) == null || this.visit(ctx.idList()).asList() == null) {
+                fr = new ArrayList<>();
+            } else {
+                fr = this.visit(ctx.idList()).asList();
+            }
+
+            lang.getFuncByName(ctx.Identifier(1).getText()).call(fr, functions);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -247,19 +259,12 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
 
         QValue x = this.visit(ctx.expression());
 
-        try {
+        core.libs.WebServer w = new WebServer(Integer.parseInt(x.asString()));
+        w.launch();
 
-            int port = Integer.parseInt(x.asString());
+        lang.webs.add(w);
 
-            HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-            server.createContext("/", new HTTP());
-            server.setExecutor(null);
-            server.start();
-
-        } catch (Exception e) {
-            System.out.println("[ERROR] " + e.getMessage());
-        }
-        return new QValue("");
+        return QValue.VOID;
     }
 
     @Override
@@ -431,31 +436,19 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
 
         Parser parser = new Parser().fromText(ctx.block().getText());
 
-        try {
-            lang.lst.addAll(parser.parse(false));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        return QValue.VOID;
-/*
-
-        XClass xc = new XClass();
+        QClass xc = new QClass();
 
         xc.setName(ctx.Identifier().getText());
 
         lang.classes.add(xc);
 
-        Parser parser = new Parser().fromText(ctx.block().getText());
+        try {
+            parser.parse();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
-            try {
-                parser.parse();
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-
-        return XValue.VOID;
-*/
+        return QValue.VOID;
 
     }
 

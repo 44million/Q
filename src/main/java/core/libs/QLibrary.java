@@ -1,4 +1,4 @@
-package core.etc;
+package core.libs;
 
 public interface QLibrary {
 

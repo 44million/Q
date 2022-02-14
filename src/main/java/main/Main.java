@@ -38,7 +38,7 @@ public class Main {
                 err += " (File not found)";
             }
 
-            if (e.getMessage().endsWith("closed")) {
+            if (e.getMessage().endsWith("closed") || e.getMessage().contains("missing ';' at 'class'") || e.getMessage().contains("missing Identifier at ')'")) {
                 err = "";
             }
 
