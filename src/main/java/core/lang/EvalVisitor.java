@@ -44,11 +44,11 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
             System.out.println("[FATAL] The class you are tying to extend into: '" + ctx.Identifier(1).getText() + "' cannot be found. Make sure it has been parsed.");
             System.exit(0);
         }
-
-        List<QValue> args = new ArrayList<>();
-
-
-        lang.getFuncByName(ctx.Identifier(1).getText()).call();
+        try {
+            lang.getFuncByName(ctx.Identifier(1).getText()).call(this.visit(ctx.idList()).asList(), functions);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
         return QValue.VOID;
     }
