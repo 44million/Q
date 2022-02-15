@@ -86,8 +86,8 @@ public class Installer {
             s += "/";
         }
 
-        File dir = new File(s + ".XXLsys/");
-        s += ".XXLsys/";
+        File dir = new File(s + ".Qsys/");
+        s += ".Qsys/";
 
         if (!dir.exists()) {
             try {

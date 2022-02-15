@@ -1,6 +1,6 @@
 package core.lang;
 
-import core.etc.EvalException;
+import core.etc.QException;
 import core.etc.Parser;
 import core.etc.ReturnValue;
 import core.etc.Scope;
@@ -24,12 +24,12 @@ import java.util.*;
 
 import static core.interp.QParser.*;
 
-public class EvalVisitor extends QBaseVisitor<QValue> {
+public class Visitor extends QBaseVisitor<QValue> {
     private static final ReturnValue returnValue = new ReturnValue();
     public final Map<String, Function> functions;
     public Scope scope;
 
-    public EvalVisitor(Scope scope, Map<String, Function> functions) {
+    public Visitor(Scope scope, Map<String, Function> functions) {
         this.scope = scope;
         this.functions = new HashMap<>(functions);
     }
@@ -467,7 +467,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
     public QValue visitUnaryMinusExpression(UnaryMinusExpressionContext ctx) {
         QValue v = this.visit(ctx.expression());
         if (!v.isNumber()) {
-            throw new EvalException(ctx);
+            throw new QException(ctx);
         }
         return new QValue(-1 * v.asDouble());
     }
@@ -476,7 +476,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
     public QValue visitNotExpression(NotExpressionContext ctx) {
         QValue v = this.visit(ctx.expression());
         if (!v.isBoolean()) {
-            throw new EvalException(ctx);
+            throw new QException(ctx);
         }
         return new QValue(!v.asBoolean());
     }
@@ -488,7 +488,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
         if (lhs.isNumber() && rhs.isNumber()) {
             return new QValue(Math.pow(lhs.asDouble(), rhs.asDouble()));
         }
-        throw new EvalException(ctx);
+        throw new QException(ctx);
     }
 
     // expression op=( '*' | '/' | '%' ) expression         #multExpression
@@ -554,7 +554,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
         QValue rhs = this.visit(ctx.expression(1));
         if (lhs == null || rhs == null) {
             System.err.println("lhs " + lhs + " rhs " + rhs);
-            throw new EvalException(ctx);
+            throw new QException(ctx);
         }
 
         // number * number
@@ -581,7 +581,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
             return new QValue(total);
         }
 
-        throw new EvalException(ctx);
+        throw new QException(ctx);
     }
 
     private QValue divide(QParser.MultExpressionContext ctx) {
@@ -590,7 +590,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
         if (lhs.isNumber() && rhs.isNumber()) {
             return new QValue(lhs.asDouble() / rhs.asDouble());
         }
-        throw new EvalException(ctx);
+        throw new QException(ctx);
     }
 
     private QValue modulus(QParser.MultExpressionContext ctx) {
@@ -599,7 +599,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
         if (lhs.isNumber() && rhs.isNumber()) {
             return new QValue(lhs.asDouble() % rhs.asDouble());
         }
-        throw new EvalException(ctx);
+        throw new QException(ctx);
     }
 
     private QValue add(AddExpressionContext ctx) {
@@ -607,7 +607,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
         QValue rhs = this.visit(ctx.expression(1));
 
         if (lhs == null || rhs == null) {
-            throw new EvalException(ctx);
+            throw new QException(ctx);
         }
 
         // number + number
@@ -646,7 +646,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
             list.remove(rhs);
             return new QValue(list);
         }
-        throw new EvalException(ctx);
+        throw new QException(ctx);
     }
 
     private QValue gtEq(CompExpressionContext ctx) {
@@ -658,7 +658,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
         if (lhs.isString() && rhs.isString()) {
             return new QValue(lhs.asString().compareTo(rhs.asString()) >= 0);
         }
-        throw new EvalException(ctx);
+        throw new QException(ctx);
     }
 
     private QValue ltEq(CompExpressionContext ctx) {
@@ -670,7 +670,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
         if (lhs.isString() && rhs.isString()) {
             return new QValue(lhs.asString().compareTo(rhs.asString()) <= 0);
         }
-        throw new EvalException(ctx);
+        throw new QException(ctx);
     }
 
     private QValue gt(CompExpressionContext ctx) {
@@ -682,7 +682,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
         if (lhs.isString() && rhs.isString()) {
             return new QValue(lhs.asString().compareTo(rhs.asString()) > 0);
         }
-        throw new EvalException(ctx);
+        throw new QException(ctx);
     }
 
     private QValue lt(CompExpressionContext ctx) {
@@ -694,14 +694,14 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
         if (lhs.isString() && rhs.isString()) {
             return new QValue(lhs.asString().compareTo(rhs.asString()) < 0);
         }
-        throw new EvalException(ctx);
+        throw new QException(ctx);
     }
 
     private QValue eq(EqExpressionContext ctx) {
         QValue lhs = this.visit(ctx.expression(0));
         QValue rhs = this.visit(ctx.expression(1));
         if (lhs == null) {
-            throw new EvalException(ctx);
+            throw new QException(ctx);
         }
         return new QValue(lhs.equals(rhs));
     }
@@ -718,7 +718,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
         QValue rhs = this.visit(ctx.expression(1));
 
         if (!lhs.isBoolean() || !rhs.isBoolean()) {
-            throw new EvalException(ctx);
+            throw new QException(ctx);
         }
         return new QValue(lhs.asBoolean() && rhs.asBoolean());
     }
@@ -729,7 +729,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
         QValue rhs = this.visit(ctx.expression(1));
 
         if (!lhs.isBoolean() || !rhs.isBoolean()) {
-            throw new EvalException(ctx);
+            throw new QException(ctx);
         }
         return new QValue(lhs.asBoolean() || rhs.asBoolean());
     }
@@ -757,7 +757,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
             }
             return new QValue(false);
         }
-        throw new EvalException(ctx);
+        throw new QException(ctx);
     }
 
     @Override
@@ -779,7 +779,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
         for (ExpressionContext ec : indexes) {
             QValue idx = this.visit(ec);
             if (!idx.isNumber() || (!val.isList() && !val.isString())) {
-                throw new EvalException("Problem resolving indexes on " + val + " at " + idx, ec);
+                throw new QException("Problem resolving indexes on " + val + " at " + idx, ec);
             }
             int i = idx.asDouble().intValue();
             if (val.isString()) {
@@ -793,18 +793,18 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
 
     private void setAtIndex(ParserRuleContext ctx, List<ExpressionContext> indexes, QValue val, QValue newVal) {
         if (!val.isList()) {
-            throw new EvalException(ctx);
+            throw new QException(ctx);
         }
         for (int i = 0; i < indexes.size() - 1; i++) {
             QValue idx = this.visit(indexes.get(i));
             if (!idx.isNumber()) {
-                throw new EvalException(ctx);
+                throw new QException(ctx);
             }
             val = val.asList().get(idx.asDouble().intValue());
         }
         QValue idx = this.visit(indexes.get(indexes.size() - 1));
         if (!idx.isNumber()) {
-            throw new EvalException(ctx);
+            throw new QException(ctx);
         }
         val.asList().set(idx.asDouble().intValue(), newVal);
     }
@@ -911,7 +911,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
             }
             return function.call(args, functions);
         }
-        throw new EvalException(ctx);
+        throw new QException(ctx);
     }
 
     @Override
@@ -935,7 +935,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
         QValue value = this.visit(ctx.expression());
 
         if (!value.isBoolean()) {
-            throw new EvalException(ctx);
+            throw new QException(ctx);
         }
 
         if (!value.asBoolean()) {
@@ -957,7 +957,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
             return new QValue(value.asList().size());
         }
 
-        throw new EvalException(ctx);
+        throw new QException(ctx);
     }
 
     @Override
