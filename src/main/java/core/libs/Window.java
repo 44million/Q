@@ -45,7 +45,7 @@ public class Window {
 
     }
 
-    public static class XComponent {
+    public static class XComponent extends JComponent {
         private final String type;
         private final String s;
         public String name;
@@ -58,6 +58,11 @@ public class Window {
         }
 
         public XComponent instantiate(String win) {
+
+            if (lang.getWinByName(win) == null) {
+                System.out.println("[FATAL] the specified window: " + win + " does not exist.");
+                System.exit(0);
+            }
 
             if (type.equals("button")) {
 

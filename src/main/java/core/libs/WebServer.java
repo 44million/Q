@@ -1,14 +1,15 @@
 package core.libs;
 
 import com.sun.net.httpserver.HttpServer;
+import core.lang.lang;
 
 import java.net.InetSocketAddress;
 
 public class WebServer {
 
     public int port;
+    public String id;
     private HttpServer server;
-    private String id;
 
     public WebServer(int port, String id) {
         this.port = port;
@@ -30,6 +31,10 @@ public class WebServer {
 
     public void stop() {
         server.stop(0);
+    }
+
+    public void setText(String s) {
+        lang.response = s;
     }
 
 }

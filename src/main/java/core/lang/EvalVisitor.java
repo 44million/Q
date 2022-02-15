@@ -1,6 +1,5 @@
 package core.lang;
 
-import com.sun.net.httpserver.HttpServer;
 import core.etc.EvalException;
 import core.etc.Parser;
 import core.etc.ReturnValue;
@@ -8,7 +7,6 @@ import core.etc.Scope;
 import core.interp.QBaseVisitor;
 import core.interp.QLexer;
 import core.interp.QParser;
-import core.libs.HTTP;
 import core.libs.WebServer;
 import core.libs.Window;
 import org.antlr.v4.runtime.CharStreams;
@@ -19,7 +17,6 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.io.*;
 import java.lang.String;
-import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -221,12 +218,7 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitMainFunctionStatement(QParser.MainFunctionStatementContext ctx) {
 
-        Parser parser = new Parser().fromText(ctx.block().getText());
-        try {
-            lang.lst.addAll(parser.parse(false));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        this.visit(ctx.block());
 
         return new QValue("");
     }
@@ -234,18 +226,12 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitTryCatchStatement(QParser.TryCatchStatementContext ctx) {
 
-        QValue err = this.visit(ctx.Identifier());
-        Parser parser = new Parser().fromText(ctx.block(0).getText());
+        QValue err;
 
         try {
-            lang.lst.addAll(parser.parse(false));
+            this.visit(ctx.block(0));
         } catch (Exception e) {
-            parser = new Parser().fromText(ctx.block(1).getText());
-            try {
-                lang.lst.addAll(parser.parse(false));
-            } catch (Exception s) {
-                System.out.println(e.getMessage());
-            }
+            this.visit(ctx.block(1));
             err = new QValue(e.getMessage());
 
             String id = ctx.Identifier().getText();
@@ -271,9 +257,18 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
     public QValue visitAddWebServerTextStatement(QParser.AddWebServerTextStatementContext ctx) {
 
         QValue resp = this.visit(ctx.expression());
-        lang.response = resp.asString();
+        String id = ctx.Identifier().getText();
 
-        return visitChildren(ctx);
+        for (WebServer w : lang.webs) {
+            if (w.id.equals(id)) {
+                w.setText(resp.asString());
+                return QValue.VOID;
+            }
+        }
+
+        System.out.println("[FATAL] 'WebServer' object: " + id + " not found.");
+        System.exit(0);
+        return QValue.VOID;
     }
 
     @Override
@@ -388,6 +383,14 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
     }
 
     @Override
+    public QValue visitObjCreateStatement(QParser.ObjCreateStatementContext ctx) {
+
+
+
+        return QValue.VOID;
+    }
+
+    @Override
     public QValue visitConstructorStatement(QParser.ConstructorStatementContext ctx) {
 
         QClass.XCon xcon = new QClass.XCon(ctx.indexes(), ctx.block().getText(), ctx.Identifier().getText());
@@ -434,19 +437,13 @@ public class EvalVisitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitClassStatement(QParser.ClassStatementContext ctx) {
 
-        Parser parser = new Parser().fromText(ctx.block().getText());
-
         QClass xc = new QClass();
 
         xc.setName(ctx.Identifier().getText());
 
         lang.classes.add(xc);
 
-        try {
-            parser.parse();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        this.visit(ctx.block());
 
         return QValue.VOID;
 

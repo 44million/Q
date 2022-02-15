@@ -1,20 +1,33 @@
-#github "https://github.com/primevibetime/temp/blob/main/Import.l"
+#github "https://github.com/primevibetime/temp/blob/main/Import.l";
+#github "https://github.com/primevibetime/temp/blob/main/Console.l";
 
+#import src.main.QFiles.primary;
+
+func main()
+
+    println("This method was loaded in with github");
+
+endf
 
 class Main
+
     func main()
 
-        std:ln("Enter the port for your webserver now:");
-        port = input();
+        WebServer web = new WebServer("9000");
+        web.changeText("<body>Hello World</body>");
 
-        create WebServer(port);
-        std:ln("Enter text for webserver now:");
-        text = input();
-        WebServer.changeText("<body><big>" + text + "</big></body>");
+        Window win = new Window("Window", "900", "750");
+        win.render();
 
-        std:ln("WebServer online! Visit it at localhost:" + port);
+        Window secondWin = new Window("Window number 2!", "200", "100");
+        secondWin.render();
+
+            try
+                std:ln("Echo");
+            catch (e)
+                println(e);
+            endf
 
     endf
-endc
 
-run(150000);
+endc

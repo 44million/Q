@@ -10,10 +10,10 @@ import java.util.Map;
 
 public class CFunction {
 
-    public String name;
     private final List<TerminalNode> params;
     private final QClass parentClass;
     private final Scope parentScope;
+    public String name;
     private ParseTree block;
 
     public CFunction(String name, List<TerminalNode> params, QClass parent, ParseTree block, Scope c) {

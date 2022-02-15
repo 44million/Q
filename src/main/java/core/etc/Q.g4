@@ -34,6 +34,7 @@ statement
  | importFromGithubStatement ';'
  | objFunctionCall ';'
  | objFunctionDecl
+ | objCreateStatement ';'
  ;
 
 assignment
@@ -74,7 +75,11 @@ elseIfStat
  ;
 
 constructorStatement
- : '$' Identifier 'void default' '(' indexes* ')' block End
+ : 'const' Identifier '(' exprList? ')' block End
+ ;
+
+objCreateStatement
+ : Identifier Identifier '=' 'new' Identifier '(' exprList? ')'
  ;
 
 fileObjectInitializeStatement
