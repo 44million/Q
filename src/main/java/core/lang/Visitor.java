@@ -10,6 +10,7 @@ import core.interp.QParser;
 import core.libs.OS;
 import core.libs.WebServer;
 import core.libs.Window;
+import core.libs.mp3.Player;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -157,12 +158,19 @@ public class Visitor extends QBaseVisitor<QValue> {
 
     @Override
     public QValue visitOsExecStatement(QParser.OsExecStatementContext ctx) {
-
+    if (ctx.Identifier().getText().equals("exec") && ctx.expression() != null) {
         try {
             OS.execS(this.visit(ctx.expression()).asString());
         } catch (Exception e) {
             System.out.println("[FATAL] Could not execute text: " + this.visit(ctx.expression()).asString() + " [" + e.getMessage() + "]");
         }
+    } else if (ctx.Identifier().getText().equals("quit") && ctx.expression() != null) {
+        int code = Integer.parseInt(this.visit(ctx.expression()).asString());
+        System.exit(code);
+    } else if (ctx.Identifier().getText().equals("flush")) {
+        System.console().flush();
+
+    }
         return QValue.VOID;
     }
 
@@ -299,14 +307,21 @@ public class Visitor extends QBaseVisitor<QValue> {
             text.append(".").append(o.getText());
         }
 
-        if (text.toString().equals(".q.Windows")) {
+        if (text.toString().equals(".q.Windows") && !lang.allowedLibs.contains("Windows")) {
             lang.allowedLibs.add("Windows");
             return QValue.VOID;
-        } else if (text.toString().equals(".q.http")) {
+        } else if (text.toString().equals(".q.http") && !lang.allowedLibs.contains("http")) {
             lang.allowedLibs.add("http");
             return QValue.VOID;
-        } else if (text.toString().equals(".q.Files")) {
+        } else if (text.toString().equals(".q.Files") && !lang.allowedLibs.contains("Files")) {
             lang.allowedLibs.add("Files");
+            return QValue.VOID;
+        } else if (text.toString().equals(".q.Math") && !lang.allowedLibs.contains("Math")) {
+            lang.allowedLibs.add("Math");
+            new core.libs.Math().init();
+            return QValue.VOID;
+        } else if (text.toString().equals(".q.mp3") && !lang.allowedLibs.contains("mp3")) {
+            lang.allowedLibs.add("mp3");
             return QValue.VOID;
         }
 
@@ -420,8 +435,9 @@ public class Visitor extends QBaseVisitor<QValue> {
             w.launch();
 
             lang.webs.add(w);
+        } else if (ctx.Identifier(0).getText().equals("mp3") && lang.allowedLibs.contains("mp3")) {
+            Player player = new Player(this.visit(ctx.exprList().expression(0)).toString(), ctx.Identifier(1).getText());
         }
-
 
         return QValue.VOID;
     }
@@ -874,11 +890,6 @@ public class Visitor extends QBaseVisitor<QValue> {
             val = resolveIndexes(val, exps);
         }
         return val;
-    }
-
-    public QValue visitImportStatementExpression() {
-
-        return null;
     }
 
     @Override

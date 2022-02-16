@@ -44,6 +44,7 @@ public class Main {
             }
 
             System.out.println(err);
+            System.exit(0);
         }
     }
 }

@@ -95,7 +95,7 @@ listRemoveStatement
  ;
 
 osExecStatement
- : 'sys' '.' 'exec' '(' expression ')'
+ : 'sys' '.' Identifier '(' expression? ')'
  ;
 
 fileWriteStatement
