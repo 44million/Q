@@ -4,7 +4,7 @@
 #import q.Math;
 #import q.mp3;
 #import q.http;
-#import q.random;
+#import q.Random;
 
 // file system imports
 #import src.main.QFiles.primary;

@@ -336,7 +336,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         } else if (text.toString().equals(".q.mp3") && !lang.allowedLibs.contains("mp3")) {
             lang.allowedLibs.add("mp3");
             return QValue.VOID;
-        }  else if (text.toString().equals(".q.random") && !lang.allowedLibs.contains("random")) {
+        }  else if (text.toString().equals(".q.Random") && !lang.allowedLibs.contains("random")) {
             lang.allowedLibs.add("random");
             new core.libs.QRandom().init();
             return QValue.VOID;

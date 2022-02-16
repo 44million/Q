@@ -10,7 +10,7 @@ public class QRandom extends QLibrary {
 
     @Override
     public String getName() {
-        return "q.random";
+        return "q.Random";
     }
 
     private final String qcode
