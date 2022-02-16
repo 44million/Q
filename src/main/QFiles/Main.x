@@ -1,14 +1,5 @@
-#github "https://github.com/primevibetime/temp/blob/main/Import.l";
-#github "https://github.com/primevibetime/temp/blob/main/Console.l";
-
 #import q.Windows;
 #import q.Files;
-
-func main()
-
-    println("This method was loaded in with github");
-
-endf
 
 class Main
 
@@ -25,6 +16,12 @@ class Main
 
         File file = new File("src/main/QFiles/primary.l");
         file.append("Hello there General Kenobi");
+
+    endf
+
+    func main()
+
+        std:ln("Test");
 
     endf
 

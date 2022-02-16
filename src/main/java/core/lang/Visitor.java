@@ -245,9 +245,17 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitMainFunctionStatement(QParser.MainFunctionStatementContext ctx) {
 
-        this.visit(ctx.block());
+        if (!lang.main) {
+            lang.main = true;
 
-        return new QValue("");
+            this.visit(ctx.block());
+
+            return QValue.VOID;
+        } else {
+            System.out.println("[FATAL] Main function has already been called.");
+            System.exit(0);
+        }
+        return QValue.VOID;
     }
 
     @Override

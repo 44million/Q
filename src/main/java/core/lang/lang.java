@@ -30,6 +30,7 @@ public class lang {
     public static Parser parser = new Parser();
     public static List<String> allowedLibs = new ArrayList<>();
     public static List<core.libs.collections.List> lists = new ArrayList<>();
+    public static boolean main = false;
 
     public static String getTextFromGithub(String link) {
         URL Url = null;
