@@ -200,16 +200,6 @@ public interface QListener extends ParseTreeListener {
 	 */
 	void exitObjCreateStatement(QParser.ObjCreateStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QParser#fileObjectInitializeStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterFileObjectInitializeStatement(QParser.FileObjectInitializeStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QParser#fileObjectInitializeStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitFileObjectInitializeStatement(QParser.FileObjectInitializeStatementContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link QParser#listCreateStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -350,26 +340,6 @@ public interface QListener extends ParseTreeListener {
 	 */
 	void exitWhileStatement(QParser.WhileStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QParser#webServerStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterWebServerStatement(QParser.WebServerStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QParser#webServerStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitWebServerStatement(QParser.WebServerStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QParser#windowCreateStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterWindowCreateStatement(QParser.WindowCreateStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QParser#windowCreateStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitWindowCreateStatement(QParser.WindowCreateStatementContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link QParser#windowRenderStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -389,16 +359,6 @@ public interface QListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitWindowAddCompStatement(QParser.WindowAddCompStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QParser#componentCreateStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterComponentCreateStatement(QParser.ComponentCreateStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QParser#componentCreateStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitComponentCreateStatement(QParser.ComponentCreateStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QParser#addWebServerTextStatement}.
 	 * @param ctx the parse tree

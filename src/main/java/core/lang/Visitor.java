@@ -101,28 +101,6 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitFileObjectInitializeStatement(QParser.FileObjectInitializeStatementContext ctx) {
-
-        if (!lang.allowedLibs.contains("Files")) {
-            System.out.println("[FATAL] The File library has not been imported. Please import it first.\nThe library can be found at: 'q.Files'");
-            System.exit(0);
-        }
-
-        QValue v = this.visit(ctx.expression());
-
-        if (!v.isString()) {
-            System.out.println("[FATAL] The file class accepts only :str arguments");
-            System.exit(0);
-        }
-
-        File file = new File(v.asString());
-
-        lang.files.put(ctx.Identifier().getText(), file);
-
-        return QValue.VOID;
-    }
-
-    @Override
     public QValue visitFileWriteStatement(QParser.FileWriteStatementContext ctx) {
         try {
 
@@ -178,66 +156,12 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitComponentCreateStatement(QParser.ComponentCreateStatementContext ctx) {
-
-        QValue newVal = this.visit(ctx.Identifier());
-
-        QValue val = scope.resolve(ctx.Identifier().getText());
-        List<ExpressionContext> exps = ctx.exprList().expression();
-        setAtIndex(ctx, exps, val, newVal);
-
-        String id = ctx.Identifier().getText();
-        scope.assign(id, newVal);
-
-        List<QValue> list = new ArrayList<>();
-        if (ctx.exprList() != null) {
-            for (ExpressionContext ex : ctx.exprList().expression()) {
-                list.add(this.visit(ex));
-            }
-        }
-
-        // Component c = new Component("text", "Hello World!");
-        if (list.get(0).isString() && list.get(1).isString()) {
-            core.libs.Window.XComponent xcomp = new Window.XComponent(list.get(0).asString(), list.get(1).asString(), id);
-            lang.comps.add(xcomp);
-        }
-        return QValue.VOID;
-    }
-
-    @Override
     public QValue visitOsExecStatement(QParser.OsExecStatementContext ctx) {
 
         try {
             OS.execS(this.visit(ctx.expression()).asString());
         } catch (Exception e) {
             System.out.println("[FATAL] Could not execute text: " + this.visit(ctx.expression()).asString() + " [" + e.getMessage() + "]");
-        }
-        return QValue.VOID;
-    }
-
-    @Override
-    public QValue visitWindowCreateStatement(QParser.WindowCreateStatementContext ctx) {
-
-        if (!lang.allowedLibs.contains("Windows")) {
-            System.out.println("[FATAL] The AWT library has not been imported. Please import it first.\nThe library can be found at: 'q.Windows'");
-            System.exit(0);
-        }
-
-        List<QValue> list = new ArrayList<>();
-        if (ctx.exprList() != null) {
-            for (ExpressionContext ex : ctx.exprList().expression()) {
-                list.add(this.visit(ex));
-            }
-        }
-        // Window w = new Window("Name", x, y);
-        if (list.get(0).isString() && list.get(1).isString() && list.get(2).isString()) {
-
-            core.libs.Window window = new Window(list.get(0).asString(), Integer.parseInt(list.get(1).asString()), Integer.parseInt(list.get(2).asString()));
-            window.setName(ctx.Identifier().getText());
-            lang.wins.add(window);
-
-        } else {
-            System.out.println("Incorrect layout, Window class accepts the following: Window(name:str, x-axis:str, y-axis:str);");
         }
         return QValue.VOID;
     }
@@ -273,24 +197,6 @@ public class Visitor extends QBaseVisitor<QValue> {
             String id = ctx.Identifier().getText();
             scope.assign(id, err);
         }
-        return QValue.VOID;
-    }
-
-    @Override
-    public QValue visitWebServerStatement(QParser.WebServerStatementContext ctx) {
-
-        QValue x = this.visit(ctx.expression());
-
-        if (!lang.allowedLibs.contains("http")) {
-            System.out.println("[FATAL] The HTTP library has not been imported. Please import it first.\nThe library can be found at: 'q.http'");
-            System.exit(0);
-        }
-
-        core.libs.WebServer w = new WebServer(Integer.parseInt(x.asString()), ctx.Identifier().getText());
-        w.launch();
-
-        lang.webs.add(w);
-
         return QValue.VOID;
     }
 
@@ -442,6 +348,79 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitObjCreateStatement(QParser.ObjCreateStatementContext ctx) {
 
+        if (ctx.Identifier(0).getText().equals("File")) {
+            if (!lang.allowedLibs.contains("Files")) {
+                System.out.println("[FATAL] The File library has not been imported. Please import it first.\nThe library can be found at: 'q.Files'");
+                System.exit(0);
+            }
+
+            QValue v = this.visit(ctx.exprList().expression(0));
+
+            if (!v.isString()) {
+                System.out.println("[FATAL] The file class accepts only :str arguments");
+                System.exit(0);
+            }
+
+            File file = new File(v.asString());
+
+            lang.files.put(ctx.Identifier(1).getText(), file);
+        } else if (ctx.Identifier(0).getText().equals("Window")) {
+            if (!lang.allowedLibs.contains("Windows")) {
+                System.out.println("[FATAL] The AWT library has not been imported. Please import it first.\nThe library can be found at: 'q.Windows'");
+                System.exit(0);
+            }
+
+            List<QValue> list = new ArrayList<>();
+            if (ctx.exprList() != null) {
+                for (ExpressionContext ex : ctx.exprList().expression()) {
+                    list.add(this.visit(ex));
+                }
+            }
+            // Window w = new Window("Name", x, y);
+            if (list.get(0).isString() && list.get(1).isString() && list.get(2).isString()) {
+
+                core.libs.Window window = new Window(list.get(0).asString(), Integer.parseInt(list.get(1).asString()), Integer.parseInt(list.get(2).asString()));
+                window.setName(ctx.Identifier(1).getText());
+                lang.wins.add(window);
+
+            } else {
+                System.out.println("Incorrect layout, Window class accepts the following: Window(name:str, x-axis:str, y-axis:str);");
+            }
+        } else if (ctx.Identifier(0).getText().equals("Component")) {
+            QValue newVal = this.visit(ctx.Identifier(1));
+
+            QValue val = scope.resolve(ctx.Identifier(1).getText());
+            List<ExpressionContext> exps = ctx.exprList().expression();
+            setAtIndex(ctx, exps, val, newVal);
+
+            String id = ctx.Identifier(1).getText();
+            scope.assign(id, newVal);
+
+            List<QValue> list = new ArrayList<>();
+            if (ctx.exprList() != null) {
+                for (ExpressionContext ex : ctx.exprList().expression()) {
+                    list.add(this.visit(ex));
+                }
+            }
+
+            // Component c = new Component("text", "Hello World!");
+            if (list.get(0).isString() && list.get(1).isString()) {
+                core.libs.Window.XComponent xcomp = new Window.XComponent(list.get(0).asString(), list.get(1).asString(), id);
+                lang.comps.add(xcomp);
+            }
+        } else if (ctx.Identifier(0).getText().equals("WebServer")) {
+            QValue x = this.visit(ctx.exprList().expression(0));
+
+            if (!lang.allowedLibs.contains("http")) {
+                System.out.println("[FATAL] The HTTP library has not been imported. Please import it first.\nThe library can be found at: 'q.http'");
+                System.exit(0);
+            }
+
+            core.libs.WebServer w = new WebServer(Integer.parseInt(x.asString()), ctx.exprList().expression(0).getText());
+            w.launch();
+
+            lang.webs.add(w);
+        }
 
 
         return QValue.VOID;

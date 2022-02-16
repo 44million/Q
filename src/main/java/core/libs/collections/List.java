@@ -1,6 +1,8 @@
 package core.libs.collections;
 
-public class List<T> implements java.io.Serializable{
+import core.libs.utils.QLibrary;
+
+public class List<T> implements java.io.Serializable, QLibrary {
 
     private java.util.List<T> list = new java.util.ArrayList<>();
     public String id;
@@ -23,4 +25,8 @@ public class List<T> implements java.io.Serializable{
         }
     }
 
+    @Override
+    public String getName() {
+        return "q.collections.List";
+    }
 }

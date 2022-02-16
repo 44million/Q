@@ -15,13 +15,7 @@ class Main
             endf
 
         File file = new File("src/main/QFiles/primary.l");
-        file.append("Hello there General Kenobi");
-
-    endf
-
-    func main()
-
-        std:ln("Test");
+        file.write("awooooga");
 
     endf
 

@@ -2,17 +2,10 @@ package core.libs.utils;
 
 public interface QLibrary {
 
-    /*
-        obsolete.
-     */
+    // this interface is literally just for some polymorphism stuff i might do later on, with hashmaps.
 
-    String[] getKeywords();
-
-    String getBlock();
-
-    String getName();
-
-    void execFromKeyword(String keyword);
-
+    default String getName() {
+        return null;
+    }
 
 }

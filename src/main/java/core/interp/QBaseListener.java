@@ -232,18 +232,6 @@ public class QBaseListener implements QListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFileObjectInitializeStatement(QParser.FileObjectInitializeStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFileObjectInitializeStatement(QParser.FileObjectInitializeStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterListCreateStatement(QParser.ListCreateStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -412,30 +400,6 @@ public class QBaseListener implements QListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterWebServerStatement(QParser.WebServerStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitWebServerStatement(QParser.WebServerStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterWindowCreateStatement(QParser.WindowCreateStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitWindowCreateStatement(QParser.WindowCreateStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterWindowRenderStatement(QParser.WindowRenderStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -455,18 +419,6 @@ public class QBaseListener implements QListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitWindowAddCompStatement(QParser.WindowAddCompStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterComponentCreateStatement(QParser.ComponentCreateStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitComponentCreateStatement(QParser.ComponentCreateStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -143,13 +143,6 @@ public class QBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QVis
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFileObjectInitializeStatement(QParser.FileObjectInitializeStatementContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitListCreateStatement(QParser.ListCreateStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -248,20 +241,6 @@ public class QBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QVis
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitWebServerStatement(QParser.WebServerStatementContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitWindowCreateStatement(QParser.WindowCreateStatementContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitWindowRenderStatement(QParser.WindowRenderStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -270,13 +249,6 @@ public class QBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QVis
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitWindowAddCompStatement(QParser.WindowAddCompStatementContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitComponentCreateStatement(QParser.ComponentCreateStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

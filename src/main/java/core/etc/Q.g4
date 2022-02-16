@@ -17,18 +17,14 @@ statement
  | importStatement ';'
  | tryCatchStatement
  | mainFunctionStatement
- | webServerStatement ';'
  | addWebServerTextStatement ';'
  | reAssignment ';'
  | classStatement
  | constructorStatement
  | defaultCall ';'
  | waitStatement ';'
- | windowCreateStatement ';'
  | windowAddCompStatement ';'
  | windowRenderStatement ';'
- | componentCreateStatement ';'
- | fileObjectInitializeStatement ';'
  | fileWriteStatement ';'
  | verifyFileStatement ';'
  | importFromGithubStatement ';'
@@ -83,11 +79,7 @@ constructorStatement
  ;
 
 objCreateStatement
- : Identifier Identifier '=' 'new' Identifier '(' exprList? ')'
- ;
-
-fileObjectInitializeStatement
- : 'File' Identifier '=' 'new File' '(' expression ')'
+ : Identifier Identifier '=' New Identifier '(' exprList? ')'
  ;
 
 listCreateStatement
@@ -107,7 +99,7 @@ osExecStatement
  ;
 
 fileWriteStatement
- : Identifier '.' 'append' '(' expression ')'
+ : Identifier '.' 'write' '(' expression ')'
  ;
 
 verifyFileStatement
@@ -146,24 +138,12 @@ whileStatement
  : While '(' expression ')' Do block End
  ;
 
-webServerStatement
- : 'WebServer' Identifier '=' 'new' 'WebServer' '(' expression ')'
- ;
-
-windowCreateStatement
- : 'Window' Identifier '=' 'new Window' '(' exprList ')'
- ;
-
 windowRenderStatement
  : Identifier '.' Render '(' ')'
  ;
 
 windowAddCompStatement
  : Identifier '.' AddComponent '(' expression ')'
- ;
-
-componentCreateStatement
- : 'Component' Identifier '=' 'new Component' '(' exprList ')'
  ;
 
 addWebServerTextStatement
@@ -226,7 +206,6 @@ Component: 'Component';
 Render   : 'render';
 AddComponent : 'addComp';
 New      : 'new';
-Window   : 'new Window';
 Var      : 'var';
 AddWSText: 'WebServer.changeText';
 Import   : 'import';

@@ -125,12 +125,6 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitObjCreateStatement(QParser.ObjCreateStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QParser#fileObjectInitializeStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFileObjectInitializeStatement(QParser.FileObjectInitializeStatementContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link QParser#listCreateStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -215,18 +209,6 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitWhileStatement(QParser.WhileStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QParser#webServerStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitWebServerStatement(QParser.WebServerStatementContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QParser#windowCreateStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitWindowCreateStatement(QParser.WindowCreateStatementContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link QParser#windowRenderStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -238,12 +220,6 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitWindowAddCompStatement(QParser.WindowAddCompStatementContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QParser#componentCreateStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitComponentCreateStatement(QParser.ComponentCreateStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QParser#addWebServerTextStatement}.
 	 * @param ctx the parse tree

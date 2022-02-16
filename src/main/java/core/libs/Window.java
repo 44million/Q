@@ -1,11 +1,12 @@
 package core.libs;
 
 import core.lang.lang;
+import core.libs.utils.QLibrary;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Window {
+public class Window implements QLibrary {
 
     private final int x;
     private final int y;
@@ -43,6 +44,11 @@ public class Window {
             this.f.add(o);
         }
 
+    }
+
+    @Override
+    public String getName() {
+        return "q.Windows";
     }
 
     public static class XComponent extends JComponent {

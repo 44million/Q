@@ -3,10 +3,11 @@ package core.libs;
 import com.sun.net.httpserver.HttpServer;
 import core.lang.lang;
 import core.libs.utils.HTTP;
+import core.libs.utils.QLibrary;
 
 import java.net.InetSocketAddress;
 
-public class WebServer {
+public class WebServer implements QLibrary {
 
     public int port;
     public String id;
@@ -38,4 +39,8 @@ public class WebServer {
         lang.response = s;
     }
 
+    @Override
+    public String getName() {
+        return "q.http";
+    }
 }
