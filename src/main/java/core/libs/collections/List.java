@@ -2,9 +2,10 @@ package core.libs.collections;
 
 import core.libs.utils.QLibrary;
 
-public class List<T> implements java.io.Serializable, QLibrary {
+public class List<T> implements java.io.Serializable {
 
     private java.util.List<T> list = new java.util.ArrayList<>();
+
     public String id;
 
     public List(String id) {
@@ -25,8 +26,8 @@ public class List<T> implements java.io.Serializable, QLibrary {
         }
     }
 
-    @Override
-    public String getName() {
-        return "q.collections.List";
+    public T get(int index) {
+        return this.list.get(index);
     }
+
 }

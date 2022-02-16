@@ -39,6 +39,19 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitObjFunctionCall(QParser.ObjFunctionCallContext ctx) {
 
+        try {
+            Player s = lang.getPlayerByName(ctx.Identifier(0).getText());
+
+            if (ctx.Identifier(1).getText().equals("play")) {
+                assert s != null;
+                s.play();
+            }
+
+        } catch (Exception e) {
+            System.out.println("[FATAL] " + e.getMessage());
+            System.exit(0);
+        }
+
         String className = ctx.Identifier(0).getText();
         System.out.println(className);
 
@@ -435,8 +448,9 @@ public class Visitor extends QBaseVisitor<QValue> {
             w.launch();
 
             lang.webs.add(w);
-        } else if (ctx.Identifier(0).getText().equals("mp3") && lang.allowedLibs.contains("mp3")) {
+        } else if (ctx.Identifier(0).getText().equals("MP3Player") && lang.allowedLibs.contains("mp3")) {
             Player player = new Player(this.visit(ctx.exprList().expression(0)).toString(), ctx.Identifier(1).getText());
+            lang.players.add(player);
         }
 
         return QValue.VOID;

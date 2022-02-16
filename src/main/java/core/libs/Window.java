@@ -6,7 +6,7 @@ import core.libs.utils.QLibrary;
 import javax.swing.*;
 import java.awt.*;
 
-public class Window implements QLibrary {
+public class Window extends QLibrary {
 
     private final int x;
     private final int y;

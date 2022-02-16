@@ -7,7 +7,7 @@ import core.libs.utils.QLibrary;
 
 import java.net.InetSocketAddress;
 
-public class WebServer implements QLibrary {
+public class WebServer extends QLibrary {
 
     public int port;
     public String id;
@@ -39,7 +39,6 @@ public class WebServer implements QLibrary {
         lang.response = s;
     }
 
-    @Override
     public String getName() {
         return "q.http";
     }

@@ -9,14 +9,14 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
 
-public class Player implements QLibrary {
+public class Player extends QLibrary {
 
     private File file;
     private Long currentFrame;
     private Clip clip;
     private String status;
     private AudioInputStream audioInputStream;
-    private String id;
+    public String id;
 
     public Player(String path, String id) {
         this.file = new File(path);
@@ -24,6 +24,7 @@ public class Player implements QLibrary {
 
     public Player(File file, String id) {
         this.file = file;
+        this.id = id;
     }
 
     public void play() throws Exception {

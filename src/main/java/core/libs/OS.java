@@ -5,7 +5,7 @@ import core.libs.utils.QLibrary;
 
 import java.io.IOException;
 
-public class OS implements QLibrary {
+public class OS extends QLibrary {
 
     public static void execS(String cmd) throws IOException {
         Process p = Runtime.getRuntime().exec(cmd);
@@ -46,7 +46,6 @@ public class OS implements QLibrary {
 
     }
 
-    @Override
     public String getName() {
         return "";
     }

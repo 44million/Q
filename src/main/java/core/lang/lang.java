@@ -4,6 +4,7 @@ import core.etc.Parser;
 import core.etc.Scope;
 import core.libs.WebServer;
 import core.libs.Window;
+import core.libs.mp3.Player;
 import org.antlr.v4.runtime.Token;
 
 import java.io.*;
@@ -29,6 +30,7 @@ public class lang {
     public static HashMap<String, File> files = new HashMap<>();
     public static Parser parser = new Parser();
     public static List<String> allowedLibs = new ArrayList<>();
+    public static List<Player> players = new ArrayList<>();
     public static List<core.libs.collections.List> lists = new ArrayList<>();
     public static boolean main = false;
 
@@ -163,6 +165,16 @@ public class lang {
 
         for (QClass xc : classes) {
             if (xc.name.equals(name)) {
+                return xc;
+            }
+        }
+        return null;
+    }
+
+    public static Player getPlayerByName(String name) {
+
+        for (Player xc : players) {
+            if (xc.id.equals(name)) {
                 return xc;
             }
         }

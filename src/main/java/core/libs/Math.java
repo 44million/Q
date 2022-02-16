@@ -5,9 +5,8 @@ import core.libs.utils.QLibrary;
 
 import java.io.IOException;
 
-public class Math implements QLibrary {
+public class Math extends QLibrary {
 
-    @Override
     public String getName() {
         return "q.Math";
     }
