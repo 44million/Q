@@ -1,7 +1,8 @@
 #github "https://github.com/primevibetime/temp/blob/main/Import.l";
 #github "https://github.com/primevibetime/temp/blob/main/Console.l";
 
-#import src.main.QFiles.primary;
+#import q.Windows;
+#import q.Files;
 
 func main()
 
@@ -13,20 +14,17 @@ class Main
 
     func main()
 
-        WebServer web = new WebServer("9000");
-        web.changeText("<body>Hello World</body>");
-
-        Window win = new Window("Window", "900", "750");
+        Window win = new Window("Window", "200", "100");
         win.render();
 
-        Window secondWin = new Window("Window number 2!", "200", "100");
-        secondWin.render();
-
             try
-                std:ln("Echo");
+                std:ln("this is an outputstream test. 'std' stands for standard, and 'ln' stands for printline, infrencing the standard outputstream in Q.");
             catch (e)
                 println(e);
             endf
+
+        File file = new File("src/main/QFiles/primary.l");
+        file.append("Hello there General Kenobi");
 
     endf
 

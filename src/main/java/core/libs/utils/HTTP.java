@@ -1,4 +1,4 @@
-package core.libs;
+package core.libs.utils;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;

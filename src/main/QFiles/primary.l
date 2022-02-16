@@ -1,3 +1,1 @@
-func render(win)
-    win.render();
-endf
+Hello there General Kenobi

@@ -98,6 +98,9 @@ public class Window {
                     System.exit(0);
                 }
 
+            } else {
+                System.out.println("[FATAL] Component type: " + type + " not found.");
+                System.exit(0);
             }
             return this;
         }

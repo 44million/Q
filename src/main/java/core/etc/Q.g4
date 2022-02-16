@@ -35,6 +35,10 @@ statement
  | objFunctionCall ';'
  | objFunctionDecl
  | objCreateStatement ';'
+ | listCreateStatement ';'
+ | listAddStatement ';'
+ | listRemoveStatement ';'
+ | osExecStatement ';'
  ;
 
 assignment
@@ -84,6 +88,22 @@ objCreateStatement
 
 fileObjectInitializeStatement
  : 'File' Identifier '=' 'new File' '(' expression ')'
+ ;
+
+listCreateStatement
+ : 'List' Identifier '=' 'new' 'List' '<' '>'
+ ;
+
+listAddStatement
+ : Identifier '.' 'add' '(' expression ')'
+ ;
+
+listRemoveStatement
+ : Identifier '.' 'remove' '(' expression ')'
+ ;
+
+osExecStatement
+ : 'sys' '.' 'exec' '(' expression ')'
  ;
 
 fileWriteStatement
@@ -211,7 +231,7 @@ Var      : 'var';
 AddWSText: 'WebServer.changeText';
 Import   : 'import';
 Print    : 'std:out';
-Input    : 'input';
+Input    : 'std:in';
 Assert   : 'assert';
 Wait     : 'wait';
 Size     : 'size';

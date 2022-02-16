@@ -28,6 +28,8 @@ public class lang {
     public static List<WebServer> webs = new ArrayList<>();
     public static HashMap<String, File> files = new HashMap<>();
     public static Parser parser = new Parser();
+    public static List<String> allowedLibs = new ArrayList<>();
+    public static List<core.libs.collections.List> lists = new ArrayList<>();
 
     public static String getTextFromGithub(String link) {
         URL Url = null;
@@ -170,6 +172,16 @@ public class lang {
 
         for (WebServer xc : webs) {
             if (xc.port == (name)) {
+                return xc;
+            }
+        }
+        return null;
+    }
+
+    public static core.libs.collections.List getListByName(String name) {
+
+        for (core.libs.collections.List xc : lists) {
+            if (Objects.equals(xc.id, name)) {
                 return xc;
             }
         }

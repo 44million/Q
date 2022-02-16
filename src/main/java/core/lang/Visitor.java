@@ -7,6 +7,7 @@ import core.etc.Scope;
 import core.interp.QBaseVisitor;
 import core.interp.QLexer;
 import core.interp.QParser;
+import core.libs.OS;
 import core.libs.WebServer;
 import core.libs.Window;
 import org.antlr.v4.runtime.CharStreams;
@@ -102,6 +103,11 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitFileObjectInitializeStatement(QParser.FileObjectInitializeStatementContext ctx) {
 
+        if (!lang.allowedLibs.contains("Files")) {
+            System.out.println("[FATAL] The File library has not been imported. Please import it first.\nThe library can be found at: 'q.Files'");
+            System.exit(0);
+        }
+
         QValue v = this.visit(ctx.expression());
 
         if (!v.isString()) {
@@ -119,14 +125,13 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitFileWriteStatement(QParser.FileWriteStatementContext ctx) {
         try {
-            FileWriter fw = new FileWriter(lang.files.get(ctx.Identifier().getText()));
-            QValue x = new QValue(this.visit(ctx.expression()));
 
-            fw.write(x.asString());
+            FileWriter fw = new FileWriter(lang.files.get(ctx.Identifier().getText()));
+            fw.append(ctx.expression().getText().replace("\"", ""));
             fw.close();
 
         } catch (Exception e) {
-            System.out.println(e.getMessage() + " <----");
+            System.out.println(e.getMessage());
         }
         return QValue.VOID;
     }
@@ -160,8 +165,14 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitWindowAddCompStatement(QParser.WindowAddCompStatementContext ctx) {
 
         QValue v = this.visit(ctx.expression());
+        QValue id = this.visit(ctx.Identifier());
 
-//        if (lang.getWinByName(ctx.Identifier().getText()) == null || lang.getCompByName(ctx.expression()))
+        if (!lang.wins.contains(id.asString())) {
+            System.out.println("[FATAL] The specified window: " + id + " does not exist!");
+            System.exit(0);
+        }
+
+        lang.getWinByName(id.asString()).addComponent(lang.getCompByName(v.asString()));
 
         return QValue.VOID;
     }
@@ -194,7 +205,23 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
+    public QValue visitOsExecStatement(QParser.OsExecStatementContext ctx) {
+
+        try {
+            OS.execS(this.visit(ctx.expression()).asString());
+        } catch (Exception e) {
+            System.out.println("[FATAL] Could not execute text: " + this.visit(ctx.expression()).asString() + " [" + e.getMessage() + "]");
+        }
+        return QValue.VOID;
+    }
+
+    @Override
     public QValue visitWindowCreateStatement(QParser.WindowCreateStatementContext ctx) {
+
+        if (!lang.allowedLibs.contains("Windows")) {
+            System.out.println("[FATAL] The AWT library has not been imported. Please import it first.\nThe library can be found at: 'q.Windows'");
+            System.exit(0);
+        }
 
         List<QValue> list = new ArrayList<>();
         if (ctx.exprList() != null) {
@@ -233,6 +260,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         } catch (Exception e) {
             this.visit(ctx.block(1));
             err = new QValue(e.getMessage());
+            System.out.println(e.getMessage());
 
             String id = ctx.Identifier().getText();
             scope.assign(id, err);
@@ -244,6 +272,11 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitWebServerStatement(QParser.WebServerStatementContext ctx) {
 
         QValue x = this.visit(ctx.expression());
+
+        if (!lang.allowedLibs.contains("http")) {
+            System.out.println("[FATAL] The HTTP library has not been imported. Please import it first.\nThe library can be found at: 'q.http'");
+            System.exit(0);
+        }
 
         core.libs.WebServer w = new WebServer(Integer.parseInt(x.asString()), ctx.Identifier().getText());
         w.launch();
@@ -342,9 +375,25 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitImportStatement(ImportStatementContext ctx) {
 
         StringBuilder path = new StringBuilder();
+        StringBuilder text = new StringBuilder();
 
         for (TerminalNode o : ctx.Identifier()) {
             path.append("/").append(o.getText());
+        }
+
+        for (TerminalNode o : ctx.Identifier()) {
+            text.append(".").append(o.getText());
+        }
+
+        if (text.toString().equals(".q.Windows")) {
+            lang.allowedLibs.add("Windows");
+            return QValue.VOID;
+        } else if (text.toString().equals(".q.http")) {
+            lang.allowedLibs.add("http");
+            return QValue.VOID;
+        } else if (text.toString().equals(".q.Files")) {
+            lang.allowedLibs.add("Files");
+            return QValue.VOID;
         }
 
         for (File f : lang.parsed) {
@@ -391,22 +440,6 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitConstructorStatement(QParser.ConstructorStatementContext ctx) {
-
-        QClass.XCon xcon = new QClass.XCon(ctx.indexes(), ctx.block().getText(), ctx.Identifier().getText());
-
-        if (lang.getClassByName(xcon.name) != null) {
-            try {
-                lang.getClassByName(xcon.name).setXc(xcon);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-
-        }
-        return QValue.VOID;
-    }
-
-    @Override
     public QValue visitDefaultCall(QParser.DefaultCallContext ctx) {
         try {
             if (lang.getClassByName(ctx.Identifier().getText()) == null) {
@@ -431,6 +464,43 @@ public class Visitor extends QBaseVisitor<QValue> {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return QValue.VOID;
+    }
+
+    @Override
+    public QValue visitListAddStatement(QParser.ListAddStatementContext ctx) {
+
+        if (lang.getListByName(ctx.Identifier().getText()) == null) {
+            System.out.println("[FATAL] List: " + ctx.Identifier().getText() + " not found.");
+            System.exit(0);
+        }
+
+        QValue q = this.visit(ctx.expression());
+        lang.getListByName(ctx.Identifier().getText()).add(q);
+
+        return QValue.VOID;
+    }
+
+    @Override
+    public QValue visitListRemoveStatement(QParser.ListRemoveStatementContext ctx) {
+
+        if (lang.getListByName(ctx.Identifier().getText()) == null) {
+            System.out.println("[FATAL] List: " + ctx.Identifier().getText() + " not found.");
+            System.exit(0);
+        }
+
+        QValue q = this.visit(ctx.expression());
+        lang.getListByName(ctx.Identifier().getText()).remove(q);
+
+        return QValue.VOID;
+    }
+
+    @Override
+    public QValue visitListCreateStatement(QParser.ListCreateStatementContext ctx) {
+
+        core.libs.collections.List<Object> list = new core.libs.collections.List<>(this.visit(ctx.Identifier()).asString());
+        lang.lists.add(list);
+
         return QValue.VOID;
     }
 
