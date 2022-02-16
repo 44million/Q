@@ -336,6 +336,10 @@ public class Visitor extends QBaseVisitor<QValue> {
         } else if (text.toString().equals(".q.mp3") && !lang.allowedLibs.contains("mp3")) {
             lang.allowedLibs.add("mp3");
             return QValue.VOID;
+        }  else if (text.toString().equals(".q.random") && !lang.allowedLibs.contains("random")) {
+            lang.allowedLibs.add("random");
+            new core.libs.QRandom().init();
+            return QValue.VOID;
         }
 
         for (File f : lang.parsed) {
@@ -436,7 +440,7 @@ public class Visitor extends QBaseVisitor<QValue> {
                 core.libs.Window.XComponent xcomp = new Window.XComponent(list.get(0).asString(), list.get(1).asString(), id);
                 lang.comps.add(xcomp);
             }
-        } else if (ctx.Identifier(0).getText().equals("WebServer")) {
+        } else if (ctx.Identifier(0).getText().equals("WebServer") && ctx.Identifier(2).getText().equals("WebServer")) {
             QValue x = this.visit(ctx.exprList().expression(0));
 
             if (!lang.allowedLibs.contains("http")) {
