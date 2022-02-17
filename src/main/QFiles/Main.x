@@ -2,7 +2,7 @@
 #import q.Windows;
 #import q.Files;
 #import q.Math;
-#import q.mp3;
+#import q.Audio;
 #import q.http;
 #import q.Random;
 #import q.Time;
@@ -17,7 +17,8 @@ class Main
 
     func main()
 
-        Window win = new Window("Window", "200", "100");
+        Component c = new Component("text", "Hello World!");
+        Window win = new Window("Window", "400", "400");
         win.render();
 
         std:ln("Enter a port now:");
@@ -47,7 +48,7 @@ class Main
         std:ln("The epoch at launch was: ");
         std:ln(EAL());
 
-        // sys function that doesnt exist, to test error stuff yk
+        // sys function that doesnt exist, to test error stuff
 
             /*
                 try

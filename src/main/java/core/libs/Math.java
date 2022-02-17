@@ -93,6 +93,7 @@ public class Math extends QLibrary {
         return "q.Math";
     }
 
+    @Override
     public void init() {
         Parser.execBlock(this.qcode);
     }

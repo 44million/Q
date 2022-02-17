@@ -7,10 +7,11 @@ import core.etc.Scope;
 import core.interp.QBaseVisitor;
 import core.interp.QLexer;
 import core.interp.QParser;
+import core.libs.AWT.QComponent;
+import core.libs.AWT.Window;
+import core.libs.MediaPlayer;
 import core.libs.OS;
-import core.libs.Player;
 import core.libs.WebServer;
-import core.libs.Window;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -40,7 +41,7 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitObjFunctionCall(QParser.ObjFunctionCallContext ctx) {
 
         try {
-            Player s = lang.getPlayerByName(ctx.Identifier(0).getText());
+            MediaPlayer s = lang.getPlayerByName(ctx.Identifier(0).getText());
 
             if (ctx.Identifier(1).getText().equals("play")) {
                 assert s != null;
@@ -148,7 +149,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         if (lang.getWinByName(id) == null) {
             return QValue.VOID;
         } else {
-            lang.getWinByName(id).instantiate();
+            lang.getWinByName(id).init();
         }
         return QValue.VOID;
     }
@@ -156,16 +157,14 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitWindowAddCompStatement(QParser.WindowAddCompStatementContext ctx) {
 
-        QValue v = this.visit(ctx.expression());
-        QValue id = this.visit(ctx.Identifier());
+        String component = this.visit(ctx.expression()).asString();
 
-        if (!lang.wins.contains(id.asString())) {
-            System.out.println("[FATAL] The specified window: " + id + " does not exist!");
+        if (lang.getWinByName(ctx.Identifier().getText()) == null) {
+            System.out.println("[FATAL] The specified window: " + ctx.Identifier().getText() + " does not exist!");
             System.exit(0);
+        } else {
+            lang.getCompByName(component).init(ctx.Identifier().getText());
         }
-
-        lang.getWinByName(id.asString()).addComponent(lang.getCompByName(v.asString()));
-
         return QValue.VOID;
     }
 
@@ -342,8 +341,8 @@ public class Visitor extends QBaseVisitor<QValue> {
             lang.allowedLibs.add("Math");
             new core.libs.Math().init();
             return QValue.VOID;
-        } else if (text.toString().equals(".q.mp3") && !lang.allowedLibs.contains("mp3")) {
-            lang.allowedLibs.add("mp3");
+        } else if (text.toString().equals(".q.Audio") && !lang.allowedLibs.contains("audio")) {
+            lang.allowedLibs.add("audio");
             return QValue.VOID;
         } else if (text.toString().equals(".q.Random") && !lang.allowedLibs.contains("random")) {
             lang.allowedLibs.add("random");
@@ -424,7 +423,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             // Window w = new Window("Name", x, y);
             if (list.get(0).isString() && list.get(1).isString() && list.get(2).isString()) {
 
-                core.libs.Window window = new Window(list.get(0).asString(), Integer.parseInt(list.get(1).asString()), Integer.parseInt(list.get(2).asString()));
+                Window window = new Window(list.get(0).asString(), Integer.parseInt(list.get(1).asString()), Integer.parseInt(list.get(2).asString()));
                 window.setName(ctx.Identifier(1).getText());
                 lang.wins.add(window);
 
@@ -432,27 +431,11 @@ public class Visitor extends QBaseVisitor<QValue> {
                 System.out.println("Incorrect layout, Window class accepts the following: Window(name:str, x-axis:str, y-axis:str);");
             }
         } else if (ctx.Identifier(0).getText().equals("Component")) {
-            QValue newVal = this.visit(ctx.Identifier(1));
-
-            QValue val = scope.resolve(ctx.Identifier(1).getText());
-            List<ExpressionContext> exps = ctx.exprList().expression();
-            setAtIndex(ctx, exps, val, newVal);
-
-            String id = ctx.Identifier(1).getText();
-            scope.assign(id, newVal);
-
-            List<QValue> list = new ArrayList<>();
-            if (ctx.exprList() != null) {
-                for (ExpressionContext ex : ctx.exprList().expression()) {
-                    list.add(this.visit(ex));
-                }
-            }
 
             // Component c = new Component("text", "Hello World!");
-            if (list.get(0).isString() && list.get(1).isString()) {
-                core.libs.Window.XComponent xcomp = new Window.XComponent(list.get(0).asString(), list.get(1).asString(), id);
-                lang.comps.add(xcomp);
-            }
+            QComponent xcomp = new QComponent(ctx.exprList().expression(0).getText(), ctx.exprList().expression(1).getText(), ctx.Identifier(1).getText());
+            lang.comps.add(xcomp);
+
         } else if (ctx.Identifier(0).getText().equals("WebServer") && ctx.Identifier(2).getText().equals("WebServer")) {
             QValue x = this.visit(ctx.exprList().expression(0));
 
@@ -462,11 +445,11 @@ public class Visitor extends QBaseVisitor<QValue> {
             }
 
             core.libs.WebServer w = new WebServer(Integer.parseInt(x.asString()), ctx.Identifier(1).getText());
-            w.launch();
+            w.init();
 
             lang.webs.add(w);
-        } else if (ctx.Identifier(0).getText().equals("MP3Player") && lang.allowedLibs.contains("mp3")) {
-            Player player = new Player(this.visit(ctx.exprList().expression(0)).toString(), ctx.Identifier(1).getText());
+        } else if (ctx.Identifier(0).getText().equals("MP3Player") && lang.allowedLibs.contains("audio")) {
+            MediaPlayer player = new MediaPlayer(this.visit(ctx.exprList().expression(0)).toString(), ctx.Identifier(1).getText());
             lang.players.add(player);
         }
 
@@ -540,7 +523,10 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitHeader(QParser.HeaderContext ctx) {
 
-        
+        if (ctx.Identifier().getText().equals("")) {
+            System.out.println("[FATAL] Header MUST have a title");
+            System.exit(0);
+        }
 
         return QValue.VOID;
     }

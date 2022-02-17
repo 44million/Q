@@ -7,8 +7,9 @@ import java.io.IOException;
 public class OS extends QLibrary {
 
     public String id;
+    public String cmd;
 
-    public OS(String id) {
+    public OS(String id, String cmd) {
         this.id = id;
     }
 
@@ -17,7 +18,8 @@ public class OS extends QLibrary {
         p.destroy();
     }
 
-    public void exec(String cmd) {
+    @Override
+    public void init() {
         Process p = null;
         try {
             p = Runtime.getRuntime().exec(cmd);

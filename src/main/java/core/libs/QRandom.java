@@ -30,6 +30,7 @@ public class QRandom extends QLibrary {
         return String.valueOf(r.nextInt());
     }
 
+    @Override
     public void init() {
         Parser.execBlock(this.qcode);
     }

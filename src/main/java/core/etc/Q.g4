@@ -146,7 +146,7 @@ windowRenderStatement
  ;
 
 windowAddCompStatement
- : Identifier '.' AddComponent '(' expression ')'
+ : Identifier '.' 'addComp' '(' expression ')'
  ;
 
 addWebServerTextStatement
@@ -201,7 +201,6 @@ indexes
  ;
 
 Println  : 'std:ln';
-Component: 'Component';
 Render   : 'render';
 AddComponent : 'addComp';
 New      : 'new';

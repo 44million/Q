@@ -26,6 +26,7 @@ public class Time extends QLibrary {
         return "q.time";
     }
 
+    @Override
     public void init() {
         Parser parser = new Parser().fromText(this.qcode);
         try {

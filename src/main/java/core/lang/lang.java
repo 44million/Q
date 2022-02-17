@@ -2,9 +2,10 @@ package core.lang;
 
 import core.etc.Parser;
 import core.etc.Scope;
-import core.libs.Player;
+import core.libs.AWT.QComponent;
+import core.libs.AWT.Window;
+import core.libs.MediaPlayer;
 import core.libs.WebServer;
-import core.libs.Window;
 import org.antlr.v4.runtime.Token;
 
 import java.io.*;
@@ -24,13 +25,13 @@ public class lang {
     public static List<QClass> classes = new ArrayList<>();
     public static List<Token> lst = new ArrayList<>();
     public static List<Window> wins = new ArrayList<>();
-    public static List<Window.XComponent> comps = new ArrayList<>();
+    public static List<QComponent> comps = new ArrayList<>();
     public static List<CFunction> funcs = new ArrayList<>();
     public static List<WebServer> webs = new ArrayList<>();
     public static HashMap<String, File> files = new HashMap<>();
     public static Parser parser = new Parser();
     public static List<String> allowedLibs = new ArrayList<>();
-    public static List<Player> players = new ArrayList<>();
+    public static List<MediaPlayer> players = new ArrayList<>();
     public static List<core.libs.utils.List> lists = new ArrayList<>();
     public static boolean main = false;
 
@@ -171,9 +172,9 @@ public class lang {
         return null;
     }
 
-    public static Player getPlayerByName(String name) {
+    public static MediaPlayer getPlayerByName(String name) {
 
-        for (Player xc : players) {
+        for (MediaPlayer xc : players) {
             if (xc.id.equals(name)) {
                 return xc;
             }
@@ -211,9 +212,9 @@ public class lang {
         return null;
     }
 
-    public static Window.XComponent getCompByName(String comp) {
+    public static QComponent getCompByName(String comp) {
 
-        for (Window.XComponent xcomp : comps) {
+        for (QComponent xcomp : comps) {
             if (xcomp.name.equals(comp)) {
                 return xcomp;
             }

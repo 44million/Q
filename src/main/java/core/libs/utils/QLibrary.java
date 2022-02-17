@@ -1,8 +1,6 @@
 package core.libs.utils;
 
-import core.libs.Window;
-
-import javax.swing.*;
+import core.libs.AWT.QComponent;
 
 public class QLibrary {
 
@@ -12,13 +10,13 @@ public class QLibrary {
         return "";
     }
 
-    public void instantiate() {
+    public void init() {
     }
 
-    public void addComponent(Window.XComponent e) {
+    public void init(String s) {
     }
 
-    public void addComponent(JComponent e) {
+    public void addComponent(QComponent e) {
     }
 
     public void setText(String s) {

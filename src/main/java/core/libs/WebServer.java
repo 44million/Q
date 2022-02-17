@@ -18,7 +18,8 @@ public class WebServer extends QLibrary {
         this.id = id;
     }
 
-    public void launch() {
+    @Override
+    public void init() {
         try {
             server = HttpServer.create(new InetSocketAddress(port), 0);
             server.createContext("/", new HTTP());
