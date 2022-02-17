@@ -5,7 +5,6 @@ import core.lang.lang;
 import org.antlr.v4.runtime.CharStreams;
 
 import java.io.File;
-import java.util.Scanner;
 
 import static core.lang.lang.lst;
 

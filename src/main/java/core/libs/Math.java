@@ -3,20 +3,14 @@ package core.libs;
 import core.etc.Parser;
 import core.libs.utils.QLibrary;
 
-import java.io.IOException;
-
 public class Math extends QLibrary {
 
-    public String getName() {
-        return "q.Math";
-    }
-
     private final String qcode = """
-            
+                        
             func pow(x, y)
                 return x^y;
             endf
-            
+                        
             func fib(n)
               
                 if (n < 2) do
@@ -35,7 +29,7 @@ public class Math extends QLibrary {
                 endf
 
             endf
-            
+                        
             func sqrt(x)
                 return x^0.5;
             endf
@@ -47,12 +41,12 @@ public class Math extends QLibrary {
 
                 return mul / 2;
             endf
-            
+                        
             func density(mass, volume)
                 d = mass / volume;
                 return d;
             endf
-            
+                        
             func density(mass, volume, density)
                 d = density * mass / volume;
                 return d;
@@ -82,18 +76,25 @@ public class Math extends QLibrary {
                 mph = mph * distance / time;
                 return mph;
             endf
-            
+
+            func o(n)
+                        
+                if (n < 2) do
+                    return 1;
+                else do
+                    return n * o(n-1);
+                endf
+                        
+            endf
+                        
             """;
 
+    public String getName() {
+        return "q.Math";
+    }
+
     public void init() {
-
-        Parser p = new Parser().fromText(this.qcode);
-        try {
-            p.parse();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-
+        Parser.execBlock(this.qcode);
     }
 
 }

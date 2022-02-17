@@ -1,4 +1,4 @@
-// Generated from C:/Users/Bosque/Documents/GitHub/xxl/src/main/java/core/etc\Q.g4 by ANTLR 4.9.2
+// Generated from /Users/harryharbuck-marlowe/Downloads/Q/src/main/java/core/etc/Q.g4 by ANTLR 4.9.2
 package core.interp;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -88,6 +88,12 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitObjFunctionCall(QParser.ObjFunctionCallContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QParser#header}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitHeader(QParser.HeaderContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QParser#objFunctionDecl}.
 	 * @param ctx the parse tree
@@ -226,12 +232,6 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAddWebServerTextStatement(QParser.AddWebServerTextStatementContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QParser#waitStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitWaitStatement(QParser.WaitStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QParser#mainFunctionStatement}.
 	 * @param ctx the parse tree

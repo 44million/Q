@@ -1,22 +1,20 @@
-package core.libs.mp3;
+package core.libs;
 
 import core.libs.utils.QLibrary;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
-import java.io.IOException;
 
 public class Player extends QLibrary {
 
-    private File file;
+    private final File file;
+    public String id;
     private Long currentFrame;
     private Clip clip;
     private String status;
     private AudioInputStream audioInputStream;
-    public String id;
 
     public Player(String path, String id) {
         this.file = new File(path);
@@ -27,7 +25,7 @@ public class Player extends QLibrary {
         this.id = id;
     }
 
-    public void play() throws Exception {
+    public void init() throws Exception {
         audioInputStream = AudioSystem.getAudioInputStream(file.getAbsoluteFile());
 
         clip = AudioSystem.getClip();

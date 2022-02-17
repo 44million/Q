@@ -1,4 +1,4 @@
-// Generated from C:/Users/Bosque/Documents/GitHub/xxl/src/main/java/core/etc\Q.g4 by ANTLR 4.9.2
+// Generated from /Users/harryharbuck-marlowe/Downloads/Q/src/main/java/core/etc/Q.g4 by ANTLR 4.9.2
 package core.interp;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -139,6 +139,16 @@ public interface QListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitObjFunctionCall(QParser.ObjFunctionCallContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QParser#header}.
+	 * @param ctx the parse tree
+	 */
+	void enterHeader(QParser.HeaderContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QParser#header}.
+	 * @param ctx the parse tree
+	 */
+	void exitHeader(QParser.HeaderContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QParser#objFunctionDecl}.
 	 * @param ctx the parse tree
@@ -369,16 +379,6 @@ public interface QListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAddWebServerTextStatement(QParser.AddWebServerTextStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QParser#waitStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterWaitStatement(QParser.WaitStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QParser#waitStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitWaitStatement(QParser.WaitStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QParser#mainFunctionStatement}.
 	 * @param ctx the parse tree

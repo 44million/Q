@@ -20,12 +20,10 @@ public class WebServer extends QLibrary {
 
     public void launch() {
         try {
-
             server = HttpServer.create(new InetSocketAddress(port), 0);
             server.createContext("/", new HTTP());
             server.setExecutor(null);
             server.start();
-
         } catch (Exception e) {
             System.out.println("[ERROR] " + e.getMessage());
         }

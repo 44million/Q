@@ -1,7 +1,7 @@
 grammar Q;
 
 parse
- : block EOF
+ : header? block EOF
  ;
 
 block
@@ -14,7 +14,6 @@ statement
  | ifStatement
  | forStatement
  | whileStatement
- | importStatement ';'
  | tryCatchStatement
  | mainFunctionStatement
  | addWebServerTextStatement ';'
@@ -22,12 +21,10 @@ statement
  | classStatement
  | constructorStatement
  | defaultCall ';'
- | waitStatement ';'
  | windowAddCompStatement ';'
  | windowRenderStatement ';'
  | fileWriteStatement ';'
  | verifyFileStatement ';'
- | importFromGithubStatement ';'
  | objFunctionCall ';'
  | objFunctionDecl
  | objCreateStatement ';'
@@ -35,6 +32,8 @@ statement
  | listAddStatement ';'
  | listRemoveStatement ';'
  | osExecStatement ';'
+ | importFromGithubStatement ';'
+ | importStatement ';'
  ;
 
 assignment
@@ -56,6 +55,10 @@ functionCall
 
 objFunctionCall
  : Identifier '.' Identifier '(' idList? ')'
+ ;
+
+header
+ : '@' 'header' Identifier
  ;
 
 objFunctionDecl
@@ -150,10 +153,6 @@ addWebServerTextStatement
  : Identifier '.' 'changeText' '(' expression ')'
  ;
 
-waitStatement
- : Wait '(' expression ')'
- ;
-
 mainFunctionStatement
  : 'func main()' block End
  ;
@@ -211,7 +210,6 @@ Import   : 'import';
 Print    : 'std:out';
 Input    : 'std:in';
 Assert   : 'assert';
-Wait     : 'wait';
 Size     : 'size';
 Def      : 'func';
 ToInt    : 'toInt';

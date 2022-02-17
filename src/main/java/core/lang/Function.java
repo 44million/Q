@@ -22,7 +22,7 @@ public class Function {
 
     public QValue call(List<QValue> args, Map<String, Function> functions) {
         if (args.size() != this.params.size()) {
-            throw new RuntimeException("[FATAL] Illegal Function call");
+            throw new RuntimeException("[ERROR] Illegal Function call");
         }
         Scope scopeNext = new Scope(parentScope, true); // create function scope
 
@@ -30,11 +30,11 @@ public class Function {
             QValue value = args.get(i);
             scopeNext.assignParam(this.params.get(i).getText(), value);
         }
-        Visitor evalVistorNext = new Visitor(scopeNext, functions);
+        Visitor next = new Visitor(scopeNext, functions);
 
         QValue ret = QValue.VOID;
         try {
-            evalVistorNext.visit(this.block);
+            next.visit(this.block);
         } catch (ReturnValue returnValue) {
             ret = returnValue.value;
         }

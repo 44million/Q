@@ -2,9 +2,9 @@ package core.lang;
 
 import core.etc.Parser;
 import core.etc.Scope;
+import core.libs.Player;
 import core.libs.WebServer;
 import core.libs.Window;
-import core.libs.mp3.Player;
 import org.antlr.v4.runtime.Token;
 
 import java.io.*;
@@ -31,7 +31,7 @@ public class lang {
     public static Parser parser = new Parser();
     public static List<String> allowedLibs = new ArrayList<>();
     public static List<Player> players = new ArrayList<>();
-    public static List<core.libs.collections.List> lists = new ArrayList<>();
+    public static List<core.libs.utils.List> lists = new ArrayList<>();
     public static boolean main = false;
 
     public static String getTextFromGithub(String link) {
@@ -191,9 +191,9 @@ public class lang {
         return null;
     }
 
-    public static core.libs.collections.List getListByName(String name) {
+    public static core.libs.utils.List getListByName(String name) {
 
-        for (core.libs.collections.List xc : lists) {
+        for (core.libs.utils.List xc : lists) {
             if (Objects.equals(xc.id, name)) {
                 return xc;
             }

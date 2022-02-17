@@ -20,10 +20,6 @@ public class Window extends QLibrary {
         this.name = name;
     }
 
-    public void setName(String name) {
-        this.realName = name;
-    }
-
     public void instantiate() {
 
         this.f = new JFrame(this.name);
@@ -49,6 +45,10 @@ public class Window extends QLibrary {
     @Override
     public String getName() {
         return "q.Windows";
+    }
+
+    public void setName(String name) {
+        this.realName = name;
     }
 
     public static class XComponent extends JComponent {

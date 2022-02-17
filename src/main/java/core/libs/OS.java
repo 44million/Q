@@ -1,21 +1,20 @@
 package core.libs;
 
-import core.lang.lang;
 import core.libs.utils.QLibrary;
 
 import java.io.IOException;
 
 public class OS extends QLibrary {
 
-    public static void execS(String cmd) throws IOException {
-        Process p = Runtime.getRuntime().exec(cmd);
-        p.destroy();
-    }
-
     public String id;
 
     public OS(String id) {
         this.id = id;
+    }
+
+    public static void execS(String cmd) throws IOException {
+        Process p = Runtime.getRuntime().exec(cmd);
+        p.destroy();
     }
 
     public void exec(String cmd) {

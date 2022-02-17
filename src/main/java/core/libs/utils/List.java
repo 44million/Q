@@ -1,11 +1,8 @@
-package core.libs.collections;
-
-import core.libs.utils.QLibrary;
+package core.libs.utils;
 
 public class List<T> implements java.io.Serializable {
 
-    private java.util.List<T> list = new java.util.ArrayList<>();
-
+    private final java.util.List<T> list = new java.util.ArrayList<>();
     public String id;
 
     public List(String id) {

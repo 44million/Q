@@ -1,16 +1,16 @@
 package core.lang;
 
-import core.etc.QException;
 import core.etc.Parser;
+import core.etc.Problem;
 import core.etc.ReturnValue;
 import core.etc.Scope;
 import core.interp.QBaseVisitor;
 import core.interp.QLexer;
 import core.interp.QParser;
 import core.libs.OS;
+import core.libs.Player;
 import core.libs.WebServer;
 import core.libs.Window;
-import core.libs.mp3.Player;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -44,7 +44,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
             if (ctx.Identifier(1).getText().equals("play")) {
                 assert s != null;
-                s.play();
+                s.init();
             }
 
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
     @Override
     public QValue visitFunctionDecl(FunctionDeclContext ctx) {
-        List<TerminalNode> params = ctx.idList() != null ? ctx.idList().Identifier() : new ArrayList<TerminalNode>();
+        List<TerminalNode> params = ctx.idList() != null ? ctx.idList().Identifier() : new ArrayList<>();
         ParseTree block = ctx.block();
         String id = ctx.Identifier().getText() + params.size();
 
@@ -171,19 +171,28 @@ public class Visitor extends QBaseVisitor<QValue> {
 
     @Override
     public QValue visitOsExecStatement(QParser.OsExecStatementContext ctx) {
-    if (ctx.Identifier().getText().equals("exec") && ctx.expression() != null) {
-        try {
-            OS.execS(this.visit(ctx.expression()).asString());
-        } catch (Exception e) {
-            System.out.println("[FATAL] Could not execute text: " + this.visit(ctx.expression()).asString() + " [" + e.getMessage() + "]");
+        if (ctx.Identifier().getText().equals("exec") && ctx.expression() != null) {
+            try {
+                OS.execS(this.visit(ctx.expression()).asString());
+            } catch (Exception e) {
+                System.out.println("[FATAL] Could not execute text: " + this.visit(ctx.expression()).asString() + " [" + e.getMessage() + "]");
+            }
+        } else if (ctx.Identifier().getText().equals("quit") && ctx.expression() != null) {
+            int code = Integer.parseInt(this.visit(ctx.expression()).asString());
+            System.exit(code);
+        } else if (ctx.Identifier().getText().equals("flush")) {
+            System.console().flush();
+        } else if (ctx.Identifier().getText().equals("halt")) {
+            int time = Integer.parseInt(this.visit(ctx.expression()).asString());
+            try {
+                Thread.sleep(time);
+            } catch (Exception e) {
+                System.out.println("[ERROR] " + e.getMessage());
+            }
+        } else {
+            System.out.printf("[FATAL] Sys function '%s' not recognized%n", ctx.Identifier().getText());
+            System.exit(0);
         }
-    } else if (ctx.Identifier().getText().equals("quit") && ctx.expression() != null) {
-        int code = Integer.parseInt(this.visit(ctx.expression()).asString());
-        System.exit(code);
-    } else if (ctx.Identifier().getText().equals("flush")) {
-        System.console().flush();
-
-    }
         return QValue.VOID;
     }
 
@@ -336,9 +345,13 @@ public class Visitor extends QBaseVisitor<QValue> {
         } else if (text.toString().equals(".q.mp3") && !lang.allowedLibs.contains("mp3")) {
             lang.allowedLibs.add("mp3");
             return QValue.VOID;
-        }  else if (text.toString().equals(".q.Random") && !lang.allowedLibs.contains("random")) {
+        } else if (text.toString().equals(".q.Random") && !lang.allowedLibs.contains("random")) {
             lang.allowedLibs.add("random");
             new core.libs.QRandom().init();
+            return QValue.VOID;
+        } else if (text.toString().equals(".q.Time") && !lang.allowedLibs.contains("time")) {
+            lang.allowedLibs.add("time");
+            new core.libs.Time().init();
             return QValue.VOID;
         }
 
@@ -448,7 +461,7 @@ public class Visitor extends QBaseVisitor<QValue> {
                 System.exit(0);
             }
 
-            core.libs.WebServer w = new WebServer(Integer.parseInt(x.asString()), ctx.exprList().expression(0).getText());
+            core.libs.WebServer w = new WebServer(Integer.parseInt(x.asString()), ctx.Identifier(1).getText());
             w.launch();
 
             lang.webs.add(w);
@@ -469,19 +482,6 @@ public class Visitor extends QBaseVisitor<QValue> {
 
             Objects.requireNonNull(Objects.requireNonNull(lang.getClassByName(ctx.Identifier().getText()))).xc.exec();
 
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return QValue.VOID;
-    }
-
-    @Override
-    public QValue visitWaitStatement(QParser.WaitStatementContext ctx) {
-
-        QValue x = this.visit(ctx.expression());
-
-        try {
-            Thread.sleep(Integer.parseInt(x.asString()));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -519,7 +519,7 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitListCreateStatement(QParser.ListCreateStatementContext ctx) {
 
-        core.libs.collections.List<Object> list = new core.libs.collections.List<>(this.visit(ctx.Identifier()).asString());
+        core.libs.utils.List<Object> list = new core.libs.utils.List<>(this.visit(ctx.Identifier()).asString());
         lang.lists.add(list);
 
         return QValue.VOID;
@@ -529,15 +529,20 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitClassStatement(QParser.ClassStatementContext ctx) {
 
         QClass xc = new QClass();
-
         xc.setName(ctx.Identifier().getText());
-
         lang.classes.add(xc);
 
         this.visit(ctx.block());
-
         return QValue.VOID;
 
+    }
+
+    @Override
+    public QValue visitHeader(QParser.HeaderContext ctx) {
+
+        
+
+        return QValue.VOID;
     }
 
     @Override
@@ -558,7 +563,7 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitUnaryMinusExpression(UnaryMinusExpressionContext ctx) {
         QValue v = this.visit(ctx.expression());
         if (!v.isNumber()) {
-            throw new QException(ctx);
+            throw new Problem(ctx);
         }
         return new QValue(-1 * v.asDouble());
     }
@@ -567,7 +572,7 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitNotExpression(NotExpressionContext ctx) {
         QValue v = this.visit(ctx.expression());
         if (!v.isBoolean()) {
-            throw new QException(ctx);
+            throw new Problem(ctx);
         }
         return new QValue(!v.asBoolean());
     }
@@ -579,7 +584,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         if (lhs.isNumber() && rhs.isNumber()) {
             return new QValue(Math.pow(lhs.asDouble(), rhs.asDouble()));
         }
-        throw new QException(ctx);
+        throw new Problem(ctx);
     }
 
     // expression op=( '*' | '/' | '%' ) expression         #multExpression
@@ -645,7 +650,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         QValue rhs = this.visit(ctx.expression(1));
         if (lhs == null || rhs == null) {
             System.err.println("lhs " + lhs + " rhs " + rhs);
-            throw new QException(ctx);
+            throw new Problem(ctx);
         }
 
         // number * number
@@ -672,7 +677,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             return new QValue(total);
         }
 
-        throw new QException(ctx);
+        throw new Problem(ctx);
     }
 
     private QValue divide(QParser.MultExpressionContext ctx) {
@@ -681,7 +686,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         if (lhs.isNumber() && rhs.isNumber()) {
             return new QValue(lhs.asDouble() / rhs.asDouble());
         }
-        throw new QException(ctx);
+        throw new Problem(ctx);
     }
 
     private QValue modulus(QParser.MultExpressionContext ctx) {
@@ -690,7 +695,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         if (lhs.isNumber() && rhs.isNumber()) {
             return new QValue(lhs.asDouble() % rhs.asDouble());
         }
-        throw new QException(ctx);
+        throw new Problem(ctx);
     }
 
     private QValue add(AddExpressionContext ctx) {
@@ -698,7 +703,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         QValue rhs = this.visit(ctx.expression(1));
 
         if (lhs == null || rhs == null) {
-            throw new QException(ctx);
+            throw new Problem(ctx);
         }
 
         // number + number
@@ -737,7 +742,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             list.remove(rhs);
             return new QValue(list);
         }
-        throw new QException(ctx);
+        throw new Problem(ctx);
     }
 
     private QValue gtEq(CompExpressionContext ctx) {
@@ -749,7 +754,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         if (lhs.isString() && rhs.isString()) {
             return new QValue(lhs.asString().compareTo(rhs.asString()) >= 0);
         }
-        throw new QException(ctx);
+        throw new Problem(ctx);
     }
 
     private QValue ltEq(CompExpressionContext ctx) {
@@ -761,7 +766,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         if (lhs.isString() && rhs.isString()) {
             return new QValue(lhs.asString().compareTo(rhs.asString()) <= 0);
         }
-        throw new QException(ctx);
+        throw new Problem(ctx);
     }
 
     private QValue gt(CompExpressionContext ctx) {
@@ -773,7 +778,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         if (lhs.isString() && rhs.isString()) {
             return new QValue(lhs.asString().compareTo(rhs.asString()) > 0);
         }
-        throw new QException(ctx);
+        throw new Problem(ctx);
     }
 
     private QValue lt(CompExpressionContext ctx) {
@@ -785,14 +790,14 @@ public class Visitor extends QBaseVisitor<QValue> {
         if (lhs.isString() && rhs.isString()) {
             return new QValue(lhs.asString().compareTo(rhs.asString()) < 0);
         }
-        throw new QException(ctx);
+        throw new Problem(ctx);
     }
 
     private QValue eq(EqExpressionContext ctx) {
         QValue lhs = this.visit(ctx.expression(0));
         QValue rhs = this.visit(ctx.expression(1));
         if (lhs == null) {
-            throw new QException(ctx);
+            throw new Problem(ctx);
         }
         return new QValue(lhs.equals(rhs));
     }
@@ -809,7 +814,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         QValue rhs = this.visit(ctx.expression(1));
 
         if (!lhs.isBoolean() || !rhs.isBoolean()) {
-            throw new QException(ctx);
+            throw new Problem(ctx);
         }
         return new QValue(lhs.asBoolean() && rhs.asBoolean());
     }
@@ -820,7 +825,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         QValue rhs = this.visit(ctx.expression(1));
 
         if (!lhs.isBoolean() || !rhs.isBoolean()) {
-            throw new QException(ctx);
+            throw new Problem(ctx);
         }
         return new QValue(lhs.asBoolean() || rhs.asBoolean());
     }
@@ -848,7 +853,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             }
             return new QValue(false);
         }
-        throw new QException(ctx);
+        throw new Problem(ctx);
     }
 
     @Override
@@ -870,7 +875,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         for (ExpressionContext ec : indexes) {
             QValue idx = this.visit(ec);
             if (!idx.isNumber() || (!val.isList() && !val.isString())) {
-                throw new QException("Problem resolving indexes on " + val + " at " + idx, ec);
+                throw new Problem("Problem resolving indexes on " + val + " at " + idx, ec);
             }
             int i = idx.asDouble().intValue();
             if (val.isString()) {
@@ -884,18 +889,18 @@ public class Visitor extends QBaseVisitor<QValue> {
 
     private void setAtIndex(ParserRuleContext ctx, List<ExpressionContext> indexes, QValue val, QValue newVal) {
         if (!val.isList()) {
-            throw new QException(ctx);
+            throw new Problem(ctx);
         }
         for (int i = 0; i < indexes.size() - 1; i++) {
             QValue idx = this.visit(indexes.get(i));
             if (!idx.isNumber()) {
-                throw new QException(ctx);
+                throw new Problem(ctx);
             }
             val = val.asList().get(idx.asDouble().intValue());
         }
         QValue idx = this.visit(indexes.get(indexes.size() - 1));
         if (!idx.isNumber()) {
-            throw new QException(ctx);
+            throw new Problem(ctx);
         }
         val.asList().set(idx.asDouble().intValue(), newVal);
     }
@@ -997,7 +1002,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             }
             return function.call(args, functions);
         }
-        throw new QException(ctx);
+        throw new Problem(ctx);
     }
 
     @Override
@@ -1021,7 +1026,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         QValue value = this.visit(ctx.expression());
 
         if (!value.isBoolean()) {
-            throw new QException(ctx);
+            throw new Problem(ctx);
         }
 
         if (!value.asBoolean()) {
@@ -1043,7 +1048,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             return new QValue(value.asList().size());
         }
 
-        throw new QException(ctx);
+        throw new Problem(ctx);
     }
 
     @Override

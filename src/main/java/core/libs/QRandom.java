@@ -3,28 +3,27 @@ package core.libs;
 import core.etc.Parser;
 import core.libs.utils.QLibrary;
 
-import java.io.IOException;
 import java.util.Random;
 
 public class QRandom extends QLibrary {
+
+    private final String qcode
+            = String.format("""
+                        
+            func ranInt()
+                return %s;
+            endf
+                        
+            func pRandom()
+                std:ln(%s);
+            endf
+                        
+            """, ranInt(), ranInt());
 
     @Override
     public String getName() {
         return "q.Random";
     }
-
-    private final String qcode
-            = String.format("""
-            
-            func ranInt()
-                return %s;
-            endf
-            
-            func pRandom()
-                std:ln(%s);
-            endf
-            
-            """, ranInt(), ranInt());
 
     public String ranInt() {
         Random r = new Random();
@@ -32,13 +31,7 @@ public class QRandom extends QLibrary {
     }
 
     public void init() {
-        Parser parser = new Parser().fromText(this.qcode);
-        try {
-            parser.parse();
-        } catch (IOException e) {
-            System.out.println("[FATAL] " + e.getMessage());
-            System.exit(0);
-        }
+        Parser.execBlock(this.qcode);
     }
 
 }
