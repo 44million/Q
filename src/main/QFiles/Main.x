@@ -77,20 +77,4 @@ class Main
 
     endf
 
-    count = 0;
-    func recursive(n)
-
-        n = n - 1;
-        count = count + 1;
-        std:out(n);
-        std:out(" <-- count number: " + count);
-
-        if (n == -100) do
-            return n;
-        endf
-
-        return recursive(n);
-
-    endf
-
 endc
