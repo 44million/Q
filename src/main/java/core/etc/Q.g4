@@ -52,7 +52,7 @@ functionCall
  | Assert '(' expression ')'    #assertFunctionCall
  | Size '(' expression ')'      #sizeFunctionCall
  | ToInt '(' expression ')'     #toIntFunctionCall
- | objFunctionCall              #objFunctionCallExpression
+ | Identifier '.' Identifier '(' exprList? ')' #objFunctionCallExpression
  ;
 
 objFunctionCall
@@ -140,7 +140,7 @@ importFromGithubStatement
  ;
 
 tryCatchStatement
- : Try block Catch '(' Identifier ')' block End
+ : Try block 'onflaw' block End
  ; 
 
 whileStatement

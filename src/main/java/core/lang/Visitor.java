@@ -24,8 +24,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.FormatStyle;
 import java.util.*;
 
 import static core.interp.QParser.*;
@@ -41,35 +43,69 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitObjFunctionCall(QParser.ObjFunctionCallContext ctx) {
+    public QValue visitObjFunctionCallExpression(QParser.ObjFunctionCallExpressionContext ctx) {
 
-        String parentClass = this.visit(ctx.Identifier(0)).asString();
-        String method = this.visit(ctx.Identifier(1)).asString();
+        String parentClass = ctx.Identifier(0).getText();
+        String method = (ctx.Identifier(1)).getText();
 
         if (parentClass.equals("time")) {
 
             if (!lang.allowedLibs.contains("time")) {
                 System.out.println("[FATAL] Cannot invoke 'time' subfunctions, as the package has not been imported.\nThe library can be found at: 'q.time'");
+                System.exit(0);
             }
 
             if (method.equals("cur")) {
-                System.out.println("it made it");
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-                return new QValue(dtf.format(Instant.now()));
+
+                DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
+                        .withLocale(Locale.US)
+                        .withZone(ZoneId.systemDefault());
+
+                return new QValue(dtf.format(LocalDateTime.now()));
             } else if (method.equals("date")) {
 
                 QValue q = this.visit(ctx.exprList().expression(0));
 
-                DateTimeFormatter dtf;
-                if (q == null) {
-                    dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-                } else {
+                DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
+                        .withLocale(Locale.US)
+                        .withZone(ZoneId.systemDefault());
+                if (q != null) {
                     dtf = DateTimeFormatter.ofPattern(q.asString());
                 }
                 return new QValue(dtf.format(Instant.now()));
             }
 
-        } else if (parentClass.equals("Files")) {
+        } else if (parentClass.equals("files")) {
+
+            if (!lang.allowedLibs.contains("files")) {
+                System.out.println("[FATAL] Cannot invoke 'Files' subfunctions, as the package has not been imported.\nThe library can be found at: 'q.Files'");
+                System.exit(0);
+            }
+
+            if (method.equals("absPath")) {
+
+                String q = ctx
+                        .exprList()
+                        .expression(0)
+                        .getText()
+                        .replace("\"", "");
+
+                if (q == null) {
+                    System.out.println("[ERROR] Method 'files.absPath(:str)' accepts one argument, the file, or directory in question.");
+                    return QValue.NULL;
+                }
+
+                Path dbpath = Paths.get(q);
+
+                if (!dbpath.toFile().exists()) {
+                    System.out.println("[ERROR] Cannot find file '" + dbpath.toAbsolutePath() + "'");
+                }
+
+                return new QValue(dbpath.toAbsolutePath());
+            } else if (method.equals("here")) {
+                String cur = System.getProperty("user.dir");
+                return new QValue(cur);
+            }
 
         }
 
@@ -147,7 +183,10 @@ public class Visitor extends QBaseVisitor<QValue> {
         if (lang.getWinByName(id) == null) {
             return QValue.VOID;
         } else {
-            lang.getWinByName(id).init();
+            assert lang.getWinByName(id) != null;
+            if (lang.getWinByName(id) != null) {
+                lang.getWinByName(id).init();
+            }
         }
         return QValue.VOID;
     }
@@ -161,7 +200,9 @@ public class Visitor extends QBaseVisitor<QValue> {
             System.out.println("[FATAL] The specified window: " + ctx.Identifier().getText() + " does not exist!");
             System.exit(0);
         } else {
-            lang.getCompByName(component).init(ctx.Identifier().getText());
+            if (lang.getCompByName(component) != null) {
+                lang.getCompByName(component).init(ctx.Identifier().getText());
+            }
         }
         return QValue.VOID;
     }
@@ -212,17 +253,11 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitTryCatchStatement(QParser.TryCatchStatementContext ctx) {
 
-        QValue err;
-
         try {
             this.visit(ctx.block(0));
         } catch (Exception e) {
             this.visit(ctx.block(1));
-            err = new QValue(e.getMessage());
-            System.out.println(e.getMessage());
-
-            String id = ctx.Identifier().getText();
-            scope.assign(id, err);
+            System.out.println("[ERROR] " + e.getMessage());
         }
         return QValue.VOID;
     }
@@ -258,7 +293,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             } catch (Exception e) {
 
                 String err = "Could not cast to integer " + e.getMessage().replace("F", "f");
-                System.out.println(err);
+                System.out.println("[ERROR] " + err);
                 i = 0;
             }
 
@@ -332,8 +367,8 @@ public class Visitor extends QBaseVisitor<QValue> {
         } else if (text.toString().equals(".q.http") && !lang.allowedLibs.contains("http")) {
             lang.allowedLibs.add("http");
             return QValue.VOID;
-        } else if (text.toString().equals(".q.Files") && !lang.allowedLibs.contains("Files")) {
-            lang.allowedLibs.add("Files");
+        } else if (text.toString().equals(".q.Files") && !lang.allowedLibs.contains("files")) {
+            lang.allowedLibs.add("files");
             return QValue.VOID;
         } else if (text.toString().equals(".q.Math") && !lang.allowedLibs.contains("Math")) {
             lang.allowedLibs.add("Math");
@@ -391,7 +426,7 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitObjCreateStatement(QParser.ObjCreateStatementContext ctx) {
 
         if (ctx.Identifier(0).getText().equals("File")) {
-            if (!lang.allowedLibs.contains("Files")) {
+            if (!lang.allowedLibs.contains("files")) {
                 System.out.println("[FATAL] The File library has not been imported. Please import it first.\nThe library can be found at: 'q.Files'");
                 System.exit(0);
             }
@@ -571,7 +606,6 @@ public class Visitor extends QBaseVisitor<QValue> {
         throw new Problem(ctx);
     }
 
-    // expression op=( '*' | '/' | '%' ) expression         #multExpression
     @Override
     public QValue visitMultExpression(MultExpressionContext ctx) {
         switch (ctx.op.getType()) {
@@ -586,20 +620,15 @@ public class Visitor extends QBaseVisitor<QValue> {
         }
     }
 
-    // expression op=( '+' | '-' ) expression               #addExpression
     @Override
     public QValue visitAddExpression(AddExpressionContext ctx) {
-        switch (ctx.op.getType()) {
-            case QLexer.Add:
-                return add(ctx);
-            case QLexer.Subtract:
-                return subtract(ctx);
-            default:
-                throw new RuntimeException("unknown operator type: " + ctx.op.getType());
-        }
+        return switch (ctx.op.getType()) {
+            case QLexer.Add -> add(ctx);
+            case QLexer.Subtract -> subtract(ctx);
+            default -> throw new RuntimeException("unknown operator type: " + ctx.op.getType());
+        };
     }
 
-    // expression op=( '>=' | '<=' | '>' | '<' ) expression #compExpression
     @Override
     public QValue visitCompExpression(CompExpressionContext ctx) {
         switch (ctx.op.getType()) {
@@ -616,7 +645,6 @@ public class Visitor extends QBaseVisitor<QValue> {
         }
     }
 
-    // expression op=( '==' | '!=' ) expression             #eqExpression
     @Override
     public QValue visitEqExpression(EqExpressionContext ctx) {
         switch (ctx.op.getType()) {
@@ -637,12 +665,10 @@ public class Visitor extends QBaseVisitor<QValue> {
             throw new Problem(ctx);
         }
 
-        // number * number
         if (lhs.isNumber() && rhs.isNumber()) {
             return new QValue(lhs.asDouble() * rhs.asDouble());
         }
 
-        // string * number
         if (lhs.isString() && rhs.isNumber()) {
             StringBuilder str = new StringBuilder();
             int stop = rhs.asDouble().intValue();
@@ -990,7 +1016,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
     @Override
     public QValue visitIdentifierFunctionCall(IdentifierFunctionCallContext ctx) {
-        List<ExpressionContext> params = ctx.exprList() != null ? ctx.exprList().expression() : new ArrayList<ExpressionContext>();
+        List<ExpressionContext> params = ctx.exprList() != null ? ctx.exprList().expression() : new ArrayList<>();
         String id = ctx.Identifier().getText() + params.size();
         Function function;
         if ((function = functions.get(id)) != null) {

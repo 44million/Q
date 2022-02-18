@@ -21,14 +21,17 @@ class Main
         Window win = new Window("Window", "400", "400");
         win.render();
 
+
+        std:ln(toInt("9"));
         std:ln(time.cur());
+        std:ln(files.here());
 
         std:ln("Enter a string now:");
         port = std:in();
 
             try
                 std:ln("this is an outputstream test.");
-            catch (e)
+            onflaw
                 println(e);
                 sys.quit(0);
             endf
