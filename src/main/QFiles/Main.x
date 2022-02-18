@@ -7,6 +7,7 @@
 #import q.Random;
 #import q.Console;
 #import q.Time;
+#import q.puddle;
 
 // file system imports
 #import src.main.QFiles.primary;
@@ -30,6 +31,8 @@ class Main
 
         std:ln("Enter a string now:");
         port = std:in();
+
+        puddle.start("127.0.0.1", 8000);
 
         std:ln(fib(9));
 

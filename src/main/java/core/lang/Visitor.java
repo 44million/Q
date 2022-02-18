@@ -13,6 +13,7 @@ import core.libs.MediaPlayer;
 import core.libs.OS;
 import core.libs.puddle.Puddle;
 import core.libs.WebServer;
+import core.libs.puddle.ServerConnector;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -154,9 +155,17 @@ public class Visitor extends QBaseVisitor<QValue> {
 
             if (method.equals("start")) {
                 int i = Integer.parseInt(ctx.exprList().expression(1).getText());
-                String ip = ctx.exprList().expression(0).getText();
+                String ip = ctx.exprList()
+                        .expression(0)
+                        .getText()
+                        .replace("\"", "");
 
-                new Puddle(ip, i).init();
+                try {
+                    ServerConnector.run(ip, i);
+                } catch (IOException | InterruptedException e) {
+                    System.out.println("[FATAL] " + e.getMessage());
+                    System.exit(0);
+                }
             }
 
         }

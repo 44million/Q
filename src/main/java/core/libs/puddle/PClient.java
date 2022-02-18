@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class GreetClient {
+public class PClient {
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
