@@ -11,6 +11,7 @@ public class OS extends QLibrary {
 
     public OS(String id, String cmd) {
         this.id = id;
+        this.cmd = cmd;
     }
 
     public static void execS(String cmd) throws IOException {

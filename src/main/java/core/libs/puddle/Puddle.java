@@ -36,7 +36,6 @@ public class Puddle extends QLibrary {
             }
 
             System.out.println("[FATAL] " + e.getMessage());
-            e.printStackTrace();
             System.exit(0);
         }
 

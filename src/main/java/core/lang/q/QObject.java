@@ -1,4 +1,4 @@
-package core.lang;
+package core.lang.q;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
 

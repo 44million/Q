@@ -7,6 +7,8 @@ import core.etc.Scope;
 import core.interp.QBaseVisitor;
 import core.interp.QLexer;
 import core.interp.QParser;
+import core.lang.q.QClass;
+import core.lang.q.QValue;
 import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
 import core.libs.MediaPlayer;
@@ -193,6 +195,12 @@ public class Visitor extends QBaseVisitor<QValue> {
                     System.out.println(e.getMessage());
                 }
 
+            }
+
+        } else if (lang.getWebByName(parentClass) != null) {
+
+            if (method.equals("stop")) {
+                lang.getWebByName(parentClass).stop();
             }
 
         }
@@ -623,21 +631,6 @@ public class Visitor extends QBaseVisitor<QValue> {
             lang.players.add(player);
         }
 
-        return QValue.VOID;
-    }
-
-    @Override
-    public QValue visitDefaultCall(QParser.DefaultCallContext ctx) {
-        try {
-            if (lang.getClassByName(ctx.Identifier().getText()) == null) {
-                return QValue.VOID;
-            }
-
-            Objects.requireNonNull(Objects.requireNonNull(lang.getClassByName(ctx.Identifier().getText()))).xc.exec();
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
         return QValue.VOID;
     }
 

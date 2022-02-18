@@ -2,6 +2,7 @@ package core.lang;
 
 import core.etc.Parser;
 import core.etc.Scope;
+import core.lang.q.QClass;
 import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
 import core.libs.MediaPlayer;
@@ -81,6 +82,16 @@ public class lang {
             System.out.println("[FATAL] " + e.getMessage());
         }
         return Response;
+    }
+
+    public static WebServer getWebByName(String name) {
+
+        for (WebServer w : lang.webs) {
+            if (w.id.equals(name)) {
+                return w;
+            }
+        }
+        return null;
     }
 
     private static String getStringFromStream(InputStream Stream) throws IOException {

@@ -1,4 +1,4 @@
-package core.lang;
+package core.lang.q;
 
 import core.etc.Parser;
 import core.interp.QParser;

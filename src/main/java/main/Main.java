@@ -14,32 +14,24 @@ public class Main {
 
         try {
 
-            String path = "src/main/QFiles/Main.x";
-
-            File output = new File(path.replaceAll("\\.x", ".comp"));
-
-            if (!output.exists()) {
+            if (!new File("src/main/QFiles/Main.x".replaceAll("\\.x", ".comp")).exists()) {
                 try {
-                    output.createNewFile();
+                    new File("src/main/QFiles/Main.x".replaceAll("\\.x", ".comp")).createNewFile();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
             }
 
-            Parser parser = new Parser(CharStreams.fromFileName(path));
+            Parser parser = new Parser(CharStreams.fromFileName("src/main/QFiles/Main.x"));
             lst.addAll(parser.parse(false));
 
-            lang.write(path, output);
+            lang.write("src/main/QFiles/Main.x", new File("src/main/QFiles/Main.x".replaceAll("\\.x", ".comp")));
 
         } catch (Exception e) {
 
             String err = "[FATAL] " + e.getMessage();
             if (e.getMessage().startsWith("src\\main\\xxl\\") || e.getMessage().startsWith("C:") || e.getMessage().endsWith(".x")) {
                 err += " (File not found)";
-            }
-
-            if (e.getMessage().endsWith("closed")) {
-                err = "";
             }
 
             System.out.println(err);

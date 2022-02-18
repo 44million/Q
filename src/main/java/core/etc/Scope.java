@@ -1,6 +1,6 @@
 package core.etc;
 
-import core.lang.QValue;
+import core.lang.q.QValue;
 
 import java.util.HashMap;
 import java.util.Map;

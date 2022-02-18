@@ -10,18 +10,12 @@ public class MediaPlayer extends QLibrary {
 
     private final File file;
     public String id;
-    private Long currentFrame;
     private Clip clip;
     private String status;
     private AudioInputStream audioInputStream;
 
     public MediaPlayer(String path, String id) {
         this.file = new File(path);
-    }
-
-    public MediaPlayer(File file, String id) {
-        this.file = file;
-        this.id = id;
     }
 
     @Override
@@ -45,7 +39,7 @@ public class MediaPlayer extends QLibrary {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
 
         clip.start();
-        status = "play";
+        status = "playing";
     }
 
 
