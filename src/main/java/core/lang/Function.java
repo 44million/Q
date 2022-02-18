@@ -1,6 +1,6 @@
 package core.lang;
 
-import core.etc.ReturnValue;
+import core.etc.RVal;
 import core.etc.Scope;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -35,7 +35,7 @@ public class Function {
         QValue ret = QValue.VOID;
         try {
             next.visit(this.block);
-        } catch (ReturnValue returnValue) {
+        } catch (RVal returnValue) {
             ret = returnValue.value;
         }
         return ret;

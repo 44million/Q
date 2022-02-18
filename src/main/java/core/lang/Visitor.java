@@ -2,7 +2,7 @@ package core.lang;
 
 import core.etc.Parser;
 import core.etc.Problem;
-import core.etc.ReturnValue;
+import core.etc.RVal;
 import core.etc.Scope;
 import core.interp.QBaseVisitor;
 import core.interp.QLexer;
@@ -23,12 +23,15 @@ import java.lang.String;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.*;
 
 import static core.interp.QParser.*;
 
 public class Visitor extends QBaseVisitor<QValue> {
-    private static final ReturnValue returnValue = new ReturnValue();
+    private static final RVal returnValue = new RVal();
     public final Map<String, Function> functions;
     public Scope scope;
 
@@ -40,39 +43,34 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitObjFunctionCall(QParser.ObjFunctionCallContext ctx) {
 
-        try {
-            MediaPlayer s = lang.getPlayerByName(ctx.Identifier(0).getText());
+        String parentClass = this.visit(ctx.Identifier(0)).asString();
+        String method = this.visit(ctx.Identifier(1)).asString();
 
-            if (ctx.Identifier(1).getText().equals("play")) {
-                assert s != null;
-                s.init();
+        if (parentClass.equals("time")) {
+
+            if (!lang.allowedLibs.contains("time")) {
+                System.out.println("[FATAL] Cannot invoke 'time' subfunctions, as the package has not been imported.\nThe library can be found at: 'q.time'");
             }
 
-        } catch (Exception e) {
-            System.out.println("[FATAL] " + e.getMessage());
-            System.exit(0);
-        }
+            if (method.equals("cur")) {
+                System.out.println("it made it");
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+                return new QValue(dtf.format(Instant.now()));
+            } else if (method.equals("date")) {
 
-        String className = ctx.Identifier(0).getText();
-        System.out.println(className);
+                QValue q = this.visit(ctx.exprList().expression(0));
 
-        if (lang.getClassByName(className) == null) {
-            System.out.println("[FATAL] The class you are tying to extend into: '" + ctx.Identifier(1).getText() + "' cannot be found. Make sure it has been parsed.");
-            System.exit(0);
-        }
-        try {
-
-            List<QValue> fr;
-
-            if (this.visit(ctx.idList()) == null || this.visit(ctx.idList()).asList() == null) {
-                fr = new ArrayList<>();
-            } else {
-                fr = this.visit(ctx.idList()).asList();
+                DateTimeFormatter dtf;
+                if (q == null) {
+                    dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+                } else {
+                    dtf = DateTimeFormatter.ofPattern(q.asString());
+                }
+                return new QValue(dtf.format(Instant.now()));
             }
 
-            lang.getFuncByName(ctx.Identifier(1).getText()).call(fr, functions);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } else if (parentClass.equals("Files")) {
+
         }
 
         return QValue.VOID;
@@ -899,6 +897,20 @@ public class Visitor extends QBaseVisitor<QValue> {
             val = resolveIndexes(val, exps);
         }
         return val;
+    }
+
+    @Override
+    public QValue visitStopwatchStatement(QParser.StopwatchStatementContext ctx) {
+        long start = System.currentTimeMillis();
+
+        if (!lang.allowedLibs.contains("time")) {
+            System.out.println("[FATAL] Cannot invoke method 'stopwatch' because the Time library has not been imported.\nThe Time library can be found at: 'q.Time'");
+            System.exit(0);
+        }
+
+        QValue v = this.visit(ctx.functionCall());
+
+        return QValue.VOID;
     }
 
     @Override

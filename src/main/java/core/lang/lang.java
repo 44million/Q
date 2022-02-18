@@ -44,10 +44,12 @@ public class lang {
         }
         HttpURLConnection Http = null;
         try {
+            assert Url != null;
             Http = (HttpURLConnection) Url.openConnection();
         } catch (IOException e1) {
             System.out.println("[FATAL] " + e1.getMessage());
         }
+        assert Http != null;
         Map<String, List<String>> Header = Http.getHeaderFields();
 
         for (String header : Header.get(null)) {
@@ -74,38 +76,28 @@ public class lang {
         }
         String Response = null;
         try {
-            Response = GetStringFromStream(Stream);
+            Response = getStringFromStream(Stream);
         } catch (IOException e) {
             System.out.println("[FATAL] " + e.getMessage());
         }
         return Response;
     }
 
-    private static String GetStringFromStream(InputStream Stream) throws IOException {
+    private static String getStringFromStream(InputStream Stream) throws IOException {
         if (Stream != null) {
             Writer Writer = new StringWriter();
 
             char[] Buffer = new char[2048];
-            try {
+            try (Stream) {
                 Reader Reader = new BufferedReader(new InputStreamReader(Stream, StandardCharsets.UTF_8));
                 int counter;
                 while ((counter = Reader.read(Buffer)) != -1) {
                     Writer.write(Buffer, 0, counter);
                 }
-            } finally {
-                Stream.close();
             }
             return Writer.toString();
         } else {
             return "No Contents";
-        }
-    }
-
-    public static void parse(String s) {
-        try {
-            parser.parse(false);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
     }
 
@@ -182,16 +174,6 @@ public class lang {
         return null;
     }
 
-    public static WebServer getWebByName(int name) {
-
-        for (WebServer xc : webs) {
-            if (xc.port == (name)) {
-                return xc;
-            }
-        }
-        return null;
-    }
-
     public static core.libs.utils.List getListByName(String name) {
 
         for (core.libs.utils.List xc : lists) {
@@ -230,40 +212,6 @@ public class lang {
             }
         }
         return null;
-    }
-
-    public static String getRandom(String[] array) {
-        int rnd = new Random().nextInt(array.length);
-        return array[rnd];
-    }
-
-    public static void genComp(long n, File f, FileWriter w) {
-
-        String[] nn = new String[]{
-                "0", "1"
-        };
-
-        long cntr = 0;
-        long con = 1;
-
-        while (cntr < n) {
-            try {
-                String s = "@" + getRandom(nn) + "\t$";
-
-                if (con == 3) {
-                    s += "\t$";
-                } else if (con == 6) {
-                    s += "\n@";
-                    con = 0;
-                }
-
-                w.write(s);
-                cntr++;
-                con++;
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-        }
     }
 
     public static class FileUtil {

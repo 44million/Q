@@ -25,7 +25,7 @@ statement
  | windowRenderStatement ';'
  | fileWriteStatement ';'
  | verifyFileStatement ';'
- | objFunctionCall ';'
+ | objFunctionCall (';')?
  | objFunctionDecl
  | objCreateStatement ';'
  | listCreateStatement ';'
@@ -34,6 +34,7 @@ statement
  | osExecStatement ';'
  | importFromGithubStatement ';'
  | importStatement ';'
+ | stopwatchStatement ';'
  ;
 
 assignment
@@ -51,10 +52,11 @@ functionCall
  | Assert '(' expression ')'    #assertFunctionCall
  | Size '(' expression ')'      #sizeFunctionCall
  | ToInt '(' expression ')'     #toIntFunctionCall
+ | objFunctionCall              #objFunctionCallExpression
  ;
 
 objFunctionCall
- : Identifier '.' Identifier '(' idList? ')'
+ : Identifier '.' Identifier '(' exprList? ')'
  ;
 
 header
@@ -119,6 +121,10 @@ elseStat
 
 functionDecl
  : Def Identifier '(' idList? ')' block End
+ ;
+
+stopwatchStatement
+ : 'stopwatch' '<' functionCall '>'
  ;
 
 forStatement

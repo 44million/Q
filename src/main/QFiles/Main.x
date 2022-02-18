@@ -21,7 +21,9 @@ class Main
         Window win = new Window("Window", "400", "400");
         win.render();
 
-        std:ln("Enter a port now:");
+        std:ln(time.cur());
+
+        std:ln("Enter a string now:");
         port = std:in();
 
             try
