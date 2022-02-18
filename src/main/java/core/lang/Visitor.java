@@ -11,6 +11,7 @@ import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
 import core.libs.MediaPlayer;
 import core.libs.OS;
+import core.libs.puddle.Puddle;
 import core.libs.WebServer;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -23,11 +24,7 @@ import java.lang.String;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.*;
 
 import static core.interp.QParser.*;
@@ -148,6 +145,20 @@ public class Visitor extends QBaseVisitor<QValue> {
             if (method.equals("flush")) {
                 System.console().flush();
             }
+        } else if (parentClass.equals("puddle")) {
+
+            if (!lang.allowedLibs.contains("puddle")) {
+                System.out.println("[FATAL] Cannot invoke 'puddle' subfunctions, as the package has not been imported.\nThe library can be found at: 'q.puddle'");
+                System.exit(0);
+            }
+
+            if (method.equals("start")) {
+                int i = Integer.parseInt(ctx.exprList().expression(1).getText());
+                String ip = ctx.exprList().expression(0).getText();
+
+                new Puddle(ip, i).init();
+            }
+
         }
 
         return QValue.VOID;
@@ -466,6 +477,14 @@ public class Visitor extends QBaseVisitor<QValue> {
             }
 
             lang.allowedLibs.add("console");
+            return QValue.VOID;
+        } else if (text.toString().equals(".q.puddle")) {
+
+            if (lang.allowedLibs.contains("puddle")) {
+                return QValue.VOID;
+            }
+
+            lang.allowedLibs.add("puddle");
             return QValue.VOID;
         }
 
