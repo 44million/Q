@@ -33,7 +33,7 @@ public class ServerConnector {
         serverThread.start();
 
         // client code.
-        Socket clientSocket = new Socket("127.0.0.1", 8082);
+        Socket clientSocket = new Socket(ip, port);
         try (
                 Writer clientWriter = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                 BufferedReader clientReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
