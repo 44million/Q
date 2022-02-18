@@ -5,6 +5,7 @@
 #import q.Audio;
 #import q.http;
 #import q.Random;
+#import q.Console;
 #import q.Time;
 
 // file system imports
@@ -17,17 +18,20 @@ class Main
 
     func main()
 
-        Component c = new Component("text", "Hello World!");
         Window win = new Window("Window", "400", "400");
         win.render();
 
-
-        std:ln(toInt("9"));
+        // time package testing
         std:ln(time.cur());
+        std:ln(time.date());
+
+        // files package testing
         std:ln(files.here());
 
         std:ln("Enter a string now:");
         port = std:in();
+
+        std:ln(fib(9));
 
             try
                 std:ln("this is an outputstream test.");

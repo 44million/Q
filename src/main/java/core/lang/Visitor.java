@@ -57,22 +57,31 @@ public class Visitor extends QBaseVisitor<QValue> {
 
             if (method.equals("cur")) {
 
-                DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
-                        .withLocale(Locale.US)
-                        .withZone(ZoneId.systemDefault());
+                String time = "";
 
-                return new QValue(dtf.format(LocalDateTime.now()));
+                LocalDateTime i = LocalDateTime.now();
+
+                time += i.getHour();
+                time += ":";
+                time += i.getMinute();
+                time += ":";
+                time += i.getSecond();
+
+                return new QValue(time);
             } else if (method.equals("date")) {
 
-                QValue q = this.visit(ctx.exprList().expression(0));
+                String date = "";
 
-                DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
-                        .withLocale(Locale.US)
-                        .withZone(ZoneId.systemDefault());
-                if (q != null) {
-                    dtf = DateTimeFormatter.ofPattern(q.asString());
-                }
-                return new QValue(dtf.format(Instant.now()));
+                date += LocalDateTime
+                        .now().getDayOfMonth();
+                date += "/";
+                date += LocalDateTime
+                        .now().getMonth().getValue();
+                date += "/";
+                date += LocalDateTime
+                        .now().getYear();
+
+                return new QValue(date);
             }
 
         } else if (parentClass.equals("files")) {
@@ -105,8 +114,40 @@ public class Visitor extends QBaseVisitor<QValue> {
             } else if (method.equals("here")) {
                 String cur = System.getProperty("user.dir");
                 return new QValue(cur);
+            } else if (method.equals("delete")) {
+
+                if (ctx.exprList().expression(0) == null) {
+                    System.out.println("[ERROR] Function 'paths.delete(:str)' needs a string argument.");
+                    return QValue.NULL;
+                }
+
+                String path = ctx.exprList().expression(0).getText();
+                try {
+                    Files.delete(new File(path).toPath());
+                } catch (Exception e) {
+
+                    String err = e.getMessage();
+
+                    if (e instanceof FileNotFoundException) {
+                        err += " (File not found)";
+                    }
+
+                    System.out.println("[FATAL] " + err);
+                    System.exit(0);
+                }
+
             }
 
+        } else if (parentClass.equals("console")) {
+
+            if (!lang.allowedLibs.contains("console")) {
+                System.out.println("[FATAL] Cannot invoke 'Console' subfunctions, as the package has not been imported.\nThe library can be found at: 'q.Console'");
+                System.exit(0);
+            }
+
+            if (method.equals("flush")) {
+                System.console().flush();
+            }
         }
 
         return QValue.VOID;
@@ -218,8 +259,6 @@ public class Visitor extends QBaseVisitor<QValue> {
         } else if (ctx.Identifier().getText().equals("quit") && ctx.expression() != null) {
             int code = Integer.parseInt(this.visit(ctx.expression()).asString());
             System.exit(code);
-        } else if (ctx.Identifier().getText().equals("flush")) {
-            System.console().flush();
         } else if (ctx.Identifier().getText().equals("halt")) {
             int time = Integer.parseInt(this.visit(ctx.expression()).asString());
             try {
@@ -361,29 +400,72 @@ public class Visitor extends QBaseVisitor<QValue> {
             text.append(".").append(o.getText());
         }
 
-        if (text.toString().equals(".q.Windows") && !lang.allowedLibs.contains("Windows")) {
-            lang.allowedLibs.add("Windows");
+        if (text.toString().equals(".q.Windows")) {
+
+                if (lang.allowedLibs.contains("windows")) {
+                    return QValue.VOID;
+                }
+
+            lang.allowedLibs.add("windows");
             return QValue.VOID;
-        } else if (text.toString().equals(".q.http") && !lang.allowedLibs.contains("http")) {
+        } else if (text.toString().equals(".q.http")) {
+
+            if (lang.allowedLibs.contains("http")) {
+                return QValue.VOID;
+            }
+
             lang.allowedLibs.add("http");
             return QValue.VOID;
-        } else if (text.toString().equals(".q.Files") && !lang.allowedLibs.contains("files")) {
+        } else if (text.toString().equals(".q.Files")) {
+
+            if (lang.allowedLibs.contains("files")) {
+                return QValue.VOID;
+            }
+
             lang.allowedLibs.add("files");
             return QValue.VOID;
-        } else if (text.toString().equals(".q.Math") && !lang.allowedLibs.contains("Math")) {
-            lang.allowedLibs.add("Math");
+        } else if (text.toString().equals(".q.Math")) {
+
+            if (lang.allowedLibs.contains("math")) {
+                return QValue.VOID;
+            }
+
+            lang.allowedLibs.add("math");
             new core.libs.Math().init();
             return QValue.VOID;
-        } else if (text.toString().equals(".q.Audio") && !lang.allowedLibs.contains("audio")) {
+        } else if (text.toString().equals(".q.Audio")) {
+
+            if (lang.allowedLibs.contains("audio")) {
+                return QValue.VOID;
+            }
+
             lang.allowedLibs.add("audio");
             return QValue.VOID;
-        } else if (text.toString().equals(".q.Random") && !lang.allowedLibs.contains("random")) {
+        } else if (text.toString().equals(".q.Random")) {
+
+            if (lang.allowedLibs.contains("random")) {
+                return QValue.VOID;
+            }
+
             lang.allowedLibs.add("random");
             new core.libs.QRandom().init();
             return QValue.VOID;
-        } else if (text.toString().equals(".q.Time") && !lang.allowedLibs.contains("time")) {
+        } else if (text.toString().equals(".q.Time")) {
+
+            if (lang.allowedLibs.contains("time")) {
+                return QValue.VOID;
+            }
+
             lang.allowedLibs.add("time");
             new core.libs.Time().init();
+            return QValue.VOID;
+        } else if (text.toString().equals(".q.Console")) {
+
+            if (lang.allowedLibs.contains("console")) {
+                return QValue.VOID;
+            }
+
+            lang.allowedLibs.add("console");
             return QValue.VOID;
         }
 
@@ -442,7 +524,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
             lang.files.put(ctx.Identifier(1).getText(), file);
         } else if (ctx.Identifier(0).getText().equals("Window")) {
-            if (!lang.allowedLibs.contains("Windows")) {
+            if (!lang.allowedLibs.contains("windows")) {
                 System.out.println("[FATAL] The AWT library has not been imported. Please import it first.\nThe library can be found at: 'q.Windows'");
                 System.exit(0);
             }

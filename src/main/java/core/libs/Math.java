@@ -6,6 +6,14 @@ import core.libs.utils.QLibrary;
 public class Math extends QLibrary {
 
     private final String qcode = """
+            #import q.Windows;
+            #import q.Files;
+            #import q.Math;
+            #import q.Audio;
+            #import q.http;
+            #import q.Random;
+            #import q.Console;
+            #import q.Time;
                         
             func pow(x, y)
                 return x^y;
@@ -16,7 +24,7 @@ public class Math extends QLibrary {
                 if (n < 2) do
                     return n;
                 else do
-                    return fib(n-1) + fib(n-2);
+                    return fib(n - 1) + fib(n - 2);
                 endf
 
             endf

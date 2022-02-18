@@ -10,6 +10,14 @@ public class Time extends QLibrary {
 
     private final String qcode = String.format(
             """
+                    #import q.Windows;
+                    #import q.Files;
+                    #import q.Math;
+                    #import q.Audio;
+                    #import q.http;
+                    #import q.Random;
+                    #import q.Console;
+                    #import q.Time;
                                 
                     func EAL()
                         return "%s";
