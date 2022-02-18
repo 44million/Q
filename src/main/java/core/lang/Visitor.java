@@ -11,7 +11,6 @@ import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
 import core.libs.MediaPlayer;
 import core.libs.OS;
-import core.libs.puddle.Puddle;
 import core.libs.WebServer;
 import core.libs.puddle.ServerConnector;
 import org.antlr.v4.runtime.CharStreams;
@@ -22,6 +21,8 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.io.*;
 import java.lang.String;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -166,6 +167,32 @@ public class Visitor extends QBaseVisitor<QValue> {
                     System.out.println("[FATAL] " + e.getMessage());
                     System.exit(0);
                 }
+            }
+
+        } else if (parentClass.equals("http")) {
+
+            if (!lang.allowedLibs.contains("http")) {
+                System.out.println("[FATAL] Cannot invoke 'http' subfunctions, as the package has not been imported.\nThe library can be found at: 'q.http'");
+                System.exit(0);
+            }
+
+            if (method.equals("get")) {
+
+                String link = ctx.exprList().expression(0)
+                        .getText()
+                        .replace("\"", "");
+
+                try {
+                    URL url = new URL(link);
+
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("GET");
+                    con.setDoOutput(true);
+
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
             }
 
         }
@@ -422,9 +449,9 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         if (text.toString().equals(".q.Windows")) {
 
-                if (lang.allowedLibs.contains("windows")) {
-                    return QValue.VOID;
-                }
+            if (lang.allowedLibs.contains("windows")) {
+                return QValue.VOID;
+            }
 
             lang.allowedLibs.add("windows");
             return QValue.VOID;

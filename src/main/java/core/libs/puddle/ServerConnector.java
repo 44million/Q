@@ -10,13 +10,13 @@ public class ServerConnector {
         // server code.
         ServerSocket serverSocket = new ServerSocket(8082);
         Thread serverThread = new Thread(() -> {
-            while(true) {
+            while (true) {
                 try {
                     Socket connection = serverSocket.accept();
 
                     try (
                             BufferedReader serverReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                            Writer serverWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
+                            Writer serverWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()))
                     ) {
                         serverWriter.write("Puddle ping success for: " + serverReader.readLine() + "\n");
                         serverWriter.flush();
@@ -36,7 +36,7 @@ public class ServerConnector {
         Socket clientSocket = new Socket(ip, port);
         try (
                 Writer clientWriter = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-                BufferedReader clientReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                BufferedReader clientReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
         ) {
             clientWriter.write(ip + "\n");
             clientWriter.flush();
