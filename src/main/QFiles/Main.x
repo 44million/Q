@@ -19,7 +19,11 @@ class Main
 
     func main()
 
-        for i in range(500) do
+        for i in range(10) do
+            std:ln(i);
+        endf
+
+        for i = 0 to 10 do
             std:ln(i);
         endf
 
