@@ -12,7 +12,7 @@ statement
  : assignment ';'
  | functionCall ';'
  | ifStatement
- | forStatement
+ | forStatement | forInStatement
  | whileStatement
  | tryCatchStatement
  | mainFunctionStatement
@@ -131,12 +131,16 @@ forStatement
  : For Identifier '=' expression To expression Do block End
  ;
 
+forInStatement
+ : For Identifier 'in' 'range' '(' expression ')' Do block End
+ ;
+
 importStatement
- : '#' Import Identifier ( '.' Identifier )*
+ : '#' Import Identifier ( '.' Identifier )*?
  ;
 
 importFromGithubStatement
- : '#' 'github' expression
+ : '#' 'import' expression
  ;
 
 tryCatchStatement

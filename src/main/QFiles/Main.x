@@ -13,11 +13,16 @@
 #import src.main.QFiles.primary;
 
 // github file import
-#github "https://github.com/primevibetime/temp/blob/main/Console.l";
+#import "https://github.com/primevibetime/temp/blob/main/Console.l";
 
 class Main
 
     func main()
+
+        for i in range(500) do
+            std:ln(i);
+        endf
+
 
         Window win = new Window("Window", "400", "400");
         win.render();

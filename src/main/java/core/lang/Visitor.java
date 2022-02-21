@@ -564,7 +564,20 @@ public class Visitor extends QBaseVisitor<QValue> {
         lang.visitor.visit(tree);
 
         return null;
+    }
 
+    @Override
+    public QValue visitForInStatement(QParser.ForInStatementContext ctx) {
+
+        int to = this.visit(ctx.expression()).asDouble().intValue();
+        for (int i = 0; i <= to; i++) {
+            scope.varAssign(ctx.Identifier().getText(), new QValue(i));
+            QValue returnValue = this.visit(ctx.block());
+            if (returnValue != QValue.VOID) {
+                return returnValue;
+            }
+        }
+        return QValue.VOID;
     }
 
     @Override
@@ -698,12 +711,12 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitReAssignment(QParser.ReAssignmentContext ctx) {
         QValue newVal = this.visit(ctx.expression());
         if (ctx.indexes() != null) {
-            QValue val = scope.resolve(ctx.Identifier().getText());
+            QValue val = scope.exists(ctx.Identifier().getText());
             List<ExpressionContext> exps = ctx.indexes().expression();
             setAtIndex(ctx, exps, val, newVal);
         } else {
             String id = ctx.Identifier().getText();
-            scope.assign(id, newVal);
+            scope.varAssign(id, newVal);
         }
         return QValue.VOID;
     }
@@ -1082,7 +1095,7 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitIdentifierExpression(IdentifierExpressionContext ctx) {
         String id = ctx.Identifier().getText();
-        QValue val = scope.resolve(id);
+        QValue val = scope.exists(id);
 
         if (ctx.indexes() != null) {
             List<ExpressionContext> exps = ctx.indexes().expression();
@@ -1134,12 +1147,12 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitAssignment(AssignmentContext ctx) {
         QValue newVal = this.visit(ctx.expression());
         if (ctx.indexes() != null) {
-            QValue val = scope.resolve(ctx.Identifier().getText());
+            QValue val = scope.exists(ctx.Identifier().getText());
             List<ExpressionContext> exps = ctx.indexes().expression();
             setAtIndex(ctx, exps, val, newVal);
         } else {
             String id = ctx.Identifier().getText();
-            scope.assign(id, newVal);
+            scope.varAssign(id, newVal);
         }
         return QValue.VOID;
     }
@@ -1250,7 +1263,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         int start = this.visit(ctx.expression(0)).asDouble().intValue();
         int stop = this.visit(ctx.expression(1)).asDouble().intValue();
         for (int i = start; i <= stop; i++) {
-            scope.assign(ctx.Identifier().getText(), new QValue(i));
+            scope.varAssign(ctx.Identifier().getText(), new QValue(i));
             QValue returnValue = this.visit(ctx.block());
             if (returnValue != QValue.VOID) {
                 return returnValue;

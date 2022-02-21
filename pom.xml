@@ -23,6 +23,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.javacord</groupId>
+            <artifactId>javacord</artifactId>
+            <version>3.4.0</version>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
             <groupId>org.kohsuke</groupId>
             <artifactId>github-api</artifactId>
             <version>1.301</version>
