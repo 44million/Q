@@ -54,11 +54,6 @@ public class Parser {
         this.file = file;
     }
 
-    public void setStr(String str) {
-        this.str = str;
-        this.file = new File(str);
-    }
-
     public List<Token> parse(boolean ask) throws IOException {
 
         QLexer lexer = null;

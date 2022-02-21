@@ -3,6 +3,7 @@ package core.lang.q;
 import java.io.File;
 import java.util.List;
 
+@SuppressWarnings("all")
 public class QValue implements Comparable<QValue> {
 
     public static final QValue NULL = new QValue();

@@ -2,6 +2,7 @@ package core.lang.q;
 
 import java.io.File;
 
+@SuppressWarnings("all")
 public class QFile {
 
     private final File file;

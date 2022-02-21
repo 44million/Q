@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class addCommand extends QLibrary {
 
-    private TerminalNode block;
+    private final TerminalNode block;
     public String event;
 
     public addCommand(TerminalNode block, String event) {
@@ -24,5 +24,6 @@ public class addCommand extends QLibrary {
     }
 
     @Override
-    public void init() {}
+    public void init() {
+    }
 }

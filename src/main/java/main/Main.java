@@ -30,7 +30,7 @@ public class Main {
         } catch (Exception e) {
 
             String err = "[FATAL] " + e.getMessage();
-            if (e.getMessage().startsWith("src\\main\\xxl\\") || e.getMessage().startsWith("C:") || e.getMessage().endsWith(".x")) {
+            if (e.getMessage().startsWith("src\\main\\Q\\") || e.getMessage().startsWith("C:") || e.getMessage().endsWith(".x")) {
                 err += " (File not found)";
             }
 
