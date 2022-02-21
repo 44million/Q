@@ -1,38 +1,32 @@
 package core.lang.q;
 
+import core.etc.Scope;
+import core.lang.Function;
+import core.lang.Visitor;
+import core.lang.lang;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class QClass {
 
     public String name;
-    private List<Object> characteristics = new ArrayList<>();
+    public Scope scope;
+    public Visitor v;
 
-    public QClass(List<Object> chars) {
-        this.characteristics = chars;
-    }
-
-    public QClass(String name) {
+    public QClass(String name, Scope scope, Visitor v) {
         this.name = name;
+        this.scope = scope;
+        this.v = v;
     }
 
-    public QClass() {
-    }
+    public Function getFunc(String name) {
 
-    public List<Object> getCharacteristics() {
-        return characteristics;
-    }
+        if (v.functions.containsKey(name)) {
+            return v.functions.get(name);
+        }
 
-    public void setCharacteristics(List<Object> characteristics) {
-        this.characteristics = characteristics;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        return null;
     }
 
 }

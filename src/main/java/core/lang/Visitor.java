@@ -52,6 +52,19 @@ public class Visitor extends QBaseVisitor<QValue> {
         String parentClass = ctx.Identifier(0).getText();
         String method = (ctx.Identifier(1)).getText();
 
+        if (lang.classes.containsKey(parentClass) && lang.classes.get(parentClass).getFunc(method) != null) {
+
+            List<ExpressionContext> params = ctx.exprList() != null ? ctx.exprList().expression() : new ArrayList<>();
+            Function function = lang.classes.get(parentClass).getFunc(method);
+
+            List<QValue> args = new ArrayList<>(params.size());
+            for (ExpressionContext param : params) {
+                args.add(this.visit(param));
+            }
+
+            return function.call(args, functions);
+        }
+
         if (parentClass.equals("time")) {
 
             if (!lang.allowedLibs.contains("time")) {
@@ -214,13 +227,6 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitObjFunctionDecl(QParser.ObjFunctionDeclContext ctx) {
 
-        if (lang.getClassByName(ctx.Identifier(1).getText()) == null) {
-            System.out.println("[FATAL] The class you are tying to extend into: " + ctx.Identifier(0).getText() + " cannot be found. Make sure it has been parsed.");
-            System.exit(0);
-        }
-
-        CFunction c = new CFunction(ctx.Identifier(0).getText() + "", ctx.idList().Identifier(), lang.getClassByName(ctx.Identifier(1).getText()), ctx.block(), scope);
-        lang.funcs.add(c);
 
         return QValue.VOID;
     }
@@ -690,11 +696,16 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitClassStatement(QParser.ClassStatementContext ctx) {
 
-        QClass xc = new QClass();
-        xc.setName(ctx.Identifier().getText());
-        lang.classes.add(xc);
+        Scope scope = new Scope(lang.scope, false);
+        Map<String, Function> funcs = new HashMap<>();
+        Visitor v = new Visitor(scope, funcs);
 
-        this.visit(ctx.block());
+        v.visit(ctx.block());
+
+        QClass qClass = new QClass(ctx.Identifier().getText(), scope, v);
+
+        lang.classes.put(qClass.name, qClass);
+
         return QValue.VOID;
 
     }
