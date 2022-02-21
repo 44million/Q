@@ -52,19 +52,6 @@ public class Visitor extends QBaseVisitor<QValue> {
         String parentClass = ctx.Identifier(0).getText();
         String method = (ctx.Identifier(1)).getText();
 
-        if (lang.classes.containsKey(parentClass) && lang.classes.get(parentClass).getFunc(method) != null) {
-
-            List<ExpressionContext> params = ctx.exprList() != null ? ctx.exprList().expression() : new ArrayList<>();
-            Function function = lang.classes.get(parentClass).getFunc(method);
-
-            List<QValue> args = new ArrayList<>(params.size());
-            for (ExpressionContext param : params) {
-                args.add(this.visit(param));
-            }
-
-            return function.call(args, functions);
-        }
-
         if (parentClass.equals("time")) {
 
             if (!lang.allowedLibs.contains("time")) {
@@ -223,6 +210,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         return QValue.VOID;
     }
+
 
     @Override
     public QValue visitObjFunctionDecl(QParser.ObjFunctionDeclContext ctx) {
@@ -696,15 +684,9 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitClassStatement(QParser.ClassStatementContext ctx) {
 
-        Scope scope = new Scope(lang.scope, false);
-        Map<String, Function> funcs = new HashMap<>();
-        Visitor v = new Visitor(scope, funcs);
+        this.visit(ctx.block());
 
-        v.visit(ctx.block());
-
-        QClass qClass = new QClass(ctx.Identifier().getText(), scope, v);
-
-        lang.classes.put(qClass.name, qClass);
+        lang.classes.put(ctx.Identifier().getText(), new QClass(ctx.Identifier().getText()));
 
         return QValue.VOID;
 
