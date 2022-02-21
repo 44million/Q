@@ -24,7 +24,7 @@ public class lang {
     public static Visitor visitor = new Visitor(scope, functions);
     public static String response = "Hello World!";
     public static List<File> parsed = new ArrayList<>();
-    public static Map<String, QClass> classes = new HashMap<>();
+    public static List<QClass> classes = new ArrayList<>();
     public static List<Token> lst = new ArrayList<>();
     public static List<Window> wins = new ArrayList<>();
     public static List<QComponent> comps = new ArrayList<>();
@@ -164,6 +164,16 @@ public class lang {
             System.out.println("Import not resolved: " + imp);
         }
 
+    }
+
+    public static QClass getClassByName(String name) {
+
+        for (QClass xc : classes) {
+            if (xc.name.equals(name)) {
+                return xc;
+            }
+        }
+        return null;
     }
 
     public static MediaPlayer getPlayerByName(String name) {
