@@ -8,6 +8,7 @@ public abstract class QLibrary {
 
     abstract public void init();
 
-    public void setText(String s) {}
+    public void setText(String s) {
+    }
 
 }

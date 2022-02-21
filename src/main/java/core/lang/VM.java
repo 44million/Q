@@ -1,5 +1,6 @@
 package core.lang;
 
+@SuppressWarnings("all")
 public class VM {
 
     private final int MAX_STACK_SIZE = 100;

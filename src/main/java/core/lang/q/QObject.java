@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.List;
 
+@SuppressWarnings("all")
 public class QObject {
 
     public String name;

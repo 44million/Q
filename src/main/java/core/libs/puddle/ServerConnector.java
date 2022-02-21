@@ -8,15 +8,6 @@ import java.net.Socket;
 
 public class ServerConnector extends QLibrary {
 
-    @Override
-    public String getName() {
-        return "q.puddle";
-    }
-
-    @Override
-    public void init() {
-    }
-
     public static void run(String ip, int port) throws IOException, InterruptedException {
         ServerSocket serverSocket = new ServerSocket(8082);
         Thread thread = new Thread(() -> {
@@ -54,5 +45,14 @@ public class ServerConnector extends QLibrary {
 
             System.out.println(response);
         }
+    }
+
+    @Override
+    public String getName() {
+        return "q.puddle";
+    }
+
+    @Override
+    public void init() {
     }
 }

@@ -16,6 +16,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+@SuppressWarnings("all")
 public class lang {
 
     public static Map<String, Function> functions = Collections.emptyMap();
