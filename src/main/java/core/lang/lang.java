@@ -7,6 +7,7 @@ import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
 import core.libs.MediaPlayer;
 import core.libs.WebServer;
+import mod.core.Module;
 import org.antlr.v4.runtime.Token;
 
 import java.io.*;
@@ -34,8 +35,10 @@ public class lang {
     public static Parser parser = new Parser();
     public static List<String> allowedLibs = new ArrayList<>();
     public static List<MediaPlayer> players = new ArrayList<>();
+    public static List<mod.core.Module> mods = new ArrayList<>();
     public static List<core.libs.utils.List> lists = new ArrayList<>();
     public static boolean main = false;
+    public static Module mod;
 
     public static String getTextFromGithub(String link) {
         URL Url = null;
@@ -216,6 +219,13 @@ public class lang {
         return null;
     }
 
+    public static void check(String type, String t2) {
+        if (!lang.allowedLibs.contains(type)) {
+            System.out.printf("[FATAL] Cannot invoke '%s' subfunctions, as the package has not been imported.\nThe library can be found at: 'q.%s'\n", t2, t2);
+            System.exit(0);
+        }
+    }
+
     public static class FileUtil {
         static BufferedReader reader = null;
 
@@ -233,13 +243,6 @@ public class lang {
                 charCount += data.length();
             }
             return charCount;
-        }
-    }
-
-    public static void check(String type, String t2) {
-        if (!lang.allowedLibs.contains(type)) {
-            System.out.printf("[FATAL] Cannot invoke '%s' subfunctions, as the package has not been imported.\nThe library can be found at: 'q.%s'\n", t2, t2);
-            System.exit(0);
         }
     }
 

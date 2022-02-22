@@ -13,16 +13,6 @@ import java.nio.file.Paths;
 public class Files extends QLibrary {
 
 
-    @Override
-    public String getName() {
-        return "q.Files";
-    }
-
-    @Override
-    public void init() {
-
-    }
-
     public static QValue absPath(QParser.ObjFunctionCallExpressionContext ctx) {
         String q = ctx
                 .exprList()
@@ -79,6 +69,16 @@ public class Files extends QLibrary {
         } catch (IOException e) {
             return new QValue(0);
         }
+
+    }
+
+    @Override
+    public String getName() {
+        return "q.Files";
+    }
+
+    @Override
+    public void init() {
 
     }
 

@@ -31,22 +31,6 @@ public class Time extends QLibrary {
                                 
                     """, Instant.now().toEpochMilli(), Instant.now().toString());
 
-    @Override
-    public String getName() {
-        return "q.time";
-    }
-
-    @Override
-    public void init() {
-        Parser parser = new Parser().fromText(this.qcode);
-        try {
-            parser.parse();
-        } catch (IOException e) {
-            System.out.println("[FATAL] " + e.getMessage());
-            System.exit(0);
-        }
-    }
-
     public static QValue cur() {
         String time = "";
 
@@ -79,6 +63,22 @@ public class Time extends QLibrary {
     public static QValue instant() {
         String s = Instant.now().toString();
         return new QValue(s);
+    }
+
+    @Override
+    public String getName() {
+        return "q.time";
+    }
+
+    @Override
+    public void init() {
+        Parser parser = new Parser().fromText(this.qcode);
+        try {
+            parser.parse();
+        } catch (IOException e) {
+            System.out.println("[FATAL] " + e.getMessage());
+            System.exit(0);
+        }
     }
 
 }

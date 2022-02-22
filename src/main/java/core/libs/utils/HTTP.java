@@ -12,14 +12,6 @@ import java.net.URL;
 
 public class HTTP implements HttpHandler {
 
-    @Override
-    public void handle(HttpExchange he) throws IOException {
-        he.sendResponseHeaders(200, lang.response.length());
-        OutputStream os = he.getResponseBody();
-        os.write(lang.response.getBytes());
-        os.close();
-    }
-
     public static void get(QParser.ObjFunctionCallExpressionContext ctx) {
         String link = ctx.exprList().expression(0)
                 .getText()
@@ -35,6 +27,14 @@ public class HTTP implements HttpHandler {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    @Override
+    public void handle(HttpExchange he) throws IOException {
+        he.sendResponseHeaders(200, lang.response.length());
+        OutputStream os = he.getResponseBody();
+        os.write(lang.response.getBytes());
+        os.close();
     }
 
 }

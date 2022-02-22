@@ -2,6 +2,7 @@ package main;
 
 import core.etc.Parser;
 import core.lang.lang;
+import mod.core.Visitor;
 import org.antlr.v4.runtime.CharStreams;
 
 import java.io.File;
@@ -14,14 +15,15 @@ public class Main {
 
         File input;
 
+        Visitor vis = new Visitor();
+        vis.visit("src/main/QFiles/Main.qmod", true);
+
         if (args.length >= 1) {
             int counter = 0;
             for (String cmd : args) {
 
                 if (cmd.equals("--setpath") || cmd.equals("-p")) {
-
                     input = new File(args[++counter]);
-
                 }
                 counter++;
             }

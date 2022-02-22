@@ -1,0 +1,11 @@
+@module <QFiles>
+
+[all]
+
+#fromq {
+
+    [*]
+
+}
+
+loadf(QFiles)

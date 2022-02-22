@@ -18,6 +18,21 @@ public class Puddle extends QLibrary {
         this.ip = ip;
     }
 
+    public static void start(QParser.ObjFunctionCallExpressionContext ctx) {
+        int i = Integer.parseInt(ctx.exprList().expression(1).getText());
+        String ip = ctx.exprList()
+                .expression(0)
+                .getText()
+                .replace("\"", "");
+
+        try {
+            ServerConnector.run(ip, i);
+        } catch (IOException | InterruptedException e) {
+            System.out.println("[FATAL] " + e.getMessage());
+            System.exit(0);
+        }
+    }
+
     @Override
     public String getName() {
         return "q.puddle";
@@ -41,21 +56,6 @@ public class Puddle extends QLibrary {
             System.exit(0);
         }
 
-    }
-
-    public static void start(QParser.ObjFunctionCallExpressionContext ctx) {
-        int i = Integer.parseInt(ctx.exprList().expression(1).getText());
-        String ip = ctx.exprList()
-                .expression(0)
-                .getText()
-                .replace("\"", "");
-
-        try {
-            ServerConnector.run(ip, i);
-        } catch (IOException | InterruptedException e) {
-            System.out.println("[FATAL] " + e.getMessage());
-            System.exit(0);
-        }
     }
 
 }
