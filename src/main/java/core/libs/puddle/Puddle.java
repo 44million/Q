@@ -1,7 +1,9 @@
 package core.libs.puddle;
 
+import core.interp.QParser;
 import core.libs.utils.QLibrary;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 
 import static junit.framework.Assert.assertEquals;
@@ -40,4 +42,20 @@ public class Puddle extends QLibrary {
         }
 
     }
+
+    public static void start(QParser.ObjFunctionCallExpressionContext ctx) {
+        int i = Integer.parseInt(ctx.exprList().expression(1).getText());
+        String ip = ctx.exprList()
+                .expression(0)
+                .getText()
+                .replace("\"", "");
+
+        try {
+            ServerConnector.run(ip, i);
+        } catch (IOException | InterruptedException e) {
+            System.out.println("[FATAL] " + e.getMessage());
+            System.exit(0);
+        }
+    }
+
 }

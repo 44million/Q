@@ -1,10 +1,12 @@
 package core.libs;
 
 import core.etc.Parser;
+import core.lang.q.QValue;
 import core.libs.utils.QLibrary;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 public class Time extends QLibrary {
 
@@ -43,6 +45,40 @@ public class Time extends QLibrary {
             System.out.println("[FATAL] " + e.getMessage());
             System.exit(0);
         }
+    }
+
+    public static QValue cur() {
+        String time = "";
+
+        LocalDateTime i = LocalDateTime.now();
+
+        time += i.getHour();
+        time += ":";
+        time += i.getMinute();
+        time += ":";
+        time += i.getSecond();
+
+        return new QValue(time);
+    }
+
+    public static QValue date() {
+        String date = "";
+
+        date += LocalDateTime
+                .now().getDayOfMonth();
+        date += "/";
+        date += LocalDateTime
+                .now().getMonth().getValue();
+        date += "/";
+        date += LocalDateTime
+                .now().getYear();
+
+        return new QValue(date);
+    }
+
+    public static QValue instant() {
+        String s = Instant.now().toString();
+        return new QValue(s);
     }
 
 }

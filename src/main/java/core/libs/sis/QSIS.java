@@ -11,7 +11,5 @@ public class QSIS extends QLibrary {
     }
 
     @Override
-    public void init() {
-
-    }
+    public void init() {}
 }

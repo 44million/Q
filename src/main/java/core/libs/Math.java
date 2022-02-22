@@ -5,6 +5,7 @@ import core.libs.utils.QLibrary;
 
 public class Math extends QLibrary {
 
+    @SuppressWarnings("all")
     private final String qcode = """
             #import q.Windows;
             #import q.Files;

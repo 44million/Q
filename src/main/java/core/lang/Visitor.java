@@ -13,14 +13,18 @@ import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
 import core.libs.MediaPlayer;
 import core.libs.OS;
+import core.libs.Time;
 import core.libs.WebServer;
+import core.libs.puddle.Puddle;
 import core.libs.puddle.ServerConnector;
+import core.libs.utils.HTTP;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import javax.swing.*;
 import java.io.*;
 import java.lang.String;
 import java.net.HttpURLConnection;
@@ -54,149 +58,75 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         if (parentClass.equals("time")) {
 
-            if (!lang.allowedLibs.contains("time")) {
-                System.out.println("[FATAL] Cannot invoke 'time' subfunctions, as the package has not been imported.\nThe library can be found at: 'q.time'");
-                System.exit(0);
-            }
+            lang.check("time", "Time");
 
-            if (method.equals("cur")) {
+            switch (method) {
+                case "cur":
 
-                String time = "";
+                    return Time.cur();
 
-                LocalDateTime i = LocalDateTime.now();
+                case "date":
 
-                time += i.getHour();
-                time += ":";
-                time += i.getMinute();
-                time += ":";
-                time += i.getSecond();
+                    return Time.date();
 
-                return new QValue(time);
-            } else if (method.equals("date")) {
+                case "instant":
 
-                String date = "";
+                    return Time.instant();
 
-                date += LocalDateTime
-                        .now().getDayOfMonth();
-                date += "/";
-                date += LocalDateTime
-                        .now().getMonth().getValue();
-                date += "/";
-                date += LocalDateTime
-                        .now().getYear();
-
-                return new QValue(date);
             }
 
         } else if (parentClass.equals("files")) {
 
-            if (!lang.allowedLibs.contains("files")) {
-                System.out.println("[FATAL] Cannot invoke 'Files' subfunctions, as the package has not been imported.\nThe library can be found at: 'q.Files'");
-                System.exit(0);
-            }
+            lang.check("files", "Files");
 
-            if (method.equals("absPath")) {
+            switch (method) {
+                case "absPath":
 
-                String q = ctx
-                        .exprList()
-                        .expression(0)
-                        .getText()
-                        .replace("\"", "");
+                    return core.libs.Files.absPath(ctx);
 
-                if (q == null) {
-                    System.out.println("[ERROR] Method 'files.absPath(:str)' accepts one argument, the file, or directory in question.");
-                    return QValue.NULL;
-                }
+                case "here":
 
-                Path dbpath = Paths.get(q);
+                    return new QValue(System.getProperty("user.dir"));
 
-                if (!dbpath.toFile().exists()) {
-                    System.out.println("[ERROR] Cannot find file '" + dbpath.toAbsolutePath() + "'");
-                }
+                case "delete":
 
-                return new QValue(dbpath.toAbsolutePath());
-            } else if (method.equals("here")) {
-                String cur = System.getProperty("user.dir");
-                return new QValue(cur);
-            } else if (method.equals("delete")) {
+                    core.libs.Files.delete(ctx);
 
-                if (ctx.exprList().expression(0) == null) {
-                    System.out.println("[ERROR] Function 'paths.delete(:str)' needs a string argument.");
-                    return QValue.NULL;
-                }
+                    break;
 
-                String path = ctx.exprList().expression(0).getText();
-                try {
-                    Files.delete(new File(path).toPath());
-                } catch (Exception e) {
+                case "canRead":
 
-                    String err = e.getMessage();
+                    return core.libs.Files.canRead(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
 
-                    if (e instanceof FileNotFoundException) {
-                        err += " (File not found)";
-                    }
+                case "size":
 
-                    System.out.println("[FATAL] " + err);
-                    System.exit(0);
-                }
-
+                    return core.libs.Files.size(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
             }
 
         } else if (parentClass.equals("console")) {
 
-            if (!lang.allowedLibs.contains("console")) {
-                System.out.println("[FATAL] Cannot invoke 'Console' subfunctions, as the package has not been imported.\nThe library can be found at: 'q.Console'");
-                System.exit(0);
-            }
+            lang.check("console", "Console");
 
             if (method.equals("flush")) {
                 System.console().flush();
             }
         } else if (parentClass.equals("puddle")) {
 
-            if (!lang.allowedLibs.contains("puddle")) {
-                System.out.println("[FATAL] Cannot invoke 'puddle' subfunctions, as the package has not been imported.\nThe library can be found at: 'q.puddle'");
-                System.exit(0);
-            }
+            lang.check("puddle", "puddle");
 
             if (method.equals("start")) {
-                int i = Integer.parseInt(ctx.exprList().expression(1).getText());
-                String ip = ctx.exprList()
-                        .expression(0)
-                        .getText()
-                        .replace("\"", "");
 
-                try {
-                    ServerConnector.run(ip, i);
-                } catch (IOException | InterruptedException e) {
-                    System.out.println("[FATAL] " + e.getMessage());
-                    System.exit(0);
-                }
+                Puddle.start(ctx);
+
             }
 
         } else if (parentClass.equals("http")) {
 
-            if (!lang.allowedLibs.contains("http")) {
-                System.out.println("[FATAL] Cannot invoke 'http' subfunctions, as the package has not been imported.\nThe library can be found at: 'q.http'");
-                System.exit(0);
-            }
+            lang.check("http", "http");
 
             if (method.equals("get")) {
 
-                String link = ctx.exprList().expression(0)
-                        .getText()
-                        .replace("\"", "");
-
-                try {
-                    URL url = new URL(link);
-
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    con.setRequestMethod("GET");
-                    con.setDoOutput(true);
-
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
+                HTTP.get(ctx);
 
             }
 
@@ -581,10 +511,8 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitObjCreateStatement(QParser.ObjCreateStatementContext ctx) {
 
         if (ctx.Identifier(0).getText().equals("File")) {
-            if (!lang.allowedLibs.contains("files")) {
-                System.out.println("[FATAL] The File library has not been imported. Please import it first.\nThe library can be found at: 'q.Files'");
-                System.exit(0);
-            }
+
+            lang.check("files", "Files");
 
             QValue v = this.visit(ctx.exprList().expression(0));
 
@@ -597,10 +525,8 @@ public class Visitor extends QBaseVisitor<QValue> {
 
             lang.files.put(ctx.Identifier(1).getText(), file);
         } else if (ctx.Identifier(0).getText().equals("Window")) {
-            if (!lang.allowedLibs.contains("windows")) {
-                System.out.println("[FATAL] The AWT library has not been imported. Please import it first.\nThe library can be found at: 'q.Windows'");
-                System.exit(0);
-            }
+
+            lang.check("windows", "Windows");
 
             List<QValue> list = new ArrayList<>();
             if (ctx.exprList() != null) {
@@ -611,18 +537,28 @@ public class Visitor extends QBaseVisitor<QValue> {
             // Window w = new Window("Name", x, y);
             if (list.get(0).isString() && list.get(1).isString() && list.get(2).isString()) {
 
-                Window window = new Window(list.get(0).asString(), Integer.parseInt(list.get(1).asString()), Integer.parseInt(list.get(2).asString()));
+                int x = list.get(1).asDouble().intValue();
+                int y = list.get(2).asDouble().intValue();
+                String name = list.get(0).asString();
+
+                Window window = new Window(name, x, y);
                 window.setName(ctx.Identifier(1).getText());
                 lang.wins.add(window);
 
             } else {
                 System.out.println("Incorrect layout, Window class accepts the following: Window(name:str, x-axis:str, y-axis:str);");
+                return QValue.VOID;
             }
         } else if (ctx.Identifier(0).getText().equals("Component")) {
 
-            // Component c = new Component("text", "Hello World!");
-            QComponent xcomp = new QComponent(ctx.exprList().expression(0).getText(), ctx.exprList().expression(1).getText(), ctx.Identifier(1).getText());
-            lang.comps.add(xcomp);
+            // Component c = new X("Hello World!");
+
+            String type = ctx.Identifier(2).getText();
+            String name = ctx.Identifier(1).getText();
+
+            if (type.equals("Button")) {
+                JButton button = new JButton(ctx.exprList().expression(0).getText());
+            }
 
         } else if (ctx.Identifier(0).getText().equals("WebServer") && ctx.Identifier(2).getText().equals("WebServer")) {
             QValue x = this.visit(ctx.exprList().expression(0));

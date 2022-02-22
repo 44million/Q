@@ -12,30 +12,49 @@ public class Main {
 
     public static void main(String[] args) {
 
-        try {
+        File input;
 
-            if (!new File("src/main/QFiles/Main.x".replaceAll("\\.x", ".comp")).exists()) {
-                try {
-                    new File("src/main/QFiles/Main.x".replaceAll("\\.x", ".comp")).createNewFile();
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
+        if (args.length >= 1) {
+            int counter = 0;
+            for (String cmd : args) {
+
+                if (cmd.equals("--setpath") || cmd.equals("-p")) {
+
+                    input = new File(args[++counter]);
+
                 }
+                counter++;
             }
 
-            Parser parser = new Parser(CharStreams.fromFileName("src/main/QFiles/Main.x"));
-            lst.addAll(parser.parse(false));
+        } else {
 
-            lang.write("src/main/QFiles/Main.x", new File("src/main/QFiles/Main.x".replaceAll("\\.x", ".comp")));
+            input = new File("src/main/QFiles/Main.x");
 
-        } catch (Exception e) {
+            try {
 
-            String err = "[FATAL] " + e.getMessage();
-            if (e.getMessage().startsWith("src\\main\\Q\\") || e.getMessage().startsWith("C:") || e.getMessage().endsWith(".x")) {
-                err += " (File not found)";
+                if (!new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")).exists()) {
+                    try {
+                        new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")).createNewFile();
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+
+                Parser parser = new Parser(CharStreams.fromFileName(input.getAbsolutePath()));
+                lst.addAll(parser.parse(false));
+
+                lang.write(input.getAbsolutePath(), new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")));
+
+            } catch (Exception e) {
+
+                String err = "[FATAL] " + e.getMessage();
+                if (e.getMessage().startsWith("src\\main\\Q\\") || e.getMessage().startsWith("C:") || e.getMessage().endsWith(".x")) {
+                    err += " (File not found)";
+                }
+
+                System.out.println(err);
+                System.exit(0);
             }
-
-            System.out.println(err);
-            System.exit(0);
         }
     }
 }

@@ -34,7 +34,6 @@ statement
  | osExecStatement ';'
  | importFromGithubStatement ';'
  | importStatement ';'
- | stopwatchStatement ';'
  ;
 
 assignment
@@ -121,10 +120,6 @@ elseStat
 
 functionDecl
  : Def Identifier '(' idList? ')' block End
- ;
-
-stopwatchStatement
- : 'stopwatch' '<' functionCall '>'
  ;
 
 forStatement

@@ -235,4 +235,12 @@ public class lang {
             return charCount;
         }
     }
+
+    public static void check(String type, String t2) {
+        if (!lang.allowedLibs.contains(type)) {
+            System.out.printf("[FATAL] Cannot invoke '%s' subfunctions, as the package has not been imported.\nThe library can be found at: 'q.%s'\n", t2, t2);
+            System.exit(0);
+        }
+    }
+
 }
