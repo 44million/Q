@@ -48,6 +48,10 @@ class Main
 
         std:ln(fib(9));
 
+        if (1 > 2) do
+            sys.quit(0);
+        endf
+
             try
                 std:ln("this is an outputstream test.");
             onflaw
