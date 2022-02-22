@@ -15,8 +15,10 @@ public class Main {
 
         File input;
 
-        Visitor vis = new Visitor();
-        vis.visit("src/main/QFiles/Main.qmod", true);
+        if (false) {
+            Visitor vis = new Visitor();
+            vis.visit("src/main/QFiles/Main.qmod", true);
+        }
 
         if (args.length >= 1) {
             int counter = 0;
