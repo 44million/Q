@@ -2,7 +2,7 @@ package main;
 
 import core.etc.Parser;
 import core.lang.lang;
-import mod.core.Visitor;
+import mod.core.modvals.Visitor;
 import org.antlr.v4.runtime.CharStreams;
 
 import java.io.File;

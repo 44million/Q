@@ -7,7 +7,7 @@ import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
 import core.libs.MediaPlayer;
 import core.libs.WebServer;
-import mod.core.Module;
+import mod.core.modvals.Module;
 import org.antlr.v4.runtime.Token;
 
 import java.io.*;
@@ -35,7 +35,7 @@ public class lang {
     public static Parser parser = new Parser();
     public static List<String> allowedLibs = new ArrayList<>();
     public static List<MediaPlayer> players = new ArrayList<>();
-    public static List<mod.core.Module> mods = new ArrayList<>();
+    public static List<Module> mods = new ArrayList<>();
     public static List<core.libs.utils.List> lists = new ArrayList<>();
     public static boolean main = false;
     public static Module mod;
