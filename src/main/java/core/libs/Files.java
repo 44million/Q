@@ -72,6 +72,12 @@ public class Files extends QLibrary {
 
     }
 
+    public static QValue exists(String path) {
+        File file = new File(path);
+
+        return new QValue(file.exists());
+    }
+
     @Override
     public String getName() {
         return "q.Files";

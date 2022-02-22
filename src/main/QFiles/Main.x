@@ -37,6 +37,9 @@ class Main
 
         // files package testing
         std:ln(files.here());
+        std:ln(files.exists("src/main/QFiles/primary.l"));
+        std:ln(files.canRead("src/main/QFiles/primary.l"));
+        std:ln(files.size("src/main/QFiles/primary.l"));
 
         std:ln("Enter a string now:");
         port = std:in();
@@ -79,7 +82,7 @@ class Main
                 endf
             */
 
-        WebServer web = new WebServer(port);
+        WebServer web = new WebServer("9000");
         web.changeText("Hello World");
 
         std:ln(o(9));

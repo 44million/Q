@@ -49,7 +49,6 @@ functionCall
  | Println '(' expression? ')'  #printlnFunctionCall
  | Print '(' expression ')'     #printFunctionCall
  | Assert '(' expression ')'    #assertFunctionCall
- | Size '(' expression ')'      #sizeFunctionCall
  | ToInt '(' expression ')'     #toIntFunctionCall
  | Identifier '.' Identifier '(' exprList? ')' #objFunctionCallExpression
  ;
@@ -214,7 +213,6 @@ Import   : 'import';
 Print    : 'std:out';
 Input    : 'std:in';
 Assert   : 'assert';
-Size     : 'size';
 Def      : 'func';
 ToInt    : 'toInt';
 Create   : 'create';

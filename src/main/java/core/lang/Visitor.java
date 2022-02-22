@@ -87,8 +87,6 @@ public class Visitor extends QBaseVisitor<QValue> {
 
                     core.libs.Files.delete(ctx);
 
-                    break;
-
                 case "canRead":
 
                     return core.libs.Files.canRead(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
@@ -96,6 +94,11 @@ public class Visitor extends QBaseVisitor<QValue> {
                 case "size":
 
                     return core.libs.Files.size(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
+
+                case "exists":
+
+                    return core.libs.Files.exists(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
+
             }
 
         } else if (parentClass.equals("console")) {
@@ -532,9 +535,9 @@ public class Visitor extends QBaseVisitor<QValue> {
             // Window w = new Window("Name", x, y);
             if (list.get(0).isString() && list.get(1).isString() && list.get(2).isString()) {
 
-                int x = list.get(1).asDouble().intValue();
-                int y = list.get(2).asDouble().intValue();
-                String name = list.get(0).asString();
+                int x = Integer.parseInt(ctx.exprList().expression(1).getText().replaceAll("\"", ""));
+                int y = Integer.parseInt(ctx.exprList().expression(2).getText().replaceAll("\"", ""));
+                String name = ctx.exprList().expression(0).getText().replaceAll("\"", "");
 
                 Window window = new Window(name, x, y);
                 window.setName(ctx.Identifier(1).getText());
@@ -996,20 +999,6 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitStopwatchStatement(QParser.StopwatchStatementContext ctx) {
-        long start = System.currentTimeMillis();
-
-        if (!lang.allowedLibs.contains("time")) {
-            System.out.println("[FATAL] Cannot invoke method 'stopwatch' because the Time library has not been imported.\nThe Time library can be found at: 'q.Time'");
-            System.exit(0);
-        }
-
-        QValue v = this.visit(ctx.functionCall());
-
-        return QValue.VOID;
-    }
-
-    @Override
     public QValue visitListExpression(ListExpressionContext ctx) {
         QValue val = this.visit(ctx.list());
         if (ctx.indexes() != null) {
@@ -1128,21 +1117,6 @@ public class Visitor extends QBaseVisitor<QValue> {
         }
 
         return QValue.VOID;
-    }
-
-    @Override
-    public QValue visitSizeFunctionCall(SizeFunctionCallContext ctx) {
-        QValue value = this.visit(ctx.expression());
-
-        if (value.isString()) {
-            return new QValue(value.asString().length());
-        }
-
-        if (value.isList()) {
-            return new QValue(value.asList().size());
-        }
-
-        throw new Problem(ctx);
     }
 
     @Override
