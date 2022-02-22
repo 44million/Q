@@ -1,6 +1,8 @@
 // Generated from /Users/harryharbuck-marlowe/Desktop/Q/src/main/java/modulesParser/core/Mod.g4 by ANTLR 4.9.2
-package mod.antlr;
+package mod.raw;
 
+import mod.core.ilp.ModListener;
+import mod.core.ilp.ModVisitor;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.ATN;
 import org.antlr.v4.runtime.atn.ATNDeserializer;

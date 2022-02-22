@@ -1,6 +1,7 @@
 // Generated from /Users/harryharbuck-marlowe/Desktop/Q/src/main/java/modulesParser/core/Mod.g4 by ANTLR 4.9.2
-package mod.antlr;
+package mod.core.ilp;
 
+import mod.raw.ModParser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**

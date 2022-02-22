@@ -1,10 +1,10 @@
-package mod.core;
+package mod.core.modvals;
 
 import core.etc.Parser;
 import core.lang.lang;
-import mod.antlr.ModBaseVisitor;
-import mod.antlr.ModLexer;
-import mod.antlr.ModParser;
+import mod.core.ilp.ModBaseVisitor;
+import mod.raw.ModLexer;
+import mod.raw.ModParser;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;

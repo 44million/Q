@@ -1,4 +1,4 @@
-package mod.core;
+package mod.core.modvals;
 
 public class Val {
 

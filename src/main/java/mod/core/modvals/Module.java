@@ -1,4 +1,4 @@
-package mod.core;
+package mod.core.modvals;
 
 import java.util.ArrayList;
 import java.util.List;
