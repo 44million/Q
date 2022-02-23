@@ -1074,6 +1074,14 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
+    public QValue visitAnonymousFunction(QParser.AnonymousFunctionContext ctx) {
+
+        this.visit(ctx.block());
+
+        return QValue.VOID;
+    }
+
+    @Override
     public QValue visitIdentifierFunctionCall(IdentifierFunctionCallContext ctx) {
         List<ExpressionContext> params = ctx.exprList() != null ? ctx.exprList().expression() : new ArrayList<>();
         String id = ctx.Identifier().getText() + params.size();

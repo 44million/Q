@@ -55,7 +55,6 @@ class Main
             try
                 std:ln("this is an outputstream test.");
             onflaw
-                println(e);
                 sys.quit(0);
             endf
 
@@ -76,13 +75,9 @@ class Main
         std:ln("The epoch at launch was: ");
         std:ln(EAL());
 
-        // sys function that doesnt exist, to test error stuff
-
-                try
-                    sys.nonexistant();
-                onflaw
-                    std:ln("Error message here");
-                endf
+        func -> {
+            std:ln("Anonymous function babyyyy");
+        }
 
         WebServer web = new WebServer("9000");
         web.changeText("Hello World");

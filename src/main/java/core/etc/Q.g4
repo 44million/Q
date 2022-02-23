@@ -34,6 +34,7 @@ statement
  | osExecStatement ';'
  | importFromGithubStatement ';'
  | importStatement ';'
+ | anonymousFunction
  ;
 
 assignment
@@ -131,6 +132,10 @@ forInStatement
 
 importStatement
  : '#' Import Identifier ( '.' Identifier )*?
+ ;
+
+anonymousFunction
+ : 'func' '-' '>' '{' block '}'
  ;
 
 importFromGithubStatement

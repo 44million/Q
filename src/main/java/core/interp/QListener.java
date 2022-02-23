@@ -330,6 +330,16 @@ public interface QListener extends ParseTreeListener {
 	 */
 	void exitImportStatement(QParser.ImportStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link QParser#anonymousFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterAnonymousFunction(QParser.AnonymousFunctionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QParser#anonymousFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitAnonymousFunction(QParser.AnonymousFunctionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link QParser#importFromGithubStatement}.
 	 * @param ctx the parse tree
 	 */

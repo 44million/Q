@@ -203,6 +203,12 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitImportStatement(QParser.ImportStatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link QParser#anonymousFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAnonymousFunction(QParser.AnonymousFunctionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link QParser#importFromGithubStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
