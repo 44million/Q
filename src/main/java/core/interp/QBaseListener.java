@@ -316,13 +316,13 @@ public class QBaseListener implements QListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDefaultCall(QParser.DefaultCallContext ctx) { }
+	@Override public void enterNullVarStatement(QParser.NullVarStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDefaultCall(QParser.DefaultCallContext ctx) { }
+	@Override public void exitNullVarStatement(QParser.NullVarStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

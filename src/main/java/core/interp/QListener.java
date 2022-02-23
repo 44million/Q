@@ -270,15 +270,15 @@ public interface QListener extends ParseTreeListener {
 	 */
 	void exitVerifyFileStatement(QParser.VerifyFileStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QParser#defaultCall}.
+	 * Enter a parse tree produced by {@link QParser#nullVarStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterDefaultCall(QParser.DefaultCallContext ctx);
+	void enterNullVarStatement(QParser.NullVarStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QParser#defaultCall}.
+	 * Exit a parse tree produced by {@link QParser#nullVarStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitDefaultCall(QParser.DefaultCallContext ctx);
+	void exitNullVarStatement(QParser.NullVarStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QParser#elseStat}.
 	 * @param ctx the parse tree

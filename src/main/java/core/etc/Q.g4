@@ -20,7 +20,6 @@ statement
  | reAssignment ';'
  | classStatement
  | constructorStatement
- | defaultCall ';'
  | windowAddCompStatement ';'
  | windowRenderStatement ';'
  | fileWriteStatement ';'
@@ -35,6 +34,7 @@ statement
  | importFromGithubStatement ';'
  | importStatement ';'
  | anonymousFunction
+ | nullVarStatement ';'
  ;
 
 assignment
@@ -110,8 +110,8 @@ verifyFileStatement
  : 'verify' '(' expression ')'
  ;
 
-defaultCall
- : Identifier '.default' '(' ')'
+nullVarStatement
+ : 'noval' Identifier
  ;
 
 elseStat
@@ -123,11 +123,11 @@ functionDecl
  ;
 
 forStatement
- : For Identifier '=' expression To expression Do block End
+ : For '(' Identifier '=' expression To expression ')' Do block End
  ;
 
 forInStatement
- : For Identifier 'in' 'range' '(' expression ')' Do block End
+ : For '(' Identifier 'in' 'range' '(' expression ')' ')' Do block End
  ;
 
 importStatement

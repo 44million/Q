@@ -139,10 +139,21 @@ public class Visitor extends QBaseVisitor<QValue> {
         return QValue.VOID;
     }
 
+    @Override
+    public QValue visitNullVarStatement(QParser.NullVarStatementContext ctx) {
+
+        /*
+            noval x;
+         */
+
+        QValue newVal = QValue.NULL;
+        String id = ctx.Identifier().getText();
+        scope.varAssign(id, newVal);
+        return QValue.VOID;
+    }
 
     @Override
     public QValue visitObjFunctionDecl(QParser.ObjFunctionDeclContext ctx) {
-
 
         return QValue.VOID;
     }

@@ -19,14 +19,19 @@ class Main
 
     func main()
 
-        for i in range(10) do
+        for (i in range(10)) do
             std:ln(i);
         endf
 
-        for i = 0 to 10 do
+        for (i = 0 to 10) do
             std:ln(i);
         endf
 
+        noval thisisavariable;
+
+        thisisavariable = 0;
+
+        std:ln(thisisavariable);
 
         Window win = new Window("Window", "400", "400");
         win.render();
