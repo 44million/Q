@@ -8,8 +8,8 @@ import java.util.Map;
 public class QClass {
 
     public String name;
-    private Scope scope;
     public Map<String, Function> functions;
+    private Scope scope;
 
     public QClass(String name) {
         this.name = name;

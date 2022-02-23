@@ -1071,20 +1071,6 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitAssignment(AssignmentContext ctx) {
-        QValue newVal = this.visit(ctx.expression());
-        if (ctx.indexes() != null) {
-            QValue val = scope.exists(ctx.Identifier().getText());
-            List<ExpressionContext> exps = ctx.indexes().expression();
-            setAtIndex(ctx, exps, val, newVal);
-        } else {
-            String id = ctx.Identifier().getText();
-            scope.varAssign(id, newVal);
-        }
-        return QValue.VOID;
-    }
-
-    @Override
     public QValue visitAnonymousFunction(QParser.AnonymousFunctionContext ctx) {
 
         this.visit(ctx.block());

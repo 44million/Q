@@ -29,12 +29,6 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatement(QParser.StatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QParser#assignment}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssignment(QParser.AssignmentContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link QParser#reAssignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

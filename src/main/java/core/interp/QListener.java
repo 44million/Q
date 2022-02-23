@@ -38,16 +38,6 @@ public interface QListener extends ParseTreeListener {
 	 */
 	void exitStatement(QParser.StatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QParser#assignment}.
-	 * @param ctx the parse tree
-	 */
-	void enterAssignment(QParser.AssignmentContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QParser#assignment}.
-	 * @param ctx the parse tree
-	 */
-	void exitAssignment(QParser.AssignmentContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link QParser#reAssignment}.
 	 * @param ctx the parse tree
 	 */

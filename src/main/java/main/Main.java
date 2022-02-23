@@ -2,7 +2,6 @@ package main;
 
 import core.etc.Parser;
 import core.lang.lang;
-import mod.core.modvals.Visitor;
 import org.antlr.v4.runtime.CharStreams;
 
 import java.io.File;
@@ -49,9 +48,15 @@ public class Main {
                     }
 
                 } else if (cmd.equals("--help") || cmd.equals("-h")) {
-                    System.out.println("Help Menu\n-----------\ncmd: [--setpath/-p] Sets the path to the file.\ncmd: [--help/-h] Sends this help menu");
+                    System.out.println("""
+                            Help Menu
+                            ---------
+                            cmd: [--setpath/-p] Sets the path to the file to execute.
+                            cmd: [--help/-h] Sends this help menu
+                            cmd: [--fromtext/-t] Executes the given text as if it were a file
+                            """);
                 } else if (cmd.equals(""))
-                counter++;
+                    counter++;
             }
 
         } else {

@@ -9,8 +9,7 @@ block
  ;
 
 statement
- : assignment ';'
- | functionCall ';'
+ : functionCall ';'
  | ifStatement
  | forStatement | forInStatement
  | whileStatement
@@ -35,10 +34,6 @@ statement
  | importStatement ';'
  | anonymousFunction
  | nullVarStatement ';'
- ;
-
-assignment
- : Var Identifier indexes? '=' expression
  ;
 
 reAssignment
