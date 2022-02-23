@@ -25,7 +25,7 @@ func -> { std:ln("Hello World"); }
 
 class Main
 
-	private c;
+	private noval c;
 
 	cfunc run(x, y)
 
