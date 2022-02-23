@@ -78,13 +78,11 @@ class Main
 
         // sys function that doesnt exist, to test error stuff
 
-            /*
                 try
                     sys.nonexistant();
-                catch (e)
+                onflaw
                     std:ln("Error message here");
                 endf
-            */
 
         WebServer web = new WebServer("9000");
         web.changeText("Hello World");
