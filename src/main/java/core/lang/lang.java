@@ -4,8 +4,11 @@ import core.etc.Parser;
 import core.etc.Scope;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
+import core.lang.q.QValue;
 import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
+import core.libs.IO;
+import core.libs.Listener;
 import core.libs.MediaPlayer;
 import core.libs.WebServer;
 import mod.core.modvals.Module;
@@ -38,6 +41,7 @@ public class lang {
     public static List<String> allowedLibs = new ArrayList<>();
     public static List<MediaPlayer> players = new ArrayList<>();
     public static List<Module> mods = new ArrayList<>();
+    public static List<String> allLibs = new ArrayList<>();
     public static List<core.libs.utils.List> lists = new ArrayList<>();
     public static boolean main = false;
     public static Module mod;
@@ -98,6 +102,120 @@ public class lang {
             }
         }
         return null;
+    }
+
+    public static QValue parse(String text) {
+        if (text.toString().equals(".q.Windows")) {
+
+            if (lang.allowedLibs.contains("windows")) {
+                return QValue.VOID;
+            }
+
+            lang.allowedLibs.add("windows");
+            return QValue.VOID;
+        } else if (text.toString().equals(".q.http")) {
+
+            if (lang.allowedLibs.contains("http")) {
+                return QValue.VOID;
+            }
+
+            lang.allowedLibs.add("http");
+            return QValue.VOID;
+        } else if (text.toString().equals(".q.Files")) {
+
+            if (lang.allowedLibs.contains("files")) {
+                return QValue.VOID;
+            }
+
+            lang.allowedLibs.add("files");
+            return QValue.VOID;
+        } else if (text.toString().equals(".q.Math")) {
+
+            if (lang.allowedLibs.contains("math")) {
+                return QValue.VOID;
+            }
+
+            lang.allowedLibs.add("math");
+            new core.libs.Math().init();
+            return QValue.VOID;
+        } else if (text.toString().equals(".q.Audio")) {
+
+            if (lang.allowedLibs.contains("audio")) {
+                return QValue.VOID;
+            }
+
+            lang.allowedLibs.add("audio");
+            return QValue.VOID;
+        } else if (text.toString().equals(".q.Random")) {
+
+            if (lang.allowedLibs.contains("random")) {
+                return QValue.VOID;
+            }
+
+            lang.allowedLibs.add("random");
+            new core.libs.QRandom().init();
+            return QValue.VOID;
+        } else if (text.toString().equals(".q.Time")) {
+
+            if (lang.allowedLibs.contains("time")) {
+                return QValue.VOID;
+            }
+
+            lang.allowedLibs.add("time");
+            new core.libs.Time().init();
+            return QValue.VOID;
+        } else if (text.toString().equals(".q.Console")) {
+
+            if (lang.allowedLibs.contains("console")) {
+                return QValue.VOID;
+            }
+
+            lang.allowedLibs.add("console");
+            return QValue.VOID;
+        } else if (text.toString().equals(".q.puddle")) {
+
+            if (lang.allowedLibs.contains("puddle")) {
+                return QValue.VOID;
+            }
+
+            lang.allowedLibs.add("puddle");
+            return QValue.VOID;
+        } else if (text.toString().equals(".q.Listener")) {
+
+            if (lang.allowedLibs.contains("listener")) {
+                return QValue.VOID;
+            }
+
+            lang.allowedLibs.add("listener");
+            new Listener().init();
+            return QValue.VOID;
+        } else if (text.toString().equals(".q.io")) {
+
+            if (lang.allowedLibs.contains("io")) {
+                return QValue.VOID;
+            }
+
+            lang.allowedLibs.add("io");
+            new IO().init();
+            return QValue.VOID;
+        }
+        return QValue.VOID;
+    }
+
+    public static void addAll() {
+
+        allLibs.add("listener");
+        allLibs.add("puddle");
+        allLibs.add("console");
+        allLibs.add("time");
+        allLibs.add("random");
+        allLibs.add("math");
+        allLibs.add("files");
+        allLibs.add("http");
+        allLibs.add("windows");
+        allLibs.add("audio");
+        allLibs.add("io");
+
     }
 
     private static String getStringFromStream(InputStream Stream) throws IOException {

@@ -10,11 +10,8 @@ import core.interp.QParser;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
 import core.lang.q.QValue;
+import core.libs.*;
 import core.libs.AWT.Window;
-import core.libs.MediaPlayer;
-import core.libs.OS;
-import core.libs.Time;
-import core.libs.WebServer;
 import core.libs.puddle.Puddle;
 import core.libs.utils.HTTP;
 import org.antlr.v4.runtime.CharStreams;
@@ -25,14 +22,12 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import javax.swing.*;
 import java.io.*;
+import java.lang.Math;
 import java.lang.String;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static core.interp.QParser.*;
@@ -268,22 +263,36 @@ public class Visitor extends QBaseVisitor<QValue> {
 
     @Override
     public QValue visitOsExecStatement(QParser.OsExecStatementContext ctx) {
-        if (ctx.Identifier().getText().equals("exec") && ctx.expression() != null) {
+
+        String method = ctx.Identifier().getText();
+
+        if (method.equals("exec") && ctx.expression() != null) {
             try {
                 OS.execS(this.visit(ctx.expression()).asString());
             } catch (Exception e) {
                 System.out.println("[FATAL] Could not execute text: " + this.visit(ctx.expression()).asString() + " [" + e.getMessage() + "]");
             }
-        } else if (ctx.Identifier().getText().equals("quit") && ctx.expression() != null) {
+        } else if (method.equals("quit") && ctx.expression() != null) {
             int code = Integer.parseInt(this.visit(ctx.expression()).asString());
             System.exit(code);
-        } else if (ctx.Identifier().getText().equals("halt")) {
+        } else if (method.equals("halt")) {
             int time = Integer.parseInt(this.visit(ctx.expression()).asString());
             try {
                 Thread.sleep(time);
             } catch (Exception e) {
                 System.out.println("[ERROR] " + e.getMessage());
             }
+        } else if (method.equals("getProperty")) {
+
+            if (ctx.expression() == null) {
+                System.out.println("[ERROR] 'sys.getProperty' must take a :str object as a parameter");
+                return QValue.VOID;
+            }
+
+            QValue v = this.visit(ctx.expression());
+
+            return new QValue(System.getProperty(v.asString()));
+
         } else {
             System.out.printf("[FATAL] Sys function '%s' not recognized%n", ctx.Identifier().getText());
             System.exit(0);
@@ -418,80 +427,8 @@ public class Visitor extends QBaseVisitor<QValue> {
             text.append(".").append(o.getText());
         }
 
-        if (text.toString().equals(".q.Windows")) {
-
-            if (lang.allowedLibs.contains("windows")) {
-                return QValue.VOID;
-            }
-
-            lang.allowedLibs.add("windows");
-            return QValue.VOID;
-        } else if (text.toString().equals(".q.http")) {
-
-            if (lang.allowedLibs.contains("http")) {
-                return QValue.VOID;
-            }
-
-            lang.allowedLibs.add("http");
-            return QValue.VOID;
-        } else if (text.toString().equals(".q.Files")) {
-
-            if (lang.allowedLibs.contains("files")) {
-                return QValue.VOID;
-            }
-
-            lang.allowedLibs.add("files");
-            return QValue.VOID;
-        } else if (text.toString().equals(".q.Math")) {
-
-            if (lang.allowedLibs.contains("math")) {
-                return QValue.VOID;
-            }
-
-            lang.allowedLibs.add("math");
-            new core.libs.Math().init();
-            return QValue.VOID;
-        } else if (text.toString().equals(".q.Audio")) {
-
-            if (lang.allowedLibs.contains("audio")) {
-                return QValue.VOID;
-            }
-
-            lang.allowedLibs.add("audio");
-            return QValue.VOID;
-        } else if (text.toString().equals(".q.Random")) {
-
-            if (lang.allowedLibs.contains("random")) {
-                return QValue.VOID;
-            }
-
-            lang.allowedLibs.add("random");
-            new core.libs.QRandom().init();
-            return QValue.VOID;
-        } else if (text.toString().equals(".q.Time")) {
-
-            if (lang.allowedLibs.contains("time")) {
-                return QValue.VOID;
-            }
-
-            lang.allowedLibs.add("time");
-            new core.libs.Time().init();
-            return QValue.VOID;
-        } else if (text.toString().equals(".q.Console")) {
-
-            if (lang.allowedLibs.contains("console")) {
-                return QValue.VOID;
-            }
-
-            lang.allowedLibs.add("console");
-            return QValue.VOID;
-        } else if (text.toString().equals(".q.puddle")) {
-
-            if (lang.allowedLibs.contains("puddle")) {
-                return QValue.VOID;
-            }
-
-            lang.allowedLibs.add("puddle");
+        if (lang.allLibs.contains(text.toString().replace(".q.", "").toLowerCase(Locale.ROOT))) {
+            lang.parse(text.toString());
             return QValue.VOID;
         }
 

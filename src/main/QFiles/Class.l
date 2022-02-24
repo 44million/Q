@@ -38,7 +38,20 @@ func main()
     runner.run(2);
     // should be 4.0
 
+    // FileWriter class
     FileWriter fw = new FileWriter();
-    fw.w("src/main/QFiles/primary.l", "// boobs");
+    fw.w("src/main/QFiles/primary.l", "// here i hope");
+
+    /*
+
+    buggy code, not sure whats going on here tbh
+
+    OutputStream out = new OutputStream();
+    out.print("OutputStream test");
+
+    InputStream in = new InputStream();
+    x = in.cin();
+    out.println(x);
+    */
 
 endf
