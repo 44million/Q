@@ -152,7 +152,6 @@ public class Visitor extends QBaseVisitor<QValue> {
 
                 Function f = obj.qc.functions.get(method + vals.size());
 
-                System.out.println(f.exists());
                 return lang.objs.get(parentClass).funcs.get(method + vals.size()).call(vals, new HashMap<String, Function>());
 
             } else {
@@ -211,7 +210,10 @@ public class Visitor extends QBaseVisitor<QValue> {
         try {
 
             FileWriter fw = new FileWriter(lang.files.get(ctx.Identifier().getText()));
-            fw.append(ctx.expression().getText().replace("\"", ""));
+
+            QValue val = this.visit(ctx.expression());
+
+            fw.append(val.asString());
             fw.close();
 
         } catch (Exception e) {

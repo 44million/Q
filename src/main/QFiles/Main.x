@@ -18,8 +18,14 @@
 
 class Main
 
+    func m23()
+        std:ln("Hello there");
+    endf
+
+endc
+
     func f(x)
-        std:ln(x * 8);
+        return x * 2;
     endf
 
     func m()
@@ -104,5 +110,3 @@ class Main
         r.run();
 
     endf
-
-endc
