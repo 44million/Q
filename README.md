@@ -20,7 +20,7 @@ func -> { std:ln("Hello World"); }
     - [ ] mthd
     - [ ] protocol
     - [ ] pro
-- [ ] Classes/Objects
+- [x] Classes/Objects
 ```js
 
 class Main
