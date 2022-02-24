@@ -11,13 +11,20 @@
 
 // file system imports
 #import src.main.QFiles.primary;
+#import src.main.QFiles.Class;
 
 // github file import
 #import "https://github.com/primevibetime/temp/blob/main/Console.l";
 
 class Main
 
-    func main()
+    func f(x)
+        std:ln(x * 8);
+    endf
+
+    func m()
+
+        f(8);
 
         for (i in range(10)) do
             std:ln(i);
@@ -51,10 +58,14 @@ class Main
 
         // puddle.start("127.0.0.1", 8000);
 
-        std:ln(fib(9));
+        // std:ln(fib(9));
 
         if (1 > 2) do
             sys.quit(0);
+        endf
+
+        if (2 > 1) do
+            std:ln("2 is greater than 1");
         endf
 
             try
@@ -64,7 +75,7 @@ class Main
             endf
 
         File file = new File("src/main/QFiles/primary.l");
-        file.write("// comment written here");
+        file.write("// comment written here aja");
 
         std:ln(pow(6, 9) + " <--- value of 6^9");
         // mass where volume is 6, and density(15, 22) is d
@@ -88,6 +99,9 @@ class Main
         web.changeText("Hello World");
 
         std:ln(o(9));
+
+        Runner r = new Runner();
+        r.run();
 
     endf
 

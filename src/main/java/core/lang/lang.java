@@ -3,6 +3,7 @@ package core.lang;
 import core.etc.Parser;
 import core.etc.Scope;
 import core.lang.q.QClass;
+import core.lang.q.QObject;
 import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
 import core.libs.MediaPlayer;
@@ -26,6 +27,7 @@ public class lang {
     public static String response = "Hello World!";
     public static List<File> parsed = new ArrayList<>();
     public static Map<String, QClass> classes = new HashMap<>();
+    public static Map<String, QObject> objs = new HashMap<>();
     public static List<Token> lst = new ArrayList<>();
     public static List<Window> wins = new ArrayList<>();
     public static List<QComponent> comps = new ArrayList<>();
@@ -246,4 +248,7 @@ public class lang {
         }
     }
 
+    public static String replaceLast(String text, String regex, String replacement) {
+        return text.replaceFirst("(?s)"+regex+"(?!.*?"+regex+")", replacement);
+    }
 }

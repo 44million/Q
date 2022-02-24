@@ -8,6 +8,7 @@ import core.interp.QBaseVisitor;
 import core.interp.QLexer;
 import core.interp.QParser;
 import core.lang.q.QClass;
+import core.lang.q.QObject;
 import core.lang.q.QValue;
 import core.libs.AWT.Window;
 import core.libs.MediaPlayer;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static core.interp.QParser.*;
 
@@ -132,6 +134,29 @@ public class Visitor extends QBaseVisitor<QValue> {
 
             if (method.equals("stop")) {
                 lang.getWebByName(parentClass).stop();
+            }
+
+        } else if (lang.objs.containsKey(parentClass)) {
+
+            QObject obj = lang.objs.get(parentClass);
+
+            List<QValue> vals = new ArrayList<>();
+
+            if (ctx.exprList() != null) {
+                for (ExpressionContext ex : ctx.exprList().expression()) {
+                    vals.add(this.visit(ex));
+                }
+            }
+
+            if (obj.qc.functions.containsKey(method + vals.size())) {
+
+                Function f = obj.qc.functions.get(method + vals.size());
+
+                System.out.println(f.exists());
+                return lang.objs.get(parentClass).funcs.get(method + vals.size()).call(vals, new HashMap<String, Function>());
+
+            } else {
+                System.out.println("[ERROR] Function: '" + method + "' not found in parent class: '" + lang.objs.get(parentClass).qc.name + "'");
             }
 
         }
@@ -519,6 +544,9 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitObjCreateStatement(QParser.ObjCreateStatementContext ctx) {
 
+        String parentClass = ctx.Identifier(0).getText();
+        String nameO = ctx.Identifier(1).getText();
+
         if (ctx.Identifier(0).getText().equals("File")) {
 
             lang.check("files", "Files");
@@ -584,6 +612,28 @@ public class Visitor extends QBaseVisitor<QValue> {
         } else if (ctx.Identifier(0).getText().equals("MP3Player") && lang.allowedLibs.contains("audio")) {
             MediaPlayer player = new MediaPlayer(this.visit(ctx.exprList().expression(0)).toString(), ctx.Identifier(1).getText());
             lang.players.add(player);
+        } else if (lang.classes.containsKey(parentClass)) {
+
+            // example: Main main = new Main();
+            // example: Runner run = new Runner(8);
+
+            QClass qc = lang.classes.get(parentClass);
+
+            QObject obj = new QObject(nameO, qc);
+
+            List<QValue> list = new ArrayList<>();
+            if (ctx.exprList() != null) {
+                for (ExpressionContext ex : ctx.exprList().expression()) {
+                    list.add(this.visit(ex));
+                }
+            }
+
+            obj.setParams(list);
+            obj.setFuncs();
+
+            lang.objs.put(nameO, obj);
+        } else {
+            System.out.println("[ERROR] Class/Object not recognized: " + parentClass);
         }
 
         return QValue.VOID;
@@ -627,11 +677,47 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitClassStatement(QParser.ClassStatementContext ctx) {
+    public QValue visitConstructorStatement(QParser.ConstructorStatementContext ctx) {
 
+//        if (!lang.classes.containsKey(ctx.Identifier().getText())) {
+//            System.out.println("[FATAL] Constructor '" + ctx.Identifier().getText() + "' must be within a class named: '" + ctx.Identifier().getText() + "'");
+//            System.exit(0);
+//        }
+
+//        System.out.println("inwards it made it 1");
+//        List<QValue> val = new ArrayList<>();
+//
+//        System.out.println("inwards it made it 2");
+//
+//        if (ctx.exprList().expression().size() > 1) {
+//            for (ExpressionContext c : ctx.exprList().expression()) {
+//                System.out.println("inwards it made it 1888");
+//                QValue v = this.visit(c);
+//                System.out.println("System.out.println(\"inwards it made it \");");
+//                val.add(v);
+//            }
+//        } else {
+//            System.out.println("inwards o234uhrit made it ");
+//        }
+//        System.out.println("inwards it made it 3");
+//        lang.classes.get(ctx.Identifier().getText()).setConstArgs(val);
         this.visit(ctx.block());
 
-        lang.classes.put(ctx.Identifier().getText(), new QClass(ctx.Identifier().getText()));
+        return QValue.VOID;
+    }
+
+    @Override
+    public QValue visitClassStatement(QParser.ClassStatementContext ctx) {
+
+        String id = ctx.Identifier().getText();
+        Scope scope = new Scope(lang.scope, false);
+
+        Visitor v = new Visitor(scope, new HashMap<>());
+        v.visit(ctx.block());
+
+        QClass qClass = new QClass(id, v.functions, scope);
+
+        lang.classes.put(id, qClass);
 
         return QValue.VOID;
 
@@ -1082,8 +1168,15 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitIdentifierFunctionCall(IdentifierFunctionCallContext ctx) {
         List<ExpressionContext> params = ctx.exprList() != null ? ctx.exprList().expression() : new ArrayList<>();
         String id = ctx.Identifier().getText() + params.size();
-        Function function;
-        if ((function = functions.get(id)) != null) {
+        Function function = null;
+
+        if (lang.visitor.functions.containsKey(id)) {
+            function = lang.visitor.functions.get(id);
+        } else if ((function = functions.get(id)) != null) {
+            function = functions.get(id);
+        }
+
+        if (function != null) {
             List<QValue> args = new ArrayList<>(params.size());
             for (ExpressionContext param : params) {
                 args.add(this.visit(param));

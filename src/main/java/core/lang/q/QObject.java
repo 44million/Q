@@ -1,15 +1,18 @@
 package core.lang.q;
 
+import core.lang.Function;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("all")
 public class QObject {
 
     public String name;
     public QClass qc;
-    public List<TerminalNode> params;
+    public List<QValue> params;
+    public Map<String, Function> funcs;
 
     public QObject(String name, QClass instance) {
         this.name = name;
@@ -20,5 +23,12 @@ public class QObject {
         return this;
     }
 
+    public void setParams(List<QValue> n) {
+        this.params = n;
+    }
+
+    public void setFuncs() {
+        this.funcs = qc.functions;
+    }
 
 }
