@@ -43,7 +43,7 @@ public class CFunction {
 
         for (int i = 0; i < this.params.size(); i++) {
             QValue value = args.get(i);
-            scopeNext.assignParam(this.params.get(i).getText(), value);
+            scopeNext.functionParam(this.params.get(i).getText(), value);
         }
         Visitor evalVistorNext = new Visitor(scopeNext, functions);
 

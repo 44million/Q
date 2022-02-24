@@ -12,7 +12,6 @@ public class QValue implements Comparable<QValue> {
     private final Object value;
 
     private QValue() {
-        // private constructor: only used for NULL and VOID
         value = new Object();
     }
 
@@ -21,7 +20,6 @@ public class QValue implements Comparable<QValue> {
             throw new RuntimeException("[ERROR] v is null.");
         }
         value = v;
-        // only accept boolean, list, number or string types
         if (!(isBoolean() || isList() || isNumber() || isString() || isFile())) {
             throw new RuntimeException("invalid data type: " + v + " (" + v.getClass() + ")");
         }
