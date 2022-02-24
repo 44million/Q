@@ -10,48 +10,40 @@ import static java.lang.String.format;
 public class IO extends QLibrary {
 
     private final String qcode =
-            format("""
-            
-            class InputStream
-            
-                const InputStream()
-                    
-                endf
-                
-                func cin()
-                    
-                    x = std:in();
-                    return x;
-                    
-                endf
-                
-                func chashi()
-                    return "%s";
-                endf
-            
-            endc
-            
-            class OutputStream
-            
-                const OutputStream()
-                
-                endf
-                
-                func pln(x)
-                    std:ln(x);
-                endf
-                
-                func out(x)
-                    std:out(x);
-                endf
-                
-                func chasho()
-                    return "%s";
-                endf
-            
-            endc
-            
-            """, System.console().hashCode(), System.console().hashCode());
+            """
+                                
+                    class InputStream
+                                
+                        const InputStream()
+                            
+                        endf
+                        
+                        func input()
+                            
+                            x = std:in();
+                            return x;
+                            
+                        endf
+                                
+                    endc
+                                
+                    class OutputStream
+                                
+                        const OutputStream()
+                        
+                        endf
+                        
+                        func printline(x)
+                            std:ln(x);
+                        endf
+                        
+                        func out(x)
+                            std:out(x);
+                        endf
+                                
+                    endc
+                                
+                    """;
 
     @Override
     public String getName() {
