@@ -1,7 +1,7 @@
 grammar Q;
 
 parse
- : header? block EOF
+ : header? ( allImport ';' )*? block EOF
  ;
 
 block
@@ -30,8 +30,6 @@ statement
  | listAddStatement ';'
  | listRemoveStatement ';'
  | osExecStatement ';'
- | importFromGithubStatement ';'
- | importStatement ';'
  | anonymousFunction
  | nullVarStatement ';'
  ;
@@ -47,6 +45,12 @@ functionCall
  | Assert '(' expression ')'    #assertFunctionCall
  | ToInt '(' expression ')'     #toIntFunctionCall
  | Identifier '.' Identifier '(' exprList? ')' #objFunctionCallExpression
+ ;
+
+allImport
+ : importStatement              #fileSystemImportStatement
+ | importFromGithubStatement    #githubImportStatement
+ | importAllStatement           #importAll
  ;
 
 objFunctionCall
@@ -135,6 +139,11 @@ anonymousFunction
 
 importFromGithubStatement
  : '#' 'import' expression
+ ;
+
+importAllStatement
+ : '#''import' '[' '*' ']'
+ | '#' 'import' '[' 'all' ']'
  ;
 
 tryCatchStatement

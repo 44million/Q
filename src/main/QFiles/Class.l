@@ -20,6 +20,10 @@ endc
 
 class FileWriter
 
+    func -> {
+        std:ln("Class FileWriter initialized");
+    }
+
     const FileWriter()
 
     endf
@@ -71,6 +75,10 @@ func main()
         ['g', 'h', 'i']
     ];
 
-    std:ln(alist[0][2]);
+    std:ln(alist[0][2] + " <-- alist indexes [0][2]");
+
+    Calculator calc = new Calculator();
+    xyz = calc.mul(20, 73);
+    out.printline(xyz);
 
 endf

@@ -77,6 +77,27 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitObjFunctionCallExpression(QParser.ObjFunctionCallExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code fileSystemImportStatement}
+	 * labeled alternative in {@link QParser#allImport}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFileSystemImportStatement(QParser.FileSystemImportStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code githubImportStatement}
+	 * labeled alternative in {@link QParser#allImport}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGithubImportStatement(QParser.GithubImportStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code importAll}
+	 * labeled alternative in {@link QParser#allImport}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImportAll(QParser.ImportAllContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link QParser#objFunctionCall}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -208,6 +229,12 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitImportFromGithubStatement(QParser.ImportFromGithubStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QParser#importAllStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImportAllStatement(QParser.ImportAllStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QParser#tryCatchStatement}.
 	 * @param ctx the parse tree

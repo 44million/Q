@@ -120,6 +120,42 @@ public interface QListener extends ParseTreeListener {
 	 */
 	void exitObjFunctionCallExpression(QParser.ObjFunctionCallExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code fileSystemImportStatement}
+	 * labeled alternative in {@link QParser#allImport}.
+	 * @param ctx the parse tree
+	 */
+	void enterFileSystemImportStatement(QParser.FileSystemImportStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code fileSystemImportStatement}
+	 * labeled alternative in {@link QParser#allImport}.
+	 * @param ctx the parse tree
+	 */
+	void exitFileSystemImportStatement(QParser.FileSystemImportStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code githubImportStatement}
+	 * labeled alternative in {@link QParser#allImport}.
+	 * @param ctx the parse tree
+	 */
+	void enterGithubImportStatement(QParser.GithubImportStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code githubImportStatement}
+	 * labeled alternative in {@link QParser#allImport}.
+	 * @param ctx the parse tree
+	 */
+	void exitGithubImportStatement(QParser.GithubImportStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code importAll}
+	 * labeled alternative in {@link QParser#allImport}.
+	 * @param ctx the parse tree
+	 */
+	void enterImportAll(QParser.ImportAllContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code importAll}
+	 * labeled alternative in {@link QParser#allImport}.
+	 * @param ctx the parse tree
+	 */
+	void exitImportAll(QParser.ImportAllContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link QParser#objFunctionCall}.
 	 * @param ctx the parse tree
 	 */
@@ -339,6 +375,16 @@ public interface QListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitImportFromGithubStatement(QParser.ImportFromGithubStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QParser#importAllStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterImportAllStatement(QParser.ImportAllStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QParser#importAllStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitImportAllStatement(QParser.ImportAllStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QParser#tryCatchStatement}.
 	 * @param ctx the parse tree

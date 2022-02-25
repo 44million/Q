@@ -95,6 +95,26 @@ public class Math extends QLibrary {
                 endf
                         
             endf
+            
+            class Calculator
+            
+                const Calculator()
+                
+                endf
+                
+                func mul(x, y)
+                    return x * y;
+                endf
+                
+                func div(x, y)
+                    return x / y;
+                endf
+                
+                func mod(x, y)
+                    return x % y;
+                endf
+            
+            endc
                         
             """;
 

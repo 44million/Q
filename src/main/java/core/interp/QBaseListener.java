@@ -136,6 +136,42 @@ public class QBaseListener implements QListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFileSystemImportStatement(QParser.FileSystemImportStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFileSystemImportStatement(QParser.FileSystemImportStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGithubImportStatement(QParser.GithubImportStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGithubImportStatement(QParser.GithubImportStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterImportAll(QParser.ImportAllContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitImportAll(QParser.ImportAllContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterObjFunctionCall(QParser.ObjFunctionCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -395,6 +431,18 @@ public class QBaseListener implements QListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitImportFromGithubStatement(QParser.ImportFromGithubStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterImportAllStatement(QParser.ImportAllStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitImportAllStatement(QParser.ImportAllStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -19,35 +19,37 @@ public class QParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		Println=18, Render=19, AddComponent=20, New=21, Var=22, Import=23, Print=24, 
-		Input=25, Assert=26, Def=27, ToInt=28, Create=29, If=30, Else=31, Return=32, 
-		For=33, While=34, To=35, Do=36, End=37, In=38, Null=39, Try=40, Catch=41, 
-		Class=42, Or=43, And=44, Equals=45, NEquals=46, GTEquals=47, LTEquals=48, 
-		Pow=49, Excl=50, GT=51, LT=52, Add=53, Subtract=54, Multiply=55, Divide=56, 
-		Modulus=57, OBrace=58, CBrace=59, OBracket=60, CBracket=61, OParen=62, 
-		CParen=63, SColon=64, Assign=65, Comma=66, QMark=67, Colon=68, Bool=69, 
-		Number=70, Identifier=71, String=72, Comment=73, JavaTextBlock=74, Space=75;
+		T__17=18, Println=19, Render=20, AddComponent=21, New=22, Var=23, Import=24, 
+		Print=25, Input=26, Assert=27, Def=28, ToInt=29, Create=30, If=31, Else=32, 
+		Return=33, For=34, While=35, To=36, Do=37, End=38, In=39, Null=40, Try=41, 
+		Catch=42, Class=43, Or=44, And=45, Equals=46, NEquals=47, GTEquals=48, 
+		LTEquals=49, Pow=50, Excl=51, GT=52, LT=53, Add=54, Subtract=55, Multiply=56, 
+		Divide=57, Modulus=58, OBrace=59, CBrace=60, OBracket=61, CBracket=62, 
+		OParen=63, CParen=64, SColon=65, Assign=66, Comma=67, QMark=68, Colon=69, 
+		Bool=70, Number=71, Identifier=72, String=73, Comment=74, JavaTextBlock=75, 
+		Space=76;
 	public static final int
 		RULE_parse = 0, RULE_block = 1, RULE_statement = 2, RULE_reAssignment = 3, 
-		RULE_functionCall = 4, RULE_objFunctionCall = 5, RULE_header = 6, RULE_objFunctionDecl = 7, 
-		RULE_ifStatement = 8, RULE_ifStat = 9, RULE_elseIfStat = 10, RULE_constructorStatement = 11, 
-		RULE_objCreateStatement = 12, RULE_listCreateStatement = 13, RULE_listAddStatement = 14, 
-		RULE_listRemoveStatement = 15, RULE_osExecStatement = 16, RULE_fileWriteStatement = 17, 
-		RULE_verifyFileStatement = 18, RULE_nullVarStatement = 19, RULE_elseStat = 20, 
-		RULE_functionDecl = 21, RULE_forStatement = 22, RULE_forInStatement = 23, 
-		RULE_importStatement = 24, RULE_anonymousFunction = 25, RULE_importFromGithubStatement = 26, 
-		RULE_tryCatchStatement = 27, RULE_whileStatement = 28, RULE_windowRenderStatement = 29, 
-		RULE_windowAddCompStatement = 30, RULE_addWebServerTextStatement = 31, 
-		RULE_mainFunctionStatement = 32, RULE_idList = 33, RULE_classStatement = 34, 
-		RULE_exprList = 35, RULE_expression = 36, RULE_list = 37, RULE_indexes = 38;
+		RULE_functionCall = 4, RULE_allImport = 5, RULE_objFunctionCall = 6, RULE_header = 7, 
+		RULE_objFunctionDecl = 8, RULE_ifStatement = 9, RULE_ifStat = 10, RULE_elseIfStat = 11, 
+		RULE_constructorStatement = 12, RULE_objCreateStatement = 13, RULE_listCreateStatement = 14, 
+		RULE_listAddStatement = 15, RULE_listRemoveStatement = 16, RULE_osExecStatement = 17, 
+		RULE_fileWriteStatement = 18, RULE_verifyFileStatement = 19, RULE_nullVarStatement = 20, 
+		RULE_elseStat = 21, RULE_functionDecl = 22, RULE_forStatement = 23, RULE_forInStatement = 24, 
+		RULE_importStatement = 25, RULE_anonymousFunction = 26, RULE_importFromGithubStatement = 27, 
+		RULE_importAllStatement = 28, RULE_tryCatchStatement = 29, RULE_whileStatement = 30, 
+		RULE_windowRenderStatement = 31, RULE_windowAddCompStatement = 32, RULE_addWebServerTextStatement = 33, 
+		RULE_mainFunctionStatement = 34, RULE_idList = 35, RULE_classStatement = 36, 
+		RULE_exprList = 37, RULE_expression = 38, RULE_list = 39, RULE_indexes = 40;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"parse", "block", "statement", "reAssignment", "functionCall", "objFunctionCall", 
-			"header", "objFunctionDecl", "ifStatement", "ifStat", "elseIfStat", "constructorStatement", 
-			"objCreateStatement", "listCreateStatement", "listAddStatement", "listRemoveStatement", 
-			"osExecStatement", "fileWriteStatement", "verifyFileStatement", "nullVarStatement", 
-			"elseStat", "functionDecl", "forStatement", "forInStatement", "importStatement", 
-			"anonymousFunction", "importFromGithubStatement", "tryCatchStatement", 
+			"parse", "block", "statement", "reAssignment", "functionCall", "allImport", 
+			"objFunctionCall", "header", "objFunctionDecl", "ifStatement", "ifStat", 
+			"elseIfStat", "constructorStatement", "objCreateStatement", "listCreateStatement", 
+			"listAddStatement", "listRemoveStatement", "osExecStatement", "fileWriteStatement", 
+			"verifyFileStatement", "nullVarStatement", "elseStat", "functionDecl", 
+			"forStatement", "forInStatement", "importStatement", "anonymousFunction", 
+			"importFromGithubStatement", "importAllStatement", "tryCatchStatement", 
 			"whileStatement", "windowRenderStatement", "windowAddCompStatement", 
 			"addWebServerTextStatement", "mainFunctionStatement", "idList", "classStatement", 
 			"exprList", "expression", "list", "indexes"
@@ -58,21 +60,21 @@ public class QParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'.'", "'@'", "'header'", "'const'", "'List'", "'add'", "'remove'", 
-			"'sys'", "'write'", "'verify'", "'noval'", "'range'", "'#'", "'onflaw'", 
-			"'changeText'", "'func main()'", "'endc'", "'std:ln'", "'render'", "'addComp'", 
-			"'new'", "'var'", "'import'", "'std:out'", "'std:in'", "'assert'", "'func'", 
-			"'toInt'", "'create'", "'if'", "'else'", "'return'", "'for'", "'while'", 
-			"'to'", "'do'", "'endf'", "'in'", "'null'", "'try'", "'catch'", "'class'", 
-			"'||'", "'&&'", "'=='", "'!='", "'>='", "'<='", "'^'", "'!'", "'>'", 
-			"'<'", "'+'", "'-'", "'*'", "'/'", "'%'", "'{'", "'}'", "'['", "']'", 
-			"'('", "')'", "';'", "'='", "','", "'?'", "':'"
+			"'sys'", "'write'", "'verify'", "'noval'", "'range'", "'#'", "'all'", 
+			"'onflaw'", "'changeText'", "'func main()'", "'endc'", "'std:ln'", "'render'", 
+			"'addComp'", "'new'", "'var'", "'import'", "'std:out'", "'std:in'", "'assert'", 
+			"'func'", "'toInt'", "'create'", "'if'", "'else'", "'return'", "'for'", 
+			"'while'", "'to'", "'do'", "'endf'", "'in'", "'null'", "'try'", "'catch'", 
+			"'class'", "'||'", "'&&'", "'=='", "'!='", "'>='", "'<='", "'^'", "'!'", 
+			"'>'", "'<'", "'+'", "'-'", "'*'", "'/'", "'%'", "'{'", "'}'", "'['", 
+			"']'", "'('", "')'", "';'", "'='", "','", "'?'", "':'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, "Println", "Render", "AddComponent", 
+			null, null, null, null, null, null, null, "Println", "Render", "AddComponent", 
 			"New", "Var", "Import", "Print", "Input", "Assert", "Def", "ToInt", "Create", 
 			"If", "Else", "Return", "For", "While", "To", "Do", "End", "In", "Null", 
 			"Try", "Catch", "Class", "Or", "And", "Equals", "NEquals", "GTEquals", 
@@ -141,6 +143,16 @@ public class QParser extends Parser {
 		public HeaderContext header() {
 			return getRuleContext(HeaderContext.class,0);
 		}
+		public List<AllImportContext> allImport() {
+			return getRuleContexts(AllImportContext.class);
+		}
+		public AllImportContext allImport(int i) {
+			return getRuleContext(AllImportContext.class,i);
+		}
+		public List<TerminalNode> SColon() { return getTokens(QParser.SColon); }
+		public TerminalNode SColon(int i) {
+			return getToken(QParser.SColon, i);
+		}
 		public ParseContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -165,21 +177,40 @@ public class QParser extends Parser {
 		enterRule(_localctx, 0, RULE_parse);
 		int _la;
 		try {
+			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(79);
+			setState(83);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__1) {
 				{
-				setState(78);
+				setState(82);
 				header();
 				}
 			}
 
-			setState(81);
+			setState(90);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
+			while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1+1 ) {
+					{
+					{
+					setState(85);
+					allImport();
+					setState(86);
+					match(SColon);
+					}
+					} 
+				}
+				setState(92);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
+			}
+			setState(93);
 			block();
-			setState(82);
+			setState(94);
 			match(EOF);
 			}
 		}
@@ -238,42 +269,42 @@ public class QParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(88);
+			setState(100);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__3) | (1L << T__4) | (1L << T__7) | (1L << T__9) | (1L << T__10) | (1L << T__12) | (1L << T__15) | (1L << Println) | (1L << Print) | (1L << Assert) | (1L << Def) | (1L << ToInt) | (1L << If) | (1L << For) | (1L << While) | (1L << Try) | (1L << Class))) != 0) || _la==Identifier) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__3) | (1L << T__4) | (1L << T__7) | (1L << T__9) | (1L << T__10) | (1L << T__16) | (1L << Println) | (1L << Print) | (1L << Assert) | (1L << Def) | (1L << ToInt) | (1L << If) | (1L << For) | (1L << While) | (1L << Try) | (1L << Class))) != 0) || _la==Identifier) {
 				{
-				setState(86);
+				setState(98);
 				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
+				switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 				case 1:
 					{
-					setState(84);
+					setState(96);
 					statement();
 					}
 					break;
 				case 2:
 					{
-					setState(85);
+					setState(97);
 					functionDecl();
 					}
 					break;
 				}
 				}
-				setState(90);
+				setState(102);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(95);
+			setState(107);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==Return) {
 				{
-				setState(91);
+				setState(103);
 				match(Return);
-				setState(92);
+				setState(104);
 				expression(0);
-				setState(93);
+				setState(105);
 				match(SColon);
 				}
 			}
@@ -359,12 +390,6 @@ public class QParser extends Parser {
 		public OsExecStatementContext osExecStatement() {
 			return getRuleContext(OsExecStatementContext.class,0);
 		}
-		public ImportFromGithubStatementContext importFromGithubStatement() {
-			return getRuleContext(ImportFromGithubStatementContext.class,0);
-		}
-		public ImportStatementContext importStatement() {
-			return getRuleContext(ImportStatementContext.class,0);
-		}
 		public AnonymousFunctionContext anonymousFunction() {
 			return getRuleContext(AnonymousFunctionContext.class,0);
 		}
@@ -395,139 +420,139 @@ public class QParser extends Parser {
 		enterRule(_localctx, 4, RULE_statement);
 		int _la;
 		try {
-			setState(156);
+			setState(162);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(97);
+				setState(109);
 				functionCall();
-				setState(98);
+				setState(110);
 				match(SColon);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(100);
+				setState(112);
 				ifStatement();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(101);
+				setState(113);
 				forStatement();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(102);
+				setState(114);
 				forInStatement();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(103);
+				setState(115);
 				whileStatement();
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(104);
+				setState(116);
 				tryCatchStatement();
 				}
 				break;
 			case 7:
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(105);
+				setState(117);
 				mainFunctionStatement();
 				}
 				break;
 			case 8:
 				enterOuterAlt(_localctx, 8);
 				{
-				setState(106);
+				setState(118);
 				addWebServerTextStatement();
-				setState(107);
+				setState(119);
 				match(SColon);
 				}
 				break;
 			case 9:
 				enterOuterAlt(_localctx, 9);
 				{
-				setState(109);
+				setState(121);
 				reAssignment();
-				setState(110);
+				setState(122);
 				match(SColon);
 				}
 				break;
 			case 10:
 				enterOuterAlt(_localctx, 10);
 				{
-				setState(112);
+				setState(124);
 				classStatement();
 				}
 				break;
 			case 11:
 				enterOuterAlt(_localctx, 11);
 				{
-				setState(113);
+				setState(125);
 				constructorStatement();
 				}
 				break;
 			case 12:
 				enterOuterAlt(_localctx, 12);
 				{
-				setState(114);
+				setState(126);
 				windowAddCompStatement();
-				setState(115);
+				setState(127);
 				match(SColon);
 				}
 				break;
 			case 13:
 				enterOuterAlt(_localctx, 13);
 				{
-				setState(117);
+				setState(129);
 				windowRenderStatement();
-				setState(118);
+				setState(130);
 				match(SColon);
 				}
 				break;
 			case 14:
 				enterOuterAlt(_localctx, 14);
 				{
-				setState(120);
+				setState(132);
 				fileWriteStatement();
-				setState(121);
+				setState(133);
 				match(SColon);
 				}
 				break;
 			case 15:
 				enterOuterAlt(_localctx, 15);
 				{
-				setState(123);
+				setState(135);
 				verifyFileStatement();
-				setState(124);
+				setState(136);
 				match(SColon);
 				}
 				break;
 			case 16:
 				enterOuterAlt(_localctx, 16);
 				{
-				setState(126);
+				setState(138);
 				objFunctionCall();
-				setState(128);
+				setState(140);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==SColon) {
 					{
-					setState(127);
+					setState(139);
 					match(SColon);
 					}
 				}
@@ -537,86 +562,68 @@ public class QParser extends Parser {
 			case 17:
 				enterOuterAlt(_localctx, 17);
 				{
-				setState(130);
+				setState(142);
 				objFunctionDecl();
 				}
 				break;
 			case 18:
 				enterOuterAlt(_localctx, 18);
 				{
-				setState(131);
+				setState(143);
 				objCreateStatement();
-				setState(132);
+				setState(144);
 				match(SColon);
 				}
 				break;
 			case 19:
 				enterOuterAlt(_localctx, 19);
 				{
-				setState(134);
+				setState(146);
 				listCreateStatement();
-				setState(135);
+				setState(147);
 				match(SColon);
 				}
 				break;
 			case 20:
 				enterOuterAlt(_localctx, 20);
 				{
-				setState(137);
+				setState(149);
 				listAddStatement();
-				setState(138);
+				setState(150);
 				match(SColon);
 				}
 				break;
 			case 21:
 				enterOuterAlt(_localctx, 21);
 				{
-				setState(140);
+				setState(152);
 				listRemoveStatement();
-				setState(141);
+				setState(153);
 				match(SColon);
 				}
 				break;
 			case 22:
 				enterOuterAlt(_localctx, 22);
 				{
-				setState(143);
+				setState(155);
 				osExecStatement();
-				setState(144);
+				setState(156);
 				match(SColon);
 				}
 				break;
 			case 23:
 				enterOuterAlt(_localctx, 23);
 				{
-				setState(146);
-				importFromGithubStatement();
-				setState(147);
-				match(SColon);
+				setState(158);
+				anonymousFunction();
 				}
 				break;
 			case 24:
 				enterOuterAlt(_localctx, 24);
 				{
-				setState(149);
-				importStatement();
-				setState(150);
-				match(SColon);
-				}
-				break;
-			case 25:
-				enterOuterAlt(_localctx, 25);
-				{
-				setState(152);
-				anonymousFunction();
-				}
-				break;
-			case 26:
-				enterOuterAlt(_localctx, 26);
-				{
-				setState(153);
+				setState(159);
 				nullVarStatement();
-				setState(154);
+				setState(160);
 				match(SColon);
 				}
 				break;
@@ -668,21 +675,21 @@ public class QParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(158);
+			setState(164);
 			match(Identifier);
-			setState(160);
+			setState(166);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==OBracket) {
 				{
-				setState(159);
+				setState(165);
 				indexes();
 				}
 			}
 
-			setState(162);
+			setState(168);
 			match(Assign);
-			setState(163);
+			setState(169);
 			expression(0);
 			}
 		}
@@ -849,46 +856,24 @@ public class QParser extends Parser {
 		enterRule(_localctx, 8, RULE_functionCall);
 		int _la;
 		try {
-			setState(200);
+			setState(206);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,10,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
 			case 1:
 				_localctx = new IdentifierFunctionCallContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(165);
-				match(Identifier);
-				setState(166);
-				match(OParen);
-				setState(168);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (((((_la - 18)) & ~0x3f) == 0 && ((1L << (_la - 18)) & ((1L << (Println - 18)) | (1L << (Print - 18)) | (1L << (Input - 18)) | (1L << (Assert - 18)) | (1L << (ToInt - 18)) | (1L << (Null - 18)) | (1L << (Excl - 18)) | (1L << (Subtract - 18)) | (1L << (OBracket - 18)) | (1L << (OParen - 18)) | (1L << (Bool - 18)) | (1L << (Number - 18)) | (1L << (Identifier - 18)) | (1L << (String - 18)))) != 0)) {
-					{
-					setState(167);
-					exprList();
-					}
-				}
-
-				setState(170);
-				match(CParen);
-				}
-				break;
-			case 2:
-				_localctx = new PrintlnFunctionCallContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
 				setState(171);
-				match(Println);
+				match(Identifier);
 				setState(172);
 				match(OParen);
 				setState(174);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if (((((_la - 18)) & ~0x3f) == 0 && ((1L << (_la - 18)) & ((1L << (Println - 18)) | (1L << (Print - 18)) | (1L << (Input - 18)) | (1L << (Assert - 18)) | (1L << (ToInt - 18)) | (1L << (Null - 18)) | (1L << (Excl - 18)) | (1L << (Subtract - 18)) | (1L << (OBracket - 18)) | (1L << (OParen - 18)) | (1L << (Bool - 18)) | (1L << (Number - 18)) | (1L << (Identifier - 18)) | (1L << (String - 18)))) != 0)) {
+				if (((((_la - 19)) & ~0x3f) == 0 && ((1L << (_la - 19)) & ((1L << (Println - 19)) | (1L << (Print - 19)) | (1L << (Input - 19)) | (1L << (Assert - 19)) | (1L << (ToInt - 19)) | (1L << (Null - 19)) | (1L << (Excl - 19)) | (1L << (Subtract - 19)) | (1L << (OBracket - 19)) | (1L << (OParen - 19)) | (1L << (Bool - 19)) | (1L << (Number - 19)) | (1L << (Identifier - 19)) | (1L << (String - 19)))) != 0)) {
 					{
 					setState(173);
-					expression(0);
+					exprList();
 					}
 				}
 
@@ -896,17 +881,39 @@ public class QParser extends Parser {
 				match(CParen);
 				}
 				break;
+			case 2:
+				_localctx = new PrintlnFunctionCallContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(177);
+				match(Println);
+				setState(178);
+				match(OParen);
+				setState(180);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				if (((((_la - 19)) & ~0x3f) == 0 && ((1L << (_la - 19)) & ((1L << (Println - 19)) | (1L << (Print - 19)) | (1L << (Input - 19)) | (1L << (Assert - 19)) | (1L << (ToInt - 19)) | (1L << (Null - 19)) | (1L << (Excl - 19)) | (1L << (Subtract - 19)) | (1L << (OBracket - 19)) | (1L << (OParen - 19)) | (1L << (Bool - 19)) | (1L << (Number - 19)) | (1L << (Identifier - 19)) | (1L << (String - 19)))) != 0)) {
+					{
+					setState(179);
+					expression(0);
+					}
+				}
+
+				setState(182);
+				match(CParen);
+				}
+				break;
 			case 3:
 				_localctx = new PrintFunctionCallContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(177);
+				setState(183);
 				match(Print);
-				setState(178);
+				setState(184);
 				match(OParen);
-				setState(179);
+				setState(185);
 				expression(0);
-				setState(180);
+				setState(186);
 				match(CParen);
 				}
 				break;
@@ -914,13 +921,13 @@ public class QParser extends Parser {
 				_localctx = new AssertFunctionCallContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(182);
+				setState(188);
 				match(Assert);
-				setState(183);
+				setState(189);
 				match(OParen);
-				setState(184);
+				setState(190);
 				expression(0);
-				setState(185);
+				setState(191);
 				match(CParen);
 				}
 				break;
@@ -928,13 +935,13 @@ public class QParser extends Parser {
 				_localctx = new ToIntFunctionCallContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(187);
+				setState(193);
 				match(ToInt);
-				setState(188);
+				setState(194);
 				match(OParen);
-				setState(189);
+				setState(195);
 				expression(0);
-				setState(190);
+				setState(196);
 				match(CParen);
 				}
 				break;
@@ -942,26 +949,139 @@ public class QParser extends Parser {
 				_localctx = new ObjFunctionCallExpressionContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(192);
+				setState(198);
 				match(Identifier);
-				setState(193);
+				setState(199);
 				match(T__0);
-				setState(194);
+				setState(200);
 				match(Identifier);
-				setState(195);
+				setState(201);
 				match(OParen);
-				setState(197);
+				setState(203);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if (((((_la - 18)) & ~0x3f) == 0 && ((1L << (_la - 18)) & ((1L << (Println - 18)) | (1L << (Print - 18)) | (1L << (Input - 18)) | (1L << (Assert - 18)) | (1L << (ToInt - 18)) | (1L << (Null - 18)) | (1L << (Excl - 18)) | (1L << (Subtract - 18)) | (1L << (OBracket - 18)) | (1L << (OParen - 18)) | (1L << (Bool - 18)) | (1L << (Number - 18)) | (1L << (Identifier - 18)) | (1L << (String - 18)))) != 0)) {
+				if (((((_la - 19)) & ~0x3f) == 0 && ((1L << (_la - 19)) & ((1L << (Println - 19)) | (1L << (Print - 19)) | (1L << (Input - 19)) | (1L << (Assert - 19)) | (1L << (ToInt - 19)) | (1L << (Null - 19)) | (1L << (Excl - 19)) | (1L << (Subtract - 19)) | (1L << (OBracket - 19)) | (1L << (OParen - 19)) | (1L << (Bool - 19)) | (1L << (Number - 19)) | (1L << (Identifier - 19)) | (1L << (String - 19)))) != 0)) {
 					{
-					setState(196);
+					setState(202);
 					exprList();
 					}
 				}
 
-				setState(199);
+				setState(205);
 				match(CParen);
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class AllImportContext extends ParserRuleContext {
+		public AllImportContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_allImport; }
+	 
+		public AllImportContext() { }
+		public void copyFrom(AllImportContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class FileSystemImportStatementContext extends AllImportContext {
+		public ImportStatementContext importStatement() {
+			return getRuleContext(ImportStatementContext.class,0);
+		}
+		public FileSystemImportStatementContext(AllImportContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QListener ) ((QListener)listener).enterFileSystemImportStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QListener ) ((QListener)listener).exitFileSystemImportStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QVisitor ) return ((QVisitor<? extends T>)visitor).visitFileSystemImportStatement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class GithubImportStatementContext extends AllImportContext {
+		public ImportFromGithubStatementContext importFromGithubStatement() {
+			return getRuleContext(ImportFromGithubStatementContext.class,0);
+		}
+		public GithubImportStatementContext(AllImportContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QListener ) ((QListener)listener).enterGithubImportStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QListener ) ((QListener)listener).exitGithubImportStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QVisitor ) return ((QVisitor<? extends T>)visitor).visitGithubImportStatement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ImportAllContext extends AllImportContext {
+		public ImportAllStatementContext importAllStatement() {
+			return getRuleContext(ImportAllStatementContext.class,0);
+		}
+		public ImportAllContext(AllImportContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QListener ) ((QListener)listener).enterImportAll(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QListener ) ((QListener)listener).exitImportAll(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QVisitor ) return ((QVisitor<? extends T>)visitor).visitImportAll(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final AllImportContext allImport() throws RecognitionException {
+		AllImportContext _localctx = new AllImportContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_allImport);
+		try {
+			setState(211);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,12,_ctx) ) {
+			case 1:
+				_localctx = new FileSystemImportStatementContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(208);
+				importStatement();
+				}
+				break;
+			case 2:
+				_localctx = new GithubImportStatementContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(209);
+				importFromGithubStatement();
+				}
+				break;
+			case 3:
+				_localctx = new ImportAllContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(210);
+				importAllStatement();
 				}
 				break;
 			}
@@ -1008,30 +1128,30 @@ public class QParser extends Parser {
 
 	public final ObjFunctionCallContext objFunctionCall() throws RecognitionException {
 		ObjFunctionCallContext _localctx = new ObjFunctionCallContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_objFunctionCall);
+		enterRule(_localctx, 12, RULE_objFunctionCall);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(202);
+			setState(213);
 			match(Identifier);
-			setState(203);
+			setState(214);
 			match(T__0);
-			setState(204);
+			setState(215);
 			match(Identifier);
-			setState(205);
+			setState(216);
 			match(OParen);
-			setState(207);
+			setState(218);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (((((_la - 18)) & ~0x3f) == 0 && ((1L << (_la - 18)) & ((1L << (Println - 18)) | (1L << (Print - 18)) | (1L << (Input - 18)) | (1L << (Assert - 18)) | (1L << (ToInt - 18)) | (1L << (Null - 18)) | (1L << (Excl - 18)) | (1L << (Subtract - 18)) | (1L << (OBracket - 18)) | (1L << (OParen - 18)) | (1L << (Bool - 18)) | (1L << (Number - 18)) | (1L << (Identifier - 18)) | (1L << (String - 18)))) != 0)) {
+			if (((((_la - 19)) & ~0x3f) == 0 && ((1L << (_la - 19)) & ((1L << (Println - 19)) | (1L << (Print - 19)) | (1L << (Input - 19)) | (1L << (Assert - 19)) | (1L << (ToInt - 19)) | (1L << (Null - 19)) | (1L << (Excl - 19)) | (1L << (Subtract - 19)) | (1L << (OBracket - 19)) | (1L << (OParen - 19)) | (1L << (Bool - 19)) | (1L << (Number - 19)) | (1L << (Identifier - 19)) | (1L << (String - 19)))) != 0)) {
 				{
-				setState(206);
+				setState(217);
 				exprList();
 				}
 			}
 
-			setState(209);
+			setState(220);
 			match(CParen);
 			}
 		}
@@ -1069,15 +1189,15 @@ public class QParser extends Parser {
 
 	public final HeaderContext header() throws RecognitionException {
 		HeaderContext _localctx = new HeaderContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_header);
+		enterRule(_localctx, 14, RULE_header);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(211);
+			setState(222);
 			match(T__1);
-			setState(212);
+			setState(223);
 			match(T__2);
-			setState(213);
+			setState(224);
 			match(Identifier);
 			}
 		}
@@ -1129,36 +1249,36 @@ public class QParser extends Parser {
 
 	public final ObjFunctionDeclContext objFunctionDecl() throws RecognitionException {
 		ObjFunctionDeclContext _localctx = new ObjFunctionDeclContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_objFunctionDecl);
+		enterRule(_localctx, 16, RULE_objFunctionDecl);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(215);
+			setState(226);
 			match(Def);
-			setState(216);
+			setState(227);
 			match(Identifier);
-			setState(217);
+			setState(228);
 			match(Colon);
-			setState(218);
+			setState(229);
 			match(Identifier);
-			setState(219);
+			setState(230);
 			match(OParen);
-			setState(221);
+			setState(232);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==Identifier) {
 				{
-				setState(220);
+				setState(231);
 				idList();
 				}
 			}
 
-			setState(223);
+			setState(234);
 			match(CParen);
-			setState(224);
+			setState(235);
 			block();
-			setState(225);
+			setState(236);
 			match(End);
 			}
 		}
@@ -1208,41 +1328,41 @@ public class QParser extends Parser {
 
 	public final IfStatementContext ifStatement() throws RecognitionException {
 		IfStatementContext _localctx = new IfStatementContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_ifStatement);
+		enterRule(_localctx, 18, RULE_ifStatement);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(227);
+			setState(238);
 			ifStat();
-			setState(231);
+			setState(242);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,13,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,15,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(228);
+					setState(239);
 					elseIfStat();
 					}
 					} 
 				}
-				setState(233);
+				setState(244);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,13,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,15,_ctx);
 			}
-			setState(235);
+			setState(246);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==Else) {
 				{
-				setState(234);
+				setState(245);
 				elseStat();
 				}
 			}
 
-			setState(237);
+			setState(248);
 			match(End);
 			}
 		}
@@ -1289,21 +1409,21 @@ public class QParser extends Parser {
 
 	public final IfStatContext ifStat() throws RecognitionException {
 		IfStatContext _localctx = new IfStatContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_ifStat);
+		enterRule(_localctx, 20, RULE_ifStat);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(239);
+			setState(250);
 			match(If);
-			setState(240);
+			setState(251);
 			match(OParen);
-			setState(241);
+			setState(252);
 			expression(0);
-			setState(242);
+			setState(253);
 			match(CParen);
-			setState(243);
+			setState(254);
 			match(Do);
-			setState(244);
+			setState(255);
 			block();
 			}
 		}
@@ -1351,23 +1471,23 @@ public class QParser extends Parser {
 
 	public final ElseIfStatContext elseIfStat() throws RecognitionException {
 		ElseIfStatContext _localctx = new ElseIfStatContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_elseIfStat);
+		enterRule(_localctx, 22, RULE_elseIfStat);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(246);
+			setState(257);
 			match(Else);
-			setState(247);
+			setState(258);
 			match(If);
-			setState(248);
+			setState(259);
 			match(OParen);
-			setState(249);
+			setState(260);
 			expression(0);
-			setState(250);
+			setState(261);
 			match(CParen);
-			setState(251);
+			setState(262);
 			match(Do);
-			setState(252);
+			setState(263);
 			block();
 			}
 		}
@@ -1414,32 +1534,32 @@ public class QParser extends Parser {
 
 	public final ConstructorStatementContext constructorStatement() throws RecognitionException {
 		ConstructorStatementContext _localctx = new ConstructorStatementContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_constructorStatement);
+		enterRule(_localctx, 24, RULE_constructorStatement);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(254);
+			setState(265);
 			match(T__3);
-			setState(255);
+			setState(266);
 			match(Identifier);
-			setState(256);
+			setState(267);
 			match(OParen);
-			setState(258);
+			setState(269);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (((((_la - 18)) & ~0x3f) == 0 && ((1L << (_la - 18)) & ((1L << (Println - 18)) | (1L << (Print - 18)) | (1L << (Input - 18)) | (1L << (Assert - 18)) | (1L << (ToInt - 18)) | (1L << (Null - 18)) | (1L << (Excl - 18)) | (1L << (Subtract - 18)) | (1L << (OBracket - 18)) | (1L << (OParen - 18)) | (1L << (Bool - 18)) | (1L << (Number - 18)) | (1L << (Identifier - 18)) | (1L << (String - 18)))) != 0)) {
+			if (((((_la - 19)) & ~0x3f) == 0 && ((1L << (_la - 19)) & ((1L << (Println - 19)) | (1L << (Print - 19)) | (1L << (Input - 19)) | (1L << (Assert - 19)) | (1L << (ToInt - 19)) | (1L << (Null - 19)) | (1L << (Excl - 19)) | (1L << (Subtract - 19)) | (1L << (OBracket - 19)) | (1L << (OParen - 19)) | (1L << (Bool - 19)) | (1L << (Number - 19)) | (1L << (Identifier - 19)) | (1L << (String - 19)))) != 0)) {
 				{
-				setState(257);
+				setState(268);
 				exprList();
 				}
 			}
 
-			setState(260);
+			setState(271);
 			match(CParen);
-			setState(261);
+			setState(272);
 			block();
-			setState(262);
+			setState(273);
 			match(End);
 			}
 		}
@@ -1487,34 +1607,34 @@ public class QParser extends Parser {
 
 	public final ObjCreateStatementContext objCreateStatement() throws RecognitionException {
 		ObjCreateStatementContext _localctx = new ObjCreateStatementContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_objCreateStatement);
+		enterRule(_localctx, 26, RULE_objCreateStatement);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(264);
+			setState(275);
 			match(Identifier);
-			setState(265);
+			setState(276);
 			match(Identifier);
-			setState(266);
+			setState(277);
 			match(Assign);
-			setState(267);
+			setState(278);
 			match(New);
-			setState(268);
+			setState(279);
 			match(Identifier);
-			setState(269);
+			setState(280);
 			match(OParen);
-			setState(271);
+			setState(282);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (((((_la - 18)) & ~0x3f) == 0 && ((1L << (_la - 18)) & ((1L << (Println - 18)) | (1L << (Print - 18)) | (1L << (Input - 18)) | (1L << (Assert - 18)) | (1L << (ToInt - 18)) | (1L << (Null - 18)) | (1L << (Excl - 18)) | (1L << (Subtract - 18)) | (1L << (OBracket - 18)) | (1L << (OParen - 18)) | (1L << (Bool - 18)) | (1L << (Number - 18)) | (1L << (Identifier - 18)) | (1L << (String - 18)))) != 0)) {
+			if (((((_la - 19)) & ~0x3f) == 0 && ((1L << (_la - 19)) & ((1L << (Println - 19)) | (1L << (Print - 19)) | (1L << (Input - 19)) | (1L << (Assert - 19)) | (1L << (ToInt - 19)) | (1L << (Null - 19)) | (1L << (Excl - 19)) | (1L << (Subtract - 19)) | (1L << (OBracket - 19)) | (1L << (OParen - 19)) | (1L << (Bool - 19)) | (1L << (Number - 19)) | (1L << (Identifier - 19)) | (1L << (String - 19)))) != 0)) {
 				{
-				setState(270);
+				setState(281);
 				exprList();
 				}
 			}
 
-			setState(273);
+			setState(284);
 			match(CParen);
 			}
 		}
@@ -1556,23 +1676,23 @@ public class QParser extends Parser {
 
 	public final ListCreateStatementContext listCreateStatement() throws RecognitionException {
 		ListCreateStatementContext _localctx = new ListCreateStatementContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_listCreateStatement);
+		enterRule(_localctx, 28, RULE_listCreateStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(275);
+			setState(286);
 			match(T__4);
-			setState(276);
+			setState(287);
 			match(Identifier);
-			setState(277);
+			setState(288);
 			match(Assign);
-			setState(278);
+			setState(289);
 			match(New);
-			setState(279);
+			setState(290);
 			match(T__4);
-			setState(280);
+			setState(291);
 			match(LT);
-			setState(281);
+			setState(292);
 			match(GT);
 			}
 		}
@@ -1615,21 +1735,21 @@ public class QParser extends Parser {
 
 	public final ListAddStatementContext listAddStatement() throws RecognitionException {
 		ListAddStatementContext _localctx = new ListAddStatementContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_listAddStatement);
+		enterRule(_localctx, 30, RULE_listAddStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(283);
+			setState(294);
 			match(Identifier);
-			setState(284);
+			setState(295);
 			match(T__0);
-			setState(285);
+			setState(296);
 			match(T__5);
-			setState(286);
+			setState(297);
 			match(OParen);
-			setState(287);
+			setState(298);
 			expression(0);
-			setState(288);
+			setState(299);
 			match(CParen);
 			}
 		}
@@ -1672,21 +1792,21 @@ public class QParser extends Parser {
 
 	public final ListRemoveStatementContext listRemoveStatement() throws RecognitionException {
 		ListRemoveStatementContext _localctx = new ListRemoveStatementContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_listRemoveStatement);
+		enterRule(_localctx, 32, RULE_listRemoveStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(290);
+			setState(301);
 			match(Identifier);
-			setState(291);
+			setState(302);
 			match(T__0);
-			setState(292);
+			setState(303);
 			match(T__6);
-			setState(293);
+			setState(304);
 			match(OParen);
-			setState(294);
+			setState(305);
 			expression(0);
-			setState(295);
+			setState(306);
 			match(CParen);
 			}
 		}
@@ -1729,30 +1849,30 @@ public class QParser extends Parser {
 
 	public final OsExecStatementContext osExecStatement() throws RecognitionException {
 		OsExecStatementContext _localctx = new OsExecStatementContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_osExecStatement);
+		enterRule(_localctx, 34, RULE_osExecStatement);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(297);
+			setState(308);
 			match(T__7);
-			setState(298);
+			setState(309);
 			match(T__0);
-			setState(299);
+			setState(310);
 			match(Identifier);
-			setState(300);
+			setState(311);
 			match(OParen);
-			setState(302);
+			setState(313);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (((((_la - 18)) & ~0x3f) == 0 && ((1L << (_la - 18)) & ((1L << (Println - 18)) | (1L << (Print - 18)) | (1L << (Input - 18)) | (1L << (Assert - 18)) | (1L << (ToInt - 18)) | (1L << (Null - 18)) | (1L << (Excl - 18)) | (1L << (Subtract - 18)) | (1L << (OBracket - 18)) | (1L << (OParen - 18)) | (1L << (Bool - 18)) | (1L << (Number - 18)) | (1L << (Identifier - 18)) | (1L << (String - 18)))) != 0)) {
+			if (((((_la - 19)) & ~0x3f) == 0 && ((1L << (_la - 19)) & ((1L << (Println - 19)) | (1L << (Print - 19)) | (1L << (Input - 19)) | (1L << (Assert - 19)) | (1L << (ToInt - 19)) | (1L << (Null - 19)) | (1L << (Excl - 19)) | (1L << (Subtract - 19)) | (1L << (OBracket - 19)) | (1L << (OParen - 19)) | (1L << (Bool - 19)) | (1L << (Number - 19)) | (1L << (Identifier - 19)) | (1L << (String - 19)))) != 0)) {
 				{
-				setState(301);
+				setState(312);
 				expression(0);
 				}
 			}
 
-			setState(304);
+			setState(315);
 			match(CParen);
 			}
 		}
@@ -1795,21 +1915,21 @@ public class QParser extends Parser {
 
 	public final FileWriteStatementContext fileWriteStatement() throws RecognitionException {
 		FileWriteStatementContext _localctx = new FileWriteStatementContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_fileWriteStatement);
+		enterRule(_localctx, 36, RULE_fileWriteStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(306);
+			setState(317);
 			match(Identifier);
-			setState(307);
+			setState(318);
 			match(T__0);
-			setState(308);
+			setState(319);
 			match(T__8);
-			setState(309);
+			setState(320);
 			match(OParen);
-			setState(310);
+			setState(321);
 			expression(0);
-			setState(311);
+			setState(322);
 			match(CParen);
 			}
 		}
@@ -1851,17 +1971,17 @@ public class QParser extends Parser {
 
 	public final VerifyFileStatementContext verifyFileStatement() throws RecognitionException {
 		VerifyFileStatementContext _localctx = new VerifyFileStatementContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_verifyFileStatement);
+		enterRule(_localctx, 38, RULE_verifyFileStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(313);
+			setState(324);
 			match(T__9);
-			setState(314);
+			setState(325);
 			match(OParen);
-			setState(315);
+			setState(326);
 			expression(0);
-			setState(316);
+			setState(327);
 			match(CParen);
 			}
 		}
@@ -1899,13 +2019,13 @@ public class QParser extends Parser {
 
 	public final NullVarStatementContext nullVarStatement() throws RecognitionException {
 		NullVarStatementContext _localctx = new NullVarStatementContext(_ctx, getState());
-		enterRule(_localctx, 38, RULE_nullVarStatement);
+		enterRule(_localctx, 40, RULE_nullVarStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(318);
+			setState(329);
 			match(T__10);
-			setState(319);
+			setState(330);
 			match(Identifier);
 			}
 		}
@@ -1947,15 +2067,15 @@ public class QParser extends Parser {
 
 	public final ElseStatContext elseStat() throws RecognitionException {
 		ElseStatContext _localctx = new ElseStatContext(_ctx, getState());
-		enterRule(_localctx, 40, RULE_elseStat);
+		enterRule(_localctx, 42, RULE_elseStat);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(321);
+			setState(332);
 			match(Else);
-			setState(322);
+			setState(333);
 			match(Do);
-			setState(323);
+			setState(334);
 			block();
 			}
 		}
@@ -2003,32 +2123,32 @@ public class QParser extends Parser {
 
 	public final FunctionDeclContext functionDecl() throws RecognitionException {
 		FunctionDeclContext _localctx = new FunctionDeclContext(_ctx, getState());
-		enterRule(_localctx, 42, RULE_functionDecl);
+		enterRule(_localctx, 44, RULE_functionDecl);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(325);
+			setState(336);
 			match(Def);
-			setState(326);
+			setState(337);
 			match(Identifier);
-			setState(327);
+			setState(338);
 			match(OParen);
-			setState(329);
+			setState(340);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==Identifier) {
 				{
-				setState(328);
+				setState(339);
 				idList();
 				}
 			}
 
-			setState(331);
+			setState(342);
 			match(CParen);
-			setState(332);
+			setState(343);
 			block();
-			setState(333);
+			setState(344);
 			match(End);
 			}
 		}
@@ -2082,31 +2202,31 @@ public class QParser extends Parser {
 
 	public final ForStatementContext forStatement() throws RecognitionException {
 		ForStatementContext _localctx = new ForStatementContext(_ctx, getState());
-		enterRule(_localctx, 44, RULE_forStatement);
+		enterRule(_localctx, 46, RULE_forStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(335);
+			setState(346);
 			match(For);
-			setState(336);
+			setState(347);
 			match(OParen);
-			setState(337);
+			setState(348);
 			match(Identifier);
-			setState(338);
+			setState(349);
 			match(Assign);
-			setState(339);
+			setState(350);
 			expression(0);
-			setState(340);
+			setState(351);
 			match(To);
-			setState(341);
+			setState(352);
 			expression(0);
-			setState(342);
+			setState(353);
 			match(CParen);
-			setState(343);
+			setState(354);
 			match(Do);
-			setState(344);
+			setState(355);
 			block();
-			setState(345);
+			setState(356);
 			match(End);
 			}
 		}
@@ -2162,33 +2282,33 @@ public class QParser extends Parser {
 
 	public final ForInStatementContext forInStatement() throws RecognitionException {
 		ForInStatementContext _localctx = new ForInStatementContext(_ctx, getState());
-		enterRule(_localctx, 46, RULE_forInStatement);
+		enterRule(_localctx, 48, RULE_forInStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(347);
-			match(For);
-			setState(348);
-			match(OParen);
-			setState(349);
-			match(Identifier);
-			setState(350);
-			match(In);
-			setState(351);
-			match(T__11);
-			setState(352);
-			match(OParen);
-			setState(353);
-			expression(0);
-			setState(354);
-			match(CParen);
-			setState(355);
-			match(CParen);
-			setState(356);
-			match(Do);
-			setState(357);
-			block();
 			setState(358);
+			match(For);
+			setState(359);
+			match(OParen);
+			setState(360);
+			match(Identifier);
+			setState(361);
+			match(In);
+			setState(362);
+			match(T__11);
+			setState(363);
+			match(OParen);
+			setState(364);
+			expression(0);
+			setState(365);
+			match(CParen);
+			setState(366);
+			match(CParen);
+			setState(367);
+			match(Do);
+			setState(368);
+			block();
+			setState(369);
 			match(End);
 			}
 		}
@@ -2230,34 +2350,34 @@ public class QParser extends Parser {
 
 	public final ImportStatementContext importStatement() throws RecognitionException {
 		ImportStatementContext _localctx = new ImportStatementContext(_ctx, getState());
-		enterRule(_localctx, 48, RULE_importStatement);
+		enterRule(_localctx, 50, RULE_importStatement);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(360);
+			setState(371);
 			match(T__12);
-			setState(361);
+			setState(372);
 			match(Import);
-			setState(362);
+			setState(373);
 			match(Identifier);
-			setState(367);
+			setState(378);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
 			while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1+1 ) {
 					{
 					{
-					setState(363);
+					setState(374);
 					match(T__0);
-					setState(364);
+					setState(375);
 					match(Identifier);
 					}
 					} 
 				}
-				setState(369);
+				setState(380);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
 			}
 			}
 		}
@@ -2302,21 +2422,21 @@ public class QParser extends Parser {
 
 	public final AnonymousFunctionContext anonymousFunction() throws RecognitionException {
 		AnonymousFunctionContext _localctx = new AnonymousFunctionContext(_ctx, getState());
-		enterRule(_localctx, 50, RULE_anonymousFunction);
+		enterRule(_localctx, 52, RULE_anonymousFunction);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(370);
+			setState(381);
 			match(Def);
-			setState(371);
+			setState(382);
 			match(Subtract);
-			setState(372);
+			setState(383);
 			match(GT);
-			setState(373);
+			setState(384);
 			match(OBrace);
-			setState(374);
+			setState(385);
 			block();
-			setState(375);
+			setState(386);
 			match(CBrace);
 			}
 		}
@@ -2357,16 +2477,90 @@ public class QParser extends Parser {
 
 	public final ImportFromGithubStatementContext importFromGithubStatement() throws RecognitionException {
 		ImportFromGithubStatementContext _localctx = new ImportFromGithubStatementContext(_ctx, getState());
-		enterRule(_localctx, 52, RULE_importFromGithubStatement);
+		enterRule(_localctx, 54, RULE_importFromGithubStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(377);
+			setState(388);
 			match(T__12);
-			setState(378);
+			setState(389);
 			match(Import);
-			setState(379);
+			setState(390);
 			expression(0);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ImportAllStatementContext extends ParserRuleContext {
+		public TerminalNode Import() { return getToken(QParser.Import, 0); }
+		public TerminalNode OBracket() { return getToken(QParser.OBracket, 0); }
+		public TerminalNode Multiply() { return getToken(QParser.Multiply, 0); }
+		public TerminalNode CBracket() { return getToken(QParser.CBracket, 0); }
+		public ImportAllStatementContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_importAllStatement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QListener ) ((QListener)listener).enterImportAllStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QListener ) ((QListener)listener).exitImportAllStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QVisitor ) return ((QVisitor<? extends T>)visitor).visitImportAllStatement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ImportAllStatementContext importAllStatement() throws RecognitionException {
+		ImportAllStatementContext _localctx = new ImportAllStatementContext(_ctx, getState());
+		enterRule(_localctx, 56, RULE_importAllStatement);
+		try {
+			setState(402);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,22,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(392);
+				match(T__12);
+				setState(393);
+				match(Import);
+				setState(394);
+				match(OBracket);
+				setState(395);
+				match(Multiply);
+				setState(396);
+				match(CBracket);
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(397);
+				match(T__12);
+				setState(398);
+				match(Import);
+				setState(399);
+				match(OBracket);
+				setState(400);
+				match(T__13);
+				setState(401);
+				match(CBracket);
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -2410,19 +2604,19 @@ public class QParser extends Parser {
 
 	public final TryCatchStatementContext tryCatchStatement() throws RecognitionException {
 		TryCatchStatementContext _localctx = new TryCatchStatementContext(_ctx, getState());
-		enterRule(_localctx, 54, RULE_tryCatchStatement);
+		enterRule(_localctx, 58, RULE_tryCatchStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(381);
+			setState(404);
 			match(Try);
-			setState(382);
+			setState(405);
 			block();
-			setState(383);
-			match(T__13);
-			setState(384);
+			setState(406);
+			match(T__14);
+			setState(407);
 			block();
-			setState(385);
+			setState(408);
 			match(End);
 			}
 		}
@@ -2470,23 +2664,23 @@ public class QParser extends Parser {
 
 	public final WhileStatementContext whileStatement() throws RecognitionException {
 		WhileStatementContext _localctx = new WhileStatementContext(_ctx, getState());
-		enterRule(_localctx, 56, RULE_whileStatement);
+		enterRule(_localctx, 60, RULE_whileStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(387);
+			setState(410);
 			match(While);
-			setState(388);
+			setState(411);
 			match(OParen);
-			setState(389);
+			setState(412);
 			expression(0);
-			setState(390);
+			setState(413);
 			match(CParen);
-			setState(391);
+			setState(414);
 			match(Do);
-			setState(392);
+			setState(415);
 			block();
-			setState(393);
+			setState(416);
 			match(End);
 			}
 		}
@@ -2527,19 +2721,19 @@ public class QParser extends Parser {
 
 	public final WindowRenderStatementContext windowRenderStatement() throws RecognitionException {
 		WindowRenderStatementContext _localctx = new WindowRenderStatementContext(_ctx, getState());
-		enterRule(_localctx, 58, RULE_windowRenderStatement);
+		enterRule(_localctx, 62, RULE_windowRenderStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(395);
+			setState(418);
 			match(Identifier);
-			setState(396);
+			setState(419);
 			match(T__0);
-			setState(397);
+			setState(420);
 			match(Render);
-			setState(398);
+			setState(421);
 			match(OParen);
-			setState(399);
+			setState(422);
 			match(CParen);
 			}
 		}
@@ -2583,21 +2777,21 @@ public class QParser extends Parser {
 
 	public final WindowAddCompStatementContext windowAddCompStatement() throws RecognitionException {
 		WindowAddCompStatementContext _localctx = new WindowAddCompStatementContext(_ctx, getState());
-		enterRule(_localctx, 60, RULE_windowAddCompStatement);
+		enterRule(_localctx, 64, RULE_windowAddCompStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(401);
+			setState(424);
 			match(Identifier);
-			setState(402);
+			setState(425);
 			match(T__0);
-			setState(403);
+			setState(426);
 			match(AddComponent);
-			setState(404);
+			setState(427);
 			match(OParen);
-			setState(405);
+			setState(428);
 			expression(0);
-			setState(406);
+			setState(429);
 			match(CParen);
 			}
 		}
@@ -2640,21 +2834,21 @@ public class QParser extends Parser {
 
 	public final AddWebServerTextStatementContext addWebServerTextStatement() throws RecognitionException {
 		AddWebServerTextStatementContext _localctx = new AddWebServerTextStatementContext(_ctx, getState());
-		enterRule(_localctx, 62, RULE_addWebServerTextStatement);
+		enterRule(_localctx, 66, RULE_addWebServerTextStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(408);
+			setState(431);
 			match(Identifier);
-			setState(409);
+			setState(432);
 			match(T__0);
-			setState(410);
-			match(T__14);
-			setState(411);
+			setState(433);
+			match(T__15);
+			setState(434);
 			match(OParen);
-			setState(412);
+			setState(435);
 			expression(0);
-			setState(413);
+			setState(436);
 			match(CParen);
 			}
 		}
@@ -2695,15 +2889,15 @@ public class QParser extends Parser {
 
 	public final MainFunctionStatementContext mainFunctionStatement() throws RecognitionException {
 		MainFunctionStatementContext _localctx = new MainFunctionStatementContext(_ctx, getState());
-		enterRule(_localctx, 64, RULE_mainFunctionStatement);
+		enterRule(_localctx, 68, RULE_mainFunctionStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(415);
-			match(T__15);
-			setState(416);
+			setState(438);
+			match(T__16);
+			setState(439);
 			block();
-			setState(417);
+			setState(440);
 			match(End);
 			}
 		}
@@ -2748,26 +2942,26 @@ public class QParser extends Parser {
 
 	public final IdListContext idList() throws RecognitionException {
 		IdListContext _localctx = new IdListContext(_ctx, getState());
-		enterRule(_localctx, 66, RULE_idList);
+		enterRule(_localctx, 70, RULE_idList);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(419);
+			setState(442);
 			match(Identifier);
-			setState(424);
+			setState(447);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==Comma) {
 				{
 				{
-				setState(420);
+				setState(443);
 				match(Comma);
-				setState(421);
+				setState(444);
 				match(Identifier);
 				}
 				}
-				setState(426);
+				setState(449);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -2811,18 +3005,18 @@ public class QParser extends Parser {
 
 	public final ClassStatementContext classStatement() throws RecognitionException {
 		ClassStatementContext _localctx = new ClassStatementContext(_ctx, getState());
-		enterRule(_localctx, 68, RULE_classStatement);
+		enterRule(_localctx, 72, RULE_classStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(427);
+			setState(450);
 			match(Class);
-			setState(428);
+			setState(451);
 			match(Identifier);
-			setState(429);
+			setState(452);
 			block();
-			setState(430);
-			match(T__16);
+			setState(453);
+			match(T__17);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2868,26 +3062,26 @@ public class QParser extends Parser {
 
 	public final ExprListContext exprList() throws RecognitionException {
 		ExprListContext _localctx = new ExprListContext(_ctx, getState());
-		enterRule(_localctx, 70, RULE_exprList);
+		enterRule(_localctx, 74, RULE_exprList);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(432);
+			setState(455);
 			expression(0);
-			setState(437);
+			setState(460);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==Comma) {
 				{
 				{
-				setState(433);
+				setState(456);
 				match(Comma);
-				setState(434);
+				setState(457);
 				expression(0);
 				}
 				}
-				setState(439);
+				setState(462);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -3363,25 +3557,25 @@ public class QParser extends Parser {
 		int _parentState = getState();
 		ExpressionContext _localctx = new ExpressionContext(_ctx, _parentState);
 		ExpressionContext _prevctx = _localctx;
-		int _startState = 72;
-		enterRecursionRule(_localctx, 72, RULE_expression, _p);
+		int _startState = 76;
+		enterRecursionRule(_localctx, 76, RULE_expression, _p);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(476);
+			setState(499);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,28,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,31,_ctx) ) {
 			case 1:
 				{
 				_localctx = new UnaryMinusExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(441);
+				setState(464);
 				match(Subtract);
-				setState(442);
+				setState(465);
 				expression(20);
 				}
 				break;
@@ -3390,9 +3584,9 @@ public class QParser extends Parser {
 				_localctx = new NotExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(443);
+				setState(466);
 				match(Excl);
-				setState(444);
+				setState(467);
 				expression(19);
 				}
 				break;
@@ -3401,7 +3595,7 @@ public class QParser extends Parser {
 				_localctx = new NumberExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(445);
+				setState(468);
 				match(Number);
 				}
 				break;
@@ -3410,7 +3604,7 @@ public class QParser extends Parser {
 				_localctx = new BoolExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(446);
+				setState(469);
 				match(Bool);
 				}
 				break;
@@ -3419,7 +3613,7 @@ public class QParser extends Parser {
 				_localctx = new NullExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(447);
+				setState(470);
 				match(Null);
 				}
 				break;
@@ -3428,14 +3622,14 @@ public class QParser extends Parser {
 				_localctx = new FunctionCallExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(448);
+				setState(471);
 				functionCall();
-				setState(450);
+				setState(473);
 				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,22,_ctx) ) {
+				switch ( getInterpreter().adaptivePredict(_input,25,_ctx) ) {
 				case 1:
 					{
-					setState(449);
+					setState(472);
 					indexes();
 					}
 					break;
@@ -3447,14 +3641,14 @@ public class QParser extends Parser {
 				_localctx = new ListExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(452);
+				setState(475);
 				list();
-				setState(454);
+				setState(477);
 				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,23,_ctx) ) {
+				switch ( getInterpreter().adaptivePredict(_input,26,_ctx) ) {
 				case 1:
 					{
-					setState(453);
+					setState(476);
 					indexes();
 					}
 					break;
@@ -3466,14 +3660,14 @@ public class QParser extends Parser {
 				_localctx = new IdentifierExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(456);
+				setState(479);
 				match(Identifier);
-				setState(458);
+				setState(481);
 				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,24,_ctx) ) {
+				switch ( getInterpreter().adaptivePredict(_input,27,_ctx) ) {
 				case 1:
 					{
-					setState(457);
+					setState(480);
 					indexes();
 					}
 					break;
@@ -3485,14 +3679,14 @@ public class QParser extends Parser {
 				_localctx = new StringExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(460);
+				setState(483);
 				match(String);
-				setState(462);
+				setState(485);
 				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,25,_ctx) ) {
+				switch ( getInterpreter().adaptivePredict(_input,28,_ctx) ) {
 				case 1:
 					{
-					setState(461);
+					setState(484);
 					indexes();
 					}
 					break;
@@ -3504,18 +3698,18 @@ public class QParser extends Parser {
 				_localctx = new ExpressionExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(464);
+				setState(487);
 				match(OParen);
-				setState(465);
+				setState(488);
 				expression(0);
-				setState(466);
+				setState(489);
 				match(CParen);
-				setState(468);
+				setState(491);
 				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,26,_ctx) ) {
+				switch ( getInterpreter().adaptivePredict(_input,29,_ctx) ) {
 				case 1:
 					{
-					setState(467);
+					setState(490);
 					indexes();
 					}
 					break;
@@ -3527,46 +3721,46 @@ public class QParser extends Parser {
 				_localctx = new InputExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(470);
+				setState(493);
 				match(Input);
-				setState(471);
+				setState(494);
 				match(OParen);
-				setState(473);
+				setState(496);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==String) {
 					{
-					setState(472);
+					setState(495);
 					match(String);
 					}
 				}
 
-				setState(475);
+				setState(498);
 				match(CParen);
 				}
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(510);
+			setState(533);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,30,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,33,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(508);
+					setState(531);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,29,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,32,_ctx) ) {
 					case 1:
 						{
 						_localctx = new PowerExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(478);
+						setState(501);
 						if (!(precpred(_ctx, 18))) throw new FailedPredicateException(this, "precpred(_ctx, 18)");
-						setState(479);
+						setState(502);
 						match(Pow);
-						setState(480);
+						setState(503);
 						expression(18);
 						}
 						break;
@@ -3574,9 +3768,9 @@ public class QParser extends Parser {
 						{
 						_localctx = new MultExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(481);
+						setState(504);
 						if (!(precpred(_ctx, 17))) throw new FailedPredicateException(this, "precpred(_ctx, 17)");
-						setState(482);
+						setState(505);
 						((MultExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Multiply) | (1L << Divide) | (1L << Modulus))) != 0)) ) {
@@ -3587,7 +3781,7 @@ public class QParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(483);
+						setState(506);
 						expression(18);
 						}
 						break;
@@ -3595,9 +3789,9 @@ public class QParser extends Parser {
 						{
 						_localctx = new AddExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(484);
+						setState(507);
 						if (!(precpred(_ctx, 16))) throw new FailedPredicateException(this, "precpred(_ctx, 16)");
-						setState(485);
+						setState(508);
 						((AddExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==Add || _la==Subtract) ) {
@@ -3608,7 +3802,7 @@ public class QParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(486);
+						setState(509);
 						expression(17);
 						}
 						break;
@@ -3616,9 +3810,9 @@ public class QParser extends Parser {
 						{
 						_localctx = new CompExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(487);
+						setState(510);
 						if (!(precpred(_ctx, 15))) throw new FailedPredicateException(this, "precpred(_ctx, 15)");
-						setState(488);
+						setState(511);
 						((CompExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << GTEquals) | (1L << LTEquals) | (1L << GT) | (1L << LT))) != 0)) ) {
@@ -3629,7 +3823,7 @@ public class QParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(489);
+						setState(512);
 						expression(16);
 						}
 						break;
@@ -3637,9 +3831,9 @@ public class QParser extends Parser {
 						{
 						_localctx = new EqExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(490);
+						setState(513);
 						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
-						setState(491);
+						setState(514);
 						((EqExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==Equals || _la==NEquals) ) {
@@ -3650,7 +3844,7 @@ public class QParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(492);
+						setState(515);
 						expression(15);
 						}
 						break;
@@ -3658,11 +3852,11 @@ public class QParser extends Parser {
 						{
 						_localctx = new AndExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(493);
+						setState(516);
 						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
-						setState(494);
+						setState(517);
 						match(And);
-						setState(495);
+						setState(518);
 						expression(14);
 						}
 						break;
@@ -3670,11 +3864,11 @@ public class QParser extends Parser {
 						{
 						_localctx = new OrExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(496);
+						setState(519);
 						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
-						setState(497);
+						setState(520);
 						match(Or);
-						setState(498);
+						setState(521);
 						expression(13);
 						}
 						break;
@@ -3682,15 +3876,15 @@ public class QParser extends Parser {
 						{
 						_localctx = new TernaryExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(499);
+						setState(522);
 						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
-						setState(500);
+						setState(523);
 						match(QMark);
-						setState(501);
+						setState(524);
 						expression(0);
-						setState(502);
+						setState(525);
 						match(Colon);
-						setState(503);
+						setState(526);
 						expression(12);
 						}
 						break;
@@ -3698,20 +3892,20 @@ public class QParser extends Parser {
 						{
 						_localctx = new InExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(505);
+						setState(528);
 						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
-						setState(506);
+						setState(529);
 						match(In);
-						setState(507);
+						setState(530);
 						expression(11);
 						}
 						break;
 					}
 					} 
 				}
-				setState(512);
+				setState(535);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,30,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,33,_ctx);
 			}
 			}
 		}
@@ -3753,24 +3947,24 @@ public class QParser extends Parser {
 
 	public final ListContext list() throws RecognitionException {
 		ListContext _localctx = new ListContext(_ctx, getState());
-		enterRule(_localctx, 74, RULE_list);
+		enterRule(_localctx, 78, RULE_list);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(513);
+			setState(536);
 			match(OBracket);
-			setState(515);
+			setState(538);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (((((_la - 18)) & ~0x3f) == 0 && ((1L << (_la - 18)) & ((1L << (Println - 18)) | (1L << (Print - 18)) | (1L << (Input - 18)) | (1L << (Assert - 18)) | (1L << (ToInt - 18)) | (1L << (Null - 18)) | (1L << (Excl - 18)) | (1L << (Subtract - 18)) | (1L << (OBracket - 18)) | (1L << (OParen - 18)) | (1L << (Bool - 18)) | (1L << (Number - 18)) | (1L << (Identifier - 18)) | (1L << (String - 18)))) != 0)) {
+			if (((((_la - 19)) & ~0x3f) == 0 && ((1L << (_la - 19)) & ((1L << (Println - 19)) | (1L << (Print - 19)) | (1L << (Input - 19)) | (1L << (Assert - 19)) | (1L << (ToInt - 19)) | (1L << (Null - 19)) | (1L << (Excl - 19)) | (1L << (Subtract - 19)) | (1L << (OBracket - 19)) | (1L << (OParen - 19)) | (1L << (Bool - 19)) | (1L << (Number - 19)) | (1L << (Identifier - 19)) | (1L << (String - 19)))) != 0)) {
 				{
-				setState(514);
+				setState(537);
 				exprList();
 				}
 			}
 
-			setState(517);
+			setState(540);
 			match(CBracket);
 			}
 		}
@@ -3821,12 +4015,12 @@ public class QParser extends Parser {
 
 	public final IndexesContext indexes() throws RecognitionException {
 		IndexesContext _localctx = new IndexesContext(_ctx, getState());
-		enterRule(_localctx, 76, RULE_indexes);
+		enterRule(_localctx, 80, RULE_indexes);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(523); 
+			setState(546); 
 			_errHandler.sync(this);
 			_alt = 1;
 			do {
@@ -3834,11 +4028,11 @@ public class QParser extends Parser {
 				case 1:
 					{
 					{
-					setState(519);
+					setState(542);
 					match(OBracket);
-					setState(520);
+					setState(543);
 					expression(0);
-					setState(521);
+					setState(544);
 					match(CBracket);
 					}
 					}
@@ -3846,9 +4040,9 @@ public class QParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(525); 
+				setState(548); 
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,32,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,35,_ctx);
 			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
 			}
 		}
@@ -3865,7 +4059,7 @@ public class QParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 36:
+		case 38:
 			return expression_sempred((ExpressionContext)_localctx, predIndex);
 		}
 		return true;
@@ -3895,191 +4089,200 @@ public class QParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3M\u0212\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3N\u0229\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
 		"\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\4\36\t\36\4\37\t\37\4 \t \4!"+
-		"\t!\4\"\t\"\4#\t#\4$\t$\4%\t%\4&\t&\4\'\t\'\4(\t(\3\2\5\2R\n\2\3\2\3\2"+
-		"\3\2\3\3\3\3\7\3Y\n\3\f\3\16\3\\\13\3\3\3\3\3\3\3\3\3\5\3b\n\3\3\4\3\4"+
-		"\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3"+
-		"\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4\u0083\n\4\3\4\3\4\3"+
+		"\t!\4\"\t\"\4#\t#\4$\t$\4%\t%\4&\t&\4\'\t\'\4(\t(\4)\t)\4*\t*\3\2\5\2"+
+		"V\n\2\3\2\3\2\3\2\7\2[\n\2\f\2\16\2^\13\2\3\2\3\2\3\2\3\3\3\3\7\3e\n\3"+
+		"\f\3\16\3h\13\3\3\3\3\3\3\3\3\3\5\3n\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3"+
 		"\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
-		"\3\4\3\4\3\4\3\4\3\4\3\4\5\4\u009f\n\4\3\5\3\5\5\5\u00a3\n\5\3\5\3\5\3"+
-		"\5\3\6\3\6\3\6\5\6\u00ab\n\6\3\6\3\6\3\6\3\6\5\6\u00b1\n\6\3\6\3\6\3\6"+
-		"\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3"+
-		"\6\5\6\u00c8\n\6\3\6\5\6\u00cb\n\6\3\7\3\7\3\7\3\7\3\7\5\7\u00d2\n\7\3"+
-		"\7\3\7\3\b\3\b\3\b\3\b\3\t\3\t\3\t\3\t\3\t\3\t\5\t\u00e0\n\t\3\t\3\t\3"+
-		"\t\3\t\3\n\3\n\7\n\u00e8\n\n\f\n\16\n\u00eb\13\n\3\n\5\n\u00ee\n\n\3\n"+
-		"\3\n\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3"+
-		"\f\3\r\3\r\3\r\3\r\5\r\u0105\n\r\3\r\3\r\3\r\3\r\3\16\3\16\3\16\3\16\3"+
-		"\16\3\16\3\16\5\16\u0112\n\16\3\16\3\16\3\17\3\17\3\17\3\17\3\17\3\17"+
-		"\3\17\3\17\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\21\3\21\3\21\3\21\3\21"+
-		"\3\21\3\21\3\22\3\22\3\22\3\22\3\22\5\22\u0131\n\22\3\22\3\22\3\23\3\23"+
-		"\3\23\3\23\3\23\3\23\3\23\3\24\3\24\3\24\3\24\3\24\3\25\3\25\3\25\3\26"+
-		"\3\26\3\26\3\26\3\27\3\27\3\27\3\27\5\27\u014c\n\27\3\27\3\27\3\27\3\27"+
-		"\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\30\3\31\3\31"+
-		"\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\32\3\32\3\32"+
-		"\3\32\3\32\7\32\u0170\n\32\f\32\16\32\u0173\13\32\3\33\3\33\3\33\3\33"+
-		"\3\33\3\33\3\33\3\34\3\34\3\34\3\34\3\35\3\35\3\35\3\35\3\35\3\35\3\36"+
-		"\3\36\3\36\3\36\3\36\3\36\3\36\3\36\3\37\3\37\3\37\3\37\3\37\3\37\3 \3"+
-		" \3 \3 \3 \3 \3 \3!\3!\3!\3!\3!\3!\3!\3\"\3\"\3\"\3\"\3#\3#\3#\7#\u01a9"+
-		"\n#\f#\16#\u01ac\13#\3$\3$\3$\3$\3$\3%\3%\3%\7%\u01b6\n%\f%\16%\u01b9"+
-		"\13%\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\5&\u01c5\n&\3&\3&\5&\u01c9\n&\3&\3"+
-		"&\5&\u01cd\n&\3&\3&\5&\u01d1\n&\3&\3&\3&\3&\5&\u01d7\n&\3&\3&\3&\5&\u01dc"+
-		"\n&\3&\5&\u01df\n&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&"+
-		"\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\3&\7&\u01ff\n&\f&\16&\u0202\13&\3"+
-		"\'\3\'\5\'\u0206\n\'\3\'\3\'\3(\3(\3(\3(\6(\u020e\n(\r(\16(\u020f\3(\3"+
-		"\u0171\3J)\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\66"+
-		"8:<>@BDFHJLN\2\6\3\29;\3\2\678\4\2\61\62\65\66\3\2/\60\2\u0237\2Q\3\2"+
-		"\2\2\4Z\3\2\2\2\6\u009e\3\2\2\2\b\u00a0\3\2\2\2\n\u00ca\3\2\2\2\f\u00cc"+
-		"\3\2\2\2\16\u00d5\3\2\2\2\20\u00d9\3\2\2\2\22\u00e5\3\2\2\2\24\u00f1\3"+
-		"\2\2\2\26\u00f8\3\2\2\2\30\u0100\3\2\2\2\32\u010a\3\2\2\2\34\u0115\3\2"+
-		"\2\2\36\u011d\3\2\2\2 \u0124\3\2\2\2\"\u012b\3\2\2\2$\u0134\3\2\2\2&\u013b"+
-		"\3\2\2\2(\u0140\3\2\2\2*\u0143\3\2\2\2,\u0147\3\2\2\2.\u0151\3\2\2\2\60"+
-		"\u015d\3\2\2\2\62\u016a\3\2\2\2\64\u0174\3\2\2\2\66\u017b\3\2\2\28\u017f"+
-		"\3\2\2\2:\u0185\3\2\2\2<\u018d\3\2\2\2>\u0193\3\2\2\2@\u019a\3\2\2\2B"+
-		"\u01a1\3\2\2\2D\u01a5\3\2\2\2F\u01ad\3\2\2\2H\u01b2\3\2\2\2J\u01de\3\2"+
-		"\2\2L\u0203\3\2\2\2N\u020d\3\2\2\2PR\5\16\b\2QP\3\2\2\2QR\3\2\2\2RS\3"+
-		"\2\2\2ST\5\4\3\2TU\7\2\2\3U\3\3\2\2\2VY\5\6\4\2WY\5,\27\2XV\3\2\2\2XW"+
-		"\3\2\2\2Y\\\3\2\2\2ZX\3\2\2\2Z[\3\2\2\2[a\3\2\2\2\\Z\3\2\2\2]^\7\"\2\2"+
-		"^_\5J&\2_`\7B\2\2`b\3\2\2\2a]\3\2\2\2ab\3\2\2\2b\5\3\2\2\2cd\5\n\6\2d"+
-		"e\7B\2\2e\u009f\3\2\2\2f\u009f\5\22\n\2g\u009f\5.\30\2h\u009f\5\60\31"+
-		"\2i\u009f\5:\36\2j\u009f\58\35\2k\u009f\5B\"\2lm\5@!\2mn\7B\2\2n\u009f"+
-		"\3\2\2\2op\5\b\5\2pq\7B\2\2q\u009f\3\2\2\2r\u009f\5F$\2s\u009f\5\30\r"+
-		"\2tu\5> \2uv\7B\2\2v\u009f\3\2\2\2wx\5<\37\2xy\7B\2\2y\u009f\3\2\2\2z"+
-		"{\5$\23\2{|\7B\2\2|\u009f\3\2\2\2}~\5&\24\2~\177\7B\2\2\177\u009f\3\2"+
-		"\2\2\u0080\u0082\5\f\7\2\u0081\u0083\7B\2\2\u0082\u0081\3\2\2\2\u0082"+
-		"\u0083\3\2\2\2\u0083\u009f\3\2\2\2\u0084\u009f\5\20\t\2\u0085\u0086\5"+
-		"\32\16\2\u0086\u0087\7B\2\2\u0087\u009f\3\2\2\2\u0088\u0089\5\34\17\2"+
-		"\u0089\u008a\7B\2\2\u008a\u009f\3\2\2\2\u008b\u008c\5\36\20\2\u008c\u008d"+
-		"\7B\2\2\u008d\u009f\3\2\2\2\u008e\u008f\5 \21\2\u008f\u0090\7B\2\2\u0090"+
-		"\u009f\3\2\2\2\u0091\u0092\5\"\22\2\u0092\u0093\7B\2\2\u0093\u009f\3\2"+
-		"\2\2\u0094\u0095\5\66\34\2\u0095\u0096\7B\2\2\u0096\u009f\3\2\2\2\u0097"+
-		"\u0098\5\62\32\2\u0098\u0099\7B\2\2\u0099\u009f\3\2\2\2\u009a\u009f\5"+
-		"\64\33\2\u009b\u009c\5(\25\2\u009c\u009d\7B\2\2\u009d\u009f\3\2\2\2\u009e"+
-		"c\3\2\2\2\u009ef\3\2\2\2\u009eg\3\2\2\2\u009eh\3\2\2\2\u009ei\3\2\2\2"+
-		"\u009ej\3\2\2\2\u009ek\3\2\2\2\u009el\3\2\2\2\u009eo\3\2\2\2\u009er\3"+
-		"\2\2\2\u009es\3\2\2\2\u009et\3\2\2\2\u009ew\3\2\2\2\u009ez\3\2\2\2\u009e"+
-		"}\3\2\2\2\u009e\u0080\3\2\2\2\u009e\u0084\3\2\2\2\u009e\u0085\3\2\2\2"+
-		"\u009e\u0088\3\2\2\2\u009e\u008b\3\2\2\2\u009e\u008e\3\2\2\2\u009e\u0091"+
-		"\3\2\2\2\u009e\u0094\3\2\2\2\u009e\u0097\3\2\2\2\u009e\u009a\3\2\2\2\u009e"+
-		"\u009b\3\2\2\2\u009f\7\3\2\2\2\u00a0\u00a2\7I\2\2\u00a1\u00a3\5N(\2\u00a2"+
-		"\u00a1\3\2\2\2\u00a2\u00a3\3\2\2\2\u00a3\u00a4\3\2\2\2\u00a4\u00a5\7C"+
-		"\2\2\u00a5\u00a6\5J&\2\u00a6\t\3\2\2\2\u00a7\u00a8\7I\2\2\u00a8\u00aa"+
-		"\7@\2\2\u00a9\u00ab\5H%\2\u00aa\u00a9\3\2\2\2\u00aa\u00ab\3\2\2\2\u00ab"+
-		"\u00ac\3\2\2\2\u00ac\u00cb\7A\2\2\u00ad\u00ae\7\24\2\2\u00ae\u00b0\7@"+
-		"\2\2\u00af\u00b1\5J&\2\u00b0\u00af\3\2\2\2\u00b0\u00b1\3\2\2\2\u00b1\u00b2"+
-		"\3\2\2\2\u00b2\u00cb\7A\2\2\u00b3\u00b4\7\32\2\2\u00b4\u00b5\7@\2\2\u00b5"+
-		"\u00b6\5J&\2\u00b6\u00b7\7A\2\2\u00b7\u00cb\3\2\2\2\u00b8\u00b9\7\34\2"+
-		"\2\u00b9\u00ba\7@\2\2\u00ba\u00bb\5J&\2\u00bb\u00bc\7A\2\2\u00bc\u00cb"+
-		"\3\2\2\2\u00bd\u00be\7\36\2\2\u00be\u00bf\7@\2\2\u00bf\u00c0\5J&\2\u00c0"+
-		"\u00c1\7A\2\2\u00c1\u00cb\3\2\2\2\u00c2\u00c3\7I\2\2\u00c3\u00c4\7\3\2"+
-		"\2\u00c4\u00c5\7I\2\2\u00c5\u00c7\7@\2\2\u00c6\u00c8\5H%\2\u00c7\u00c6"+
-		"\3\2\2\2\u00c7\u00c8\3\2\2\2\u00c8\u00c9\3\2\2\2\u00c9\u00cb\7A\2\2\u00ca"+
-		"\u00a7\3\2\2\2\u00ca\u00ad\3\2\2\2\u00ca\u00b3\3\2\2\2\u00ca\u00b8\3\2"+
-		"\2\2\u00ca\u00bd\3\2\2\2\u00ca\u00c2\3\2\2\2\u00cb\13\3\2\2\2\u00cc\u00cd"+
-		"\7I\2\2\u00cd\u00ce\7\3\2\2\u00ce\u00cf\7I\2\2\u00cf\u00d1\7@\2\2\u00d0"+
-		"\u00d2\5H%\2\u00d1\u00d0\3\2\2\2\u00d1\u00d2\3\2\2\2\u00d2\u00d3\3\2\2"+
-		"\2\u00d3\u00d4\7A\2\2\u00d4\r\3\2\2\2\u00d5\u00d6\7\4\2\2\u00d6\u00d7"+
-		"\7\5\2\2\u00d7\u00d8\7I\2\2\u00d8\17\3\2\2\2\u00d9\u00da\7\35\2\2\u00da"+
-		"\u00db\7I\2\2\u00db\u00dc\7F\2\2\u00dc\u00dd\7I\2\2\u00dd\u00df\7@\2\2"+
-		"\u00de\u00e0\5D#\2\u00df\u00de\3\2\2\2\u00df\u00e0\3\2\2\2\u00e0\u00e1"+
-		"\3\2\2\2\u00e1\u00e2\7A\2\2\u00e2\u00e3\5\4\3\2\u00e3\u00e4\7\'\2\2\u00e4"+
-		"\21\3\2\2\2\u00e5\u00e9\5\24\13\2\u00e6\u00e8\5\26\f\2\u00e7\u00e6\3\2"+
-		"\2\2\u00e8\u00eb\3\2\2\2\u00e9\u00e7\3\2\2\2\u00e9\u00ea\3\2\2\2\u00ea"+
-		"\u00ed\3\2\2\2\u00eb\u00e9\3\2\2\2\u00ec\u00ee\5*\26\2\u00ed\u00ec\3\2"+
-		"\2\2\u00ed\u00ee\3\2\2\2\u00ee\u00ef\3\2\2\2\u00ef\u00f0\7\'\2\2\u00f0"+
-		"\23\3\2\2\2\u00f1\u00f2\7 \2\2\u00f2\u00f3\7@\2\2\u00f3\u00f4\5J&\2\u00f4"+
-		"\u00f5\7A\2\2\u00f5\u00f6\7&\2\2\u00f6\u00f7\5\4\3\2\u00f7\25\3\2\2\2"+
-		"\u00f8\u00f9\7!\2\2\u00f9\u00fa\7 \2\2\u00fa\u00fb\7@\2\2\u00fb\u00fc"+
-		"\5J&\2\u00fc\u00fd\7A\2\2\u00fd\u00fe\7&\2\2\u00fe\u00ff\5\4\3\2\u00ff"+
-		"\27\3\2\2\2\u0100\u0101\7\6\2\2\u0101\u0102\7I\2\2\u0102\u0104\7@\2\2"+
-		"\u0103\u0105\5H%\2\u0104\u0103\3\2\2\2\u0104\u0105\3\2\2\2\u0105\u0106"+
-		"\3\2\2\2\u0106\u0107\7A\2\2\u0107\u0108\5\4\3\2\u0108\u0109\7\'\2\2\u0109"+
-		"\31\3\2\2\2\u010a\u010b\7I\2\2\u010b\u010c\7I\2\2\u010c\u010d\7C\2\2\u010d"+
-		"\u010e\7\27\2\2\u010e\u010f\7I\2\2\u010f\u0111\7@\2\2\u0110\u0112\5H%"+
-		"\2\u0111\u0110\3\2\2\2\u0111\u0112\3\2\2\2\u0112\u0113\3\2\2\2\u0113\u0114"+
-		"\7A\2\2\u0114\33\3\2\2\2\u0115\u0116\7\7\2\2\u0116\u0117\7I\2\2\u0117"+
-		"\u0118\7C\2\2\u0118\u0119\7\27\2\2\u0119\u011a\7\7\2\2\u011a\u011b\7\66"+
-		"\2\2\u011b\u011c\7\65\2\2\u011c\35\3\2\2\2\u011d\u011e\7I\2\2\u011e\u011f"+
-		"\7\3\2\2\u011f\u0120\7\b\2\2\u0120\u0121\7@\2\2\u0121\u0122\5J&\2\u0122"+
-		"\u0123\7A\2\2\u0123\37\3\2\2\2\u0124\u0125\7I\2\2\u0125\u0126\7\3\2\2"+
-		"\u0126\u0127\7\t\2\2\u0127\u0128\7@\2\2\u0128\u0129\5J&\2\u0129\u012a"+
-		"\7A\2\2\u012a!\3\2\2\2\u012b\u012c\7\n\2\2\u012c\u012d\7\3\2\2\u012d\u012e"+
-		"\7I\2\2\u012e\u0130\7@\2\2\u012f\u0131\5J&\2\u0130\u012f\3\2\2\2\u0130"+
-		"\u0131\3\2\2\2\u0131\u0132\3\2\2\2\u0132\u0133\7A\2\2\u0133#\3\2\2\2\u0134"+
-		"\u0135\7I\2\2\u0135\u0136\7\3\2\2\u0136\u0137\7\13\2\2\u0137\u0138\7@"+
-		"\2\2\u0138\u0139\5J&\2\u0139\u013a\7A\2\2\u013a%\3\2\2\2\u013b\u013c\7"+
-		"\f\2\2\u013c\u013d\7@\2\2\u013d\u013e\5J&\2\u013e\u013f\7A\2\2\u013f\'"+
-		"\3\2\2\2\u0140\u0141\7\r\2\2\u0141\u0142\7I\2\2\u0142)\3\2\2\2\u0143\u0144"+
-		"\7!\2\2\u0144\u0145\7&\2\2\u0145\u0146\5\4\3\2\u0146+\3\2\2\2\u0147\u0148"+
-		"\7\35\2\2\u0148\u0149\7I\2\2\u0149\u014b\7@\2\2\u014a\u014c\5D#\2\u014b"+
-		"\u014a\3\2\2\2\u014b\u014c\3\2\2\2\u014c\u014d\3\2\2\2\u014d\u014e\7A"+
-		"\2\2\u014e\u014f\5\4\3\2\u014f\u0150\7\'\2\2\u0150-\3\2\2\2\u0151\u0152"+
-		"\7#\2\2\u0152\u0153\7@\2\2\u0153\u0154\7I\2\2\u0154\u0155\7C\2\2\u0155"+
-		"\u0156\5J&\2\u0156\u0157\7%\2\2\u0157\u0158\5J&\2\u0158\u0159\7A\2\2\u0159"+
-		"\u015a\7&\2\2\u015a\u015b\5\4\3\2\u015b\u015c\7\'\2\2\u015c/\3\2\2\2\u015d"+
-		"\u015e\7#\2\2\u015e\u015f\7@\2\2\u015f\u0160\7I\2\2\u0160\u0161\7(\2\2"+
-		"\u0161\u0162\7\16\2\2\u0162\u0163\7@\2\2\u0163\u0164\5J&\2\u0164\u0165"+
-		"\7A\2\2\u0165\u0166\7A\2\2\u0166\u0167\7&\2\2\u0167\u0168\5\4\3\2\u0168"+
-		"\u0169\7\'\2\2\u0169\61\3\2\2\2\u016a\u016b\7\17\2\2\u016b\u016c\7\31"+
-		"\2\2\u016c\u0171\7I\2\2\u016d\u016e\7\3\2\2\u016e\u0170\7I\2\2\u016f\u016d"+
-		"\3\2\2\2\u0170\u0173\3\2\2\2\u0171\u0172\3\2\2\2\u0171\u016f\3\2\2\2\u0172"+
-		"\63\3\2\2\2\u0173\u0171\3\2\2\2\u0174\u0175\7\35\2\2\u0175\u0176\78\2"+
-		"\2\u0176\u0177\7\65\2\2\u0177\u0178\7<\2\2\u0178\u0179\5\4\3\2\u0179\u017a"+
-		"\7=\2\2\u017a\65\3\2\2\2\u017b\u017c\7\17\2\2\u017c\u017d\7\31\2\2\u017d"+
-		"\u017e\5J&\2\u017e\67\3\2\2\2\u017f\u0180\7*\2\2\u0180\u0181\5\4\3\2\u0181"+
-		"\u0182\7\20\2\2\u0182\u0183\5\4\3\2\u0183\u0184\7\'\2\2\u01849\3\2\2\2"+
-		"\u0185\u0186\7$\2\2\u0186\u0187\7@\2\2\u0187\u0188\5J&\2\u0188\u0189\7"+
-		"A\2\2\u0189\u018a\7&\2\2\u018a\u018b\5\4\3\2\u018b\u018c\7\'\2\2\u018c"+
-		";\3\2\2\2\u018d\u018e\7I\2\2\u018e\u018f\7\3\2\2\u018f\u0190\7\25\2\2"+
-		"\u0190\u0191\7@\2\2\u0191\u0192\7A\2\2\u0192=\3\2\2\2\u0193\u0194\7I\2"+
-		"\2\u0194\u0195\7\3\2\2\u0195\u0196\7\26\2\2\u0196\u0197\7@\2\2\u0197\u0198"+
-		"\5J&\2\u0198\u0199\7A\2\2\u0199?\3\2\2\2\u019a\u019b\7I\2\2\u019b\u019c"+
-		"\7\3\2\2\u019c\u019d\7\21\2\2\u019d\u019e\7@\2\2\u019e\u019f\5J&\2\u019f"+
-		"\u01a0\7A\2\2\u01a0A\3\2\2\2\u01a1\u01a2\7\22\2\2\u01a2\u01a3\5\4\3\2"+
-		"\u01a3\u01a4\7\'\2\2\u01a4C\3\2\2\2\u01a5\u01aa\7I\2\2\u01a6\u01a7\7D"+
-		"\2\2\u01a7\u01a9\7I\2\2\u01a8\u01a6\3\2\2\2\u01a9\u01ac\3\2\2\2\u01aa"+
-		"\u01a8\3\2\2\2\u01aa\u01ab\3\2\2\2\u01abE\3\2\2\2\u01ac\u01aa\3\2\2\2"+
-		"\u01ad\u01ae\7,\2\2\u01ae\u01af\7I\2\2\u01af\u01b0\5\4\3\2\u01b0\u01b1"+
-		"\7\23\2\2\u01b1G\3\2\2\2\u01b2\u01b7\5J&\2\u01b3\u01b4\7D\2\2\u01b4\u01b6"+
-		"\5J&\2\u01b5\u01b3\3\2\2\2\u01b6\u01b9\3\2\2\2\u01b7\u01b5\3\2\2\2\u01b7"+
-		"\u01b8\3\2\2\2\u01b8I\3\2\2\2\u01b9\u01b7\3\2\2\2\u01ba\u01bb\b&\1\2\u01bb"+
-		"\u01bc\78\2\2\u01bc\u01df\5J&\26\u01bd\u01be\7\64\2\2\u01be\u01df\5J&"+
-		"\25\u01bf\u01df\7H\2\2\u01c0\u01df\7G\2\2\u01c1\u01df\7)\2\2\u01c2\u01c4"+
-		"\5\n\6\2\u01c3\u01c5\5N(\2\u01c4\u01c3\3\2\2\2\u01c4\u01c5\3\2\2\2\u01c5"+
-		"\u01df\3\2\2\2\u01c6\u01c8\5L\'\2\u01c7\u01c9\5N(\2\u01c8\u01c7\3\2\2"+
-		"\2\u01c8\u01c9\3\2\2\2\u01c9\u01df\3\2\2\2\u01ca\u01cc\7I\2\2\u01cb\u01cd"+
-		"\5N(\2\u01cc\u01cb\3\2\2\2\u01cc\u01cd\3\2\2\2\u01cd\u01df\3\2\2\2\u01ce"+
-		"\u01d0\7J\2\2\u01cf\u01d1\5N(\2\u01d0\u01cf\3\2\2\2\u01d0\u01d1\3\2\2"+
-		"\2\u01d1\u01df\3\2\2\2\u01d2\u01d3\7@\2\2\u01d3\u01d4\5J&\2\u01d4\u01d6"+
-		"\7A\2\2\u01d5\u01d7\5N(\2\u01d6\u01d5\3\2\2\2\u01d6\u01d7\3\2\2\2\u01d7"+
-		"\u01df\3\2\2\2\u01d8\u01d9\7\33\2\2\u01d9\u01db\7@\2\2\u01da\u01dc\7J"+
-		"\2\2\u01db\u01da\3\2\2\2\u01db\u01dc\3\2\2\2\u01dc\u01dd\3\2\2\2\u01dd"+
-		"\u01df\7A\2\2\u01de\u01ba\3\2\2\2\u01de\u01bd\3\2\2\2\u01de\u01bf\3\2"+
-		"\2\2\u01de\u01c0\3\2\2\2\u01de\u01c1\3\2\2\2\u01de\u01c2\3\2\2\2\u01de"+
-		"\u01c6\3\2\2\2\u01de\u01ca\3\2\2\2\u01de\u01ce\3\2\2\2\u01de\u01d2\3\2"+
-		"\2\2\u01de\u01d8\3\2\2\2\u01df\u0200\3\2\2\2\u01e0\u01e1\f\24\2\2\u01e1"+
-		"\u01e2\7\63\2\2\u01e2\u01ff\5J&\24\u01e3\u01e4\f\23\2\2\u01e4\u01e5\t"+
-		"\2\2\2\u01e5\u01ff\5J&\24\u01e6\u01e7\f\22\2\2\u01e7\u01e8\t\3\2\2\u01e8"+
-		"\u01ff\5J&\23\u01e9\u01ea\f\21\2\2\u01ea\u01eb\t\4\2\2\u01eb\u01ff\5J"+
-		"&\22\u01ec\u01ed\f\20\2\2\u01ed\u01ee\t\5\2\2\u01ee\u01ff\5J&\21\u01ef"+
-		"\u01f0\f\17\2\2\u01f0\u01f1\7.\2\2\u01f1\u01ff\5J&\20\u01f2\u01f3\f\16"+
-		"\2\2\u01f3\u01f4\7-\2\2\u01f4\u01ff\5J&\17\u01f5\u01f6\f\r\2\2\u01f6\u01f7"+
-		"\7E\2\2\u01f7\u01f8\5J&\2\u01f8\u01f9\7F\2\2\u01f9\u01fa\5J&\16\u01fa"+
-		"\u01ff\3\2\2\2\u01fb\u01fc\f\f\2\2\u01fc\u01fd\7(\2\2\u01fd\u01ff\5J&"+
-		"\r\u01fe\u01e0\3\2\2\2\u01fe\u01e3\3\2\2\2\u01fe\u01e6\3\2\2\2\u01fe\u01e9"+
-		"\3\2\2\2\u01fe\u01ec\3\2\2\2\u01fe\u01ef\3\2\2\2\u01fe\u01f2\3\2\2\2\u01fe"+
-		"\u01f5\3\2\2\2\u01fe\u01fb\3\2\2\2\u01ff\u0202\3\2\2\2\u0200\u01fe\3\2"+
-		"\2\2\u0200\u0201\3\2\2\2\u0201K\3\2\2\2\u0202\u0200\3\2\2\2\u0203\u0205"+
-		"\7>\2\2\u0204\u0206\5H%\2\u0205\u0204\3\2\2\2\u0205\u0206\3\2\2\2\u0206"+
-		"\u0207\3\2\2\2\u0207\u0208\7?\2\2\u0208M\3\2\2\2\u0209\u020a\7>\2\2\u020a"+
-		"\u020b\5J&\2\u020b\u020c\7?\2\2\u020c\u020e\3\2\2\2\u020d\u0209\3\2\2"+
-		"\2\u020e\u020f\3\2\2\2\u020f\u020d\3\2\2\2\u020f\u0210\3\2\2\2\u0210O"+
-		"\3\2\2\2#QXZa\u0082\u009e\u00a2\u00aa\u00b0\u00c7\u00ca\u00d1\u00df\u00e9"+
-		"\u00ed\u0104\u0111\u0130\u014b\u0171\u01aa\u01b7\u01c4\u01c8\u01cc\u01d0"+
-		"\u01d6\u01db\u01de\u01fe\u0200\u0205\u020f";
+		"\3\4\3\4\3\4\3\4\3\4\3\4\5\4\u008f\n\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
+		"\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4\u00a5\n\4\3\5\3\5"+
+		"\5\5\u00a9\n\5\3\5\3\5\3\5\3\6\3\6\3\6\5\6\u00b1\n\6\3\6\3\6\3\6\3\6\5"+
+		"\6\u00b7\n\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3"+
+		"\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6\u00ce\n\6\3\6\5\6\u00d1\n\6\3\7\3\7\3\7"+
+		"\5\7\u00d6\n\7\3\b\3\b\3\b\3\b\3\b\5\b\u00dd\n\b\3\b\3\b\3\t\3\t\3\t\3"+
+		"\t\3\n\3\n\3\n\3\n\3\n\3\n\5\n\u00eb\n\n\3\n\3\n\3\n\3\n\3\13\3\13\7\13"+
+		"\u00f3\n\13\f\13\16\13\u00f6\13\13\3\13\5\13\u00f9\n\13\3\13\3\13\3\f"+
+		"\3\f\3\f\3\f\3\f\3\f\3\f\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\r\3\16\3\16\3\16"+
+		"\3\16\5\16\u0110\n\16\3\16\3\16\3\16\3\16\3\17\3\17\3\17\3\17\3\17\3\17"+
+		"\3\17\5\17\u011d\n\17\3\17\3\17\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20"+
+		"\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\22\3\22\3\22\3\22\3\22\3\22\3\22"+
+		"\3\23\3\23\3\23\3\23\3\23\5\23\u013c\n\23\3\23\3\23\3\24\3\24\3\24\3\24"+
+		"\3\24\3\24\3\24\3\25\3\25\3\25\3\25\3\25\3\26\3\26\3\26\3\27\3\27\3\27"+
+		"\3\27\3\30\3\30\3\30\3\30\5\30\u0157\n\30\3\30\3\30\3\30\3\30\3\31\3\31"+
+		"\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\32\3\32\3\32\3\32"+
+		"\3\32\3\32\3\32\3\32\3\32\3\32\3\32\3\32\3\32\3\33\3\33\3\33\3\33\3\33"+
+		"\7\33\u017b\n\33\f\33\16\33\u017e\13\33\3\34\3\34\3\34\3\34\3\34\3\34"+
+		"\3\34\3\35\3\35\3\35\3\35\3\36\3\36\3\36\3\36\3\36\3\36\3\36\3\36\3\36"+
+		"\3\36\5\36\u0195\n\36\3\37\3\37\3\37\3\37\3\37\3\37\3 \3 \3 \3 \3 \3 "+
+		"\3 \3 \3!\3!\3!\3!\3!\3!\3\"\3\"\3\"\3\"\3\"\3\"\3\"\3#\3#\3#\3#\3#\3"+
+		"#\3#\3$\3$\3$\3$\3%\3%\3%\7%\u01c0\n%\f%\16%\u01c3\13%\3&\3&\3&\3&\3&"+
+		"\3\'\3\'\3\'\7\'\u01cd\n\'\f\'\16\'\u01d0\13\'\3(\3(\3(\3(\3(\3(\3(\3"+
+		"(\3(\3(\5(\u01dc\n(\3(\3(\5(\u01e0\n(\3(\3(\5(\u01e4\n(\3(\3(\5(\u01e8"+
+		"\n(\3(\3(\3(\3(\5(\u01ee\n(\3(\3(\3(\5(\u01f3\n(\3(\5(\u01f6\n(\3(\3("+
+		"\3(\3(\3(\3(\3(\3(\3(\3(\3(\3(\3(\3(\3(\3(\3(\3(\3(\3(\3(\3(\3(\3(\3("+
+		"\3(\3(\3(\3(\3(\7(\u0216\n(\f(\16(\u0219\13(\3)\3)\5)\u021d\n)\3)\3)\3"+
+		"*\3*\3*\3*\6*\u0225\n*\r*\16*\u0226\3*\4\\\u017c\3N+\2\4\6\b\n\f\16\20"+
+		"\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\668:<>@BDFHJLNPR\2\6\3\2:<\3\2"+
+		"89\4\2\62\63\66\67\3\2\60\61\2\u024e\2U\3\2\2\2\4f\3\2\2\2\6\u00a4\3\2"+
+		"\2\2\b\u00a6\3\2\2\2\n\u00d0\3\2\2\2\f\u00d5\3\2\2\2\16\u00d7\3\2\2\2"+
+		"\20\u00e0\3\2\2\2\22\u00e4\3\2\2\2\24\u00f0\3\2\2\2\26\u00fc\3\2\2\2\30"+
+		"\u0103\3\2\2\2\32\u010b\3\2\2\2\34\u0115\3\2\2\2\36\u0120\3\2\2\2 \u0128"+
+		"\3\2\2\2\"\u012f\3\2\2\2$\u0136\3\2\2\2&\u013f\3\2\2\2(\u0146\3\2\2\2"+
+		"*\u014b\3\2\2\2,\u014e\3\2\2\2.\u0152\3\2\2\2\60\u015c\3\2\2\2\62\u0168"+
+		"\3\2\2\2\64\u0175\3\2\2\2\66\u017f\3\2\2\28\u0186\3\2\2\2:\u0194\3\2\2"+
+		"\2<\u0196\3\2\2\2>\u019c\3\2\2\2@\u01a4\3\2\2\2B\u01aa\3\2\2\2D\u01b1"+
+		"\3\2\2\2F\u01b8\3\2\2\2H\u01bc\3\2\2\2J\u01c4\3\2\2\2L\u01c9\3\2\2\2N"+
+		"\u01f5\3\2\2\2P\u021a\3\2\2\2R\u0224\3\2\2\2TV\5\20\t\2UT\3\2\2\2UV\3"+
+		"\2\2\2V\\\3\2\2\2WX\5\f\7\2XY\7C\2\2Y[\3\2\2\2ZW\3\2\2\2[^\3\2\2\2\\]"+
+		"\3\2\2\2\\Z\3\2\2\2]_\3\2\2\2^\\\3\2\2\2_`\5\4\3\2`a\7\2\2\3a\3\3\2\2"+
+		"\2be\5\6\4\2ce\5.\30\2db\3\2\2\2dc\3\2\2\2eh\3\2\2\2fd\3\2\2\2fg\3\2\2"+
+		"\2gm\3\2\2\2hf\3\2\2\2ij\7#\2\2jk\5N(\2kl\7C\2\2ln\3\2\2\2mi\3\2\2\2m"+
+		"n\3\2\2\2n\5\3\2\2\2op\5\n\6\2pq\7C\2\2q\u00a5\3\2\2\2r\u00a5\5\24\13"+
+		"\2s\u00a5\5\60\31\2t\u00a5\5\62\32\2u\u00a5\5> \2v\u00a5\5<\37\2w\u00a5"+
+		"\5F$\2xy\5D#\2yz\7C\2\2z\u00a5\3\2\2\2{|\5\b\5\2|}\7C\2\2}\u00a5\3\2\2"+
+		"\2~\u00a5\5J&\2\177\u00a5\5\32\16\2\u0080\u0081\5B\"\2\u0081\u0082\7C"+
+		"\2\2\u0082\u00a5\3\2\2\2\u0083\u0084\5@!\2\u0084\u0085\7C\2\2\u0085\u00a5"+
+		"\3\2\2\2\u0086\u0087\5&\24\2\u0087\u0088\7C\2\2\u0088\u00a5\3\2\2\2\u0089"+
+		"\u008a\5(\25\2\u008a\u008b\7C\2\2\u008b\u00a5\3\2\2\2\u008c\u008e\5\16"+
+		"\b\2\u008d\u008f\7C\2\2\u008e\u008d\3\2\2\2\u008e\u008f\3\2\2\2\u008f"+
+		"\u00a5\3\2\2\2\u0090\u00a5\5\22\n\2\u0091\u0092\5\34\17\2\u0092\u0093"+
+		"\7C\2\2\u0093\u00a5\3\2\2\2\u0094\u0095\5\36\20\2\u0095\u0096\7C\2\2\u0096"+
+		"\u00a5\3\2\2\2\u0097\u0098\5 \21\2\u0098\u0099\7C\2\2\u0099\u00a5\3\2"+
+		"\2\2\u009a\u009b\5\"\22\2\u009b\u009c\7C\2\2\u009c\u00a5\3\2\2\2\u009d"+
+		"\u009e\5$\23\2\u009e\u009f\7C\2\2\u009f\u00a5\3\2\2\2\u00a0\u00a5\5\66"+
+		"\34\2\u00a1\u00a2\5*\26\2\u00a2\u00a3\7C\2\2\u00a3\u00a5\3\2\2\2\u00a4"+
+		"o\3\2\2\2\u00a4r\3\2\2\2\u00a4s\3\2\2\2\u00a4t\3\2\2\2\u00a4u\3\2\2\2"+
+		"\u00a4v\3\2\2\2\u00a4w\3\2\2\2\u00a4x\3\2\2\2\u00a4{\3\2\2\2\u00a4~\3"+
+		"\2\2\2\u00a4\177\3\2\2\2\u00a4\u0080\3\2\2\2\u00a4\u0083\3\2\2\2\u00a4"+
+		"\u0086\3\2\2\2\u00a4\u0089\3\2\2\2\u00a4\u008c\3\2\2\2\u00a4\u0090\3\2"+
+		"\2\2\u00a4\u0091\3\2\2\2\u00a4\u0094\3\2\2\2\u00a4\u0097\3\2\2\2\u00a4"+
+		"\u009a\3\2\2\2\u00a4\u009d\3\2\2\2\u00a4\u00a0\3\2\2\2\u00a4\u00a1\3\2"+
+		"\2\2\u00a5\7\3\2\2\2\u00a6\u00a8\7J\2\2\u00a7\u00a9\5R*\2\u00a8\u00a7"+
+		"\3\2\2\2\u00a8\u00a9\3\2\2\2\u00a9\u00aa\3\2\2\2\u00aa\u00ab\7D\2\2\u00ab"+
+		"\u00ac\5N(\2\u00ac\t\3\2\2\2\u00ad\u00ae\7J\2\2\u00ae\u00b0\7A\2\2\u00af"+
+		"\u00b1\5L\'\2\u00b0\u00af\3\2\2\2\u00b0\u00b1\3\2\2\2\u00b1\u00b2\3\2"+
+		"\2\2\u00b2\u00d1\7B\2\2\u00b3\u00b4\7\25\2\2\u00b4\u00b6\7A\2\2\u00b5"+
+		"\u00b7\5N(\2\u00b6\u00b5\3\2\2\2\u00b6\u00b7\3\2\2\2\u00b7\u00b8\3\2\2"+
+		"\2\u00b8\u00d1\7B\2\2\u00b9\u00ba\7\33\2\2\u00ba\u00bb\7A\2\2\u00bb\u00bc"+
+		"\5N(\2\u00bc\u00bd\7B\2\2\u00bd\u00d1\3\2\2\2\u00be\u00bf\7\35\2\2\u00bf"+
+		"\u00c0\7A\2\2\u00c0\u00c1\5N(\2\u00c1\u00c2\7B\2\2\u00c2\u00d1\3\2\2\2"+
+		"\u00c3\u00c4\7\37\2\2\u00c4\u00c5\7A\2\2\u00c5\u00c6\5N(\2\u00c6\u00c7"+
+		"\7B\2\2\u00c7\u00d1\3\2\2\2\u00c8\u00c9\7J\2\2\u00c9\u00ca\7\3\2\2\u00ca"+
+		"\u00cb\7J\2\2\u00cb\u00cd\7A\2\2\u00cc\u00ce\5L\'\2\u00cd\u00cc\3\2\2"+
+		"\2\u00cd\u00ce\3\2\2\2\u00ce\u00cf\3\2\2\2\u00cf\u00d1\7B\2\2\u00d0\u00ad"+
+		"\3\2\2\2\u00d0\u00b3\3\2\2\2\u00d0\u00b9\3\2\2\2\u00d0\u00be\3\2\2\2\u00d0"+
+		"\u00c3\3\2\2\2\u00d0\u00c8\3\2\2\2\u00d1\13\3\2\2\2\u00d2\u00d6\5\64\33"+
+		"\2\u00d3\u00d6\58\35\2\u00d4\u00d6\5:\36\2\u00d5\u00d2\3\2\2\2\u00d5\u00d3"+
+		"\3\2\2\2\u00d5\u00d4\3\2\2\2\u00d6\r\3\2\2\2\u00d7\u00d8\7J\2\2\u00d8"+
+		"\u00d9\7\3\2\2\u00d9\u00da\7J\2\2\u00da\u00dc\7A\2\2\u00db\u00dd\5L\'"+
+		"\2\u00dc\u00db\3\2\2\2\u00dc\u00dd\3\2\2\2\u00dd\u00de\3\2\2\2\u00de\u00df"+
+		"\7B\2\2\u00df\17\3\2\2\2\u00e0\u00e1\7\4\2\2\u00e1\u00e2\7\5\2\2\u00e2"+
+		"\u00e3\7J\2\2\u00e3\21\3\2\2\2\u00e4\u00e5\7\36\2\2\u00e5\u00e6\7J\2\2"+
+		"\u00e6\u00e7\7G\2\2\u00e7\u00e8\7J\2\2\u00e8\u00ea\7A\2\2\u00e9\u00eb"+
+		"\5H%\2\u00ea\u00e9\3\2\2\2\u00ea\u00eb\3\2\2\2\u00eb\u00ec\3\2\2\2\u00ec"+
+		"\u00ed\7B\2\2\u00ed\u00ee\5\4\3\2\u00ee\u00ef\7(\2\2\u00ef\23\3\2\2\2"+
+		"\u00f0\u00f4\5\26\f\2\u00f1\u00f3\5\30\r\2\u00f2\u00f1\3\2\2\2\u00f3\u00f6"+
+		"\3\2\2\2\u00f4\u00f2\3\2\2\2\u00f4\u00f5\3\2\2\2\u00f5\u00f8\3\2\2\2\u00f6"+
+		"\u00f4\3\2\2\2\u00f7\u00f9\5,\27\2\u00f8\u00f7\3\2\2\2\u00f8\u00f9\3\2"+
+		"\2\2\u00f9\u00fa\3\2\2\2\u00fa\u00fb\7(\2\2\u00fb\25\3\2\2\2\u00fc\u00fd"+
+		"\7!\2\2\u00fd\u00fe\7A\2\2\u00fe\u00ff\5N(\2\u00ff\u0100\7B\2\2\u0100"+
+		"\u0101\7\'\2\2\u0101\u0102\5\4\3\2\u0102\27\3\2\2\2\u0103\u0104\7\"\2"+
+		"\2\u0104\u0105\7!\2\2\u0105\u0106\7A\2\2\u0106\u0107\5N(\2\u0107\u0108"+
+		"\7B\2\2\u0108\u0109\7\'\2\2\u0109\u010a\5\4\3\2\u010a\31\3\2\2\2\u010b"+
+		"\u010c\7\6\2\2\u010c\u010d\7J\2\2\u010d\u010f\7A\2\2\u010e\u0110\5L\'"+
+		"\2\u010f\u010e\3\2\2\2\u010f\u0110\3\2\2\2\u0110\u0111\3\2\2\2\u0111\u0112"+
+		"\7B\2\2\u0112\u0113\5\4\3\2\u0113\u0114\7(\2\2\u0114\33\3\2\2\2\u0115"+
+		"\u0116\7J\2\2\u0116\u0117\7J\2\2\u0117\u0118\7D\2\2\u0118\u0119\7\30\2"+
+		"\2\u0119\u011a\7J\2\2\u011a\u011c\7A\2\2\u011b\u011d\5L\'\2\u011c\u011b"+
+		"\3\2\2\2\u011c\u011d\3\2\2\2\u011d\u011e\3\2\2\2\u011e\u011f\7B\2\2\u011f"+
+		"\35\3\2\2\2\u0120\u0121\7\7\2\2\u0121\u0122\7J\2\2\u0122\u0123\7D\2\2"+
+		"\u0123\u0124\7\30\2\2\u0124\u0125\7\7\2\2\u0125\u0126\7\67\2\2\u0126\u0127"+
+		"\7\66\2\2\u0127\37\3\2\2\2\u0128\u0129\7J\2\2\u0129\u012a\7\3\2\2\u012a"+
+		"\u012b\7\b\2\2\u012b\u012c\7A\2\2\u012c\u012d\5N(\2\u012d\u012e\7B\2\2"+
+		"\u012e!\3\2\2\2\u012f\u0130\7J\2\2\u0130\u0131\7\3\2\2\u0131\u0132\7\t"+
+		"\2\2\u0132\u0133\7A\2\2\u0133\u0134\5N(\2\u0134\u0135\7B\2\2\u0135#\3"+
+		"\2\2\2\u0136\u0137\7\n\2\2\u0137\u0138\7\3\2\2\u0138\u0139\7J\2\2\u0139"+
+		"\u013b\7A\2\2\u013a\u013c\5N(\2\u013b\u013a\3\2\2\2\u013b\u013c\3\2\2"+
+		"\2\u013c\u013d\3\2\2\2\u013d\u013e\7B\2\2\u013e%\3\2\2\2\u013f\u0140\7"+
+		"J\2\2\u0140\u0141\7\3\2\2\u0141\u0142\7\13\2\2\u0142\u0143\7A\2\2\u0143"+
+		"\u0144\5N(\2\u0144\u0145\7B\2\2\u0145\'\3\2\2\2\u0146\u0147\7\f\2\2\u0147"+
+		"\u0148\7A\2\2\u0148\u0149\5N(\2\u0149\u014a\7B\2\2\u014a)\3\2\2\2\u014b"+
+		"\u014c\7\r\2\2\u014c\u014d\7J\2\2\u014d+\3\2\2\2\u014e\u014f\7\"\2\2\u014f"+
+		"\u0150\7\'\2\2\u0150\u0151\5\4\3\2\u0151-\3\2\2\2\u0152\u0153\7\36\2\2"+
+		"\u0153\u0154\7J\2\2\u0154\u0156\7A\2\2\u0155\u0157\5H%\2\u0156\u0155\3"+
+		"\2\2\2\u0156\u0157\3\2\2\2\u0157\u0158\3\2\2\2\u0158\u0159\7B\2\2\u0159"+
+		"\u015a\5\4\3\2\u015a\u015b\7(\2\2\u015b/\3\2\2\2\u015c\u015d\7$\2\2\u015d"+
+		"\u015e\7A\2\2\u015e\u015f\7J\2\2\u015f\u0160\7D\2\2\u0160\u0161\5N(\2"+
+		"\u0161\u0162\7&\2\2\u0162\u0163\5N(\2\u0163\u0164\7B\2\2\u0164\u0165\7"+
+		"\'\2\2\u0165\u0166\5\4\3\2\u0166\u0167\7(\2\2\u0167\61\3\2\2\2\u0168\u0169"+
+		"\7$\2\2\u0169\u016a\7A\2\2\u016a\u016b\7J\2\2\u016b\u016c\7)\2\2\u016c"+
+		"\u016d\7\16\2\2\u016d\u016e\7A\2\2\u016e\u016f\5N(\2\u016f\u0170\7B\2"+
+		"\2\u0170\u0171\7B\2\2\u0171\u0172\7\'\2\2\u0172\u0173\5\4\3\2\u0173\u0174"+
+		"\7(\2\2\u0174\63\3\2\2\2\u0175\u0176\7\17\2\2\u0176\u0177\7\32\2\2\u0177"+
+		"\u017c\7J\2\2\u0178\u0179\7\3\2\2\u0179\u017b\7J\2\2\u017a\u0178\3\2\2"+
+		"\2\u017b\u017e\3\2\2\2\u017c\u017d\3\2\2\2\u017c\u017a\3\2\2\2\u017d\65"+
+		"\3\2\2\2\u017e\u017c\3\2\2\2\u017f\u0180\7\36\2\2\u0180\u0181\79\2\2\u0181"+
+		"\u0182\7\66\2\2\u0182\u0183\7=\2\2\u0183\u0184\5\4\3\2\u0184\u0185\7>"+
+		"\2\2\u0185\67\3\2\2\2\u0186\u0187\7\17\2\2\u0187\u0188\7\32\2\2\u0188"+
+		"\u0189\5N(\2\u01899\3\2\2\2\u018a\u018b\7\17\2\2\u018b\u018c\7\32\2\2"+
+		"\u018c\u018d\7?\2\2\u018d\u018e\7:\2\2\u018e\u0195\7@\2\2\u018f\u0190"+
+		"\7\17\2\2\u0190\u0191\7\32\2\2\u0191\u0192\7?\2\2\u0192\u0193\7\20\2\2"+
+		"\u0193\u0195\7@\2\2\u0194\u018a\3\2\2\2\u0194\u018f\3\2\2\2\u0195;\3\2"+
+		"\2\2\u0196\u0197\7+\2\2\u0197\u0198\5\4\3\2\u0198\u0199\7\21\2\2\u0199"+
+		"\u019a\5\4\3\2\u019a\u019b\7(\2\2\u019b=\3\2\2\2\u019c\u019d\7%\2\2\u019d"+
+		"\u019e\7A\2\2\u019e\u019f\5N(\2\u019f\u01a0\7B\2\2\u01a0\u01a1\7\'\2\2"+
+		"\u01a1\u01a2\5\4\3\2\u01a2\u01a3\7(\2\2\u01a3?\3\2\2\2\u01a4\u01a5\7J"+
+		"\2\2\u01a5\u01a6\7\3\2\2\u01a6\u01a7\7\26\2\2\u01a7\u01a8\7A\2\2\u01a8"+
+		"\u01a9\7B\2\2\u01a9A\3\2\2\2\u01aa\u01ab\7J\2\2\u01ab\u01ac\7\3\2\2\u01ac"+
+		"\u01ad\7\27\2\2\u01ad\u01ae\7A\2\2\u01ae\u01af\5N(\2\u01af\u01b0\7B\2"+
+		"\2\u01b0C\3\2\2\2\u01b1\u01b2\7J\2\2\u01b2\u01b3\7\3\2\2\u01b3\u01b4\7"+
+		"\22\2\2\u01b4\u01b5\7A\2\2\u01b5\u01b6\5N(\2\u01b6\u01b7\7B\2\2\u01b7"+
+		"E\3\2\2\2\u01b8\u01b9\7\23\2\2\u01b9\u01ba\5\4\3\2\u01ba\u01bb\7(\2\2"+
+		"\u01bbG\3\2\2\2\u01bc\u01c1\7J\2\2\u01bd\u01be\7E\2\2\u01be\u01c0\7J\2"+
+		"\2\u01bf\u01bd\3\2\2\2\u01c0\u01c3\3\2\2\2\u01c1\u01bf\3\2\2\2\u01c1\u01c2"+
+		"\3\2\2\2\u01c2I\3\2\2\2\u01c3\u01c1\3\2\2\2\u01c4\u01c5\7-\2\2\u01c5\u01c6"+
+		"\7J\2\2\u01c6\u01c7\5\4\3\2\u01c7\u01c8\7\24\2\2\u01c8K\3\2\2\2\u01c9"+
+		"\u01ce\5N(\2\u01ca\u01cb\7E\2\2\u01cb\u01cd\5N(\2\u01cc\u01ca\3\2\2\2"+
+		"\u01cd\u01d0\3\2\2\2\u01ce\u01cc\3\2\2\2\u01ce\u01cf\3\2\2\2\u01cfM\3"+
+		"\2\2\2\u01d0\u01ce\3\2\2\2\u01d1\u01d2\b(\1\2\u01d2\u01d3\79\2\2\u01d3"+
+		"\u01f6\5N(\26\u01d4\u01d5\7\65\2\2\u01d5\u01f6\5N(\25\u01d6\u01f6\7I\2"+
+		"\2\u01d7\u01f6\7H\2\2\u01d8\u01f6\7*\2\2\u01d9\u01db\5\n\6\2\u01da\u01dc"+
+		"\5R*\2\u01db\u01da\3\2\2\2\u01db\u01dc\3\2\2\2\u01dc\u01f6\3\2\2\2\u01dd"+
+		"\u01df\5P)\2\u01de\u01e0\5R*\2\u01df\u01de\3\2\2\2\u01df\u01e0\3\2\2\2"+
+		"\u01e0\u01f6\3\2\2\2\u01e1\u01e3\7J\2\2\u01e2\u01e4\5R*\2\u01e3\u01e2"+
+		"\3\2\2\2\u01e3\u01e4\3\2\2\2\u01e4\u01f6\3\2\2\2\u01e5\u01e7\7K\2\2\u01e6"+
+		"\u01e8\5R*\2\u01e7\u01e6\3\2\2\2\u01e7\u01e8\3\2\2\2\u01e8\u01f6\3\2\2"+
+		"\2\u01e9\u01ea\7A\2\2\u01ea\u01eb\5N(\2\u01eb\u01ed\7B\2\2\u01ec\u01ee"+
+		"\5R*\2\u01ed\u01ec\3\2\2\2\u01ed\u01ee\3\2\2\2\u01ee\u01f6\3\2\2\2\u01ef"+
+		"\u01f0\7\34\2\2\u01f0\u01f2\7A\2\2\u01f1\u01f3\7K\2\2\u01f2\u01f1\3\2"+
+		"\2\2\u01f2\u01f3\3\2\2\2\u01f3\u01f4\3\2\2\2\u01f4\u01f6\7B\2\2\u01f5"+
+		"\u01d1\3\2\2\2\u01f5\u01d4\3\2\2\2\u01f5\u01d6\3\2\2\2\u01f5\u01d7\3\2"+
+		"\2\2\u01f5\u01d8\3\2\2\2\u01f5\u01d9\3\2\2\2\u01f5\u01dd\3\2\2\2\u01f5"+
+		"\u01e1\3\2\2\2\u01f5\u01e5\3\2\2\2\u01f5\u01e9\3\2\2\2\u01f5\u01ef\3\2"+
+		"\2\2\u01f6\u0217\3\2\2\2\u01f7\u01f8\f\24\2\2\u01f8\u01f9\7\64\2\2\u01f9"+
+		"\u0216\5N(\24\u01fa\u01fb\f\23\2\2\u01fb\u01fc\t\2\2\2\u01fc\u0216\5N"+
+		"(\24\u01fd\u01fe\f\22\2\2\u01fe\u01ff\t\3\2\2\u01ff\u0216\5N(\23\u0200"+
+		"\u0201\f\21\2\2\u0201\u0202\t\4\2\2\u0202\u0216\5N(\22\u0203\u0204\f\20"+
+		"\2\2\u0204\u0205\t\5\2\2\u0205\u0216\5N(\21\u0206\u0207\f\17\2\2\u0207"+
+		"\u0208\7/\2\2\u0208\u0216\5N(\20\u0209\u020a\f\16\2\2\u020a\u020b\7.\2"+
+		"\2\u020b\u0216\5N(\17\u020c\u020d\f\r\2\2\u020d\u020e\7F\2\2\u020e\u020f"+
+		"\5N(\2\u020f\u0210\7G\2\2\u0210\u0211\5N(\16\u0211\u0216\3\2\2\2\u0212"+
+		"\u0213\f\f\2\2\u0213\u0214\7)\2\2\u0214\u0216\5N(\r\u0215\u01f7\3\2\2"+
+		"\2\u0215\u01fa\3\2\2\2\u0215\u01fd\3\2\2\2\u0215\u0200\3\2\2\2\u0215\u0203"+
+		"\3\2\2\2\u0215\u0206\3\2\2\2\u0215\u0209\3\2\2\2\u0215\u020c\3\2\2\2\u0215"+
+		"\u0212\3\2\2\2\u0216\u0219\3\2\2\2\u0217\u0215\3\2\2\2\u0217\u0218\3\2"+
+		"\2\2\u0218O\3\2\2\2\u0219\u0217\3\2\2\2\u021a\u021c\7?\2\2\u021b\u021d"+
+		"\5L\'\2\u021c\u021b\3\2\2\2\u021c\u021d\3\2\2\2\u021d\u021e\3\2\2\2\u021e"+
+		"\u021f\7@\2\2\u021fQ\3\2\2\2\u0220\u0221\7?\2\2\u0221\u0222\5N(\2\u0222"+
+		"\u0223\7@\2\2\u0223\u0225\3\2\2\2\u0224\u0220\3\2\2\2\u0225\u0226\3\2"+
+		"\2\2\u0226\u0224\3\2\2\2\u0226\u0227\3\2\2\2\u0227S\3\2\2\2&U\\dfm\u008e"+
+		"\u00a4\u00a8\u00b0\u00b6\u00cd\u00d0\u00d5\u00dc\u00ea\u00f4\u00f8\u010f"+
+		"\u011c\u013b\u0156\u017c\u0194\u01c1\u01ce\u01db\u01df\u01e3\u01e7\u01ed"+
+		"\u01f2\u01f5\u0215\u0217\u021c\u0226";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

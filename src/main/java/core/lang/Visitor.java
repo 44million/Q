@@ -960,6 +960,29 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
+    public QValue visitImportAllStatement(QParser.ImportAllStatementContext ctx) {
+
+        for (String s : lang.allLibs) {
+            String x = ".q.";
+            String g = s.substring(0, 1).toUpperCase() + s.substring(1);
+
+            String fin = x + g;
+
+            if (fin.equals(".q.Io")) {
+                fin = ".q.io";
+            } else if (fin.equals(".q.Http")) {
+                fin = ".q.http";
+            } else if (fin.equals(".q.Puddle")) {
+                fin = ".q.puddle";
+            }
+
+            lang.parse(fin);
+        }
+
+        return QValue.VOID;
+    }
+
+    @Override
     public QValue visitInExpression(InExpressionContext ctx) {
         QValue lhs = this.visit(ctx.expression(0));
         QValue rhs = this.visit(ctx.expression(1));

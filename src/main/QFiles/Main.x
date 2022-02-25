@@ -1,15 +1,8 @@
+@header Main
+
 // built in imports
-#import q.Windows;
+#import [all];
 #import q.Files;
-#import q.Math;
-#import q.Audio;
-#import q.http;
-#import q.Random;
-#import q.Console;
-#import q.Time;
-#import q.puddle;
-#import q.Listener;
-#import q.io;
 
 // file system imports
 #import src.main.QFiles.primary;
