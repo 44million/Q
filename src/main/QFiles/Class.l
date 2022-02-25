@@ -3,11 +3,7 @@ class Runner
     noval c;
     noval j;
 
-    const Runner()
-        here.c = 20;
-        here.j = 200;
-
-    end
+    cn Runner();
 
     fn run(x)
         std:ln(c * j);
@@ -21,9 +17,7 @@ class FileWriter
         std:ln("Class FileWriter initialized");
     end
 
-    const FileWriter()
-
-    end
+    FileWriter();
 
     fn w(path, content)
 

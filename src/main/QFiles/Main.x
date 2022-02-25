@@ -12,6 +12,7 @@ class Main
         // keep in mind, 'console' is a reserved keyword
         new OutputStream as cc();
         cc.out("Hello World!");
+        cc.newline();
 
         if (true)
             std:ln("Or you can say 'Hello World' like this!");

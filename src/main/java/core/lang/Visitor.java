@@ -631,29 +631,6 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitConstructorStatement(QParser.ConstructorStatementContext ctx) {
 
-//        if (!lang.classes.containsKey(ctx.Identifier().getText())) {
-//            System.out.println("[FATAL] Constructor '" + ctx.Identifier().getText() + "' must be within a class named: '" + ctx.Identifier().getText() + "'");
-//            System.exit(0);
-//        }
-
-//        System.out.println("inwards it made it 1");
-//        List<QValue> val = new ArrayList<>();
-//
-//        System.out.println("inwards it made it 2");
-//
-//        if (ctx.exprList().expression().size() > 1) {
-//            for (ExpressionContext c : ctx.exprList().expression()) {
-//                System.out.println("inwards it made it 1888");
-//                QValue v = this.visit(c);
-//                System.out.println("System.out.println(\"inwards it made it \");");
-//                val.add(v);
-//            }
-//        } else {
-//            System.out.println("inwards o234uhrit made it ");
-//        }
-//        System.out.println("inwards it made it 3");
-//        lang.classes.get(ctx.Identifier().getText()).setConstArgs(val);
-        this.visit(ctx.block());
 
         return QValue.VOID;
     }

@@ -13,9 +13,7 @@ public class Listener extends QLibrary {
                                 
                     class Listener
                                 
-                        const Listener()
-                        
-                        end
+                        cn Listener();
                                 
                         fn unusable()
                         

@@ -19,45 +19,44 @@ public class Main {
             int counter = 0;
             for (String cmd : args) {
 
-                if (cmd.equals("--setpath") || cmd.equals("-p")) {
-                    input = new File(args[++counter]);
+                switch (cmd) {
+                    case "--setpath", "-p" -> {
+                        input = new File(args[++counter]);
+                        try {
 
-                    try {
-
-                        if (!new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")).exists()) {
-                            try {
-                                new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")).createNewFile();
-                            } catch (Exception e) {
-                                System.out.println(e.getMessage());
+                            if (!new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")).exists()) {
+                                try {
+                                    boolean b = new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")).createNewFile();
+                                } catch (Exception e) {
+                                    System.out.println(e.getMessage());
+                                }
                             }
+
+                            Parser parser = new Parser(CharStreams.fromFileName(input.getAbsolutePath()));
+                            lst.addAll(parser.parse(false));
+
+                            lang.write(input.getAbsolutePath(), new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")));
+
+                        } catch (Exception e) {
+
+                            String err = "[FATAL] " + e.getMessage();
+                            if (e.getMessage().startsWith("src\\main\\Q\\") || e.getMessage().startsWith("C:") || e.getMessage().endsWith(".x")) {
+                                err += " (File not found)";
+                            }
+
+                            System.out.println(err);
+                            System.exit(0);
                         }
-
-                        Parser parser = new Parser(CharStreams.fromFileName(input.getAbsolutePath()));
-                        lst.addAll(parser.parse(false));
-
-                        lang.write(input.getAbsolutePath(), new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")));
-
-                    } catch (Exception e) {
-
-                        String err = "[FATAL] " + e.getMessage();
-                        if (e.getMessage().startsWith("src\\main\\Q\\") || e.getMessage().startsWith("C:") || e.getMessage().endsWith(".x")) {
-                            err += " (File not found)";
-                        }
-
-                        System.out.println(err);
-                        System.exit(0);
                     }
-
-                } else if (cmd.equals("--help") || cmd.equals("-h")) {
-                    System.out.println("""
+                    case "--help", "-h" -> System.out.println("""
                             Help Menu
                             ---------
                             cmd: [--setpath/-p] Sets the path to the file to execute.
                             cmd: [--help/-h] Sends this help menu
                             cmd: [--fromtext/-t] Executes the given text as if it were a file
                             """);
-                } else if (cmd.equals(""))
-                    counter++;
+                    case "" -> counter++;
+                }
             }
 
         } else {
