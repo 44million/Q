@@ -69,6 +69,7 @@ public class Function {
             }
             q.set(ret);
         }).start();
+
         return q.get();
     }
 
@@ -77,7 +78,7 @@ public class Function {
     }
 
     public void setAsync(boolean flag) {
-        this.async = true;
+        this.async = flag;
     }
 
 }
