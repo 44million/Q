@@ -283,6 +283,18 @@ public class Visitor extends QBaseVisitor<QValue> {
             } catch (Exception e) {
                 System.out.println("[ERROR] " + e.getMessage());
             }
+        } else if (method.equals("destroy")) {
+
+            String s = ctx.expression()
+                    .getText()
+                    .replaceAll("\"", "");
+
+            if (lang.objs.containsKey(s)) {
+                lang.objs.remove(s);
+            } else {
+                System.out.println("[ERROR] Object: '" + s + "' does not exist.");
+                return QValue.VOID;
+            }
         } else if (method.equals("getProperty")) {
 
             if (ctx.expression() == null) {

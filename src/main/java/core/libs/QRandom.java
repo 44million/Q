@@ -18,11 +18,11 @@ public class QRandom extends QLibrary {
             #import q.Console;
             #import q.Time;
                         
-            func ranInt()
+            fn ranInt()
                 return %s;
             end
                         
-            func pRandom()
+            fn pRandom()
                 std:ln(%s);
             end
                         

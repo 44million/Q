@@ -3,7 +3,7 @@
 
 class HelloWorld:
 
-    func main():
+    fn main():
 
         new OutputStream as out();
 

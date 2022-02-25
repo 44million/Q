@@ -21,11 +21,11 @@ public class Time extends QLibrary {
                     #import q.Console;
                     #import q.Time;
                                 
-                    func EAL()
+                    fn EAL()
                         return "%s";
                     end
                                         
-                    func IAL()
+                    fn IAL()
                         return "%s";
                     end
                                 

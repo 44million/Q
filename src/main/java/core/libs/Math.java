@@ -16,34 +16,33 @@ public class Math extends QLibrary {
             #import q.Console;
             #import q.Time;
                         
-            func pow(x, y)
+            fn pow(x, y)
                 return x^y;
             end
                         
-            func fib(n)
+            fn fib(n)
               
                 if (n < 2)
                     return n;
                 else
                     return fib(n - 1) + fib(n - 2);
                 end
-
+                
             end
 
-            func fact(n)
+            fn fact(n)
                 if (n < 2)
                     return n;
                 else
-                    return n * fact(n-1);
+                    return n * fact(n - 1);
                 end
-
             end
                         
-            func sqrt(x)
+            fn sqrt(x)
                 return x^0.5;
             end
 
-            func triang(n)
+            fn triang(n)
 
                 p1 = n + 1;
                 mul = n * p1;
@@ -51,42 +50,42 @@ public class Math extends QLibrary {
                 return mul / 2;
             end
                         
-            func density(mass, volume)
+            fn density(mass, volume)
                 d = mass / volume;
                 return d;
             end
                         
-            func density(mass, volume, density)
+            fn density(mass, volume, density)
                 d = density * mass / volume;
                 return d;
             end
 
-            func volume(mass, density)
+            fn volume(mass, density)
                 v = mass / density;
                 return v;
             end
 
-            func mass(volume, density)
+            fn mass(volume, density)
                 m = density * volume;
                 return m;
             end
 
-            func mass(volume, density, mass)
+            fn mass(volume, density, mass)
                 m = mass * density / volume;
                 return m;
             end
 
-            func mph(distance, time)
+            fn mph(distance, time)
                 mph = distance / time;
                 return mph;
             end
 
-            func mph(distance, time, mph)
+            fn mph(distance, time, mph)
                 mph = mph * distance / time;
                 return mph;
             end
 
-            func o(n)
+            fn o(n)
                         
                 if (n < 2)
                     return 1;
@@ -102,15 +101,15 @@ public class Math extends QLibrary {
                 
                 end
                 
-                func mul(x, y)
+                fn mul(x, y)
                     return x * y;
                 end
                 
-                func div(x, y)
+                fn div(x, y)
                     return x / y;
                 end
                 
-                func mod(x, y)
+                fn mod(x, y)
                     return x % y;
                 end
                         

@@ -16,7 +16,7 @@ public class IO extends QLibrary {
                             
                         end
                         
-                        func input()
+                        fn input()
                             
                             x = std:in();
                             return x;
@@ -31,11 +31,11 @@ public class IO extends QLibrary {
                         
                         end
                         
-                        func printline(x)
+                        fn printline(x)
                             std:ln(x);
                         end
                         
-                        func out(x)
+                        fn out(x)
                             std:out(x);
                         end
                                 

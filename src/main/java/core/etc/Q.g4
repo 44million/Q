@@ -141,7 +141,7 @@ importStatement
  ;
 
 anonymousFunction
- : 'func' '-' '>' '{' block '}'
+ : 'fn' '-' '>' block End
  ;
 
 importFromGithubStatement
@@ -174,7 +174,7 @@ addWebServerTextStatement
  ;
 
 mainFunctionStatement
- : 'func main()' block End
+ : 'fn main()' block End
  ;
 
 idList
@@ -228,7 +228,7 @@ Import   : 'import';
 Print    : 'std:out';
 Input    : 'std:in';
 Assert   : 'assert';
-Def      : 'func';
+Def      : 'fn';
 ToInt    : 'toInt';
 If       : 'if';
 Else     : 'else';

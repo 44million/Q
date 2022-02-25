@@ -9,7 +9,7 @@ class Runner
 
     end
 
-    func run(x)
+    fn run(x)
         std:ln(c * j);
     end
 
@@ -17,15 +17,15 @@ end
 
 class FileWriter
 
-    func -> {
+    fn ->
         std:ln("Class FileWriter initialized");
-    }
+    end
 
     const FileWriter()
 
     end
 
-    func w(path, content)
+    fn w(path, content)
 
         new File as file(path);
         file.write(content);
@@ -34,7 +34,7 @@ class FileWriter
 
 end
 
-func main()
+fn main()
     new Runner as runner();
     runner.run(2);
     // should be 4.0

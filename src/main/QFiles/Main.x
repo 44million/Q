@@ -1,23 +1,28 @@
-@header File
+@header Main
 
 #import [all];
 
-class File
+class Main
 
-    // should be 'console', but its 'Console', because 'console' is a reserved keyword
-    new OutputStream as Console();
+    fn ->
+        std:ln("This is an anonymous function!");
+    end
 
-    func main()
-        Console.printline("Hello World!");
+    fn main()
+        // keep in mind, 'console' is a reserved keyword
+        new OutputStream as cc();
+        cc.out("Hello World!");
 
         if (true)
             std:ln("Or you can say 'Hello World' like this!");
         else if (false)
             std:ln("This will never execute");
         else
-            std:ln("This also will not execute, as the first statement in the 'if' sequence was true, so it won't even get to here!");
+            std:ln("This also will not execute, as the first statement in the 'if' sequence was true");
         end
 
     end
 
 end
+
+
