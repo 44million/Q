@@ -14,8 +14,8 @@ end
 ```
 
  - [x] Possibly change function identifier?
-	 - [ ] func
-	 - [x] fn
+	 - [ ] func **[old]**
+	 - [x] fn **[new]**
 	 - [ ] val/void
 	 - [ ] def
 	 - [ ] method
@@ -28,14 +28,12 @@ end
 class Runner
 
 	noval c;
+	
+	cn Runner();
 
 	fn run(x, y)
 
 		std:ln(x * y);
-
-	end
-
-	const Runner()
 
 	end
 
