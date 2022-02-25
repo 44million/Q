@@ -128,6 +128,12 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfStat(QParser.IfStatContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link QParser#hereStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitHereStatement(QParser.HereStatementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link QParser#elseIfStat}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

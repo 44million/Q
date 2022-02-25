@@ -143,6 +143,13 @@ public class QBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QVis
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitHereStatement(QParser.HereStatementContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitElseIfStat(QParser.ElseIfStatContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

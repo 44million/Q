@@ -232,6 +232,18 @@ public class QBaseListener implements QListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterHereStatement(QParser.HereStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitHereStatement(QParser.HereStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterElseIfStat(QParser.ElseIfStatContext ctx) { }
 	/**
 	 * {@inheritDoc}
