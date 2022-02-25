@@ -8,6 +8,10 @@ class Main
         std:ln("This is an anonymous function!");
     end
 
+    async fn itsFunction(x, w, e, r, t)
+        return x * w * e * r * t;
+    end
+
     fn main()
         // keep in mind, 'console' is a reserved keyword
         new OutputStream as cc();
@@ -22,13 +26,9 @@ class Main
             std:ln("This also will not execute, as the first statement in the 'if' sequence was true");
         end
 
-        f();
-
-    end
-
-    async fn f()
-
-        std:ln("Async functions baby!");
+        for (i in range(220))
+            std:ln(itsFunction(ranInt(), 2, ranInt(), 6, 99));
+        end
 
     end
 
