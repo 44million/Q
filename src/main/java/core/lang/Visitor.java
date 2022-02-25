@@ -1152,10 +1152,6 @@ public class Visitor extends QBaseVisitor<QValue> {
                 args.add(this.visit(param));
             }
 
-            if (function.async) {
-                return function.call(args, functions, true);
-            }
-
             return function.call(args, functions);
         }
         throw new Problem(ctx);

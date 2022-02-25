@@ -8,6 +8,7 @@ class Main
         std:ln("This is an anonymous function!");
     end
 
+    // note that for now, the async keyword does nothing
     async fn itsFunction(x, w, e, r, t)
         return x * w * e * r * t;
     end
@@ -26,7 +27,7 @@ class Main
             std:ln("This also will not execute, as the first statement in the 'if' sequence was true");
         end
 
-        for (i in range(220))
+        for (i in range(5))
             std:ln(itsFunction(ranInt(), 2, ranInt(), 6, 99));
         end
 

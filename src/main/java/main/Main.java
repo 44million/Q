@@ -10,6 +10,7 @@ import static core.lang.lang.lst;
 
 public class Main {
 
+    @SuppressWarnings("all")
     public static void main(String[] args) {
 
         File input;
@@ -26,7 +27,7 @@ public class Main {
 
                             if (!new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")).exists()) {
                                 try {
-                                    boolean b = new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")).createNewFile();
+                                    new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")).createNewFile();
                                 } catch (Exception e) {
                                     System.out.println(e.getMessage());
                                 }
