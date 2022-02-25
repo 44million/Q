@@ -4,19 +4,16 @@ class Runner
     noval j;
 
     const Runner()
-        c = 20;
-        j = 200;
+        here.c = 20;
+        here.j = 200;
 
-        std:ln(c);
-        std:ln(j);
-
-    endf
+    end
 
     func run(x)
-        std:ln(x * 2);
-    endf
+        std:ln(c * j);
+    end
 
-endc
+end
 
 class FileWriter
 
@@ -26,19 +23,19 @@ class FileWriter
 
     const FileWriter()
 
-    endf
+    end
 
     func w(path, content)
 
-        File file = new File(path);
+        new File as file(path);
         file.write(content);
 
-    endf
+    end
 
-endc
+end
 
 func main()
-    Runner runner = new Runner();
+    new Runner as runner();
     runner.run(2);
     // should be 4.0
 
@@ -46,27 +43,27 @@ func main()
     // not buggy anymore!
 
     // outputstream test, it works!
-    OutputStream out = new OutputStream();
+    new OutputStream as out();
     out.out("OutputStream test, enter something: ");
 
     // inputstream test
-    InputStream i = new InputStream();
+    new InputStream as i();
     x = i.input();
     out.printline("Looks like you said, '" + x + "'");
 
-        if (x == "no") do
+        if (x == "no")
             out.out("Saying no to me is not nice");
             out.printline("");
-        else if (x == "yes") do
+        else if (x == "yes")
             out.out("Thank you for saying yes");
             out.printline("");
-        else do
+        else
             out.out("Tbh i have no idea what '" + x + "' means");
             out.printline("");
-        endf
+        end
 
     // FileWriter class
-    FileWriter fw = new FileWriter();
+    new FileWriter as fw();
     fw.w("src/main/QFiles/primary.l", "// " + x);
 
     alist = [
@@ -77,8 +74,8 @@ func main()
 
     std:ln(alist[0][2] + " <-- alist indexes [0][2]");
 
-    Calculator calc = new Calculator();
+    new Calculator as calc();
     xyz = calc.mul(20, 73);
     out.printline(xyz);
 
-endf
+end

@@ -1,7 +1,6 @@
 package core.lang.q;
 
 import core.lang.Function;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.List;
 import java.util.Map;

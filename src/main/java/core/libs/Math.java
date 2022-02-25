@@ -18,30 +18,30 @@ public class Math extends QLibrary {
                         
             func pow(x, y)
                 return x^y;
-            endf
+            end
                         
             func fib(n)
               
-                if (n < 2) do
+                if (n < 2)
                     return n;
-                else do
+                else
                     return fib(n - 1) + fib(n - 2);
-                endf
+                end
 
-            endf
+            end
 
             func fact(n)
-                if (n < 2) do
+                if (n < 2)
                     return n;
-                else do
+                else
                     return n * fact(n-1);
-                endf
+                end
 
-            endf
+            end
                         
             func sqrt(x)
                 return x^0.5;
-            endf
+            end
 
             func triang(n)
 
@@ -49,72 +49,72 @@ public class Math extends QLibrary {
                 mul = n * p1;
 
                 return mul / 2;
-            endf
+            end
                         
             func density(mass, volume)
                 d = mass / volume;
                 return d;
-            endf
+            end
                         
             func density(mass, volume, density)
                 d = density * mass / volume;
                 return d;
-            endf
+            end
 
             func volume(mass, density)
                 v = mass / density;
                 return v;
-            endf
+            end
 
             func mass(volume, density)
                 m = density * volume;
                 return m;
-            endf
+            end
 
             func mass(volume, density, mass)
                 m = mass * density / volume;
                 return m;
-            endf
+            end
 
             func mph(distance, time)
                 mph = distance / time;
                 return mph;
-            endf
+            end
 
             func mph(distance, time, mph)
                 mph = mph * distance / time;
                 return mph;
-            endf
+            end
 
             func o(n)
                         
-                if (n < 2) do
+                if (n < 2)
                     return 1;
-                else do
+                else
                     return n * o(n-1);
-                endf
+                end
                         
-            endf
-            
+            end
+                        
             class Calculator
-            
+                        
                 const Calculator()
                 
-                endf
+                end
                 
                 func mul(x, y)
                     return x * y;
-                endf
+                end
                 
                 func div(x, y)
                     return x / y;
-                endf
+                end
                 
                 func mod(x, y)
                     return x % y;
-                endf
-            
-            endc
+                end
+                        
+            end
                         
             """;
 

@@ -12,7 +12,9 @@ public class Scope {
     private final Scope parentScope;
     private final boolean isFunction;
 
-    public Scope() { this(null, false); }
+    public Scope() {
+        this(null, false);
+    }
 
     public Scope(Scope parent, boolean function) {
         this.parentScope = parent;

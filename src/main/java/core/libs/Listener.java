@@ -10,27 +10,27 @@ public class Listener extends QLibrary {
     @SuppressWarnings("all")
     public final String qcode =
             """
-            
-            class Listener
-            
-                const Listener()
-                
-                endf
-            
-                func unusable()
-                
-                    return std:in();
-                
-                endf
-                
-                func cout(x)
-                    std:out(x); 
-                    std:ln();
-                endf
-            
-            endc
-            
-            """;
+                                
+                    class Listener
+                                
+                        const Listener()
+                        
+                        end
+                                
+                        func unusable()
+                        
+                            return std:in();
+                        
+                        end
+                        
+                        func cout(x)
+                            std:out(x); 
+                            std:ln();
+                        end
+                                
+                    end
+                                
+                    """;
 
     @Override
     public String getName() {

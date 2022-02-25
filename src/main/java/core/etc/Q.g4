@@ -32,6 +32,7 @@ statement
  | osExecStatement ';'
  | anonymousFunction
  | nullVarStatement ';'
+ | hereStatement ';'
  ;
 
 reAssignment
@@ -70,11 +71,15 @@ ifStatement
  ;
 
 ifStat
- : If '(' expression ')' Do block
+ : If '(' expression ')' block
+ ;
+
+hereStatement
+ : 'here' '.' Identifier '=' expression
  ;
 
 elseIfStat
- : Else If '(' expression ')' Do block
+ : Else If '(' expression ')' block
  ;
 
 constructorStatement
@@ -82,7 +87,9 @@ constructorStatement
  ;
 
 objCreateStatement
- : Identifier Identifier '=' New Identifier '(' exprList? ')'
+ : 'new' Identifier 'as' Identifier '(' exprList? ')'
+ // new Object as o();
+ // new FileReader as fw("files/file.txt");
  ;
 
 listCreateStatement
@@ -114,7 +121,7 @@ nullVarStatement
  ;
 
 elseStat
- : Else Do block
+ : Else block
  ;
 
 functionDecl
@@ -122,11 +129,11 @@ functionDecl
  ;
 
 forStatement
- : For '(' Identifier '=' expression To expression ')' Do block End
+ : For '(' Identifier '=' expression To expression ')' block End
  ;
 
 forInStatement
- : For '(' Identifier 'in' 'range' '(' expression ')' ')' Do block End
+ : For '(' Identifier 'in' 'range' '(' expression ')' ')' block End
  ;
 
 importStatement
@@ -151,7 +158,7 @@ tryCatchStatement
  ; 
 
 whileStatement
- : While '(' expression ')' Do block End
+ : While '(' expression ')' block End
  ;
 
 windowRenderStatement
@@ -175,7 +182,7 @@ idList
  ;
 
 classStatement
- : Class Identifier block 'endc'
+ : Class Identifier block 'end'
  ;
 
 exprList
@@ -224,7 +231,6 @@ Input    : 'std:in';
 Assert   : 'assert';
 Def      : 'func';
 ToInt    : 'toInt';
-Create   : 'create';
 If       : 'if';
 Else     : 'else';
 Return   : 'return';
@@ -232,7 +238,7 @@ For      : 'for';
 While    : 'while';
 To       : 'to';
 Do       : 'do';
-End      : 'endf';
+End      : 'end';
 In       : 'in';
 Null     : 'null';
 Try      : 'try';

@@ -346,6 +346,10 @@ public class lang {
         }
     }
 
+    public static String replaceLast(String text, String regex, String replacement) {
+        return text.replaceFirst("(?s)" + regex + "(?!.*?" + regex + ")", replacement);
+    }
+
     public static class FileUtil {
         static BufferedReader reader = null;
 
@@ -364,9 +368,5 @@ public class lang {
             }
             return charCount;
         }
-    }
-
-    public static String replaceLast(String text, String regex, String replacement) {
-        return text.replaceFirst("(?s)"+regex+"(?!.*?"+regex+")", replacement);
     }
 }

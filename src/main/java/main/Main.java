@@ -86,7 +86,7 @@ public class Main {
                     err += " (File not found)";
                 }
 
-                System.out.println(err);
+                System.err.println(err);
                 System.exit(0);
             }
         }

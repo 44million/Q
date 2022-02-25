@@ -20,11 +20,11 @@ public class QRandom extends QLibrary {
                         
             func ranInt()
                 return %s;
-            endf
+            end
                         
             func pRandom()
                 std:ln(%s);
-            endf
+            end
                         
             """, ranInt(), ranInt());
 

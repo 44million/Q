@@ -23,11 +23,11 @@ public class Time extends QLibrary {
                                 
                     func EAL()
                         return "%s";
-                    endf
+                    end
                                         
                     func IAL()
                         return "%s";
-                    endf
+                    end
                                 
                     """, Instant.now().toEpochMilli(), Instant.now().toString());
 

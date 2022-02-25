@@ -5,8 +5,6 @@ import core.libs.utils.QLibrary;
 
 import java.io.IOException;
 
-import static java.lang.String.format;
-
 public class IO extends QLibrary {
 
     private final String qcode =
@@ -16,32 +14,32 @@ public class IO extends QLibrary {
                                 
                         const InputStream()
                             
-                        endf
+                        end
                         
                         func input()
                             
                             x = std:in();
                             return x;
                             
-                        endf
+                        end
                                 
-                    endc
+                    end
                                 
                     class OutputStream
                                 
                         const OutputStream()
                         
-                        endf
+                        end
                         
                         func printline(x)
                             std:ln(x);
-                        endf
+                        end
                         
                         func out(x)
                             std:out(x);
-                        endf
+                        end
                                 
-                    endc
+                    end
                                 
                     """;
 

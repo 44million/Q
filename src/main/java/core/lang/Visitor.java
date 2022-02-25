@@ -10,8 +10,11 @@ import core.interp.QParser;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
 import core.lang.q.QValue;
-import core.libs.*;
 import core.libs.AWT.Window;
+import core.libs.MediaPlayer;
+import core.libs.OS;
+import core.libs.Time;
+import core.libs.WebServer;
 import core.libs.puddle.Puddle;
 import core.libs.utils.HTTP;
 import org.antlr.v4.runtime.CharStreams;
@@ -22,13 +25,11 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import javax.swing.*;
 import java.io.*;
-import java.lang.Math;
 import java.lang.String;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static core.interp.QParser.*;
 
@@ -936,6 +937,19 @@ public class Visitor extends QBaseVisitor<QValue> {
             throw new Problem(ctx);
         }
         return new QValue(lhs.asBoolean() && rhs.asBoolean());
+    }
+
+    @Override
+    public QValue visitHereStatement(QParser.HereStatementContext ctx) {
+
+        QValue q = this.visit(ctx.expression());
+        if (this.scope.vars.containsKey(ctx.Identifier().getText())) {
+            this.scope.vars.put(ctx.Identifier().getText(), q);
+        } else {
+            System.out.println("[ERROR] Variable '" + ctx.Identifier().getText() + "' does not exist in the current context");
+        }
+
+        return QValue.VOID;
     }
 
     @Override

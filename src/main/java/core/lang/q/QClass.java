@@ -12,14 +12,7 @@ public class QClass {
     public Map<String, Function> functions;
     public Scope scope;
     public List<QValue> constArgs;
-
-    public QClass(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
+    public QClass base;
 
     public QClass(String name, Map<String, Function> functions, Scope scope) {
         this.name = name;
@@ -27,7 +20,16 @@ public class QClass {
         this.scope = scope;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setConstArgs(List<QValue> constArgs) {
         this.constArgs = constArgs;
     }
+
+    public void setBase(QClass base) {
+        this.base = base;
+    }
+
 }

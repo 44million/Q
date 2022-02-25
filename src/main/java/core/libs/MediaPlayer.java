@@ -11,7 +11,6 @@ public class MediaPlayer extends QLibrary {
     private final File file;
     public String id;
     private Clip clip;
-    private String status;
     private AudioInputStream audioInputStream;
 
     public MediaPlayer(String path, String id) {
@@ -39,7 +38,6 @@ public class MediaPlayer extends QLibrary {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
 
         clip.start();
-        status = "playing";
     }
 
 

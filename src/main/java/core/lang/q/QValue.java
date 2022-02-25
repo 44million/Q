@@ -85,6 +85,10 @@ public class QValue implements Comparable<QValue> {
         }
     }
 
+    public QValue get() {
+        return this;
+    }
+
     @Override
     public int hashCode() {
         return value.hashCode();
