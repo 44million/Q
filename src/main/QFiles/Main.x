@@ -15,7 +15,7 @@ class File
         else if (false)
             std:ln("This will never execute");
         else
-            std:ln("This also will not execute, as the first statement in the 'if' sequence was true.");
+            std:ln("This also will not execute, as the first statement in the 'if' sequence was true, so it won't even get to here!");
         end
 
     end
