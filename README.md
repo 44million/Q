@@ -5,42 +5,48 @@
 
 # TODO
 
-- [x] Anonymous functions:
+ - [x] Anonymous functions:
 
 ```js
-func -> { std:ln("Hello World"); }
+fn -> 
+	std:ln("Hello World"); 
+end
 ```
 
-- [ ] Possibly change function identifier?
-    - [ ] func
-    - [ ] fn
-    - [ ] val/void
-    - [ ] def
-    - [ ] method
-    - [ ] mthd
-    - [ ] protocol
-    - [ ] pro
-- [x] Classes/Objects
+ - [x] Possibly change function identifier?
+	 - [ ] func
+	 - [x] fn
+	 - [ ] val/void
+	 - [ ] def
+	 - [ ] method
+	 - [ ] mthd
+	 - [ ] protocol
+	 - [ ] pro
+ - [x] Classes/Objects
 ```js
 
-class Main
+class Runner
 
-	private noval c;
+	noval c;
 
-	cfunc run(x, y)
+	fn run(x, y)
 
 		std:ln(x * y);
 
-	endf
+	end
 
-	cfunc Main()
+	const Runner()
 
-		here.c = 100;
+	end
 
-	endf
+end
 
-endc
+class Main
 
-Main main = new Main();
-main.run(20, 40);
+	fn main()
+		Runner r = new Runner();
+		r.run(20, 304);
+	end
+	
+end
 ```
