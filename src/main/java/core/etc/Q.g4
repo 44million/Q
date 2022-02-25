@@ -62,6 +62,17 @@ header
  : '@' 'header' Identifier
  ;
 
+/*
+define
+ : '[' 'identifier' ']' ':' String
+ ;
+
+customObj
+ : 'new' Identifier
+ ;
+
+*/
+
 objFunctionDecl
  : Def Identifier ':' Identifier '(' idList? ')' block End
  ;
@@ -125,7 +136,7 @@ elseStat
  ;
 
 functionDecl
- : Def Identifier '(' idList? ')' block End
+ : (Async)? Def Identifier '(' idList? ')' block End
  ;
 
 forStatement
@@ -221,6 +232,7 @@ indexes
  ;
 
 Println  : 'std:ln';
+Async    : 'async';
 Render   : 'render';
 AddComponent : 'addComp';
 Var      : 'var';

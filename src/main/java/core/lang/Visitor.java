@@ -197,7 +197,13 @@ public class Visitor extends QBaseVisitor<QValue> {
             System.out.print(s);
         }
 
-        functions.put(id, new Function(scope, params, block));
+        Function f = new Function(scope, params, block);
+
+        if (ctx.Async() != null) {
+            f.setAsync(true);
+        }
+
+        functions.put(id, f);
         return QValue.VOID;
     }
 
@@ -1132,7 +1138,7 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitIdentifierFunctionCall(IdentifierFunctionCallContext ctx) {
         List<ExpressionContext> params = ctx.exprList() != null ? ctx.exprList().expression() : new ArrayList<>();
         String id = ctx.Identifier().getText() + params.size();
-        Function function = null;
+        Function function;
 
         if (lang.visitor.functions.containsKey(id)) {
             function = lang.visitor.functions.get(id);
@@ -1145,6 +1151,11 @@ public class Visitor extends QBaseVisitor<QValue> {
             for (ExpressionContext param : params) {
                 args.add(this.visit(param));
             }
+
+            if (function.async) {
+                return function.call(args, functions, true);
+            }
+
             return function.call(args, functions);
         }
         throw new Problem(ctx);

@@ -22,6 +22,14 @@ class Main
             std:ln("This also will not execute, as the first statement in the 'if' sequence was true");
         end
 
+        f();
+
+    end
+
+    async fn f()
+
+        std:ln("Async functions baby!");
+
     end
 
 end
