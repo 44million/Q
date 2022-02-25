@@ -954,13 +954,13 @@ public class Visitor extends QBaseVisitor<QValue> {
 
     @Override
     public QValue visitOrExpression(OrExpressionContext ctx) {
-        QValue lhs = this.visit(ctx.expression(0));
-        QValue rhs = this.visit(ctx.expression(1));
+        QValue leftSideVar = this.visit(ctx.expression(0));
+        QValue rightSideVar = this.visit(ctx.expression(1));
 
-        if (!lhs.isBoolean() || !rhs.isBoolean()) {
+        if (!leftSideVar.isBoolean() || !rightSideVar.isBoolean()) {
             throw new Problem(ctx);
         }
-        return new QValue(lhs.asBoolean() || rhs.asBoolean());
+        return new QValue(leftSideVar.asBoolean() || rightSideVar.asBoolean());
     }
 
     @Override
@@ -980,15 +980,14 @@ public class Visitor extends QBaseVisitor<QValue> {
             String x = ".q.";
             String g = s.substring(0, 1).toUpperCase() + s.substring(1);
 
-            String fin = x + g;
+            String xyy = x + g;
 
-            if (fin.equals(".q.Io")) {
-                fin = ".q.io";
-            } else if (fin.equals(".q.Http")) {
-                fin = ".q.http";
-            } else if (fin.equals(".q.Puddle")) {
-                fin = ".q.puddle";
-            }
+            String fin = switch (xyy) {
+                case ".q.Io" -> ".q.io";
+                case ".q.Http" -> ".q.http";
+                case ".q.Puddle" -> ".q.puddle";
+                default -> x + g;
+            };
 
             lang.parse(fin);
         }
