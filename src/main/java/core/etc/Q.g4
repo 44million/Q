@@ -223,7 +223,6 @@ indexes
 Println  : 'std:ln';
 Render   : 'render';
 AddComponent : 'addComp';
-New      : 'new';
 Var      : 'var';
 Import   : 'import';
 Print    : 'std:out';

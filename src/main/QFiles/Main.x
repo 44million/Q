@@ -4,10 +4,11 @@
 
 class File
 
-    new OutputStream as out();
+    // should be 'console', but its 'Console', because 'console' is a reserved keyword
+    new OutputStream as Console();
 
     func main()
-        out.printline("Hello World!");
+        Console.printline("Hello World!");
 
         if (true)
             std:ln("Or you can say 'Hello World' like this!");
