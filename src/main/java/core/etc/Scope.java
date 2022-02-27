@@ -11,6 +11,7 @@ public class Scope {
     public final Map<String, QValue> vars;
     private final Scope parentScope;
     private final boolean isFunction;
+    public boolean lib;
 
     public Scope() {
         this(null, false);

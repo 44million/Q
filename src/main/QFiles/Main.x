@@ -1,6 +1,5 @@
-@header Main
-
 #import [*];
+#import src.main.QFiles.TestLibrary;
 
 class Writer
 
@@ -9,11 +8,11 @@ class Writer
     cn Writer();
 
     fn set(x)
-        here.val = x;
+        self.val = x;
     end
 
     fn get()
-        return here.val;
+        return self.val;
     end
 
 end
@@ -28,8 +27,8 @@ class Main : Writer
         std:ln(w.get());
 
         new Random as r();
+        ran = r.ran("int");
 
-        ran = r.ran("bool");
         std:ln(ran);
 
     end

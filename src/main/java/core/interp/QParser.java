@@ -61,7 +61,7 @@ public class QParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'.'", "'@'", "'header'", "'here'", "'cn'", "'new'", "'as'", "'List'", 
+			null, "'.'", "'@'", "'header'", "'self'", "'cn'", "'new'", "'as'", "'List'", 
 			"'add'", "'remove'", "'sys'", "'write'", "'verify'", "'noval'", "'range'", 
 			"'#'", "'all'", "'custom'", "'define'", "'\"'", "'onflaw'", "'changeText'", 
 			"'fn main()'", "'random'", "'std:ln'", "'async'", "'render'", "'addComp'", 

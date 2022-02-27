@@ -86,11 +86,11 @@ ifStat
  ;
 
 hereStatement
- : 'here' '.' Identifier '=' expression
+ : 'self' '.' Identifier '=' expression
  ;
 
 varHereStatement
- : 'here' '.' Identifier
+ : 'self' '.' Identifier
  ;
 
 elseIfStat

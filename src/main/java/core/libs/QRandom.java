@@ -7,6 +7,7 @@ import java.util.Random;
 
 public class QRandom extends QLibrary {
 
+    @SuppressWarnings("all")
     private final String qcode
             = ("""
             #import q.Windows;
@@ -19,13 +20,13 @@ public class QRandom extends QLibrary {
             #import q.Time;
                         
             class Random
-            
+                        
                 cn Random();
                 
                 fn ran(x)
                     return random(x);
                 end
-            
+                        
             end
                         
             """);

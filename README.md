@@ -31,10 +31,12 @@ class Runner
 	
 	cn Runner();
 
-	fn run(x, y)
-
-		std:ln(x * y);
-
+	fn run(x)
+		std:ln(x * self.c);
+	end
+	
+	fn set(c)
+		self.c = c;
 	end
 
 end
@@ -43,7 +45,8 @@ class Main
 
 	fn main()
 		Runner r = new Runner();
-		r.run(20, 304);
+		r.set(204);
+		r.run(20);
 	end
 	
 end

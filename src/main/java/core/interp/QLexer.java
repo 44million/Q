@@ -55,7 +55,7 @@ public class QLexer extends Lexer {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'.'", "'@'", "'header'", "'here'", "'cn'", "'new'", "'as'", "'List'", 
+			null, "'.'", "'@'", "'header'", "'self'", "'cn'", "'new'", "'as'", "'List'", 
 			"'add'", "'remove'", "'sys'", "'write'", "'verify'", "'noval'", "'range'", 
 			"'#'", "'all'", "'custom'", "'define'", "'\"'", "'onflaw'", "'changeText'", 
 			"'fn main()'", "'random'", "'std:ln'", "'async'", "'render'", "'addComp'", 
@@ -220,8 +220,8 @@ public class QLexer extends Lexer {
 		"\2\2\u00a5\u0245\3\2\2\2\u00a7\u0247\3\2\2\2\u00a9\u00aa\7\60\2\2\u00aa"+
 		"\4\3\2\2\2\u00ab\u00ac\7B\2\2\u00ac\6\3\2\2\2\u00ad\u00ae\7j\2\2\u00ae"+
 		"\u00af\7g\2\2\u00af\u00b0\7c\2\2\u00b0\u00b1\7f\2\2\u00b1\u00b2\7g\2\2"+
-		"\u00b2\u00b3\7t\2\2\u00b3\b\3\2\2\2\u00b4\u00b5\7j\2\2\u00b5\u00b6\7g"+
-		"\2\2\u00b6\u00b7\7t\2\2\u00b7\u00b8\7g\2\2\u00b8\n\3\2\2\2\u00b9\u00ba"+
+		"\u00b2\u00b3\7t\2\2\u00b3\b\3\2\2\2\u00b4\u00b5\7u\2\2\u00b5\u00b6\7g"+
+		"\2\2\u00b6\u00b7\7n\2\2\u00b7\u00b8\7h\2\2\u00b8\n\3\2\2\2\u00b9\u00ba"+
 		"\7e\2\2\u00ba\u00bb\7p\2\2\u00bb\f\3\2\2\2\u00bc\u00bd\7p\2\2\u00bd\u00be"+
 		"\7g\2\2\u00be\u00bf\7y\2\2\u00bf\16\3\2\2\2\u00c0\u00c1\7c\2\2\u00c1\u00c2"+
 		"\7u\2\2\u00c2\20\3\2\2\2\u00c3\u00c4\7N\2\2\u00c4\u00c5\7k\2\2\u00c5\u00c6"+

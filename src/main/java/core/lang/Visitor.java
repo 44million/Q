@@ -50,7 +50,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         String parentClass = ctx.Identifier(0).getText();
         String method = (ctx.Identifier(1)).getText();
 
-        if (parentClass.equals("time")) {
+        if (parentClass.equals("Time")) {
 
             lang.check("time", "Time");
 
@@ -69,7 +69,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
             }
 
-        } else if (parentClass.equals("files")) {
+        } else if (parentClass.equals("Files")) {
 
             lang.check("files", "Files");
 
@@ -100,7 +100,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
             }
 
-        } else if (parentClass.equals("console")) {
+        } else if (parentClass.equals("Console")) {
 
             lang.check("console", "Console");
 
@@ -351,8 +351,15 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitMainFunctionStatement(QParser.MainFunctionStatementContext ctx) {
 
-        if (this.lib) {
-            System.out.println("[FATAL] Library files cannot contain a function 'main'.\nPlease either remove the '@header' statement, or rename the function.");
+        Scope l = this.scope;
+
+        while (l != null) {
+            if (l.lib) {
+                System.out.println("[FATAL] Library files cannot contain a function 'main'.\nPlease either remove the '@header' statement, or rename the function.");
+                System.exit(-1);
+            } else {
+                l = l.parent();
+            }
         }
 
         if (!lang.main) {
@@ -511,9 +518,12 @@ public class Visitor extends QBaseVisitor<QValue> {
         parser.setBuildParseTree(true);
         ParseTree tree = parser.parse();
 
-        lang.visitor.visit(tree);
+        Scope s = new Scope(lang.scope, false);
+        Visitor v = new Visitor(s, new HashMap<>());
 
-        return null;
+        v.visit(tree);
+
+        return QValue.VOID;
     }
 
     @Override
@@ -707,6 +717,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         }
 
         this.lib = true;
+        this.scope.lib = true;
 
         return QValue.VOID;
     }
