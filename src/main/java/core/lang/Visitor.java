@@ -700,6 +700,8 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         if (ctx.Identifier(1) != null && lang.classes.containsKey(iid)) {
             qClass.setBase(lang.classes.get(iid));
+        } else {
+            qClass.setBase(QClass.BASE);
         }
 
         lang.classes.put(id, qClass);

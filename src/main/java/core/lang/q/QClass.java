@@ -8,6 +8,8 @@ import java.util.Map;
 
 public class QClass {
 
+    public static QClass BASE = new QClass();
+
     public String name;
     public Map<String, Function> functions;
     public Scope scope;
@@ -19,6 +21,8 @@ public class QClass {
         this.functions = functions;
         this.scope = scope;
     }
+
+    public QClass() {}
 
     public String getName() {
         return name;

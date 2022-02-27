@@ -22,6 +22,7 @@ class Main : Writer
     fn main()
 
         new Writer as w();
+        // if you dont call 'set', the 'val' variable will be null.
         w.set("Hello there");
 
         std:ln(w.get());
