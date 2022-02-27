@@ -89,6 +89,10 @@ hereStatement
  : 'here' '.' Identifier '=' expression
  ;
 
+varHereStatement
+ : 'here' '.' Identifier
+ ;
+
 elseIfStat
  : Else If '(' expression ')' block
  ;
@@ -164,6 +168,25 @@ importAllStatement
  | '#' 'import' '[' 'all' ']'
  ;
 
+customClass
+ : 'custom' 'class' Identifier ( '[' 'define' ']' '"' Identifier '"' ':' Identifier ';' )* block End
+
+ /*
+    custom class bool
+
+        [define] "true" : true;
+        [define] "false" : false;
+
+        bool b = true;
+
+        func val()
+            return instance;
+        end
+
+ */
+
+ ;
+
 tryCatchStatement
  : Try block 'onflaw' block End
  ; 
@@ -221,6 +244,7 @@ expression
  | String indexes?                                      #stringExpression
  | '(' expression ')' indexes?                          #expressionExpression
  | Input '(' String? ')'                                #inputExpression
+ | varHereStatement                                     #hereVarExpression
  ;
 
 list

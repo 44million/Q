@@ -1,38 +1,30 @@
-@header Main
+#import [*];
 
-#import [all];
+class Writer
 
-class Main
+    noval val;
 
-    fn ->
-        std:ln("This is an anonymous function!");
+    cn Writer();
+
+    fn set(x)
+        here.val = x;
     end
 
-    // note that for now, the async keyword does nothing
-    async fn itsFunction(x, w, e, r, t)
-        return x * w * e * r * t;
-    end
-
-    fn main()
-        // keep in mind, 'console' is a reserved keyword
-        new OutputStream as cc();
-        cc.out("Hello World!");
-        cc.newline();
-
-        if (true)
-            std:ln("Or you can say 'Hello World' like this!");
-        else if (false)
-            std:ln("This will never execute");
-        else
-            std:ln("This also will not execute, as the first statement in the 'if' sequence was true");
-        end
-
-        for (i in range(5))
-            std:ln(itsFunction(ranInt(), 2, ranInt(), 6, 99));
-        end
-
+    fn get()
+        return here.val;
     end
 
 end
 
+class Main
 
+    fn main()
+
+        new Writer as w();
+        w.set("Hello there");
+
+        std:ln(w.get());
+
+    end
+
+end

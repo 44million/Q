@@ -1,4 +1,4 @@
-// Generated from C:/Users/Bosque/Documents/GitHub/xxl/src/main/java/core/etc\Q.g4 by ANTLR 4.9.2
+// Generated from /Users/harryharbuck-marlowe/Desktop/Q/src/main/java/core/etc/Q.g4 by ANTLR 4.9.2
 package core.interp;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -134,6 +134,12 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitHereStatement(QParser.HereStatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link QParser#varHereStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarHereStatement(QParser.VarHereStatementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link QParser#elseIfStat}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -242,6 +248,12 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitImportAllStatement(QParser.ImportAllStatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link QParser#customClass}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCustomClass(QParser.CustomClassContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link QParser#tryCatchStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -344,6 +356,13 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPowerExpression(QParser.PowerExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code hereVarExpression}
+	 * labeled alternative in {@link QParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitHereVarExpression(QParser.HereVarExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code eqExpression}
 	 * labeled alternative in {@link QParser#expression}.

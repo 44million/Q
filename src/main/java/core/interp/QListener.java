@@ -1,4 +1,4 @@
-// Generated from C:/Users/Bosque/Documents/GitHub/xxl/src/main/java/core/etc\Q.g4 by ANTLR 4.9.2
+// Generated from /Users/harryharbuck-marlowe/Desktop/Q/src/main/java/core/etc/Q.g4 by ANTLR 4.9.2
 package core.interp;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -216,6 +216,16 @@ public interface QListener extends ParseTreeListener {
 	 */
 	void exitHereStatement(QParser.HereStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link QParser#varHereStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarHereStatement(QParser.VarHereStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QParser#varHereStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarHereStatement(QParser.VarHereStatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link QParser#elseIfStat}.
 	 * @param ctx the parse tree
 	 */
@@ -396,6 +406,16 @@ public interface QListener extends ParseTreeListener {
 	 */
 	void exitImportAllStatement(QParser.ImportAllStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link QParser#customClass}.
+	 * @param ctx the parse tree
+	 */
+	void enterCustomClass(QParser.CustomClassContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QParser#customClass}.
+	 * @param ctx the parse tree
+	 */
+	void exitCustomClass(QParser.CustomClassContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link QParser#tryCatchStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -569,6 +589,18 @@ public interface QListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPowerExpression(QParser.PowerExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code hereVarExpression}
+	 * labeled alternative in {@link QParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterHereVarExpression(QParser.HereVarExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code hereVarExpression}
+	 * labeled alternative in {@link QParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitHereVarExpression(QParser.HereVarExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code eqExpression}
 	 * labeled alternative in {@link QParser#expression}.

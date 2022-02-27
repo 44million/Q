@@ -938,13 +938,23 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitHereStatement(QParser.HereStatementContext ctx) {
 
         QValue q = this.visit(ctx.expression());
-        if (this.scope.vars.containsKey(ctx.Identifier().getText())) {
-            this.scope.vars.put(ctx.Identifier().getText(), q);
+        String id = ctx.Identifier().getText();
+
+        if (this.scope.parent().parent().vars.containsKey(id)) {
+            this.scope.parent().parent().vars.replace(id, q);
         } else {
             System.out.println("[ERROR] Variable '" + ctx.Identifier().getText() + "' does not exist in the current context");
         }
 
         return QValue.VOID;
+    }
+
+    @Override
+    public QValue visitHereVarExpression(QParser.HereVarExpressionContext ctx) {
+
+        String id = ctx.varHereStatement().Identifier().getText();
+
+        return this.scope.parent().parent().vars.getOrDefault(id, QValue.NULL);
     }
 
     @Override
