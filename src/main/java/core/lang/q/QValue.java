@@ -10,7 +10,7 @@ public class QValue implements Comparable<QValue> {
     public static final QValue VOID = new QValue();
 
     private final Object value;
-    public boolean constant;
+    public boolean constant = false;
 
     private QValue() {
         value = new Object();

@@ -28,13 +28,11 @@ public class Scope {
     }
 
     public void varAssign(String var, QValue value) {
-
-        if (value.constant) {
-            System.out.println("[FATAL] Variable '" + var + "' is constant, and cannot be changed");
-            System.exit(0);
-        }
-
         if (exists(var, !isFunction) != null) {
+            if (value.constant) {
+                System.out.println("[FATAL] Variable '" + var + "' is constant, and cannot be changed");
+                System.exit(0);
+            }
             this.varReAssign(var, value);
         } else {
             this.vars.put(var, value);
@@ -49,11 +47,11 @@ public class Scope {
         return this.parentScope;
     }
 
-    private void varReAssign(String identifier, QValue value) {
-        if (this.vars.containsKey(identifier)) {
-            this.vars.put(identifier, value);
+    private void varReAssign(String var, QValue value) {
+        if (this.vars.containsKey(var)) {
+            this.vars.put(var, value);
         } else if (parentScope != null) {
-            this.parentScope.varReAssign(identifier, value);
+            this.parentScope.varReAssign(var, value);
         }
     }
 
@@ -65,7 +63,7 @@ public class Scope {
         QValue value = this.vars.get(var);
         if (value != null) {
             return value;
-        } else if (checkParent && !isGlobalScope()) {
+        } else if (checkParent && !this.isGlobalScope()) {
             return this.parentScope.exists(var, !this.parentScope.isFunction);
         } else {
             return null;

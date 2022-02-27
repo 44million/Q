@@ -717,26 +717,20 @@ public class Visitor extends QBaseVisitor<QValue> {
         QValue newVal = QValue.NULL;
         String id = ctx.Identifier().getText();
 
-        if (ctx.expression() != null) {
-            newVal = this.visit(ctx.expression());
-        }
-
         if (ctx.Noval(0) != null && ctx.expression() != null) {
             System.out.println("[FATAL] Variable: '" + id + "' in " + this.scope + "must have a value, unless marked as 'noval'");
             System.exit(0);
-        }
-
-        if (ctx.Noval(0) != null && ctx.Const(0) != null) {
+        } else if (ctx.Noval(0) != null && ctx.Const(0) != null) {
             System.out.println("[FATAL] Constant variables must have a value to begin with. See variable '" + id + "'.");
             System.exit(1);
         }
 
-        if (ctx.Const(0) != null) {
-            newVal.constant = true;
+        if (ctx.expression() != null) {
+            newVal = this.visit(ctx.expression());
         }
 
         if (ctx.Noval(0) != null) {
-            scope.varAssign(id, QValue.NULL);
+            scope.varAssign(id, newVal);
             return QValue.VOID;
         }
 
@@ -747,6 +741,9 @@ public class Visitor extends QBaseVisitor<QValue> {
         } else {
             scope.varAssign(id, newVal);
         }
+
+        newVal.constant = true;
+
         return QValue.VOID;
     }
 
