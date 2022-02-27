@@ -726,9 +726,16 @@ public class Visitor extends QBaseVisitor<QValue> {
             System.exit(0);
         }
 
+        if (ctx.Noval(0) != null && ctx.Const(0) != null) {
+            System.out.println("[FATAL] Constant variables must have a value to begin with. See variable '" + id + "'.");
+            System.exit(1);
+        }
+
         if (ctx.Const(0) != null) {
             newVal.constant = true;
-        } else if (ctx.Noval(0) != null) {
+        }
+
+        if (ctx.Noval(0) != null) {
             scope.varAssign(id, QValue.NULL);
             return QValue.VOID;
         }

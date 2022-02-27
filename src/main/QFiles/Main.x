@@ -68,9 +68,16 @@ class Main
 
         // this will run just fine
         noval thisisnull;
-
+        // as will this
+        thisisnotnull = "This isn't null";
         // this will not, so i commented it out
         // noval x = "This is going to fail!";
+
+        // const tests
+        i = 100;
+        std:ln(i);
+        i = 101;
+        std:ln(i);
 
         new Random as r();
         ranInt = r.ran("int");
