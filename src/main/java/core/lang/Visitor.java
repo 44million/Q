@@ -321,6 +321,34 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
+    public QValue visitRandomExpression(QParser.RandomExpressionContext ctx) {
+
+        if (ctx.expression() == null) {
+            System.out.println("[ERROR] System call 'sys.ran' requires a :str argument");
+            return QValue.NULL;
+        }
+
+        String s = this.visit(ctx.expression()).asString();
+
+        switch (s) {
+            case "int":
+                return new QValue(new Random().nextInt());
+            case "str":
+                return new QValue(lang.getSaltString());
+            case "bool":
+                int i = new Random().nextInt(2);
+
+                if (i == 1) {
+                    return new QValue(true);
+                } else {
+                    return new QValue(false);
+                }
+
+        }
+        return QValue.NULL;
+    }
+
+    @Override
     public QValue visitMainFunctionStatement(QParser.MainFunctionStatementContext ctx) {
 
         if (this.lib) {
@@ -647,13 +675,22 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitClassStatement(QParser.ClassStatementContext ctx) {
 
-        String id = ctx.Identifier().getText();
+        String id = ctx.Identifier(0).getText();
         Scope scope = new Scope(lang.scope, false);
 
         Visitor v = new Visitor(scope, new HashMap<>());
         v.visit(ctx.block());
 
         QClass qClass = new QClass(id, v.functions, scope);
+        String iid = "";
+
+        if (ctx.Identifier(1) != null) {
+            iid = ctx.Identifier(1).getText();
+        }
+
+        if (ctx.Identifier(1) != null && lang.classes.containsKey(iid)) {
+            qClass.setBase(lang.classes.get(iid));
+        }
 
         lang.classes.put(id, qClass);
 

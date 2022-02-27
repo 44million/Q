@@ -441,6 +441,13 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitListExpression(QParser.ListExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code randomExpression}
+	 * labeled alternative in {@link QParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRandomExpression(QParser.RandomExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code ternaryExpression}
 	 * labeled alternative in {@link QParser#expression}.
 	 * @param ctx the parse tree

@@ -734,6 +734,18 @@ public interface QListener extends ParseTreeListener {
 	 */
 	void exitListExpression(QParser.ListExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code randomExpression}
+	 * labeled alternative in {@link QParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterRandomExpression(QParser.RandomExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code randomExpression}
+	 * labeled alternative in {@link QParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitRandomExpression(QParser.RandomExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code ternaryExpression}
 	 * labeled alternative in {@link QParser#expression}.
 	 * @param ctx the parse tree

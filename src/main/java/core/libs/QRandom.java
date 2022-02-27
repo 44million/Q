@@ -8,7 +8,7 @@ import java.util.Random;
 public class QRandom extends QLibrary {
 
     private final String qcode
-            = String.format("""
+            = ("""
             #import q.Windows;
             #import q.Files;
             #import q.Math;
@@ -18,15 +18,17 @@ public class QRandom extends QLibrary {
             #import q.Console;
             #import q.Time;
                         
-            fn ranInt()
-                return %s;
+            class Random
+            
+                cn Random();
+                
+                fn ran(x)
+                    return random(x);
+                end
+            
             end
                         
-            fn pRandom()
-                std:ln(%s);
-            end
-                        
-            """, ranInt(), ranInt());
+            """);
 
     @Override
     public String getName() {

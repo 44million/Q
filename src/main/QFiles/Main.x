@@ -18,7 +18,7 @@ class Writer
 
 end
 
-class Main
+class Main : Writer
 
     fn main()
 
@@ -26,6 +26,11 @@ class Main
         w.set("Hello there");
 
         std:ln(w.get());
+
+        new Random as r();
+
+        ran = r.ran("bool");
+        std:ln(ran);
 
     end
 

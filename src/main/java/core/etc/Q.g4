@@ -216,7 +216,7 @@ idList
  ;
 
 classStatement
- : Class Identifier block 'end'
+ : Class Identifier ( ':' Identifier )? block 'end'
  ;
 
 exprList
@@ -245,6 +245,7 @@ expression
  | '(' expression ')' indexes?                          #expressionExpression
  | Input '(' String? ')'                                #inputExpression
  | varHereStatement                                     #hereVarExpression
+ | 'random' '(' expression ')'                          #randomExpression
  ;
 
 list
