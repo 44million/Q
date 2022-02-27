@@ -364,18 +364,6 @@ public class QBaseListener implements QListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNullVarStatement(QParser.NullVarStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNullVarStatement(QParser.NullVarStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterElseStat(QParser.ElseStatContext ctx) { }
 	/**
 	 * {@inheritDoc}

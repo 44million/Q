@@ -17,6 +17,29 @@ class Object
 
 end
 
+class FileWriter : Object
+
+    noval path;
+
+    cn FileWriter();
+
+    fn setPath(newPath)
+        self.path = newPath;
+    end
+
+    fn getPath()
+        return self.path;
+    end
+
+    fn scribe(content)
+
+        new File as f(self.path);
+        f.write(content);
+
+    end
+
+end
+
 class Writer : Object
 
     noval val;
@@ -43,10 +66,20 @@ class Main
 
         std:ln(w.get());
 
-        new Random as r();
-        ran = r.ran("int");
+        // this will run just fine
+        noval thisisnull;
 
-        std:ln(ran);
+        // this will not, so i commented it out
+        // noval x = "This is going to fail!";
+
+        new Random as r();
+        ranInt = r.ran("int");
+        ranStr = r.ran("str");
+        ranBool = r.ran("bool");
+
+        new FileWriter as fw();
+        fw.setPath("src/main/QFiles/primary.l");
+        fw.scribe("// " + ranInt + " <-- int, " + ranStr + " <-- str, " + ranBool + " <-- bool");
 
     end
 

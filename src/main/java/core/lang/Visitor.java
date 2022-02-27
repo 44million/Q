@@ -161,19 +161,6 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitNullVarStatement(QParser.NullVarStatementContext ctx) {
-
-        /*
-            noval x;
-         */
-
-        QValue newVal = QValue.NULL;
-        String id = ctx.Identifier().getText();
-        scope.varAssign(id, newVal);
-        return QValue.VOID;
-    }
-
-    @Override
     public QValue visitObjFunctionDecl(QParser.ObjFunctionDeclContext ctx) {
 
         return QValue.VOID;
@@ -726,13 +713,31 @@ public class Visitor extends QBaseVisitor<QValue> {
 
     @Override
     public QValue visitReAssignment(QParser.ReAssignmentContext ctx) {
-        QValue newVal = this.visit(ctx.expression());
+
+        QValue newVal = QValue.NULL;
+        String id = ctx.Identifier().getText();
+
+        if (ctx.expression() != null) {
+            newVal = this.visit(ctx.expression());
+        }
+
+        if (ctx.Noval(0) != null && ctx.expression() != null) {
+            System.out.println("[FATAL] Variable: '" + id + "' in " + this.scope + "must have a value, unless marked as 'noval'");
+            System.exit(0);
+        }
+
+        if (ctx.Const(0) != null) {
+            newVal.constant = true;
+        } else if (ctx.Noval(0) != null) {
+            scope.varAssign(id, QValue.NULL);
+            return QValue.VOID;
+        }
+
         if (ctx.indexes() != null) {
             QValue val = scope.exists(ctx.Identifier().getText());
             List<ExpressionContext> exps = ctx.indexes().expression();
             setAtIndex(ctx, exps, val, newVal);
         } else {
-            String id = ctx.Identifier().getText();
             scope.varAssign(id, newVal);
         }
         return QValue.VOID;

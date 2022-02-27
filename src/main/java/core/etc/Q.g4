@@ -31,12 +31,11 @@ statement
  | listRemoveStatement ';'
  | osExecStatement ';'
  | anonymousFunction
- | nullVarStatement ';'
  | hereStatement ';'
  ;
 
 reAssignment
- : Identifier indexes? '=' expression
+ : ( Const | Noval )*? Identifier ( indexes? '=' expression )?
  ;
 
 functionCall
@@ -129,10 +128,6 @@ fileWriteStatement
 
 verifyFileStatement
  : 'verify' '(' expression ')'
- ;
-
-nullVarStatement
- : 'noval' Identifier
  ;
 
 elseStat
@@ -280,6 +275,8 @@ Null     : 'null';
 Try      : 'try';
 Catch    : 'catch';
 Class    : 'class';
+Const    : 'const';
+Noval    : 'noval';
 
 Or       : '||';
 And      : '&&';

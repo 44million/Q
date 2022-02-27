@@ -194,12 +194,6 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVerifyFileStatement(QParser.VerifyFileStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QParser#nullVarStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNullVarStatement(QParser.NullVarStatementContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link QParser#elseStat}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
