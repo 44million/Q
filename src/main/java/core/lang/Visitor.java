@@ -701,7 +701,7 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitHeader(QParser.HeaderContext ctx) {
 
         if (ctx.Identifier().getText().equals("")) {
-            System.out.println("[FATAL] Header MUST have a title");
+            System.out.println("[FATAL] Header MUST have a name\nie: '@header FileWriterLibrary' or '@header TokenFactoryLibrary'");
             System.exit(0);
         }
 

@@ -78,6 +78,8 @@ class Main
         std:ln(i);
         i = 101;
         std:ln(i);
+        // they failed lol
+
 
         new Random as r();
         ranInt = r.ran("int");
