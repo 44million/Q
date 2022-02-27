@@ -13,17 +13,22 @@ end
 
 class FileWriter
 
-    fn ->
-        std:ln("Class FileWriter initialized");
-    end
+    noval path;
+    noval content;
 
     FileWriter();
 
-    fn w(path, content)
+    fn setPath(path)
+        self.path = path;
+    end
 
-        new File as file(path);
-        file.write(content);
+    fn setContent(content)
+        self.content = content;
+    end
 
+    fn write(x)
+        new File as file();
+        file.write(x);
     end
 
 end

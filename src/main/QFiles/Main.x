@@ -1,7 +1,23 @@
 #import [*];
 #import src.main.QFiles.TestLibrary;
 
-class Writer
+class Object
+
+    noval value;
+
+    cn Object();
+
+    fn set(x)
+        self.value = x;
+    end
+
+    fn get()
+        return self.value;
+    end
+
+end
+
+class Writer : Object
 
     noval val;
 
@@ -17,7 +33,7 @@ class Writer
 
 end
 
-class Main : Writer
+class Main
 
     fn main()
 
@@ -35,3 +51,4 @@ class Main : Writer
     end
 
 end
+
