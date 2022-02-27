@@ -1,3 +1,5 @@
+@header Main
+
 #import [*];
 
 class Writer

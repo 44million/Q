@@ -37,6 +37,7 @@ public class Visitor extends QBaseVisitor<QValue> {
     private static final RVal returnValue = new RVal();
     public final Map<String, Function> functions;
     public Scope scope;
+    public boolean lib;
 
     public Visitor(Scope scope, Map<String, Function> functions) {
         this.scope = scope;
@@ -322,11 +323,13 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitMainFunctionStatement(QParser.MainFunctionStatementContext ctx) {
 
+        if (this.lib) {
+            System.out.println("[FATAL] Library files cannot contain a function 'main'.\nPlease either remove the '@header' statement, or rename the function.");
+        }
+
         if (!lang.main) {
             lang.main = true;
-
             this.visit(ctx.block());
-
             return QValue.VOID;
         } else {
             System.out.println("[FATAL] Main function has already been called.");
@@ -665,6 +668,8 @@ public class Visitor extends QBaseVisitor<QValue> {
             System.out.println("[FATAL] Header MUST have a title");
             System.exit(0);
         }
+
+        this.lib = true;
 
         return QValue.VOID;
     }
