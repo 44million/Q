@@ -29,10 +29,12 @@ public class Scope {
 
     public void varAssign(String var, QValue value) {
         if (exists(var, !isFunction) != null) {
+
             if (value.constant) {
                 System.out.println("[FATAL] Variable '" + var + "' is constant, and cannot be changed");
                 System.exit(0);
             }
+
             this.varReAssign(var, value);
         } else {
             this.vars.put(var, value);

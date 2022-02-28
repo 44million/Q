@@ -22,7 +22,8 @@ public class QClass {
         this.scope = scope;
     }
 
-    public QClass() {}
+    public QClass() {
+    }
 
     public String getName() {
         return name;

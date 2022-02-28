@@ -717,10 +717,10 @@ public class Visitor extends QBaseVisitor<QValue> {
         QValue newVal = QValue.NULL;
         String id = ctx.Identifier().getText();
 
-        if (ctx.Noval(0) != null && ctx.expression() != null) {
+        if ((ctx.Noval(0) != null) && (ctx.expression() != null)) {
             System.out.println("[FATAL] Variable: '" + id + "' in " + this.scope + "must have a value, unless marked as 'noval'");
             System.exit(0);
-        } else if (ctx.Noval(0) != null && ctx.Const(0) != null) {
+        } else if ((ctx.Noval(0) != null) && (ctx.Const(0) != null)) {
             System.out.println("[FATAL] Constant variables must have a value to begin with. See variable '" + id + "'.");
             System.exit(1);
         }
@@ -729,20 +729,30 @@ public class Visitor extends QBaseVisitor<QValue> {
             newVal = this.visit(ctx.expression());
         }
 
-        if (ctx.Noval(0) != null) {
+        if ((ctx.Noval(0) != null)) {
             scope.varAssign(id, newVal);
             return QValue.VOID;
         }
 
-        if (ctx.indexes() != null) {
+        if ((ctx.Const(0) != null)) {
+            newVal.constant = true;
+        }
+
+        if ((ctx.indexes() != null)) {
             QValue val = scope.exists(ctx.Identifier().getText());
             List<ExpressionContext> exps = ctx.indexes().expression();
             setAtIndex(ctx, exps, val, newVal);
         } else {
-            scope.varAssign(id, newVal);
-        }
 
-        newVal.constant = true;
+            if (this.scope.vars.containsKey(id)) {
+                if (this.scope.vars.get(id).constant) {
+                    newVal.constant = true;
+                }
+            }
+
+            scope.varAssign(id, newVal);
+            newVal.hasVal = true;
+        }
 
         return QValue.VOID;
     }
