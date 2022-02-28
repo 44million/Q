@@ -2,11 +2,14 @@ class Main
 
     fn main()
 
-        const i = 100;
-        std:ln(i);
-        i = 101;
-        std:ln(i);
+        noval x;
+        const y = 7;
+
+        x = 7;
+
+        std:ln(y * x);
 
     end
 
 end
+
