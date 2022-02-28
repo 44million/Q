@@ -13,9 +13,19 @@ fn ->
 end
 ```
 
+ - [ ] Change `variables` to a Variable object, from a HashMap.
+
+```java
+public class Variable {
+
+	public Variable(){}
+
+}
+```
+
  - [x] Possibly change function identifier?
-	 - [ ] func **[old]**
-	 - [x] fn **[new]**
+	 - [ ] func
+	 - [x] fn
 	 - [ ] val/void
 	 - [ ] def
 	 - [ ] method
@@ -28,15 +38,15 @@ end
 class Runner
 
 	noval c;
-	
-	cn Runner();
 
-	fn run(x)
-		std:ln(x * self.c);
+	fn run(x, y)
+
+		std:ln(x * y);
+
 	end
-	
-	fn set(c)
-		self.c = c;
+
+	const Runner()
+
 	end
 
 end
@@ -45,8 +55,7 @@ class Main
 
 	fn main()
 		Runner r = new Runner();
-		r.set(204);
-		r.run(20);
+		r.run(20, 304);
 	end
 	
 end
