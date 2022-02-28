@@ -1,3 +1,5 @@
+@header Classm
+
 class Runner
 
     noval c;
@@ -16,7 +18,7 @@ class FileWriter
     noval path;
     noval content;
 
-    FileWriter();
+    cn FileWriter();
 
     fn setPath(path)
         self.path = path;
@@ -33,7 +35,7 @@ class FileWriter
 
 end
 
-fn main()
+fn mm()
     new Runner as runner();
     runner.run(2);
     // should be 4.0

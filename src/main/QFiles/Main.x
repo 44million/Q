@@ -1,5 +1,9 @@
 class Main
 
+    async fn run()
+        std:ln("Hello World");
+    end
+
     fn main()
 
         noval x;
@@ -8,6 +12,10 @@ class Main
         x = 7;
 
         std:ln(y * x);
+
+        for (i in range(1000))
+            run();
+        end
 
     end
 

@@ -1236,6 +1236,14 @@ public class Visitor extends QBaseVisitor<QValue> {
                 args.add(this.visit(param));
             }
 
+            if (function.async) {
+                FunctionRunner r = new FunctionRunner();
+                r.setFunction(function);
+                r.setArgs(args);
+                r.setFunctions(functions);
+                return r.start();
+            }
+
             return function.call(args, functions);
         }
         throw new Problem(ctx);

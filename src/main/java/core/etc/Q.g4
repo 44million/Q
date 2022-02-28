@@ -61,17 +61,6 @@ header
  : '@' 'header' Identifier
  ;
 
-/*
-define
- : '[' 'identifier' ']' ':' String
- ;
-
-customObj
- : 'new' Identifier
- ;
-
-*/
-
 objFunctionDecl
  : Def Identifier ':' Identifier '(' idList? ')' block End
  ;
