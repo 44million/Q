@@ -1,3 +1,7 @@
+#import src.main.QFiles.List;
+
+#import [*];
+
 class Main
 
     async fn run()
@@ -16,6 +20,11 @@ class Main
         for (i in range(1000))
             run();
         end
+
+        new List as l();
+        l.init();
+        l.add("Hello World!");
+        std:ln(l.get(0));
 
     end
 

@@ -161,12 +161,6 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitObjFunctionDecl(QParser.ObjFunctionDeclContext ctx) {
-
-        return QValue.VOID;
-    }
-
-    @Override
     public QValue visitFunctionDecl(FunctionDeclContext ctx) {
         List<TerminalNode> params = ctx.idList() != null ? ctx.idList().Identifier() : new ArrayList<>();
         ParseTree block = ctx.block();
@@ -626,46 +620,7 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitListAddStatement(QParser.ListAddStatementContext ctx) {
-
-        if (lang.getListByName(ctx.Identifier().getText()) == null) {
-            System.out.println("[FATAL] List: " + ctx.Identifier().getText() + " not found.");
-            System.exit(0);
-        }
-
-        QValue q = this.visit(ctx.expression());
-        lang.getListByName(ctx.Identifier().getText()).add(q);
-
-        return QValue.VOID;
-    }
-
-    @Override
-    public QValue visitListRemoveStatement(QParser.ListRemoveStatementContext ctx) {
-
-        if (lang.getListByName(ctx.Identifier().getText()) == null) {
-            System.out.println("[FATAL] List: " + ctx.Identifier().getText() + " not found.");
-            System.exit(0);
-        }
-
-        QValue q = this.visit(ctx.expression());
-        lang.getListByName(ctx.Identifier().getText()).remove(q);
-
-        return QValue.VOID;
-    }
-
-    @Override
-    public QValue visitListCreateStatement(QParser.ListCreateStatementContext ctx) {
-
-        core.libs.utils.List<Object> list = new core.libs.utils.List<>(this.visit(ctx.Identifier()).asString());
-        lang.lists.add(list);
-
-        return QValue.VOID;
-    }
-
-    @Override
     public QValue visitConstructorStatement(QParser.ConstructorStatementContext ctx) {
-
-
         return QValue.VOID;
     }
 

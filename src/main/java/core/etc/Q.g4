@@ -24,11 +24,7 @@ statement
  | fileWriteStatement ';'
  | verifyFileStatement ';'
  | objFunctionCall (';')?
- | objFunctionDecl
  | objCreateStatement ';'
- | listCreateStatement ';'
- | listAddStatement ';'
- | listRemoveStatement ';'
  | osExecStatement ';'
  | anonymousFunction
  | hereStatement ';'
@@ -61,10 +57,6 @@ header
  : '@' 'header' Identifier
  ;
 
-objFunctionDecl
- : Def Identifier ':' Identifier '(' idList? ')' block End
- ;
-
 ifStatement
  : ifStat elseIfStat* elseStat? End
  ;
@@ -93,18 +85,6 @@ objCreateStatement
  : 'new' Identifier 'as' Identifier '(' exprList? ')'
  // new Object as o();
  // new FileReader as fw("files/file.txt");
- ;
-
-listCreateStatement
- : 'List' Identifier '=' 'new' 'List' '<' '>'
- ;
-
-listAddStatement
- : Identifier '.' 'add' '(' expression ')'
- ;
-
-listRemoveStatement
- : Identifier '.' 'remove' '(' expression ')'
  ;
 
 osExecStatement
