@@ -149,7 +149,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
                 Function f = obj.qc.functions.get(method + vals.size());
 
-                return lang.objs.get(parentClass).funcs.get(method + vals.size()).call(vals, new HashMap<String, Function>());
+                return lang.objs.get(parentClass).funcs.get(method + vals.size()).call(vals, new HashMap<>());
 
             } else {
                 System.out.println("[ERROR] Function: '" + method + "' not found in parent class: '" + lang.objs.get(parentClass).qc.name + "'");

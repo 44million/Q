@@ -1,32 +1,34 @@
-#import src.main.QFiles.List;
-
 #import [*];
 
-class Main
+class Object
 
-    async fn run()
-        std:ln("Hello World");
+    cn Object();
+
+    noval value;
+
+    fn get()
+        return self.value;
     end
 
-    fn main()
-
-        noval x;
-        const y = 7;
-
-        x = 7;
-
-        std:ln(y * x);
-
-        for (i in range(1000))
-            run();
-        end
-
-        new List as l();
-        l.init();
-        l.add("Hello World!");
-        std:ln(l.get(0));
-
+    fn set(ne)
+        self.value = ne;
     end
 
 end
 
+class Main
+
+    fn main()
+
+        new Object as object1();
+        object1.set("this is obj1");
+
+        new Object as object2();
+        object2.set("this is obj2");
+
+        std:ln(object1.get());
+        std:ln(object2.get());
+
+    end
+
+end
