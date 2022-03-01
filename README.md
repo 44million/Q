@@ -14,14 +14,7 @@ end
 ```
 
  - [ ] Change `variables` to a Variable object, from a HashMap.
-
-```java
-public class Variable {
-
-	public Variable(){}
-
-}
-```
+- [ ] Optimize code
 
  - [x] Possibly change function identifier?
 	 - [ ] func
@@ -38,15 +31,15 @@ public class Variable {
 class Runner
 
 	noval c;
+	
+	cn Runner();
 
 	fn run(x, y)
-
 		std:ln(x * y);
-
 	end
 
-	const Runner()
-
+	fn set(nv)
+		self.c = nv;
 	end
 
 end
