@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class QClass {
 
-    public static QClass BASE = new QClass();
+    public static QClass OBJECT = new QClass();
 
     public String name;
     public Map<String, Function> functions;

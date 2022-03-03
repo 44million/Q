@@ -1,4 +1,5 @@
 #import [*];
+#import [all];
 
 class Object
 

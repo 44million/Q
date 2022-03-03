@@ -129,8 +129,10 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         } else if (lang.getWebByName(parentClass) != null) {
 
-            if (method.equals("stop")) {
+            if (method.equals("stop") && lang.getWebByName(parentClass) != null) {
                 lang.getWebByName(parentClass).stop();
+            } else {
+                System.out.println("[ERROR] Unknown method '" + method + "'");
             }
 
         } else if (lang.objs.containsKey(parentClass)) {
@@ -174,10 +176,10 @@ public class Visitor extends QBaseVisitor<QValue> {
             if (e.getMessage().contains("Function.exists()")) {
                 s = "";
             }
-            System.out.print(s);
+            System.err.print(s);
         }
 
-        Function f = new Function(scope, params, block);
+        Function f = new Function(this.scope, params, block);
         f.setV(this);
 
         if (ctx.Async() != null) {
@@ -622,12 +624,14 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         String id = ctx.Identifier(0).getText();
         Scope scope = new Scope(lang.scope, false);
+        HashMap<String, Function> fns = new HashMap<>();
 
-        Visitor v = new Visitor(scope, new HashMap<>());
+        Visitor v = new Visitor(scope, fns);
         v.visit(ctx.block());
 
         QClass qClass = new QClass(id, v.functions, scope);
         String base = "";
+        qClass.setV(v);
 
         if (ctx.Identifier(1) != null) {
             base = ctx.Identifier(1).getText();
@@ -636,10 +640,8 @@ public class Visitor extends QBaseVisitor<QValue> {
         if (ctx.Identifier(1) != null && lang.classes.containsKey(base)) {
             qClass.setBase(lang.classes.get(base));
         } else {
-            qClass.setBase(QClass.BASE);
+            qClass.setBase(QClass.OBJECT);
         }
-
-        qClass.setV(v);
 
         lang.classes.put(id, qClass);
 
