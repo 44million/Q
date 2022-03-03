@@ -133,7 +133,7 @@ importAllStatement
  ;
 
 customClass
- : 'custom' 'class' Identifier ( '[' 'define' ']' '"' Identifier '"' ':' Identifier ';' )* block End
+ : 'custom' 'class' Identifier ( '[' 'define' ']' '"' Identifier '"' ':' Identifier ';' )*? block End
 
  /*
     custom class bool
@@ -143,7 +143,7 @@ customClass
 
         bool b = true;
 
-        func val()
+        fn val()
             return instance;
         end
 
@@ -152,7 +152,7 @@ customClass
  ;
 
 tryCatchStatement
- : Try block 'onflaw' block End
+ : Try block 'onerr' block End
  ; 
 
 whileStatement
