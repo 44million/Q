@@ -9,12 +9,13 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import java.util.List;
 import java.util.Map;
 
-public class Function extends Thread {
+public class Function {
 
     public final List<TerminalNode> params;
     private final Scope parentScope;
     private final ParseTree block;
     public boolean async;
+    public Visitor v;
 
     public Function(Scope parentScope, List<TerminalNode> params, ParseTree block) {
         this.parentScope = parentScope;
@@ -52,8 +53,8 @@ public class Function extends Thread {
         this.async = flag;
     }
 
-    public void run() {
-
+    public void setV(Visitor s) {
+        this.v = s;
     }
 
 }

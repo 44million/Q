@@ -16,6 +16,7 @@ public class QObject {
     public QObject(String name, QClass instance) {
         this.name = name;
         this.qc = instance;
+        this.funcs = qc.functions;
     }
 
     public QObject get() {
@@ -24,10 +25,6 @@ public class QObject {
 
     public void setParams(List<QValue> n) {
         this.params = n;
-    }
-
-    public void setFuncs() {
-        this.funcs = qc.functions;
     }
 
 }

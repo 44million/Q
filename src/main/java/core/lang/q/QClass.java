@@ -2,6 +2,7 @@ package core.lang.q;
 
 import core.etc.Scope;
 import core.lang.Function;
+import core.lang.Visitor;
 
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ public class QClass {
     public Scope scope;
     public List<QValue> constArgs;
     public QClass base;
+    public Visitor v;
 
     public QClass(String name, Map<String, Function> functions, Scope scope) {
         this.name = name;
@@ -35,6 +37,10 @@ public class QClass {
 
     public void setBase(QClass base) {
         this.base = base;
+    }
+
+    public void setV(Visitor v) {
+        this.v = v;
     }
 
 }

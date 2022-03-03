@@ -147,8 +147,6 @@ public class Visitor extends QBaseVisitor<QValue> {
 
             if (obj.qc.functions.containsKey(method + vals.size())) {
 
-                Function f = obj.qc.functions.get(method + vals.size());
-
                 return lang.objs.get(parentClass).funcs.get(method + vals.size()).call(vals, new HashMap<>());
 
             } else {
@@ -167,7 +165,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         String id = ctx.Identifier().getText() + params.size();
 
         try {
-            if (functions.get(id).exists()) {
+            if (this.functions.get(id).exists()) {
                 System.out.println("[FATAL] Function: '" + id + "' already exists.");
                 System.exit(0);
             }
@@ -180,12 +178,13 @@ public class Visitor extends QBaseVisitor<QValue> {
         }
 
         Function f = new Function(scope, params, block);
+        f.setV(this);
 
         if (ctx.Async() != null) {
             f.setAsync(true);
         }
 
-        functions.put(id, f);
+        this.functions.put(id, f);
         return QValue.VOID;
     }
 
@@ -594,12 +593,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             lang.players.add(player);
         } else if (lang.classes.containsKey(parentClass)) {
 
-            // example: Main main = new Main();
-            // example: Runner run = new Runner(8);
-
-            QClass qc = lang.classes.get(parentClass);
-
-            QObject obj = new QObject(nameO, qc);
+            QObject obj = new QObject(nameO, lang.classes.get(parentClass));
 
             List<QValue> list = new ArrayList<>();
             if (ctx.exprList() != null) {
@@ -609,7 +603,6 @@ public class Visitor extends QBaseVisitor<QValue> {
             }
 
             obj.setParams(list);
-            obj.setFuncs();
 
             lang.objs.put(nameO, obj);
         } else {
@@ -634,17 +627,19 @@ public class Visitor extends QBaseVisitor<QValue> {
         v.visit(ctx.block());
 
         QClass qClass = new QClass(id, v.functions, scope);
-        String iid = "";
+        String base = "";
 
         if (ctx.Identifier(1) != null) {
-            iid = ctx.Identifier(1).getText();
+            base = ctx.Identifier(1).getText();
         }
 
-        if (ctx.Identifier(1) != null && lang.classes.containsKey(iid)) {
-            qClass.setBase(lang.classes.get(iid));
+        if (ctx.Identifier(1) != null && lang.classes.containsKey(base)) {
+            qClass.setBase(lang.classes.get(base));
         } else {
             qClass.setBase(QClass.BASE);
         }
+
+        qClass.setV(v);
 
         lang.classes.put(id, qClass);
 
@@ -1181,8 +1176,8 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         if (lang.visitor.functions.containsKey(id)) {
             function = lang.visitor.functions.get(id);
-        } else if ((function = functions.get(id)) != null) {
-            function = functions.get(id);
+        } else if ((function = this.functions.get(id)) != null) {
+            function = this.functions.get(id);
         }
 
         if (function != null) {
@@ -1195,11 +1190,11 @@ public class Visitor extends QBaseVisitor<QValue> {
                 FunctionRunner r = new FunctionRunner();
                 r.setFunction(function);
                 r.setArgs(args);
-                r.setFunctions(functions);
+                r.setFunctions(this.functions);
                 return r.start();
             }
 
-            return function.call(args, functions);
+            return function.call(args, this.functions);
         }
         throw new Problem(ctx);
     }
