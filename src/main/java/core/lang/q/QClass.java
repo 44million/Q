@@ -7,7 +7,7 @@ import core.lang.Visitor;
 import java.util.List;
 import java.util.Map;
 
-public class QClass {
+public class QClass implements Cloneable {
 
     public static QClass OBJECT = new QClass();
 
@@ -43,4 +43,8 @@ public class QClass {
         this.v = v;
     }
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

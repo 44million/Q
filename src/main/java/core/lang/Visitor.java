@@ -595,7 +595,12 @@ public class Visitor extends QBaseVisitor<QValue> {
             lang.players.add(player);
         } else if (lang.classes.containsKey(parentClass)) {
 
-            QObject obj = new QObject(nameO, lang.classes.get(parentClass));
+            QObject obj = null;
+            try {
+                obj = new QObject(nameO, (QClass) (lang.classes.get(parentClass)).clone());
+            } catch (CloneNotSupportedException e) {
+                System.out.println("[ERROR] Unable to clone '" + parentClass + "'");
+            }
 
             List<QValue> list = new ArrayList<>();
             if (ctx.exprList() != null) {
