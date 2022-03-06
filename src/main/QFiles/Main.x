@@ -1,5 +1,6 @@
 #import [*];
 #import [all];
+#import q.gtp;
 
 class Object
 
@@ -7,11 +8,11 @@ class Object
 
     noval value;
 
-    fn get()
+    async fn get()
         return self::value;
     end
 
-    fn set(ne)
+    async fn set(ne)
         self::value = ne;
     end
 
@@ -21,6 +22,10 @@ class Main
 
     fn main()
 
+        fn() ->
+            std::ln("anonymous functioooooooon baby");
+        end
+
         new Object as object1();
         object1::set("this is obj1");
 
@@ -29,6 +34,8 @@ class Main
 
         std::ln(object1::get());
         std::ln(object2::get());
+
+        std::ln(GTP::text(40));
 
     end
 

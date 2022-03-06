@@ -5,12 +5,9 @@ import core.etc.Scope;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
 import core.lang.q.QValue;
+import core.libs.*;
 import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
-import core.libs.IO;
-import core.libs.Listener;
-import core.libs.MediaPlayer;
-import core.libs.WebServer;
 import mod.core.modvals.Module;
 import org.antlr.v4.runtime.Token;
 
@@ -180,6 +177,16 @@ public class lang {
 
             lang.allowedLibs.add("puddle");
             return QValue.VOID;
+        } else if (text.toString().equals(".q.gtp")) {
+
+            if (lang.allowedLibs.contains("gtp")) {
+                return QValue.VOID;
+            }
+
+            lang.allowedLibs.add("gtp");
+            new GTP().init();
+            return QValue.VOID;
+
         } else if (text.toString().equals(".q.Listener")) {
 
             if (lang.allowedLibs.contains("listener")) {
@@ -229,6 +236,7 @@ public class lang {
         allLibs.add("windows");
         allLibs.add("audio");
         allLibs.add("io");
+        allLibs.add("gtp");
 
     }
 
@@ -353,8 +361,8 @@ public class lang {
         return null;
     }
 
-    public static void check(String type, String t2) {
-        if (!lang.allowedLibs.contains(type)) {
+    public static void check(String p, String t2) {
+        if (!lang.allowedLibs.contains(p)) {
             System.out.printf("[FATAL] Cannot invoke '%s' subfunctions, as the package has not been imported.\nThe library can be found at: 'q.%s'\n", t2, t2);
             System.exit(0);
         }

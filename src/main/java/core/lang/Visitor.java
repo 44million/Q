@@ -10,11 +10,8 @@ import core.interp.QParser;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
 import core.lang.q.QValue;
+import core.libs.*;
 import core.libs.AWT.Window;
-import core.libs.MediaPlayer;
-import core.libs.OS;
-import core.libs.Time;
-import core.libs.WebServer;
 import core.libs.puddle.Puddle;
 import core.libs.utils.HTTP;
 import org.antlr.v4.runtime.CharStreams;
@@ -25,6 +22,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import javax.swing.*;
 import java.io.*;
+import java.lang.Math;
 import java.lang.String;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -124,6 +122,26 @@ public class Visitor extends QBaseVisitor<QValue> {
 
                 HTTP.get(ctx);
 
+            }
+
+        } else if (parentClass.equals("GTP")) {
+
+            lang.check("gtp", "gtp");
+
+            if (ctx.exprList() == null) {
+                System.out.println("[FATAL] All methods in the 'gtp' class require parameters");
+                System.exit(0);
+            }
+
+            int amount = this.visit(ctx.exprList().expression(0)).asDouble().intValue();
+            String prefix = this.visit(ctx.exprList().expression(1)).asString();
+
+            switch (method) {
+
+                case "twp":
+                    return new QValue(new GTP().getText(amount, prefix));
+                case "text":
+                    return new QValue(new GTP().getText(amount));
             }
 
         } else if (lang.getWebByName(parentClass) != null) {
