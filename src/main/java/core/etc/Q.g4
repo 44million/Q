@@ -40,7 +40,7 @@ functionCall
  | Print '(' expression ')'     #printFunctionCall
  | Assert '(' expression ')'    #assertFunctionCall
  | ToInt '(' expression ')'     #toIntFunctionCall
- | Identifier '.' Identifier '(' exprList? ')' #objFunctionCallExpression
+ | Identifier '::' Identifier '(' exprList? ')' #objFunctionCallExpression
  ;
 
 allImport
@@ -50,7 +50,7 @@ allImport
  ;
 
 objFunctionCall
- : Identifier '.' Identifier '(' exprList? ')'
+ : Identifier '::' Identifier '(' exprList? ')'
  ;
 
 header
@@ -66,11 +66,11 @@ ifStat
  ;
 
 hereStatement
- : 'self' '.' Identifier '=' expression
+ : Self '::' Identifier '=' expression
  ;
 
 varHereStatement
- : 'self' '.' Identifier
+ : Self '::' Identifier
  ;
 
 elseIfStat
@@ -88,11 +88,11 @@ objCreateStatement
  ;
 
 osExecStatement
- : 'sys' '.' Identifier '(' expression? ')'
+ : 'sys' '::' Identifier '(' expression? ')'
  ;
 
 fileWriteStatement
- : Identifier '.' 'write' '(' expression ')'
+ : Identifier '::' 'write' '(' expression ')'
  ;
 
 verifyFileStatement
@@ -120,7 +120,10 @@ importStatement
  ;
 
 anonymousFunction
- : 'fn' '-' '>' block End
+ : 'fn' '(' exprList? ')' '-' '>' block End
+ // fn(x, y) ->
+ //     std:ln(x);
+ // end
  ;
 
 importFromGithubStatement
@@ -160,15 +163,15 @@ whileStatement
  ;
 
 windowRenderStatement
- : Identifier '.' Render '(' ')'
+ : Identifier '::' 'render' '(' ')'
  ;
 
 windowAddCompStatement
- : Identifier '.' 'addComp' '(' expression ')'
+ : Identifier '::' 'addComp' '(' expression ')'
  ;
 
 addWebServerTextStatement
- : Identifier '.' 'changeText' '(' expression ')'
+ : Identifier '::' 'changeText' '(' expression ')'
  ;
 
 mainFunctionStatement
@@ -220,14 +223,13 @@ indexes
  : ( '[' expression ']' )+
  ;
 
-Println  : 'std:ln';
+Println  : 'std::ln';
 Async    : 'async';
-Render   : 'render';
 AddComponent : 'addComp';
 Var      : 'var';
 Import   : 'import';
-Print    : 'std:out';
-Input    : 'std:in';
+Print    : 'std::out';
+Input    : 'std::in';
 Assert   : 'assert';
 Def      : 'fn';
 ToInt    : 'toInt';
@@ -242,10 +244,10 @@ End      : 'end';
 In       : 'in';
 Null     : 'null';
 Try      : 'try';
-Catch    : 'catch';
 Class    : 'class';
 Const    : 'const';
 Noval    : 'noval';
+Self     : 'self';
 
 Or       : '||';
 And      : '&&';
@@ -295,10 +297,6 @@ String
 
 Comment
  : ( '//' ~[\r\n]* | '/*' .*? '*/' ) -> skip
- ;
-
-JavaTextBlock
- : ["""] ( ~["""] | '\\' ~[\r\n] )* ["""]
  ;
 
 Space

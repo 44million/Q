@@ -16,7 +16,7 @@ public class IO extends QLibrary {
                         
                         fn input()
                             
-                            x = std:in();
+                            x = std::in();
                             return x;
                             
                         end
@@ -28,15 +28,15 @@ public class IO extends QLibrary {
                         cn OutputStream();
                         
                         fn printline(x)
-                            std:ln(x);
+                            std::ln(x);
                         end
                         
                         fn out(x)
-                            std:out(x);
+                            std::out(x);
                         end
                         
                         fn newline()
-                            std:ln();
+                            std::ln();
                         end
                                 
                     end

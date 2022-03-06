@@ -3,7 +3,10 @@ package core.lang.q;
 import core.etc.Scope;
 import core.lang.Function;
 import core.lang.Visitor;
+import core.lang.lang;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +28,10 @@ public class QClass implements Cloneable {
     }
 
     public QClass() {
+        this.name = lang.getSaltString();
+        this.functions = new HashMap<>();
+        this.scope = lang.scope;
+        this.constArgs = new ArrayList<>();
     }
 
     public String getName() {

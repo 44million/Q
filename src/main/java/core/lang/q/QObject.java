@@ -1,6 +1,7 @@
 package core.lang.q;
 
 import core.lang.Function;
+import core.lang.Visitor;
 
 import java.util.List;
 import java.util.Map;
@@ -12,11 +13,13 @@ public class QObject {
     public QClass qc;
     public List<QValue> params;
     public Map<String, Function> funcs;
+    public Visitor v;
 
     public QObject(String name, QClass instance) {
         this.name = name;
         this.qc = instance;
         this.funcs = qc.functions;
+        this.v = this.qc.v;
     }
 
     public QObject get() {

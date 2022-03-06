@@ -17,13 +17,13 @@ public class Listener extends QLibrary {
                                 
                         fn unusable()
                         
-                            return std:in();
+                            return std::in();
                         
                         end
                         
                         fn cout(x)
-                            std:out(x); 
-                            std:ln();
+                            std::out(x); 
+                            std::ln();
                         end
                                 
                     end

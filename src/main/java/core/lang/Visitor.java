@@ -49,7 +49,6 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         String parentClass = ctx.Identifier(0).getText();
         String method = (ctx.Identifier(1)).getText();
-
         if (parentClass.equals("Time")) {
 
             lang.check("time", "Time");
@@ -138,18 +137,19 @@ public class Visitor extends QBaseVisitor<QValue> {
         } else if (lang.objs.containsKey(parentClass)) {
 
             QObject obj = lang.objs.get(parentClass);
+            Visitor v = obj.v;
 
             List<QValue> vals = new ArrayList<>();
 
             if (ctx.exprList() != null) {
                 for (ExpressionContext ex : ctx.exprList().expression()) {
-                    vals.add(this.visit(ex));
+                    vals.add(v.visit(ex));
                 }
             }
 
-            if (obj.qc.functions.containsKey(method + vals.size())) {
+            if (obj.funcs.containsKey(method + vals.size())) {
 
-                return lang.objs.get(parentClass).funcs.get(method + vals.size()).call(vals, new HashMap<>());
+                return obj.funcs.get(method + vals.size()).call(vals, new HashMap<>());
 
             } else {
                 System.out.println("[ERROR] Function: '" + method + "' not found in parent class: '" + lang.objs.get(parentClass).qc.name + "'");
@@ -595,11 +595,12 @@ public class Visitor extends QBaseVisitor<QValue> {
             lang.players.add(player);
         } else if (lang.classes.containsKey(parentClass)) {
 
-            QObject obj = null;
+            QObject obj;
             try {
                 obj = new QObject(nameO, (QClass) (lang.classes.get(parentClass)).clone());
-            } catch (CloneNotSupportedException e) {
+            } catch (Exception e) {
                 System.out.println("[ERROR] Unable to clone '" + parentClass + "'");
+                return QValue.NULL;
             }
 
             List<QValue> list = new ArrayList<>();
@@ -628,10 +629,9 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitClassStatement(QParser.ClassStatementContext ctx) {
 
         String id = ctx.Identifier(0).getText();
-        Scope scope = new Scope(lang.scope, false);
-        HashMap<String, Function> fns = new HashMap<>();
+        Scope scope = new Scope(this.scope, true);
 
-        Visitor v = new Visitor(scope, fns);
+        Visitor v = new Visitor(scope, new HashMap<>());
         v.visit(ctx.block());
 
         QClass qClass = new QClass(id, v.functions, scope);
@@ -1170,9 +1170,23 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitAnonymousFunction(QParser.AnonymousFunctionContext ctx) {
 
-        this.visit(ctx.block());
+        Scope scopeNext = new Scope(this.scope, true);
+        Visitor next = new Visitor(scopeNext, new HashMap<String, Function>());
 
-        return QValue.VOID;
+        if (ctx.exprList() != null) {
+            for (int i = 0; i < ctx.exprList().expression().size(); i++) {
+                QValue value = this.visit(ctx.exprList().expression(i));
+                scopeNext.functionParam(ctx.exprList().expression(0).getText(), value);
+            }
+        }
+
+        QValue ret = QValue.VOID;
+        try {
+            next.visit(ctx.block());
+        } catch (RVal returnValue) {
+            ret = returnValue.value;
+        }
+        return ret;
     }
 
     @Override
