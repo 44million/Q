@@ -15,10 +15,10 @@ import java.util.function.Consumer;
 public class Function {
 
     public List<TerminalNode> params;
-    private Scope parentScope;
-    private ParseTree block;
     public boolean async;
     public Visitor v;
+    private Scope parentScope;
+    private ParseTree block;
 
     public Function(Scope parentScope, List<TerminalNode> params, ParseTree block) {
         this.parentScope = parentScope;
@@ -53,22 +53,6 @@ public class Function {
         // delete file
         f.delete();
 
-    }
-
-    private static class StreamGobbler implements Runnable {
-        private final InputStream inputStream;
-        private final Consumer<String> consumer;
-
-        public StreamGobbler(InputStream inputStream, Consumer<String> consumer) {
-            this.inputStream = inputStream;
-            this.consumer = consumer;
-        }
-
-        @Override
-        public void run() {
-            new BufferedReader(new InputStreamReader(inputStream)).lines()
-                    .forEach(consumer);
-        }
     }
 
     public static void printAndExec(String cmd) throws Exception {
@@ -114,7 +98,6 @@ public class Function {
         return ret;
     }
 
-
     public boolean exists() {
         return true;
     }
@@ -125,6 +108,22 @@ public class Function {
 
     public void setV(Visitor s) {
         this.v = s;
+    }
+
+    private static class StreamGobbler implements Runnable {
+        private final InputStream inputStream;
+        private final Consumer<String> consumer;
+
+        public StreamGobbler(InputStream inputStream, Consumer<String> consumer) {
+            this.inputStream = inputStream;
+            this.consumer = consumer;
+        }
+
+        @Override
+        public void run() {
+            new BufferedReader(new InputStreamReader(inputStream)).lines()
+                    .forEach(consumer);
+        }
     }
 
 }

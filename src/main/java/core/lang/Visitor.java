@@ -709,10 +709,31 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitReAssignment(QParser.ReAssignmentContext ctx) {
 
+        QValue newVal = this.visit(ctx.expression());
+        String id = ctx.Identifier().getText();
+
+        if ((ctx.indexes() != null)) {
+            QValue val = scope.exists(ctx.Identifier().getText());
+            List<ExpressionContext> exps = ctx.indexes().expression();
+            setAtIndex(ctx, exps, val, newVal);
+        } else {
+
+            if (this.scope.vars.containsKey(id)) {
+                scope.varAssign(id, newVal);
+                newVal.hasVal = true;
+            } else {
+                throw new Problem("Variable '" + ctx.Identifier() + "' not found", ctx);
+            }
+        }
+
+        return QValue.VOID;
+    }
+
+    @Override
+    public QValue visitAssignment(QParser.AssignmentContext ctx) {
+
         QValue newVal = QValue.NULL;
         String id = ctx.Identifier().getText();
-        int line = ctx.start.getLine();
-        int pos = ctx.start.getCharPositionInLine();
 
         if ((ctx.Noval(0) != null) && (ctx.expression() != null)) {
             throw new Problem("Variable: '" + id + "' in " + this.scope + "must have a value, unless marked as 'noval'", ctx);
@@ -750,6 +771,8 @@ public class Visitor extends QBaseVisitor<QValue> {
         }
 
         return QValue.VOID;
+
+
     }
 
     @Override

@@ -29,10 +29,15 @@ statement
  | osExecStatement ';'
  | anonymousFunction
  | hereStatement ';'
+ | assignment ';'
  ;
 
 reAssignment
- : ( Const | Noval )*? Identifier ( indexes? '=' expression )?
+ : Identifier indexes? '=' expression
+ ;
+
+assignment
+ : ( Const | Noval )*? Var Identifier ( indexes? '=' expression )?
  ;
 
 functionCall

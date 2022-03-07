@@ -2,11 +2,12 @@
 
 class Main
 
-    #import [all];
-
     fn main()
 
+        var x = 12;
+        x = 13;
 
+        std::ln(x);
 
     end
 
