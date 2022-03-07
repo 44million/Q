@@ -2,11 +2,7 @@
 
 class Main
 
-    async native fn e()
-
-        
-
-    end
+    #import [all];
 
     fn main()
 

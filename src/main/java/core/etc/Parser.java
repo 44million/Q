@@ -3,10 +3,7 @@ package core.etc;
 import core.interp.QLexer;
 import core.interp.QParser;
 import core.lang.lang;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.File;
@@ -82,6 +79,17 @@ public class Parser {
             lexer = new QLexer(this.s);
             QParser parser = new QParser(new CommonTokenStream(lexer));
             parser.setBuildParseTree(true);
+
+            parser.removeErrorListeners();
+
+            parser.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    System.out.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character '" + offendingSymbol + "'");
+                    System.exit(-1);
+                }
+            });
+
             ParseTree tree = parser.parse();
             lang.visitor.visit(tree);
 

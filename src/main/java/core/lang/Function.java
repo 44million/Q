@@ -6,8 +6,11 @@ import core.lang.q.QValue;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.io.*;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 
 public class Function {
 
@@ -24,7 +27,70 @@ public class Function {
     }
 
     public Function(String jblock) {
+        try {
+            execBlock(jblock);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
+    public static void execBlock(String java) throws Exception {
+
+        // run java code from string
+        File f = new File(System.getProperty("user.home") + "/tmp.java");
+        FileWriter fw = new FileWriter(f);
+        fw.write(java);
+        fw.close();
+
+        // run java code from file
+        String command = "javac " + f.getAbsolutePath();
+
+        printAndExec(command);
+
+        String c2 = "java -cp " + f.getParent() + " " + f.getName().split("\\.")[0];
+        printAndExec(c2);
+
+        // delete file
+        f.delete();
+
+    }
+
+    private static class StreamGobbler implements Runnable {
+        private final InputStream inputStream;
+        private final Consumer<String> consumer;
+
+        public StreamGobbler(InputStream inputStream, Consumer<String> consumer) {
+            this.inputStream = inputStream;
+            this.consumer = consumer;
+        }
+
+        @Override
+        public void run() {
+            new BufferedReader(new InputStreamReader(inputStream)).lines()
+                    .forEach(consumer);
+        }
+    }
+
+    public static void printAndExec(String cmd) throws Exception {
+
+        boolean isWindows = System.getProperty("os.name").toLowerCase().contains("windows");
+
+        Process process;
+
+        if (isWindows) {
+            process = Runtime.getRuntime()
+                    .exec(cmd);
+        } else {
+            process = Runtime.getRuntime()
+                    .exec(cmd);
+        }
+
+        StreamGobbler streamGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
+        Executors.newSingleThreadExecutor().submit(streamGobbler);
+
+        int exitCode = process.waitFor();
+
+        assert exitCode == 0;
     }
 
     public QValue call(List<QValue> args, Map<String, Function> functions) {
