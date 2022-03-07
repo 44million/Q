@@ -105,7 +105,7 @@ elseStat
  ;
 
 functionDecl
- : (Async)? Def Identifier '(' idList? ')' block End
+ : (Async | Native)*? Def Identifier '(' idList? ')' block End
  ;
 
 forStatement
@@ -214,6 +214,7 @@ expression
  | Input '(' String? ')'                                #inputExpression
  | varHereStatement                                     #hereVarExpression
  | 'random' '(' expression ')'                          #randomExpression
+ | anonymousFunction                                    #anonymousFunctionExpression
  ;
 
 list
@@ -249,6 +250,7 @@ Class    : 'class';
 Const    : 'const';
 Noval    : 'noval';
 Self     : 'self';
+Native   : 'native';
 
 Or       : '||';
 Accessor : '::';

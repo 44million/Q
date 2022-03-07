@@ -202,10 +202,20 @@ public class Visitor extends QBaseVisitor<QValue> {
             System.err.print(s);
         }
 
-        Function f = new Function(this.scope, params, block);
+
+        Function f;
+
+        if (ctx.Native(0) != null) {
+            System.out.printf("Native function '%s' defined, enter Java code:\n", id);
+            String jblock = new Scanner(System.in).next();
+            f = new Function(jblock);
+        } else {
+            f = new Function(this.scope, params, block);
+        }
+
         f.setV(this);
 
-        if (ctx.Async() != null) {
+        if (ctx.Async(0) != null) {
             f.setAsync(true);
         }
 

@@ -11,9 +11,9 @@ import java.util.Map;
 
 public class Function {
 
-    public final List<TerminalNode> params;
-    private final Scope parentScope;
-    private final ParseTree block;
+    public List<TerminalNode> params;
+    private Scope parentScope;
+    private ParseTree block;
     public boolean async;
     public Visitor v;
 
@@ -21,6 +21,10 @@ public class Function {
         this.parentScope = parentScope;
         this.params = params;
         this.block = block;
+    }
+
+    public Function(String jblock) {
+
     }
 
     public QValue call(List<QValue> args, Map<String, Function> functions) {
