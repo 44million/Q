@@ -85,11 +85,11 @@ public class Scope {
         return environment;
     }
 
-    QValue getAt(int distance, String name) {
+    public QValue getAt(int distance, String name) {
         return this.ancestor(distance).vars.get(name);
     }
 
-    void assignAt(int distance, String name, QValue value) {
+    public void assignAt(int distance, String name, QValue value) {
         this.ancestor(distance).vars.put(name, value);
     }
 

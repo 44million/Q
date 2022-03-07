@@ -41,7 +41,7 @@ functionCall
  | Print '(' expression ')'     #printFunctionCall
  | Assert '(' expression ')'    #assertFunctionCall
  | ToInt '(' expression ')'     #toIntFunctionCall
- | Identifier '::' Identifier '(' exprList? ')' #objFunctionCallExpression
+ | Identifier Accessor Identifier '(' exprList? ')' #objFunctionCallExpression
  ;
 
 allImport
@@ -51,7 +51,7 @@ allImport
  ;
 
 objFunctionCall
- : Identifier '::' Identifier '(' exprList? ')'
+ : Identifier Accessor Identifier '(' exprList? ')'
  ;
 
 header
@@ -67,11 +67,11 @@ ifStat
  ;
 
 hereStatement
- : Self '::' Identifier '=' expression
+ : Self Accessor Identifier '=' expression
  ;
 
 varHereStatement
- : Self '::' Identifier
+ : Self Accessor Identifier
  ;
 
 elseIfStat
@@ -89,11 +89,11 @@ objCreateStatement
  ;
 
 osExecStatement
- : 'sys' '::' Identifier '(' expression? ')'
+ : 'sys' Accessor Identifier '(' expression? ')'
  ;
 
 fileWriteStatement
- : Identifier '::' 'write' '(' expression ')'
+ : Identifier Accessor 'write' '(' expression ')'
  ;
 
 verifyFileStatement
@@ -164,15 +164,15 @@ whileStatement
  ;
 
 windowRenderStatement
- : Identifier '::' 'render' '(' ')'
+ : Identifier Accessor 'render' '(' ')'
  ;
 
 windowAddCompStatement
- : Identifier '::' 'addComp' '(' expression ')'
+ : Identifier Accessor 'addComp' '(' expression ')'
  ;
 
 addWebServerTextStatement
- : Identifier '::' 'changeText' '(' expression ')'
+ : Identifier Accessor 'changeText' '(' expression ')'
  ;
 
 mainFunctionStatement
@@ -224,13 +224,13 @@ indexes
  : ( '[' expression ']' )+
  ;
 
-Println  : 'std::ln';
+Println  : 'std' Accessor 'ln';
 Async    : 'async';
 AddComponent : 'addComp';
 Var      : 'var';
 Import   : 'import';
-Print    : 'std::out';
-Input    : 'std::in';
+Print    : 'std' Accessor 'out';
+Input    : 'std' Accessor 'in';
 Assert   : 'assert';
 Def      : 'fn';
 ToInt    : 'toInt';
@@ -251,6 +251,7 @@ Noval    : 'noval';
 Self     : 'self';
 
 Or       : '||';
+Accessor : '::';
 And      : '&&';
 Equals   : '==';
 NEquals  : '!=';

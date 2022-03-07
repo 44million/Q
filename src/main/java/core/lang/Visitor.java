@@ -1,6 +1,9 @@
 package core.lang;
 
-import core.etc.*;
+import core.etc.Parser;
+import core.etc.Problem;
+import core.etc.RVal;
+import core.etc.Scope;
 import core.interp.QBaseVisitor;
 import core.interp.QLexer;
 import core.interp.QParser;
@@ -1074,7 +1077,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             }
             return new QValue(false);
         }
-        throw new Problem(rhs.toString() + " isn't a list, forin can only be applied to lists." , ctx);
+        throw new Problem(rhs + " isn't a list, forin can only be applied to lists.", ctx);
     }
 
     @Override
