@@ -718,9 +718,11 @@ public class Visitor extends QBaseVisitor<QValue> {
             setAtIndex(ctx, exps, val, newVal);
         } else {
 
-            if (this.scope.vars.containsKey(id)) {
+            if (this.scope.vars.containsKey(id) && !this.scope.vars.get(id).constant) {
                 scope.varAssign(id, newVal);
                 newVal.hasVal = true;
+            } else if (this.scope.vars.containsKey(id) && this.scope.vars.get(id).constant) {
+                throw new Problem("Variable '" + ctx.Identifier() + "' is constant, and cannot be changed", ctx);
             } else {
                 throw new Problem("Variable '" + ctx.Identifier() + "' not found", ctx);
             }
@@ -736,7 +738,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         String id = ctx.Identifier().getText();
 
         if ((ctx.Noval(0) != null) && (ctx.expression() != null)) {
-            throw new Problem("Variable: '" + id + "' in " + this.scope + "must have a value, unless marked as 'noval'", ctx);
+            throw new Problem("Noval variable: '" + id + " must NOT have a value", ctx);
         } else if ((ctx.Noval(0) != null) && (ctx.Const(0) != null)) {
             throw new Problem("Constant variables must have a value to begin with. See variable '" + id + "'.", ctx);
         }
