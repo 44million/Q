@@ -17,6 +17,8 @@ import core.libs.utils.HTTP;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -45,6 +47,8 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitObjFunctionCallExpression(QParser.ObjFunctionCallExpressionContext ctx) {
 
+        int line = ctx.start.getLine();
+        int pos = ctx.start.getCharPositionInLine();
         String parentClass = ctx.Identifier(0).getText();
         String method = (ctx.Identifier(1)).getText();
         if (parentClass.equals("Time")) {
@@ -95,6 +99,10 @@ public class Visitor extends QBaseVisitor<QValue> {
 
                     return core.libs.Files.exists(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
 
+                default:
+
+                    throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx);
+
             }
 
         } else if (parentClass.equals("Console")) {
@@ -129,7 +137,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             lang.check("gtp", "gtp");
 
             if (ctx.exprList() == null) {
-                System.out.println("[FATAL] All methods in the 'gtp' class require parameters");
+                System.out.println("[FATAL:" + line + ": + pos + " + "] All methods in the 'gtp' class require parameters. ");
                 System.exit(0);
             }
 
@@ -149,7 +157,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             if (method.equals("stop") && lang.getWebByName(parentClass) != null) {
                 lang.getWebByName(parentClass).stop();
             } else {
-                System.out.println("[ERROR] Unknown method '" + method + "'");
+                throw new Problem("Unknown method '" + method + "'", ctx);
             }
 
         } else if (lang.objs.containsKey(parentClass)) {
@@ -170,7 +178,7 @@ public class Visitor extends QBaseVisitor<QValue> {
                 return obj.funcs.get(method + vals.size()).call(vals, new HashMap<>());
 
             } else {
-                System.out.println("[ERROR] Function: '" + method + "' not found in parent class: '" + lang.objs.get(parentClass).qc.name + "'");
+                throw new Problem(lang.objs.get(parentClass).qc.name + " does not contain a definition for '" + method + "'", ctx);
             }
 
         }
@@ -186,8 +194,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         try {
             if (this.functions.get(id).exists()) {
-                System.out.println("[FATAL] Function: '" + id + "' already exists.");
-                System.exit(0);
+                throw new Problem("Function: '" + id + "' already exists.", ctx);
             }
         } catch (Exception e) {
             String s = e.getMessage();
@@ -256,11 +263,13 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitWindowAddCompStatement(QParser.WindowAddCompStatementContext ctx) {
 
+        int line = ctx.start.getLine();
+        int pos = ctx.start.getCharPositionInLine();
+
         String component = this.visit(ctx.expression()).asString();
 
         if (lang.getWinByName(ctx.Identifier().getText()) == null) {
-            System.out.println("[FATAL] The specified window: " + ctx.Identifier().getText() + " does not exist!");
-            System.exit(0);
+            throw new Problem("The specified window: " + ctx.Identifier().getText() + " does not exist!", ctx);
         } else {
             if (lang.getCompByName(component) != null) {
                 lang.getCompByName(component).init(ctx.Identifier().getText());
@@ -273,12 +282,14 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitOsExecStatement(QParser.OsExecStatementContext ctx) {
 
         String method = ctx.Identifier().getText();
+        int line = ctx.start.getLine();
+        int pos = ctx.start.getCharPositionInLine();
 
         if (method.equals("exec") && ctx.expression() != null) {
             try {
                 OS.execS(this.visit(ctx.expression()).asString());
             } catch (Exception e) {
-                System.out.println("[FATAL] Could not execute text: " + this.visit(ctx.expression()).asString() + " [" + e.getMessage() + "]");
+                throw new Problem("Could not execute text: " + this.visit(ctx.expression()).asString() + " [" + e.getMessage() + "]", ctx);
             }
         } else if (method.equals("quit") && ctx.expression() != null) {
             int code = Integer.parseInt(this.visit(ctx.expression()).asString());
@@ -288,7 +299,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             try {
                 Thread.sleep(time);
             } catch (Exception e) {
-                System.out.println("[ERROR] " + e.getMessage());
+                throw new Problem(e.getMessage(), ctx);
             }
         } else if (method.equals("destroy")) {
 
@@ -299,14 +310,12 @@ public class Visitor extends QBaseVisitor<QValue> {
             if (lang.objs.containsKey(s)) {
                 lang.objs.remove(s);
             } else {
-                System.out.println("[ERROR] Object: '" + s + "' does not exist.");
-                return QValue.VOID;
+                throw new Problem("Object: '" + s + "' does not exist.", ctx);
             }
         } else if (method.equals("getProperty")) {
 
             if (ctx.expression() == null) {
-                System.out.println("[ERROR] 'sys.getProperty' must take a :str object as a parameter");
-                return QValue.VOID;
+                throw new Problem("'sys.getProperty' must take a :str object as a parameter", ctx);
             }
 
             QValue v = this.visit(ctx.expression());
@@ -314,8 +323,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             return new QValue(System.getProperty(v.asString()));
 
         } else {
-            System.out.printf("[FATAL] Sys function '%s' not recognized%n", ctx.Identifier().getText());
-            System.exit(0);
+            throw new Problem("Sys function '" + ctx.Identifier().getText() + "' not found", ctx);
         }
         return QValue.VOID;
     }
@@ -323,9 +331,11 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitRandomExpression(QParser.RandomExpressionContext ctx) {
 
+        int line = ctx.start.getLine();
+        int pos = ctx.start.getCharPositionInLine();
+
         if (ctx.expression() == null) {
-            System.out.println("[ERROR] System call 'sys.ran' requires a :str argument");
-            return QValue.NULL;
+            throw new Problem("System call 'sys.ran' requires a :str argument", ctx);
         }
 
         String s = this.visit(ctx.expression()).asString();
@@ -352,11 +362,12 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitMainFunctionStatement(QParser.MainFunctionStatementContext ctx) {
 
         Scope l = this.scope;
+        int line = ctx.start.getLine();
+        int pos = ctx.start.getCharPositionInLine();
 
         while (l != null) {
             if (l.lib) {
-                System.out.println("[FATAL] Library files cannot contain a function 'main'.\nPlease either remove the '@header' statement, or rename the function.");
-                System.exit(-1);
+                throw new Problem("Library files cannot contain a function 'main'.\nPlease either remove the '@header' statement, or rename the function.", ctx);
             } else {
                 l = l.parent();
             }
@@ -367,7 +378,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             this.visit(ctx.block());
             return QValue.VOID;
         } else {
-            System.out.println("[FATAL] Main function has already been called.");
+            System.out.println("[FATAL " + line + ":" + pos + "] Main function has already been called.");
             System.exit(0);
         }
         return QValue.VOID;
@@ -376,11 +387,14 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitTryCatchStatement(QParser.TryCatchStatementContext ctx) {
 
+        int line = ctx.start.getLine();
+        int pos = ctx.start.getCharPositionInLine();
+
         try {
             this.visit(ctx.block(0));
         } catch (Exception e) {
             this.visit(ctx.block(1));
-            System.out.println("[ERROR] " + e.getMessage());
+            System.out.println("[ERROR " + line + ":" + pos + "] " + e.getMessage());
         }
         return QValue.VOID;
     }
@@ -391,6 +405,9 @@ public class Visitor extends QBaseVisitor<QValue> {
         QValue resp = this.visit(ctx.expression());
         String id = ctx.Identifier().getText();
 
+        int line = ctx.start.getLine();
+        int pos = ctx.start.getCharPositionInLine();
+
         for (WebServer w : lang.webs) {
             if (w.id.equals(id)) {
                 w.setText(resp.asString());
@@ -398,9 +415,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             }
         }
 
-        System.out.println("[FATAL] 'WebServer' object: " + id + " not found.");
-        System.exit(0);
-        return QValue.VOID;
+        throw new Problem("'WebServer' object: " + id + " not found.", ctx);
     }
 
     @Override
@@ -408,6 +423,8 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         int i = 0;
         QValue x = this.visit(ctx.expression());
+        int line = ctx.start.getLine();
+        int pos = ctx.start.getCharPositionInLine();
 
         if (x.isString()) {
 
@@ -416,18 +433,19 @@ public class Visitor extends QBaseVisitor<QValue> {
             } catch (Exception e) {
 
                 String err = "Could not cast to integer " + e.getMessage().replace("F", "f");
-                System.out.println("[ERROR] " + err);
-                i = 0;
+                throw new Problem(err, ctx);
             }
 
         } else if (x.isNumber()) {
-            System.out.println("'" + x + "' is already an integer value.");
+            throw new Problem("'" + x + "' is already an integer value.", ctx);
         } else if (x.isList()) {
-            System.out.println("Incompatible cast: List to Integer");
+            throw new Problem("Incompatible cast: List to Integer", ctx);
         } else if (x.isBoolean()) {
-            System.out.println("Incompatible cast: Boolean to Integer");
+            throw new Problem("Incompatible cast: Boolean to Integer", ctx);
         } else if (x.isNull()) {
+            throw new Problem("null values cannot be cast ", ctx);
         } else if (x.isVoid()) {
+            throw new Problem("void values cannot be cast", ctx);
         }
 
         double d = i;
@@ -475,6 +493,8 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         StringBuilder path = new StringBuilder();
         StringBuilder text = new StringBuilder();
+        int line = ctx.start.getLine();
+        int pos = ctx.start.getCharPositionInLine();
 
         for (TerminalNode o : ctx.Identifier()) {
             path.append("/").append(o.getText());
@@ -510,9 +530,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
             lexer = new QLexer(CharStreams.fromFileName(currentPath + "/" + path + ".l"));
         } catch (IOException e) {
-            System.out.println("[FATAL] Library or File not found: " + path);
-            System.out.println(e.getMessage());
-            System.exit(0);
+            throw new Problem("Library or File not found: " + path, ctx);
         }
         QParser parser = new QParser(new CommonTokenStream(lexer));
         parser.setBuildParseTree(true);
@@ -545,6 +563,8 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         String parentClass = ctx.Identifier(0).getText();
         String nameO = ctx.Identifier(1).getText();
+        int line = ctx.start.getLine();
+        int pos = ctx.start.getCharPositionInLine();
 
         if (ctx.Identifier(0).getText().equals("File")) {
 
@@ -553,8 +573,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             QValue v = this.visit(ctx.exprList().expression(0));
 
             if (!v.isString()) {
-                System.out.println("[FATAL] The file class accepts only :str arguments");
-                System.exit(0);
+                throw new Problem("The file class accepts only :str arguments", ctx);
             }
 
             File file = new File(v.asString());
@@ -582,8 +601,7 @@ public class Visitor extends QBaseVisitor<QValue> {
                 lang.wins.add(window);
 
             } else {
-                System.out.println("Incorrect layout, Window class accepts the following: Window(name:str, x-axis:str, y-axis:str);");
-                return QValue.VOID;
+                throw new Problem("Incorrect layout, Window class accepts the following: Window(name:str, x-axis:str, y-axis:str);", ctx);
             }
         } else if (ctx.Identifier(0).getText().equals("Component")) {
 
@@ -600,8 +618,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             QValue x = this.visit(ctx.exprList().expression(0));
 
             if (!lang.allowedLibs.contains("http")) {
-                System.out.println("[FATAL] The HTTP library has not been imported. Please import it first.\nThe library can be found at: 'q.http'");
-                System.exit(0);
+                throw new Problem("The HTTP library has not been imported. Please import it first.\nThe library can be found at: 'q.http'", ctx);
             }
 
             core.libs.WebServer w = new WebServer(Integer.parseInt(x.asString()), ctx.Identifier(1).getText());
@@ -617,8 +634,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             try {
                 obj = new QObject(nameO, (QClass) (lang.classes.get(parentClass)).clone());
             } catch (Exception e) {
-                System.out.println("[ERROR] Unable to clone '" + parentClass + "'");
-                return QValue.NULL;
+                throw new Problem("Unable to clone '" + parentClass + "'", ctx);
             }
 
             List<QValue> list = new ArrayList<>();
@@ -632,7 +648,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
             lang.objs.put(nameO, obj);
         } else {
-            System.out.println("[ERROR] Class/Object not recognized: " + parentClass);
+            throw new Problem("Class/Object not recognized: " + parentClass, ctx);
         }
 
         return QValue.VOID;
@@ -674,10 +690,11 @@ public class Visitor extends QBaseVisitor<QValue> {
 
     @Override
     public QValue visitHeader(QParser.HeaderContext ctx) {
+        int line = ctx.start.getLine();
+        int pos = ctx.start.getCharPositionInLine();
 
         if (ctx.Identifier().getText().equals("")) {
-            System.out.println("[FATAL] Header MUST have a name\nie: '@header FileWriterLibrary' or '@header TokenFactoryLibrary'");
-            System.exit(0);
+            throw new Problem("Header MUST have a name\nie: '@header FileWriterLibrary' or '@header TokenFactoryLibrary'", ctx);
         }
 
         this.lib = true;
@@ -691,13 +708,13 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         QValue newVal = QValue.NULL;
         String id = ctx.Identifier().getText();
+        int line = ctx.start.getLine();
+        int pos = ctx.start.getCharPositionInLine();
 
         if ((ctx.Noval(0) != null) && (ctx.expression() != null)) {
-            System.out.println("[FATAL] Variable: '" + id + "' in " + this.scope + "must have a value, unless marked as 'noval'");
-            System.exit(0);
+            throw new Problem("Variable: '" + id + "' in " + this.scope + "must have a value, unless marked as 'noval'", ctx);
         } else if ((ctx.Noval(0) != null) && (ctx.Const(0) != null)) {
-            System.out.println("[FATAL] Constant variables must have a value to begin with. See variable '" + id + "'.");
-            System.exit(1);
+            throw new Problem("Constant variables must have a value to begin with. See variable '" + id + "'.", ctx);
         }
 
         if (ctx.expression() != null) {
@@ -762,60 +779,65 @@ public class Visitor extends QBaseVisitor<QValue> {
 
     @Override
     public QValue visitMultExpression(MultExpressionContext ctx) {
-        switch (ctx.op.getType()) {
-            case QLexer.Multiply:
-                return multiply(ctx);
-            case QLexer.Divide:
-                return divide(ctx);
-            case QLexer.Modulus:
-                return modulus(ctx);
-            default:
-                throw new RuntimeException("unknown operator type: " + ctx.op.getType());
-        }
+
+        int line = ctx.start.getLine();
+        int pos = ctx.start.getCharPositionInLine();
+
+        return switch (ctx.op.getType()) {
+            case QLexer.Multiply -> multiply(ctx);
+            case QLexer.Divide -> divide(ctx);
+            case QLexer.Modulus -> modulus(ctx);
+            default -> throw new RuntimeException("[ERROR "+ line + ":" + pos + "] Unknown operator type: " + ctx.op.getType());
+        };
     }
 
     @Override
     public QValue visitAddExpression(AddExpressionContext ctx) {
+
+        int line = ctx.start.getLine();
+        int pos = ctx.start.getCharPositionInLine();
+
         return switch (ctx.op.getType()) {
             case QLexer.Add -> add(ctx);
             case QLexer.Subtract -> subtract(ctx);
-            default -> throw new RuntimeException("unknown operator type: " + ctx.op.getType());
+            default -> throw new RuntimeException("[ERROR " + line + ":" + pos + "] Unknown operator type: " + ctx.op.getType());
         };
     }
 
     @Override
     public QValue visitCompExpression(CompExpressionContext ctx) {
-        switch (ctx.op.getType()) {
-            case QLexer.LT:
-                return lt(ctx);
-            case QLexer.LTEquals:
-                return ltEq(ctx);
-            case QLexer.GT:
-                return gt(ctx);
-            case QLexer.GTEquals:
-                return gtEq(ctx);
-            default:
-                throw new RuntimeException("unknown operator type: " + ctx.op.getType());
-        }
+
+        int line = ctx.start.getLine();
+        int pos = ctx.start.getCharPositionInLine();
+
+        return switch (ctx.op.getType()) {
+            case QLexer.LT -> lt(ctx);
+            case QLexer.LTEquals -> ltEq(ctx);
+            case QLexer.GT -> gt(ctx);
+            case QLexer.GTEquals -> gtEq(ctx);
+            default -> throw new RuntimeException("[ERROR " + line + ":" + pos + "] Unknown operator type: " + ctx.op.getType());
+        };
     }
 
     @Override
     public QValue visitEqExpression(EqExpressionContext ctx) {
-        switch (ctx.op.getType()) {
-            case QLexer.Equals:
-                return eq(ctx);
-            case QLexer.NEquals:
-                return nEq(ctx);
-            default:
-                throw new RuntimeException("unknown operator type: " + ctx.op.getType());
-        }
+
+        int line = ctx.start.getLine();
+        int pos = ctx.start.getCharPositionInLine();
+
+        return switch (ctx.op.getType()) {
+            case QLexer.Equals -> eq(ctx);
+            case QLexer.NEquals -> nEq(ctx);
+            default -> throw new RuntimeException("[ERROR " + line + ":" + pos + "] Unknown operator type: " + ctx.op.getType());
+        };
     }
 
     public QValue multiply(MultExpressionContext ctx) {
         QValue lhs = this.visit(ctx.expression(0));
         QValue rhs = this.visit(ctx.expression(1));
+        int line = ctx.start.getLine();
+        int pos = ctx.start.getCharPositionInLine();
         if (lhs == null || rhs == null) {
-            System.err.println("lhs " + lhs + " rhs " + rhs);
             throw new Problem(ctx);
         }
 
@@ -992,7 +1014,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         if (this.scope.parent().parent().vars.containsKey(id)) {
             this.scope.parent().parent().vars.replace(id, q);
         } else {
-            System.out.println("[ERROR] Variable '" + ctx.Identifier().getText() + "' does not exist in the current context");
+            throw new Problem("Variable '" + ctx.Identifier().getText() + "' does not exist in the current context", ctx);
         }
 
         return QValue.VOID;

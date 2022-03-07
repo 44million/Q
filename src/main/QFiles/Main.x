@@ -1,6 +1,6 @@
-#import [*];
+// these do the same thing
 #import [all];
-#import q.gtp;
+#import [*];
 
 class Object
 
@@ -18,24 +18,17 @@ class Object
 
 end
 
+#import [*];
+
 class Main
 
     fn main()
 
-        fn() ->
-            std::ln("anonymous functioooooooon baby");
-        end
+        new Object as o();
+        o::set("val");
+        std::ln(o::get());
 
-        new Object as object1();
-        object1::set("this is obj1");
-
-        new Object as object2();
-        object2::set("this is obj2");
-
-        std::ln(object1::get());
-        std::ln(object2::get());
-
-        std::ln(GTP::text(40));
+        std::ln("itj");
 
     end
 

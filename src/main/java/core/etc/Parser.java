@@ -83,13 +83,7 @@ public class Parser {
             QParser parser = new QParser(new CommonTokenStream(lexer));
             parser.setBuildParseTree(true);
             ParseTree tree = parser.parse();
-            try {
-                lang.visitor.visit(tree);
-            } catch (Exception e) {
-                if (e.getMessage().contains("Function.exists()")) {
-                    System.out.print("");
-                }
-            }
+            lang.visitor.visit(tree);
 
         } else if (this.str != null) {
 
@@ -142,58 +136,6 @@ public class Parser {
         } else if (this.str != null) {
 
             QLexer lexer = new QLexer(CharStreams.fromFileName(this.str));
-            QParser parser = new QParser(new CommonTokenStream(lexer));
-            parser.setBuildParseTree(true);
-            ParseTree tree = parser.parse();
-
-            lang.visitor.visit(tree);
-        } else if (this.non != null) {
-
-            QLexer lexer = new QLexer(CharStreams.fromString(this.non));
-            QParser parser = new QParser(new CommonTokenStream(lexer));
-            parser.setBuildParseTree(true);
-            ParseTree tree = parser.parse();
-
-            lang.visitor.visit(tree);
-
-        }
-
-
-    }
-
-    public void parseSafe() {
-
-        if (this.file != null) {
-
-            QLexer lexer = null;
-            try {
-                lexer = new QLexer(CharStreams.fromFileName(this.file.getName()));
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-            QParser parser = new QParser(new CommonTokenStream(lexer));
-            parser.setBuildParseTree(true);
-            ParseTree tree = parser.parse();
-
-            lang.visitor.visit(tree);
-
-        } else if (this.s != null) {
-
-            QLexer lexer = new QLexer(this.s);
-            QParser parser = new QParser(new CommonTokenStream(lexer));
-            parser.setBuildParseTree(true);
-            ParseTree tree = parser.parse();
-
-            lang.visitor.visit(tree);
-
-        } else if (this.str != null) {
-
-            QLexer lexer = null;
-            try {
-                lexer = new QLexer(CharStreams.fromFileName(this.str));
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
             QParser parser = new QParser(new CommonTokenStream(lexer));
             parser.setBuildParseTree(true);
             ParseTree tree = parser.parse();
