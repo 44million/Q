@@ -18,17 +18,32 @@ class Object
 
 end
 
-#import [*];
-
 class Main
 
+    fn e(x)
+        std::ln(x);
+    end
+
+    fn e()
+        std::ln("Function overloading");
+    end
+
     fn main()
+
+        try
+            std::ln("orih");
+        onerr
+            std::ln("heoi");
+        end
 
         new Object as o();
         o::set("val");
         std::ln(o::get());
 
         std::ln("itj");
+
+        e("this");
+        e();
 
     end
 

@@ -11,7 +11,8 @@ block
 statement
  : functionCall ';'
  | ifStatement
- | forStatement | forInStatement
+ | forStatement
+ | forInStatement
  | whileStatement
  | tryCatchStatement
  | mainFunctionStatement

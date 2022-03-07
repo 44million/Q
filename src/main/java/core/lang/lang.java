@@ -5,9 +5,9 @@ import core.etc.Scope;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
 import core.lang.q.QValue;
-import core.libs.*;
 import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
+import core.libs.*;
 import mod.core.modvals.Module;
 import org.antlr.v4.runtime.Token;
 

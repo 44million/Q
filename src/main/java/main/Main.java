@@ -1,7 +1,5 @@
 package main;
 
-import com.simiacryptus.text.TextGenerator;
-import com.simiacryptus.text.gpt2.GPT2Util;
 import core.etc.Parser;
 import core.lang.lang;
 import org.antlr.v4.runtime.CharStreams;

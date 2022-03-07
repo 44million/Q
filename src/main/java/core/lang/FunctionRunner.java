@@ -24,7 +24,8 @@ public class FunctionRunner implements Runnable {
     }
 
     @Override
-    public void run() {}
+    public void run() {
+    }
 
     public QValue start() {
         this.run();

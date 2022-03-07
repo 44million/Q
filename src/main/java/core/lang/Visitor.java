@@ -1,24 +1,19 @@
 package core.lang;
 
-import core.etc.Parser;
-import core.etc.Problem;
-import core.etc.RVal;
-import core.etc.Scope;
+import core.etc.*;
 import core.interp.QBaseVisitor;
 import core.interp.QLexer;
 import core.interp.QParser;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
 import core.lang.q.QValue;
-import core.libs.*;
 import core.libs.AWT.Window;
+import core.libs.*;
 import core.libs.puddle.Puddle;
 import core.libs.utils.HTTP;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -387,14 +382,11 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitTryCatchStatement(QParser.TryCatchStatementContext ctx) {
 
-        int line = ctx.start.getLine();
-        int pos = ctx.start.getCharPositionInLine();
-
         try {
             this.visit(ctx.block(0));
         } catch (Exception e) {
             this.visit(ctx.block(1));
-            System.out.println("[ERROR " + line + ":" + pos + "] " + e.getMessage());
+            System.out.println("[ERROR " + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + "] " + e.getMessage());
         }
         return QValue.VOID;
     }
@@ -493,8 +485,6 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         StringBuilder path = new StringBuilder();
         StringBuilder text = new StringBuilder();
-        int line = ctx.start.getLine();
-        int pos = ctx.start.getCharPositionInLine();
 
         for (TerminalNode o : ctx.Identifier()) {
             path.append("/").append(o.getText());
@@ -787,7 +777,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             case QLexer.Multiply -> multiply(ctx);
             case QLexer.Divide -> divide(ctx);
             case QLexer.Modulus -> modulus(ctx);
-            default -> throw new RuntimeException("[ERROR "+ line + ":" + pos + "] Unknown operator type: " + ctx.op.getType());
+            default -> throw new RuntimeException("[ERROR " + line + ":" + pos + "] Unknown operator type: " + ctx.op.getType());
         };
     }
 
@@ -1084,7 +1074,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             }
             return new QValue(false);
         }
-        throw new Problem(ctx);
+        throw new Problem(rhs.toString() + " isn't a list, forin can only be applied to lists." , ctx);
     }
 
     @Override

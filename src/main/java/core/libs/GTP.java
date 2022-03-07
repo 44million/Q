@@ -14,7 +14,8 @@ public class GTP extends QLibrary {
     }
 
     @Override
-    public void init() {}
+    public void init() {
+    }
 
     public String getText(int num) {
         return textGenerator.generateText(num);
