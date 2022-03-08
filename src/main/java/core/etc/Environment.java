@@ -48,12 +48,8 @@ public class Environment {
         this.vars = new HashMap<>();
     }
 
-    static {
-        util.registerNatives();
-    }
-
     public void defineNativeFunction(INativeFunction e) {
-        this.natives.put(e.parent(), e);
+        this.natives.put(e.name(), e);
     }
 
 }

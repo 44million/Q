@@ -1,8 +1,13 @@
+#import [*];
+
 class Main
 
     fn main()
 
-        System::println("Hello World");
+        std::ln(Time::cur());
+
+        io::println("sout test");
+        io::printf("this is a %s", "test");
 
     end
 

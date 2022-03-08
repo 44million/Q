@@ -13,7 +13,9 @@ public class Listener extends QLibrary {
                                 
                     class Listener
                                 
-                        cn Listener();
+                        cn Listener()
+                        
+                        end
                                 
                         fn unusable()
                         

@@ -14,7 +14,9 @@ public class IO extends QLibrary {
                                 
                     class InputStream
                                 
-                        cn InputStream();
+                        cn InputStream()
+                        
+                        end
                         
                         fn input()
                             
@@ -27,7 +29,9 @@ public class IO extends QLibrary {
                                 
                     class OutputStream
                                 
-                        cn OutputStream();
+                        cn OutputStream()
+                        
+                        end
                         
                         fn printline(x)
                             std::ln(x);

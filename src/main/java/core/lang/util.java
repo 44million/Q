@@ -10,6 +10,7 @@ import core.libs.AWT.Window;
 import core.libs.GTP;
 import core.libs.IO;
 import core.libs.Listener;
+import core.libs.Time;
 import core.libs.WebServer;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.Token;
@@ -394,6 +395,55 @@ public class util {
 
             @Override
             public String name() {
+                return "cur";
+            }
+
+            @Override
+            public QValue ret() { 
+                return new Time().cur();
+            }
+
+            @Override
+            public String parent() {
+                return "Time";
+            }
+
+            @Override
+            public void exec(List<QValue> list) {
+
+            }
+
+        });
+
+        Environment.global.defineNativeFunction(new INativeFunction() {
+            @Override
+            public void exec() {}
+
+            @Override
+            public String name() {
+                return "date";
+            }
+
+            @Override
+            public QValue ret() { return new Time().date(); }
+
+            @Override
+            public String parent() {
+                return "Time";
+            }
+
+            @Override
+            public void exec(List<QValue> list) {
+
+            }
+        });
+
+        Environment.global.defineNativeFunction(new INativeFunction() {
+            @Override
+            public void exec() {}
+
+            @Override
+            public String name() {
                 return "println";
             }
 
@@ -402,20 +452,64 @@ public class util {
 
             @Override
             public String parent() {
-                return "System";
+                return "io";
             }
 
             @Override
-            public void exec(QParser.ExprListContext e) {
-                if (e != null) {
-                    List<QValue> q = new ArrayList<>();
-                    for (QParser.ExpressionContext ex : e.expression()) {
-                        q.add(Environment.global.visitor.visit(ex));
-                    }
-                    System.out.println(q.get(0).asString());
-                } else {
-                    throw new Problem("Method 'println' requires 1 :str argument", e);
+            public void exec(List<QValue> list) {
+                for (QValue v : list) {
+                    System.out.println(v.toString());
                 }
+            }
+        });
+
+        Environment.global.defineNativeFunction(new INativeFunction() {
+            @Override
+            public void exec() {}
+
+            @Override
+            public String name() {
+                return "printf";
+            }
+
+            @Override
+            public QValue ret() { return null; }
+
+            @Override
+            public String parent() {
+                return "io";
+            }
+
+            @Override
+            public void exec(List<QValue> list) {
+                String output = list.get(0).toString();
+                String format = list.get(1).toString();
+
+                System.out.printf(output + "\n", format);
+
+            }
+        });
+
+        Environment.global.defineNativeFunction(new INativeFunction() {
+            @Override
+            public void exec() {}
+
+            @Override
+            public String name() {
+                return "instant";
+            }
+
+            @Override
+            public QValue ret() { return new Time().instant(); }
+
+            @Override
+            public String parent() {
+                return "Time";
+            }
+
+            @Override
+            public void exec(List<QValue> list) {
+
             }
         });
 

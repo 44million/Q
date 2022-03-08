@@ -10,7 +10,6 @@ import core.lang.q.QValue;
 import core.libs.AWT.Window;
 import core.libs.GTP;
 import core.libs.OS;
-import core.libs.Time;
 import core.libs.WebServer;
 import core.libs.puddle.Puddle;
 import core.libs.utils.HTTP;
@@ -27,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static core.interp.QParser.*;
 
@@ -46,26 +46,8 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         String parentClass = ctx.Identifier(0).getText();
         String method = (ctx.Identifier(1)).getText();
-        if (parentClass.equals("Time")) {
 
-            util.check("time", "Time");
-
-            switch (method) {
-                case "cur":
-
-                    return Time.cur();
-
-                case "date":
-
-                    return Time.date();
-
-                case "instant":
-
-                    return Time.instant();
-
-            }
-
-        } else if (parentClass.equals("Files")) {
+        if (parentClass.equals("Files")) {
 
             util.check("files", "Files");
 
@@ -176,18 +158,26 @@ public class Visitor extends QBaseVisitor<QValue> {
                 throw new Problem(Environment.global.objs.get(parentClass).qc.name + " does not contain a definition for '" + method + "'", ctx);
             }
 
-        } else if (Environment.global.natives.containsKey(parentClass)) {
+        } else if (Environment.global.natives.containsKey(method)) {
 
-            if (Environment.global.natives.containsKey(method)) {
+            List<QValue> l = new ArrayList<>();
 
-                if (Environment.global.natives.get(method).ret() != null) {
-                    return Environment.global.natives.get(method).ret();
-                } else if (ctx.exprList() != null) {
-                    Environment.global.natives.get(method).exec(ctx.exprList());
-                } else {
-                    Environment.global.natives.get(method).exec();
-                }
+            if (ctx.exprList() != null) {
+                ctx.exprList().expression().forEach((action) -> l.add(Environment.global.visitor.visit(action)));
+            }
 
+            util.check(parentClass.toLowerCase(), parentClass);
+
+            if (Environment.global.natives.get(method) == null) {
+                throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx);
+            }
+
+            if (Environment.global.natives.get(method).ret() != null) {
+                return Environment.global.natives.get(method).ret();
+            } else if (ctx.exprList() != null) {
+                Environment.global.natives.get(method).exec(l);
+            } else {
+                Environment.global.natives.get(method).exec();
             }
 
         }

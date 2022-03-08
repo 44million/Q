@@ -14,6 +14,7 @@ public class Main {
 
         File input = null;
         util.addAll();
+        util.registerNatives();
 
         if (args.length >= 1) {
 

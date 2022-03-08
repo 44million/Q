@@ -97,7 +97,9 @@ public class Math extends QLibrary {
                         
             class Calculator
                         
-                cn Calculator();
+                cn Calculator()
+                
+                end
                 
                 fn mul(x, y)
                     return x * y;

@@ -10,6 +10,7 @@ import core.libs.utils.QLibrary;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Time extends QLibrary {
 
@@ -26,7 +27,7 @@ public class Time extends QLibrary {
                                 
                     """, Instant.now().toEpochMilli(), Instant.now().toString());
 
-    public static QValue cur() {
+    public QValue cur() {
         String time = "";
 
         LocalDateTime i = LocalDateTime.now();
@@ -40,7 +41,7 @@ public class Time extends QLibrary {
         return new QValue(time);
     }
 
-    public static QValue date() {
+    public QValue date() {
         String date = "";
 
         date += LocalDateTime
@@ -55,7 +56,7 @@ public class Time extends QLibrary {
         return new QValue(date);
     }
 
-    public static QValue instant() {
+    public QValue instant() {
         String s = Instant.now().toString();
         return new QValue(s);
     }
@@ -67,34 +68,6 @@ public class Time extends QLibrary {
 
     @Override
     public void init() {
-
-        Environment.global.defineNativeFunction(new INativeFunction() {
-            @Override
-            public void exec() {
-
-            }
-
-            @Override
-            public String name() {
-                return "retvalue";
-            }
-
-            @Override
-            public QValue ret() {
-                return new QValue("This is a return value???");
-            }
-
-            @Override
-            public String parent() {
-                return "Time";
-            }
-
-            @Override
-            public void exec(QParser.ExprListContext e) {
-
-            }
-        });
-
         Parser parser = new Parser().fromText(this.qcode);
         try {
             parser.parse();
