@@ -44,44 +44,44 @@ public class Math extends QLibrary {
 
             fn triang(n)
 
-                p1 = n + 1;
-                mul = n * p1;
+                var p1 = n + 1;
+                var mul = n * p1;
 
                 return mul / 2;
             end
                         
             fn density(mass, volume)
-                d = mass / volume;
+                var d = mass / volume;
                 return d;
             end
                         
             fn density(mass, volume, density)
-                d = density * mass / volume;
+                var d = density * mass / volume;
                 return d;
             end
 
             fn volume(mass, density)
-                v = mass / density;
+                var v = mass / density;
                 return v;
             end
 
             fn mass(volume, density)
-                m = density * volume;
+                var m = density * volume;
                 return m;
             end
 
             fn mass(volume, density, mass)
-                m = mass * density / volume;
+                var m = mass * density / volume;
                 return m;
             end
 
             fn mph(distance, time)
-                mph = distance / time;
+                var mph = distance / time;
                 return mph;
             end
 
             fn mph(distance, time, mph)
-                mph = mph * distance / time;
+                var mph = mph * distance / time;
                 return mph;
             end
 

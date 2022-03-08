@@ -7,6 +7,7 @@ import core.etc.Scope;
 import core.interp.QBaseVisitor;
 import core.interp.QLexer;
 import core.interp.QParser;
+import core.lang.q.Constructor;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
 import core.lang.q.QValue;
@@ -290,8 +291,6 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitOsExecStatement(QParser.OsExecStatementContext ctx) {
 
         String method = ctx.Identifier().getText();
-        int line = ctx.start.getLine();
-        int pos = ctx.start.getCharPositionInLine();
 
         if (method.equals("exec") && ctx.expression() != null) {
             try {
@@ -300,10 +299,18 @@ public class Visitor extends QBaseVisitor<QValue> {
                 throw new Problem("Could not execute text: " + this.visit(ctx.expression()).asString() + " [" + e.getMessage() + "]", ctx);
             }
         } else if (method.equals("quit") && ctx.expression() != null) {
-            int code = Integer.parseInt(this.visit(ctx.expression()).asString());
+
+            if (ctx.expression() == null) {
+                throw new Problem("Function 'sys.quit(:int) requires an argument", ctx);
+            }
+
+            int code = (this.visit(ctx.expression()).asDouble().intValue());
             System.exit(code);
+
         } else if (method.equals("halt")) {
-            int time = Integer.parseInt(this.visit(ctx.expression()).asString());
+
+            int time = (this.visit(ctx.expression()).asDouble().intValue());
+
             try {
                 Thread.sleep(time);
             } catch (Exception e) {
@@ -320,6 +327,10 @@ public class Visitor extends QBaseVisitor<QValue> {
             } else {
                 throw new Problem("Object: '" + s + "' does not exist.", ctx);
             }
+        } else if (method.equals("parent")) {
+
+            System.out.println(this + " instanceof " + QClass.OBJECT.name);
+
         } else if (method.equals("getProperty")) {
 
             if (ctx.expression() == null) {
@@ -566,8 +577,6 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         String parentClass = ctx.Identifier(0).getText();
         String nameO = ctx.Identifier(1).getText();
-        int line = ctx.start.getLine();
-        int pos = ctx.start.getCharPositionInLine();
 
         if (ctx.Identifier(0).getText().equals("File")) {
 
@@ -647,6 +656,8 @@ public class Visitor extends QBaseVisitor<QValue> {
                 }
             }
 
+            lang.consts.get(ctx.Identifier(0).getText()).call(list, this.functions);
+
             obj.setParams(list);
 
             lang.objs.put(nameO, obj);
@@ -659,6 +670,18 @@ public class Visitor extends QBaseVisitor<QValue> {
 
     @Override
     public QValue visitConstructorStatement(QParser.ConstructorStatementContext ctx) {
+
+        List<QValue> l = new ArrayList<>();
+        if (ctx.exprList() != null) {
+            for (ExpressionContext e : ctx.exprList().expression()) {
+                l.add(this.visit(e));
+            }
+        }
+
+        Function f = new Function(this.scope, l, ctx.block(), "");
+
+        lang.consts.put(ctx.Identifier().getText(), f);
+
         return QValue.VOID;
     }
 

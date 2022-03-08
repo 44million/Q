@@ -1,18 +1,24 @@
-#import [all];
+class E
+
+    noval var x;
+
+    cn E(dd)
+        self::x = dd;
+    end
+
+    fn print()
+        std::ln(self::x);
+    end
+
+end
 
 class Main
 
     fn main()
 
-        var x = -12;
+        new E as esyiuh("Hello World");
 
-        const var x2 = -12;
-        x2 = x * x2;
-
-        x = x + 13;
-        x = x - 1;
-
-        std::ln(x);
+        esyiuh::print();
 
     end
 

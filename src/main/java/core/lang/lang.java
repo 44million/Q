@@ -2,6 +2,7 @@ package core.lang;
 
 import core.etc.Parser;
 import core.etc.Scope;
+import core.lang.q.Constructor;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
 import core.lang.q.QValue;
@@ -40,6 +41,7 @@ public class lang {
     public static List<Module> mods = new ArrayList<>();
     public static List<String> allLibs = new ArrayList<>();
     public static List<core.libs.utils.List> lists = new ArrayList<>();
+    public static HashMap<String, Function> consts = new HashMap();
     public static boolean main = false;
     public static Module mod;
 

@@ -16,7 +16,7 @@ public class IO extends QLibrary {
                         
                         fn input()
                             
-                            x = std::in();
+                            var x = std::in();
                             return x;
                             
                         end

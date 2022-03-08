@@ -19,7 +19,7 @@ statement
  | addWebServerTextStatement ';'
  | reAssignment ';'
  | classStatement
- | constructorStatement ';'
+ | constructorStatement
  | windowAddCompStatement ';'
  | windowRenderStatement ';'
  | fileWriteStatement ';'
@@ -84,7 +84,7 @@ elseIfStat
  ;
 
 constructorStatement
- : 'cn' Identifier '(' exprList? ')'
+ : 'cn' Identifier '(' exprList? ')' block End
  ;
 
 objCreateStatement

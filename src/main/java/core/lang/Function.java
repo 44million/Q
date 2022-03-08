@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -19,10 +20,17 @@ public class Function {
     public Visitor v;
     private Scope parentScope;
     private ParseTree block;
+    private List<QValue> qparams;
 
     public Function(Scope parentScope, List<TerminalNode> params, ParseTree block) {
         this.parentScope = parentScope;
         this.params = params;
+        this.block = block;
+    }
+
+    public Function(Scope parentScope, List<QValue> params, ParseTree block, String s) {
+        this.parentScope = parentScope;
+        this.qparams = params;
         this.block = block;
     }
 
@@ -78,6 +86,7 @@ public class Function {
     }
 
     public QValue call(List<QValue> args, Map<String, Function> functions) {
+
         if (args.size() != this.params.size()) {
             throw new RuntimeException("[ERROR] Illegal Function call");
         }
@@ -86,6 +95,29 @@ public class Function {
         for (int i = 0; i < this.params.size(); i++) {
             QValue value = args.get(i);
             scopeNext.functionParam(this.params.get(i).getText(), value);
+        }
+        Visitor next = new Visitor(scopeNext, functions);
+
+        QValue ret = QValue.VOID;
+        try {
+            next.visit(this.block);
+        } catch (RVal returnValue) {
+            ret = returnValue.value;
+        }
+        return ret;
+    }
+
+    public QValue call(HashMap<String, QValue> args, Map<String, Function> functions) {
+
+        if (args.size() != this.qparams.size()) {
+            throw new RuntimeException("[ERROR] Illegal Function call");
+        }
+
+        Scope scopeNext = new Scope(parentScope, true); // create function scope
+
+        for (int i = 0; i < this.params.size(); i++) {
+            QValue value = args.get(i);
+            scopeNext.functionParam(args.get().getText(), value);
         }
         Visitor next = new Visitor(scopeNext, functions);
 
