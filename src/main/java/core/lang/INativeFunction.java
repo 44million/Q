@@ -1,6 +1,5 @@
 package core.lang;
 
-import core.interp.QParser;
 import core.lang.q.QValue;
 
 import java.util.List;
@@ -13,7 +12,9 @@ public interface INativeFunction {
 
     QValue ret();
 
-    String parent();
+    default String parent() {
+        return null;
+    }
 
     void exec(List<QValue> list);
 

@@ -6,7 +6,6 @@ import core.lang.Visitor;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
 import core.lang.q.QValue;
-import core.lang.util;
 import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
 import core.libs.WebServer;

@@ -299,9 +299,7 @@ Identifier
  ;
 
 String
- : ["] ( ~["\r\n\\] | '\\' ~[\r\n] )* ["]
- | ['] ( ~['\r\n\\] | '\\' ~[\r\n] )* [']
-
+ : '"' (ESC | ~["\r\n\\])+ '"'
  ;
 
 Comment
@@ -319,4 +317,16 @@ fragment Int
   
 fragment Digit 
  : [0-9]
+ ;
+
+fragment ESC
+ : '\\' (["\\bfnrt] | UNICODE)
+ ;
+
+fragment UNICODE
+ : 'u' HEX HEX HEX HEX
+ ;
+
+fragment HEX
+ : [0-9a-fA-F]
  ;

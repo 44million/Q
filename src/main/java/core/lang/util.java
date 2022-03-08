@@ -241,6 +241,23 @@ public class util {
         return QValue.VOID;
     }
 
+    private static String readLine(String format, Object... args) throws IOException {
+        if (System.console() != null) {
+            return System.console().readLine(format, args);
+        }
+        System.out.print(String.format(format, args));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(
+                System.in));
+        return reader.readLine();
+    }
+
+    public static char[] readPassword(String format, Object... args)
+            throws IOException {
+        if (System.console() != null)
+            return System.console().readPassword(format, args);
+        return readLine(format, args).toCharArray();
+    }
+
     // straight from stackoverflow
     public static String getSaltString() {
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*()_+=-`{}[]|\\'/.;,:.";
@@ -371,26 +388,6 @@ public class util {
         }
     }
 
-    public static class FileUtil {
-        static BufferedReader reader = null;
-
-        public FileUtil(String filePath) throws FileNotFoundException {
-            File file = new File(filePath);
-            FileInputStream fileStream = new FileInputStream(file);
-            InputStreamReader input = new InputStreamReader(fileStream);
-            reader = new BufferedReader(input);
-        }
-
-        public long getCharCount() throws IOException {
-            long charCount = 0;
-            String data;
-            while ((data = reader.readLine()) != null) {
-                charCount += data.length();
-            }
-            return charCount;
-        }
-    }
-
     public static void registerNatives() {
 
         Environment.global.defineNativeFunction(new INativeFunction() {
@@ -463,7 +460,7 @@ public class util {
 
             @Override
             public String name() {
-                return "println";
+                return "cout";
             }
 
             @Override
@@ -479,7 +476,8 @@ public class util {
             @Override
             public void exec(List<QValue> list) {
                 for (QValue v : list) {
-                    System.out.println(v.toString());
+                    String s = v.toString();
+                    System.out.println(s);
                 }
             }
 
@@ -496,7 +494,7 @@ public class util {
 
             @Override
             public String name() {
-                return "printf";
+                return "coutf";
             }
 
             @Override
@@ -669,10 +667,7 @@ public class util {
 
             @Override
             public QValue ret() {
-
-                char[] pass = System.console().readPassword();
-
-                return new QValue(Arrays.toString(pass));
+                return new QValue("broken");
             }
 
             @Override
@@ -713,7 +708,8 @@ public class util {
             }
 
             @Override
-            public void exec(List<QValue> list) {}
+            public void exec(List<QValue> list) {
+            }
 
             @Override
             public QValue ret(List<QValue> list) {
@@ -722,5 +718,25 @@ public class util {
             }
         });
 
+    }
+
+    public static class FileUtil {
+        static BufferedReader reader = null;
+
+        public FileUtil(String filePath) throws FileNotFoundException {
+            File file = new File(filePath);
+            FileInputStream fileStream = new FileInputStream(file);
+            InputStreamReader input = new InputStreamReader(fileStream);
+            reader = new BufferedReader(input);
+        }
+
+        public long getCharCount() throws IOException {
+            long charCount = 0;
+            String data;
+            while ((data = reader.readLine()) != null) {
+                charCount += data.length();
+            }
+            return charCount;
+        }
     }
 }

@@ -22,11 +22,12 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import javax.swing.*;
 import java.io.*;
 import java.lang.String;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static core.interp.QParser.*;
 
@@ -39,6 +40,15 @@ public class Visitor extends QBaseVisitor<QValue> {
     public Visitor(Scope scope, Map<String, Function> functions) {
         this.scope = scope;
         this.functions = new HashMap<>(functions);
+    }
+
+    @Override
+    public QValue visitAnonymousFunctionExpression(QParser.AnonymousFunctionExpressionContext ctx) {
+
+        Scope s = new Scope(this.scope, true);
+        Visitor v = new Visitor(s, this.functions);
+        v.visit(ctx.anonymousFunction().block());
+        return QValue.VOID;
     }
 
     @Override

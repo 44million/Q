@@ -6,10 +6,12 @@ import core.lang.util;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Scanner;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class Parser {
 
@@ -79,7 +81,6 @@ public class Parser {
             lexer = new QLexer(this.s);
             QParser parser = new QParser(new CommonTokenStream(lexer));
             parser.setBuildParseTree(true);
-
             parser.removeErrorListeners();
 
             parser.addErrorListener(new BaseErrorListener() {
