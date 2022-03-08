@@ -82,13 +82,6 @@ public class Visitor extends QBaseVisitor<QValue> {
 
             }
 
-        } else if (parentClass.equals("Console")) {
-
-            util.check("console", "Console");
-
-            if (method.equals("flush")) {
-                System.console().flush();
-            }
         } else if (parentClass.equals("puddle")) {
 
             util.check("puddle", "puddle");
@@ -163,7 +156,9 @@ public class Visitor extends QBaseVisitor<QValue> {
             List<QValue> l = new ArrayList<>();
 
             if (ctx.exprList() != null) {
-                ctx.exprList().expression().forEach((action) -> l.add(Environment.global.visitor.visit(action)));
+                for (ExpressionContext c : ctx.exprList().expression()) {
+                    l.add(this.visit(c));
+                }
             }
 
             util.check(parentClass.toLowerCase(), parentClass);
@@ -175,7 +170,11 @@ public class Visitor extends QBaseVisitor<QValue> {
             if (Environment.global.natives.get(method).ret() != null) {
                 return Environment.global.natives.get(method).ret();
             } else if (ctx.exprList() != null) {
-                Environment.global.natives.get(method).exec(l);
+                if (Environment.global.natives.get(method).ret(l) != null) {
+                    return Environment.global.natives.get(method).ret(l);
+                } else {
+                    Environment.global.natives.get(method).exec(l);
+                }
             } else {
                 Environment.global.natives.get(method).exec();
             }

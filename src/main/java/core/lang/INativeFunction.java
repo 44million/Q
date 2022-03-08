@@ -17,4 +17,6 @@ public interface INativeFunction {
 
     void exec(List<QValue> list);
 
+    QValue ret(List<QValue> list);
+
 }

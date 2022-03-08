@@ -2,16 +2,10 @@ package core.lang;
 
 import core.etc.Environment;
 import core.etc.Parser;
-import core.etc.Problem;
-import core.interp.QParser;
 import core.lang.q.QValue;
 import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
-import core.libs.GTP;
-import core.libs.IO;
-import core.libs.Listener;
-import core.libs.Time;
-import core.libs.WebServer;
+import core.libs.*;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.Token;
 
@@ -20,7 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -234,13 +228,22 @@ public class util {
             Environment.global.allowedLibs.add("io");
             new IO().init();
             return QValue.VOID;
+        } else if (text.equals(".q.Environment")) {
+
+            if (Environment.global.allowedLibs.contains("environment")) {
+                return QValue.VOID;
+            }
+
+            Environment.global.allowedLibs.add("environment");
+            new IO().init();
+            return QValue.VOID;
         }
         return QValue.VOID;
     }
 
     // straight from stackoverflow
     public static String getSaltString() {
-        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*()_+=-`{}[]|\\'/.;,:.";
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();
         while (salt.length() < 18) { // length of the random string.
@@ -266,6 +269,7 @@ public class util {
         Environment.global.allLibs.add("audio");
         Environment.global.allLibs.add("io");
         Environment.global.allLibs.add("gtp");
+        Environment.global.allLibs.add("environment");
 
     }
 
@@ -391,7 +395,8 @@ public class util {
 
         Environment.global.defineNativeFunction(new INativeFunction() {
             @Override
-            public void exec() {}
+            public void exec() {
+            }
 
             @Override
             public String name() {
@@ -399,7 +404,7 @@ public class util {
             }
 
             @Override
-            public QValue ret() { 
+            public QValue ret() {
                 return new Time().cur();
             }
 
@@ -413,11 +418,17 @@ public class util {
 
             }
 
+            @Override
+            public QValue ret(List<QValue> list) {
+                return null;
+            }
+
         });
 
         Environment.global.defineNativeFunction(new INativeFunction() {
             @Override
-            public void exec() {}
+            public void exec() {
+            }
 
             @Override
             public String name() {
@@ -425,7 +436,9 @@ public class util {
             }
 
             @Override
-            public QValue ret() { return new Time().date(); }
+            public QValue ret() {
+                return new Time().date();
+            }
 
             @Override
             public String parent() {
@@ -436,11 +449,17 @@ public class util {
             public void exec(List<QValue> list) {
 
             }
+
+            @Override
+            public QValue ret(List<QValue> list) {
+                return null;
+            }
         });
 
         Environment.global.defineNativeFunction(new INativeFunction() {
             @Override
-            public void exec() {}
+            public void exec() {
+            }
 
             @Override
             public String name() {
@@ -448,7 +467,9 @@ public class util {
             }
 
             @Override
-            public QValue ret() { return null; }
+            public QValue ret() {
+                return null;
+            }
 
             @Override
             public String parent() {
@@ -461,11 +482,17 @@ public class util {
                     System.out.println(v.toString());
                 }
             }
+
+            @Override
+            public QValue ret(List<QValue> list) {
+                return null;
+            }
         });
 
         Environment.global.defineNativeFunction(new INativeFunction() {
             @Override
-            public void exec() {}
+            public void exec() {
+            }
 
             @Override
             public String name() {
@@ -473,7 +500,9 @@ public class util {
             }
 
             @Override
-            public QValue ret() { return null; }
+            public QValue ret() {
+                return null;
+            }
 
             @Override
             public String parent() {
@@ -488,11 +517,86 @@ public class util {
                 System.out.printf(output + "\n", format);
 
             }
+
+            @Override
+            public QValue ret(List<QValue> list) {
+                return null;
+            }
         });
 
         Environment.global.defineNativeFunction(new INativeFunction() {
             @Override
-            public void exec() {}
+            public void exec() {
+            }
+
+            @Override
+            public String name() {
+                return "err";
+            }
+
+            @Override
+            public QValue ret() {
+                return null;
+            }
+
+            @Override
+            public String parent() {
+                return "io";
+            }
+
+            @Override
+            public void exec(List<QValue> list) {
+                String output = list.get(0).toString();
+
+                list.forEach((action) -> System.err.println(output));
+
+            }
+
+            @Override
+            public QValue ret(List<QValue> list) {
+                return null;
+            }
+        });
+
+        Environment.global.defineNativeFunction(new INativeFunction() {
+            @Override
+            public void exec() {
+            }
+
+            @Override
+            public String name() {
+                return "errf";
+            }
+
+            @Override
+            public QValue ret() {
+                return null;
+            }
+
+            @Override
+            public String parent() {
+                return "io";
+            }
+
+            @Override
+            public void exec(List<QValue> list) {
+                String output = list.get(0).toString();
+                String format = list.get(1).toString();
+
+                System.err.printf(output + "\n", format);
+
+            }
+
+            @Override
+            public QValue ret(List<QValue> list) {
+                return null;
+            }
+        });
+
+        Environment.global.defineNativeFunction(new INativeFunction() {
+            @Override
+            public void exec() {
+            }
 
             @Override
             public String name() {
@@ -500,7 +604,9 @@ public class util {
             }
 
             @Override
-            public QValue ret() { return new Time().instant(); }
+            public QValue ret() {
+                return new Time().instant();
+            }
 
             @Override
             public String parent() {
@@ -510,6 +616,109 @@ public class util {
             @Override
             public void exec(List<QValue> list) {
 
+            }
+
+            @Override
+            public QValue ret(List<QValue> list) {
+                return null;
+            }
+        });
+
+        Environment.global.defineNativeFunction(new INativeFunction() {
+            @Override
+            public void exec() {
+                System.console().flush();
+            }
+
+            @Override
+            public String name() {
+                return "flush";
+            }
+
+            @Override
+            public QValue ret() {
+                return null;
+            }
+
+            @Override
+            public String parent() {
+                return "Console";
+            }
+
+            @Override
+            public void exec(List<QValue> list) {
+
+            }
+
+            @Override
+            public QValue ret(List<QValue> list) {
+                return null;
+            }
+        });
+
+        Environment.global.defineNativeFunction(new INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "readPassword";
+            }
+
+            @Override
+            public QValue ret() {
+
+                char[] pass = System.console().readPassword();
+
+                return new QValue(Arrays.toString(pass));
+            }
+
+            @Override
+            public String parent() {
+                return "Console";
+            }
+
+            @Override
+            public void exec(List<QValue> list) {
+
+            }
+
+            @Override
+            public QValue ret(List<QValue> list) {
+                return null;
+            }
+        });
+
+        Environment.global.defineNativeFunction(new INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "property";
+            }
+
+            @Override
+            public QValue ret() {
+                return null;
+            }
+
+            @Override
+            public String parent() {
+                return null;
+            }
+
+            @Override
+            public void exec(List<QValue> list) {}
+
+            @Override
+            public QValue ret(List<QValue> list) {
+                String request = list.get(0).toString();
+                return new QValue(System.getProperty(request));
             }
         });
 
