@@ -1,21 +1,24 @@
 package core.etc;
 
-import core.lang.*;
-import core.lang.q.*;
+import core.lang.Function;
+import core.lang.Visitor;
+import core.lang.q.QClass;
+import core.lang.q.QObject;
+import core.lang.q.QValue;
 import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
-import core.libs.MediaPlayer;
 import core.libs.WebServer;
 import org.antlr.v4.runtime.Token;
 
 import java.io.File;
 import java.util.*;
 
-@SuppressWarnings("all")
+@SuppressWarnings("unused")
 public class Environment {
 
     public static Environment global = new Environment();
 
+    final Environment before;
     public Map<String, Function> functions = Collections.emptyMap();
     public Scope scope = new Scope();
     public Visitor visitor = new Visitor(scope, functions);
@@ -30,11 +33,9 @@ public class Environment {
     public HashMap<String, File> files = new HashMap<>();
     public Parser parser = new Parser();
     public List<String> allowedLibs = new ArrayList<>();
-    public List<MediaPlayer> players = new ArrayList<>();
     public List<String> allLibs = new ArrayList<>();
     public HashMap<String, Function> consts = new HashMap<>();
     public boolean main = false;
-    final Environment before;
     public HashMap<String, Function> fns;
     public HashMap<String, QValue> vars;
 

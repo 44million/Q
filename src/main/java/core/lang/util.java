@@ -5,7 +5,11 @@ import core.etc.Parser;
 import core.lang.q.QValue;
 import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
-import core.libs.*;
+import core.libs.GTP;
+import core.libs.IO;
+import core.libs.Listener;
+import core.libs.WebServer;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.Token;
 
 import java.io.*;
@@ -13,9 +17,56 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class util {
+
+    public static void get(String[] args, File input) {
+        int counter = 0;
+        for (String cmd : args) {
+
+            switch (cmd) {
+                case "--setpath", "-p" -> {
+                    input = new File(args[++counter]);
+                    try {
+
+                        if (!new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")).exists()) {
+                            try {
+                                new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")).createNewFile();
+                            } catch (Exception e) {
+                                System.out.println(e.getMessage());
+                            }
+                        }
+
+                        Parser parser = new Parser(CharStreams.fromFileName(input.getAbsolutePath()));
+                        Environment.global.lst.addAll(parser.parse(false));
+
+                        util.write(input.getAbsolutePath(), new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")));
+
+                    } catch (Exception e) {
+
+                        String err = "[FATAL] " + e.getMessage();
+                        if (e.getMessage().startsWith("src\\main\\Q\\") || e.getMessage().startsWith("C:") || e.getMessage().endsWith(".x")) {
+                            err += " (File not found)";
+                        }
+
+                        System.out.println(err);
+                        System.exit(0);
+                    }
+                }
+                case "--help", "-h" -> System.out.println("""
+                        Help Menu
+                        ---------
+                        cmd: [--setpath/-p] Sets the path to the file to execute.
+                        cmd: [--help/-h] Sends this help menu
+                        cmd: [--fromtext/-t] Executes the given text as if it were a file
+                        """);
+                case "" -> counter++;
+            }
+        }
+    }
 
     public static String getTextFromGithub(String link) {
         URL Url = null;
@@ -76,7 +127,7 @@ public class util {
     }
 
     public static QValue parse(String text) {
-        if (text.toString().equals(".q.Windows")) {
+        if (text.equals(".q.Windows")) {
 
             if (Environment.global.allowedLibs.contains("windows")) {
                 return QValue.VOID;
@@ -84,7 +135,7 @@ public class util {
 
             Environment.global.allowedLibs.add("windows");
             return QValue.VOID;
-        } else if (text.toString().equals(".q.http")) {
+        } else if (text.equals(".q.http")) {
 
             if (Environment.global.allowedLibs.contains("http")) {
                 return QValue.VOID;
@@ -92,7 +143,7 @@ public class util {
 
             Environment.global.allowedLibs.add("http");
             return QValue.VOID;
-        } else if (text.toString().equals(".q.Files")) {
+        } else if (text.equals(".q.Files")) {
 
             if (Environment.global.allowedLibs.contains("files")) {
                 return QValue.VOID;
@@ -100,7 +151,7 @@ public class util {
 
             Environment.global.allowedLibs.add("files");
             return QValue.VOID;
-        } else if (text.toString().equals(".q.Math")) {
+        } else if (text.equals(".q.Math")) {
 
             if (Environment.global.allowedLibs.contains("math")) {
                 return QValue.VOID;
@@ -109,7 +160,7 @@ public class util {
             Environment.global.allowedLibs.add("math");
             new core.libs.Math().init();
             return QValue.VOID;
-        } else if (text.toString().equals(".q.Audio")) {
+        } else if (text.equals(".q.Audio")) {
 
             if (Environment.global.allowedLibs.contains("audio")) {
                 return QValue.VOID;
@@ -117,7 +168,7 @@ public class util {
 
             Environment.global.allowedLibs.add("audio");
             return QValue.VOID;
-        } else if (text.toString().equals(".q.Random")) {
+        } else if (text.equals(".q.Random")) {
 
             if (Environment.global.allowedLibs.contains("random")) {
                 return QValue.VOID;
@@ -126,7 +177,7 @@ public class util {
             Environment.global.allowedLibs.add("random");
             new core.libs.QRandom().init();
             return QValue.VOID;
-        } else if (text.toString().equals(".q.Time")) {
+        } else if (text.equals(".q.Time")) {
 
             if (Environment.global.allowedLibs.contains("time")) {
                 return QValue.VOID;
@@ -135,7 +186,7 @@ public class util {
             Environment.global.allowedLibs.add("time");
             new core.libs.Time().init();
             return QValue.VOID;
-        } else if (text.toString().equals(".q.Console")) {
+        } else if (text.equals(".q.Console")) {
 
             if (Environment.global.allowedLibs.contains("console")) {
                 return QValue.VOID;
@@ -143,7 +194,7 @@ public class util {
 
             Environment.global.allowedLibs.add("console");
             return QValue.VOID;
-        } else if (text.toString().equals(".q.puddle")) {
+        } else if (text.equals(".q.puddle")) {
 
             if (Environment.global.allowedLibs.contains("puddle")) {
                 return QValue.VOID;
@@ -151,7 +202,7 @@ public class util {
 
             Environment.global.allowedLibs.add("puddle");
             return QValue.VOID;
-        } else if (text.toString().equals(".q.gtp")) {
+        } else if (text.equals(".q.gtp")) {
 
             if (Environment.global.allowedLibs.contains("gtp")) {
                 return QValue.VOID;
@@ -161,7 +212,7 @@ public class util {
             new GTP().init();
             return QValue.VOID;
 
-        } else if (text.toString().equals(".q.Listener")) {
+        } else if (text.equals(".q.Listener")) {
 
             if (Environment.global.allowedLibs.contains("listener")) {
                 return QValue.VOID;
@@ -170,7 +221,7 @@ public class util {
             Environment.global.allowedLibs.add("listener");
             new Listener().init();
             return QValue.VOID;
-        } else if (text.toString().equals(".q.io")) {
+        } else if (text.equals(".q.io")) {
 
             if (Environment.global.allowedLibs.contains("io")) {
                 return QValue.VOID;
