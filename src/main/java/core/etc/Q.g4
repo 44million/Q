@@ -142,26 +142,25 @@ importAllStatement
  ;
 
 customClass
- : 'custom' 'class' Identifier ( '[' 'define' ']' '"' Identifier '"' ':' Identifier ';' )*? block End
+ : 'custom' 'class' Identifier '[' Identifier ']' 'definedby' '[' String ']' Identifier block End
 
  /*
-    custom class bool
+    custom class exacto
 
-        [define] "true" : true;
-        [define] "false" : false;
-
-        bool b = true;
-
-        fn val()
-            return instance;
-        end
+        [exacto] definedby ["knife"]
 
  */
+ ;
 
+customClassCall
+ : Identifier Identifier '=' Identifier
+ /*
+    exacto x = knife;
+ */
  ;
 
 tryCatchStatement
- : Try block 'onerr' block End
+ : Try block 'on' '(' 'err' ')' block End
  ; 
 
 whileStatement

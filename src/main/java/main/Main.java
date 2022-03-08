@@ -4,13 +4,14 @@ import core.etc.Environment;
 import core.etc.Parser;
 import core.lang.util;
 import org.antlr.v4.runtime.CharStreams;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
 public class Main {
 
     @SuppressWarnings("all")
-    public static void main(String[] args) {
+    public static void main(String @NotNull [] args) {
 
         File input = null;
         util.addAll();
@@ -47,6 +48,7 @@ public class Main {
                 }
 
                 System.err.println(err);
+
                 System.exit(0);
             }
         }

@@ -238,14 +238,20 @@ public class Visitor extends QBaseVisitor<QValue> {
         try {
 
             FileWriter fw = new FileWriter(Environment.global.files.get(ctx.Identifier().getText()));
+            fw.write("");
+            QValue val;
 
-            QValue val = this.visit(ctx.expression());
+            if (ctx.expression() != null) {
+                val = this.visit(ctx.expression());
+            } else {
+                val = new QValue("NULL");
+            }
 
-            fw.append(val.asString());
+            fw.append(val.toString());
             fw.close();
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new Problem(e.getMessage(), ctx);
         }
         return QValue.VOID;
     }

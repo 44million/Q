@@ -116,7 +116,7 @@ public class Function {
 
         for (int i = 0; i < this.params.size(); i++) {
             QValue value = args.get(i);
-            scopeNext.functionParam(this.qparams.get(i).id, value);
+            scopeNext.functionParam(this.params.get(i).getText(), value);
         }
 
         Visitor next = new Visitor(scopeNext, functions);
