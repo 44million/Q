@@ -1,6 +1,8 @@
 package core.libs;
 
+import core.etc.Environment;
 import core.etc.Parser;
+import core.lang.INativeFunction;
 import core.lang.q.QValue;
 import core.libs.utils.QLibrary;
 
@@ -12,14 +14,6 @@ public class Time extends QLibrary {
 
     private final String qcode = String.format(
             """
-                    #import q.Windows;
-                    #import q.Files;
-                    #import q.Math;
-                    #import q.Audio;
-                    #import q.http;
-                    #import q.Random;
-                    #import q.Console;
-                    #import q.Time;
                                 
                     fn EAL()
                         return "%s";
@@ -72,6 +66,24 @@ public class Time extends QLibrary {
 
     @Override
     public void init() {
+
+        Environment.global.defineNativeFunction(new INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "retvalue";
+            }
+
+            @Override
+            public QValue ret() {
+                return new QValue("This is a return value???");
+            }
+        });
+
         Parser parser = new Parser().fromText(this.qcode);
         try {
             parser.parse();

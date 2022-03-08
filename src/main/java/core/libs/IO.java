@@ -1,6 +1,8 @@
 package core.libs;
 
+import core.etc.Environment;
 import core.etc.Parser;
+import core.lang.INativeFunction;
 import core.libs.utils.QLibrary;
 
 import java.io.IOException;

@@ -44,8 +44,6 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitObjFunctionCallExpression(QParser.ObjFunctionCallExpressionContext ctx) {
 
-        int line = ctx.start.getLine();
-        int pos = ctx.start.getCharPositionInLine();
         String parentClass = ctx.Identifier(0).getText();
         String method = (ctx.Identifier(1)).getText();
         if (parentClass.equals("Time")) {
@@ -64,6 +62,16 @@ public class Visitor extends QBaseVisitor<QValue> {
                 case "instant":
 
                     return Time.instant();
+
+            }
+
+            if (Environment.global.natives.containsKey(method)) {
+
+                if (Environment.global.natives.get(method).ret() != null) {
+                    return Environment.global.natives.get(method).ret();
+                } else {
+                    Environment.global.natives.get(method).exec();
+                }
 
             }
 
@@ -134,7 +142,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             util.check("gtp", "gtp");
 
             if (ctx.exprList() == null) {
-                System.out.println("[FATAL:" + line + ": + pos + " + "] All methods in the 'gtp' class require parameters. ");
+                System.out.println("[FATAL:" + ctx.start.getLine() + ": + pos + " + "] All methods in the 'gtp' class require parameters. ");
                 System.exit(0);
             }
 
@@ -390,8 +398,8 @@ public class Visitor extends QBaseVisitor<QValue> {
             }
         }
 
-        if (!Environment.global.main) {
-            Environment.global.main = true;
+        if (!Environment.global.hasMainExecuted) {
+            Environment.global.hasMainExecuted = true;
             this.visit(ctx.block());
             return QValue.VOID;
         } else {

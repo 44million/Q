@@ -1,6 +1,7 @@
 package core.etc;
 
 import core.lang.Function;
+import core.lang.INativeFunction;
 import core.lang.Visitor;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
@@ -13,7 +14,6 @@ import org.antlr.v4.runtime.Token;
 import java.io.File;
 import java.util.*;
 
-@SuppressWarnings("unused")
 public class Environment {
 
     public static Environment global = new Environment();
@@ -31,11 +31,13 @@ public class Environment {
     public List<QComponent> comps = new ArrayList<>();
     public List<WebServer> webs = new ArrayList<>();
     public HashMap<String, File> files = new HashMap<>();
+    public HashMap<String, INativeFunction> natives = new HashMap<>();
     public Parser parser = new Parser();
     public List<String> allowedLibs = new ArrayList<>();
     public List<String> allLibs = new ArrayList<>();
     public HashMap<String, Function> consts = new HashMap<>();
-    public boolean main = false;
+    public boolean hasMainExecuted = false;
+
     public HashMap<String, Function> fns;
     public HashMap<String, QValue> vars;
 
@@ -43,14 +45,6 @@ public class Environment {
         this.before = null;
         this.fns = new HashMap<>();
         this.vars = new HashMap<>();
-    }
-
-    public void define(String s, QValue e) {
-        this.vars.put(s, e);
-    }
-
-    public void define(String s, Function f) {
-        this.fns.put(s, f);
     }
 
     public Environment ancestor(int history) {
@@ -66,12 +60,8 @@ public class Environment {
         return environment;
     }
 
-    QValue getAt(int distance, String name) {
-        return this.ancestor(distance).vars.get(name);
-    }
-
-    void assignAt(int distance, String name, QValue value) {
-        this.ancestor(distance).vars.put(name, value);
+    public void defineNativeFunction(INativeFunction e) {
+        this.natives.put(e.name(), e);
     }
 
 }
