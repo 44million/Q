@@ -87,38 +87,39 @@ public class Function {
 
     public QValue call(List<QValue> args, Map<String, Function> functions) {
 
-        if (args.size() != this.params.size()) {
+        if (this.params == null) {
+            if (args.size() != this.qparams.size()) {
+                throw new RuntimeException("[ERROR] Illegal Function call");
+            }
+
+            Scope scopeNext = new Scope(parentScope, true);
+
+            for (int i = 0; i < this.qparams.size(); i++) {
+                QValue value = args.get(i);
+                scopeNext.functionParam(this.qparams.get(i).id, value);
+            }
+
+            Visitor next = new Visitor(scopeNext, functions);
+
+            QValue ret = QValue.VOID;
+            try {
+                next.visit(this.block);
+            } catch (RVal returnValue) {
+                ret = returnValue.value;
+            }
+            return ret;
+
+        } else if (args.size() != this.params.size()) {
             throw new RuntimeException("[ERROR] Illegal Function call");
         }
+
         Scope scopeNext = new Scope(parentScope, true); // create function scope
 
         for (int i = 0; i < this.params.size(); i++) {
             QValue value = args.get(i);
-            scopeNext.functionParam(this.params.get(i).getText(), value);
-        }
-        Visitor next = new Visitor(scopeNext, functions);
-
-        QValue ret = QValue.VOID;
-        try {
-            next.visit(this.block);
-        } catch (RVal returnValue) {
-            ret = returnValue.value;
-        }
-        return ret;
-    }
-
-    public QValue call(HashMap<String, QValue> args, Map<String, Function> functions) {
-
-        if (args.size() != this.qparams.size()) {
-            throw new RuntimeException("[ERROR] Illegal Function call");
+            scopeNext.functionParam(this.qparams.get(i).id, value);
         }
 
-        Scope scopeNext = new Scope(parentScope, true); // create function scope
-
-        for (int i = 0; i < this.params.size(); i++) {
-            QValue value = args.get(i);
-            scopeNext.functionParam(args.get().getText(), value);
-        }
         Visitor next = new Visitor(scopeNext, functions);
 
         QValue ret = QValue.VOID;

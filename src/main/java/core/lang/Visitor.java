@@ -768,6 +768,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         if (ctx.expression() != null) {
             newVal = this.visit(ctx.expression());
+            newVal.id = id;
         }
 
         if ((ctx.Noval(0) != null)) {

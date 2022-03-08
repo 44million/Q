@@ -12,6 +12,7 @@ public class QValue implements Comparable<QValue> {
     private final Object value;
     public boolean constant = false;
     public boolean hasVal;
+    public String id;
 
     private QValue() {
         value = new Object();

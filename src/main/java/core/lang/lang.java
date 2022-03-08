@@ -25,7 +25,7 @@ public class lang {
     public static Map<String, Function> functions = Collections.emptyMap();
     public static Scope scope = new Scope();
     public static Visitor visitor = new Visitor(scope, functions);
-    public static String response = "Hello World!";
+    public static String response = "Standard";
     public static List<File> parsed = new ArrayList<>();
     public static Map<String, QClass> classes = new HashMap<>();
     public static Map<String, QObject> objs = new HashMap<>();
