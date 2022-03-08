@@ -2,6 +2,7 @@ package core.libs;
 
 import core.etc.Environment;
 import core.etc.Parser;
+import core.interp.QParser;
 import core.lang.INativeFunction;
 import core.lang.q.QValue;
 import core.libs.utils.QLibrary;
@@ -81,6 +82,16 @@ public class Time extends QLibrary {
             @Override
             public QValue ret() {
                 return new QValue("This is a return value???");
+            }
+
+            @Override
+            public String parent() {
+                return "Time";
+            }
+
+            @Override
+            public void exec(QParser.ExprListContext e) {
+
             }
         });
 

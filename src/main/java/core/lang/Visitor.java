@@ -65,16 +65,6 @@ public class Visitor extends QBaseVisitor<QValue> {
 
             }
 
-            if (Environment.global.natives.containsKey(method)) {
-
-                if (Environment.global.natives.get(method).ret() != null) {
-                    return Environment.global.natives.get(method).ret();
-                } else {
-                    Environment.global.natives.get(method).exec();
-                }
-
-            }
-
         } else if (parentClass.equals("Files")) {
 
             util.check("files", "Files");
@@ -184,6 +174,20 @@ public class Visitor extends QBaseVisitor<QValue> {
 
             } else {
                 throw new Problem(Environment.global.objs.get(parentClass).qc.name + " does not contain a definition for '" + method + "'", ctx);
+            }
+
+        } else if (Environment.global.natives.containsKey(parentClass)) {
+
+            if (Environment.global.natives.containsKey(method)) {
+
+                if (Environment.global.natives.get(method).ret() != null) {
+                    return Environment.global.natives.get(method).ret();
+                } else if (ctx.exprList() != null) {
+                    Environment.global.natives.get(method).exec(ctx.exprList());
+                } else {
+                    Environment.global.natives.get(method).exec();
+                }
+
             }
 
         }

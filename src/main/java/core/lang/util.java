@@ -2,6 +2,8 @@ package core.lang;
 
 import core.etc.Environment;
 import core.etc.Parser;
+import core.etc.Problem;
+import core.interp.QParser;
 import core.lang.q.QValue;
 import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
@@ -17,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -381,5 +384,40 @@ public class util {
             }
             return charCount;
         }
+    }
+
+    public static void registerNatives() {
+
+        Environment.global.defineNativeFunction(new INativeFunction() {
+            @Override
+            public void exec() {}
+
+            @Override
+            public String name() {
+                return "println";
+            }
+
+            @Override
+            public QValue ret() { return null; }
+
+            @Override
+            public String parent() {
+                return "System";
+            }
+
+            @Override
+            public void exec(QParser.ExprListContext e) {
+                if (e != null) {
+                    List<QValue> q = new ArrayList<>();
+                    for (QParser.ExpressionContext ex : e.expression()) {
+                        q.add(Environment.global.visitor.visit(ex));
+                    }
+                    System.out.println(q.get(0).asString());
+                } else {
+                    throw new Problem("Method 'println' requires 1 :str argument", e);
+                }
+            }
+        });
+
     }
 }

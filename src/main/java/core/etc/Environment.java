@@ -6,6 +6,7 @@ import core.lang.Visitor;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
 import core.lang.q.QValue;
+import core.lang.util;
 import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
 import core.libs.WebServer;
@@ -47,21 +48,12 @@ public class Environment {
         this.vars = new HashMap<>();
     }
 
-    public Environment ancestor(int history) {
-
-        Environment environment = this;
-
-        for (int i = 0; i < history; i++) {
-            if (environment.before != null) {
-                environment = environment.before;
-            }
-        }
-
-        return environment;
+    static {
+        util.registerNatives();
     }
 
     public void defineNativeFunction(INativeFunction e) {
-        this.natives.put(e.name(), e);
+        this.natives.put(e.parent(), e);
     }
 
 }
