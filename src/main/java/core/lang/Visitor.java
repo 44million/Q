@@ -7,7 +7,6 @@ import core.etc.Scope;
 import core.interp.QBaseVisitor;
 import core.interp.QLexer;
 import core.interp.QParser;
-import core.lang.q.Constructor;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
 import core.lang.q.QValue;

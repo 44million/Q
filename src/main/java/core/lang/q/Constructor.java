@@ -5,9 +5,9 @@ import java.util.List;
 
 public class Constructor {
 
-    private String id;
-    private List<QValue> q;
     public HashMap<String, QValue> qc;
+    private final String id;
+    private List<QValue> q;
 
     public Constructor(String id, List<QValue> q) {
         this.id = id;

@@ -2,7 +2,6 @@ package core.lang;
 
 import core.etc.Parser;
 import core.etc.Scope;
-import core.lang.q.Constructor;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
 import core.lang.q.QValue;

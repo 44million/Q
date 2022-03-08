@@ -15,9 +15,9 @@ class Main
 
     fn main()
 
-        new E as esyiuh();
+        new E as e();
 
-        esyiuh::print();
+        e::print();
 
     end
 
