@@ -6,7 +6,6 @@ import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
 import core.libs.MediaPlayer;
 import core.libs.WebServer;
-import mod.core.modvals.Module;
 import org.antlr.v4.runtime.Token;
 
 import java.io.File;
@@ -35,7 +34,6 @@ public class Environment {
     public List<String> allLibs = new ArrayList<>();
     public HashMap<String, Function> consts = new HashMap<>();
     public boolean main = false;
-    public Module mod;
     final Environment before;
     public HashMap<String, Function> fns;
     public HashMap<String, QValue> vars;
