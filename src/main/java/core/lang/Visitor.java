@@ -1,9 +1,6 @@
 package core.lang;
 
-import core.etc.Parser;
-import core.etc.Problem;
-import core.etc.RVal;
-import core.etc.Scope;
+import core.etc.*;
 import core.interp.QBaseVisitor;
 import core.interp.QLexer;
 import core.interp.QParser;
@@ -51,7 +48,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         String method = (ctx.Identifier(1)).getText();
         if (parentClass.equals("Time")) {
 
-            lang.check("time", "Time");
+            util.check("time", "Time");
 
             switch (method) {
                 case "cur":
@@ -70,7 +67,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         } else if (parentClass.equals("Files")) {
 
-            lang.check("files", "Files");
+            util.check("files", "Files");
 
             switch (method) {
                 case "absPath":
@@ -105,14 +102,14 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         } else if (parentClass.equals("Console")) {
 
-            lang.check("console", "Console");
+            util.check("console", "Console");
 
             if (method.equals("flush")) {
                 System.console().flush();
             }
         } else if (parentClass.equals("puddle")) {
 
-            lang.check("puddle", "puddle");
+            util.check("puddle", "puddle");
 
             if (method.equals("start")) {
 
@@ -122,7 +119,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         } else if (parentClass.equals("http")) {
 
-            lang.check("http", "http");
+            util.check("http", "http");
 
             if (method.equals("get")) {
 
@@ -132,7 +129,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         } else if (parentClass.equals("GTP")) {
 
-            lang.check("gtp", "gtp");
+            util.check("gtp", "gtp");
 
             if (ctx.exprList() == null) {
                 System.out.println("[FATAL:" + line + ": + pos + " + "] All methods in the 'gtp' class require parameters. ");
@@ -150,17 +147,17 @@ public class Visitor extends QBaseVisitor<QValue> {
                     return new QValue(new GTP().getText(amount));
             }
 
-        } else if (lang.getWebByName(parentClass) != null) {
+        } else if (util.getWebByName(parentClass) != null) {
 
-            if (method.equals("stop") && lang.getWebByName(parentClass) != null) {
-                lang.getWebByName(parentClass).stop();
+            if (method.equals("stop") && util.getWebByName(parentClass) != null) {
+                util.getWebByName(parentClass).stop();
             } else {
                 throw new Problem("Unknown method '" + method + "'", ctx);
             }
 
-        } else if (lang.objs.containsKey(parentClass)) {
+        } else if (Environment.global.objs.containsKey(parentClass)) {
 
-            QObject obj = lang.objs.get(parentClass);
+            QObject obj = Environment.global.objs.get(parentClass);
             Visitor v = obj.v;
 
             List<QValue> vals = new ArrayList<>();
@@ -176,7 +173,7 @@ public class Visitor extends QBaseVisitor<QValue> {
                 return obj.funcs.get(method + vals.size()).call(vals, new HashMap<>());
 
             } else {
-                throw new Problem(lang.objs.get(parentClass).qc.name + " does not contain a definition for '" + method + "'", ctx);
+                throw new Problem(Environment.global.objs.get(parentClass).qc.name + " does not contain a definition for '" + method + "'", ctx);
             }
 
         }
@@ -227,7 +224,7 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitFileWriteStatement(QParser.FileWriteStatementContext ctx) {
         try {
 
-            FileWriter fw = new FileWriter(lang.files.get(ctx.Identifier().getText()));
+            FileWriter fw = new FileWriter(Environment.global.files.get(ctx.Identifier().getText()));
 
             QValue val = this.visit(ctx.expression());
 
@@ -257,12 +254,12 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         String id = ctx.Identifier().getText();
 
-        if (lang.getWinByName(id) == null) {
+        if (util.getWinByName(id) == null) {
             return QValue.VOID;
         } else {
-            assert lang.getWinByName(id) != null;
-            if (lang.getWinByName(id) != null) {
-                lang.getWinByName(id).init();
+            assert util.getWinByName(id) != null;
+            if (util.getWinByName(id) != null) {
+                util.getWinByName(id).init();
             }
         }
         return QValue.VOID;
@@ -276,11 +273,11 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         String component = this.visit(ctx.expression()).asString();
 
-        if (lang.getWinByName(ctx.Identifier().getText()) == null) {
+        if (util.getWinByName(ctx.Identifier().getText()) == null) {
             throw new Problem("The specified window: " + ctx.Identifier().getText() + " does not exist!", ctx);
         } else {
-            if (lang.getCompByName(component) != null) {
-                lang.getCompByName(component).init(ctx.Identifier().getText());
+            if (util.getCompByName(component) != null) {
+                util.getCompByName(component).init(ctx.Identifier().getText());
             }
         }
         return QValue.VOID;
@@ -321,8 +318,8 @@ public class Visitor extends QBaseVisitor<QValue> {
                     .getText()
                     .replaceAll("\"", "");
 
-            if (lang.objs.containsKey(s)) {
-                lang.objs.remove(s);
+            if (Environment.global.objs.containsKey(s)) {
+                Environment.global.objs.remove(s);
             } else {
                 throw new Problem("Object: '" + s + "' does not exist.", ctx);
             }
@@ -362,7 +359,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             case "int":
                 return new QValue(new Random().nextInt());
             case "str":
-                return new QValue(lang.getSaltString());
+                return new QValue(util.getSaltString());
             case "bool":
                 int i = new Random().nextInt(2);
 
@@ -391,8 +388,8 @@ public class Visitor extends QBaseVisitor<QValue> {
             }
         }
 
-        if (!lang.main) {
-            lang.main = true;
+        if (!Environment.global.main) {
+            Environment.global.main = true;
             this.visit(ctx.block());
             return QValue.VOID;
         } else {
@@ -420,10 +417,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         QValue resp = this.visit(ctx.expression());
         String id = ctx.Identifier().getText();
 
-        int line = ctx.start.getLine();
-        int pos = ctx.start.getCharPositionInLine();
-
-        for (WebServer w : lang.webs) {
+        for (WebServer w : Environment.global.webs) {
             if (w.id.equals(id)) {
                 w.setText(resp.asString());
                 return QValue.VOID;
@@ -491,7 +485,7 @@ public class Visitor extends QBaseVisitor<QValue> {
                 .replace("/blob", "");
 
 
-        String fileContents = lang.getTextFromGithub(link);
+        String fileContents = util.getTextFromGithub(link);
 
         Parser parser = new Parser().fromText(fileContents);
         try {
@@ -517,12 +511,12 @@ public class Visitor extends QBaseVisitor<QValue> {
             text.append(".").append(o.getText());
         }
 
-        if (lang.allLibs.contains(text.toString().replace(".q.", "").toLowerCase(Locale.ROOT))) {
-            lang.parse(text.toString());
+        if (Environment.global.allLibs.contains(text.toString().replace(".q.", "").toLowerCase(Locale.ROOT))) {
+            util.parse(text.toString());
             return QValue.VOID;
         }
 
-        for (File f : lang.parsed) {
+        for (File f : Environment.global.parsed) {
             Path currentRelativePath = Paths.get("");
             String currentPath = currentRelativePath.toAbsolutePath().toString();
 
@@ -537,7 +531,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         String currentPath = currentRelativePath.toAbsolutePath().toString();
 
         File file = new File(currentPath + "/" + path + ".l");
-        lang.parsed.add(file);
+        Environment.global.parsed.add(file);
 
         try {
 
@@ -549,7 +543,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         parser.setBuildParseTree(true);
         ParseTree tree = parser.parse();
 
-        Scope s = new Scope(lang.scope, false);
+        Scope s = new Scope(Environment.global.scope, false);
         Visitor v = new Visitor(s, new HashMap<>());
 
         v.visit(tree);
@@ -579,7 +573,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         if (ctx.Identifier(0).getText().equals("File")) {
 
-            lang.check("files", "Files");
+            util.check("files", "Files");
 
             QValue v = this.visit(ctx.exprList().expression(0));
 
@@ -589,10 +583,10 @@ public class Visitor extends QBaseVisitor<QValue> {
 
             File file = new File(v.asString());
 
-            lang.files.put(ctx.Identifier(1).getText(), file);
+            Environment.global.files.put(ctx.Identifier(1).getText(), file);
         } else if (ctx.Identifier(0).getText().equals("Window")) {
 
-            lang.check("windows", "Windows");
+            util.check("windows", "Windows");
 
             List<QValue> list = new ArrayList<>();
             if (ctx.exprList() != null) {
@@ -609,7 +603,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
                 Window window = new Window(name, x, y);
                 window.setName(ctx.Identifier(1).getText());
-                lang.wins.add(window);
+                Environment.global.wins.add(window);
 
             } else {
                 throw new Problem("Incorrect layout, Window class accepts the following: Window(name:str, x-axis:str, y-axis:str);", ctx);
@@ -628,22 +622,19 @@ public class Visitor extends QBaseVisitor<QValue> {
         } else if (ctx.Identifier(0).getText().equals("WebServer") && ctx.Identifier(2).getText().equals("WebServer")) {
             QValue x = this.visit(ctx.exprList().expression(0));
 
-            if (!lang.allowedLibs.contains("http")) {
+            if (!Environment.global.allowedLibs.contains("http")) {
                 throw new Problem("The HTTP library has not been imported. Please import it first.\nThe library can be found at: 'q.http'", ctx);
             }
 
             core.libs.WebServer w = new WebServer(Integer.parseInt(x.asString()), ctx.Identifier(1).getText());
             w.init();
 
-            lang.webs.add(w);
-        } else if (ctx.Identifier(0).getText().equals("MP3Player") && lang.allowedLibs.contains("audio")) {
-            MediaPlayer player = new MediaPlayer(this.visit(ctx.exprList().expression(0)).toString(), ctx.Identifier(1).getText());
-            lang.players.add(player);
-        } else if (lang.classes.containsKey(parentClass)) {
+            Environment.global.webs.add(w);
+        } else if (Environment.global.classes.containsKey(parentClass)) {
 
             QObject obj;
             try {
-                obj = new QObject(nameO, (QClass) (lang.classes.get(parentClass)).clone());
+                obj = new QObject(nameO, (QClass) (Environment.global.classes.get(parentClass)).clone());
             } catch (Exception e) {
                 throw new Problem("Unable to clone '" + parentClass + "'", ctx);
             }
@@ -655,11 +646,11 @@ public class Visitor extends QBaseVisitor<QValue> {
                 }
             }
 
-            lang.consts.get(ctx.Identifier(0).getText()).call(list, this.functions);
+            Environment.global.consts.get(ctx.Identifier(0).getText()).call(list, this.functions);
 
             obj.setParams(list);
 
-            lang.objs.put(nameO, obj);
+            Environment.global.objs.put(nameO, obj);
         } else {
             throw new Problem("Class/Object not recognized: " + parentClass, ctx);
         }
@@ -679,7 +670,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         Function f = new Function(this.scope, l, ctx.block(), "");
 
-        lang.consts.put(ctx.Identifier().getText(), f);
+        Environment.global.consts.put(ctx.Identifier().getText(), f);
 
         return QValue.VOID;
     }
@@ -701,13 +692,13 @@ public class Visitor extends QBaseVisitor<QValue> {
             base = ctx.Identifier(1).getText();
         }
 
-        if (ctx.Identifier(1) != null && lang.classes.containsKey(base)) {
-            qClass.setBase(lang.classes.get(base));
+        if (ctx.Identifier(1) != null && Environment.global.classes.containsKey(base)) {
+            qClass.setBase(Environment.global.classes.get(base));
         } else {
             qClass.setBase(QClass.OBJECT);
         }
 
-        lang.classes.put(id, qClass);
+        Environment.global.classes.put(id, qClass);
 
         return QValue.VOID;
 
@@ -715,8 +706,6 @@ public class Visitor extends QBaseVisitor<QValue> {
 
     @Override
     public QValue visitHeader(QParser.HeaderContext ctx) {
-        int line = ctx.start.getLine();
-        int pos = ctx.start.getCharPositionInLine();
 
         if (ctx.Identifier().getText().equals("")) {
             throw new Problem("Header MUST have a name\nie: '@header FileWriterLibrary' or '@header TokenFactoryLibrary'", ctx);
@@ -1103,7 +1092,7 @@ public class Visitor extends QBaseVisitor<QValue> {
     @Override
     public QValue visitImportAllStatement(QParser.ImportAllStatementContext ctx) {
 
-        for (String s : lang.allLibs) {
+        for (String s : Environment.global.allLibs) {
             String x = ".q.";
             String g = s.substring(0, 1).toUpperCase() + s.substring(1);
 
@@ -1116,7 +1105,7 @@ public class Visitor extends QBaseVisitor<QValue> {
                 default -> x + g;
             };
 
-            lang.parse(fin);
+            util.parse(fin);
         }
 
         return QValue.VOID;
@@ -1286,8 +1275,8 @@ public class Visitor extends QBaseVisitor<QValue> {
         String id = ctx.Identifier().getText() + params.size();
         Function function;
 
-        if (lang.visitor.functions.containsKey(id)) {
-            function = lang.visitor.functions.get(id);
+        if (Environment.global.visitor.functions.containsKey(id)) {
+            function = Environment.global.visitor.functions.get(id);
         } else if ((function = this.functions.get(id)) != null) {
             function = this.functions.get(id);
         }

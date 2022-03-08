@@ -1,6 +1,6 @@
 package core.libs.AWT;
 
-import core.lang.lang;
+import core.lang.util;
 
 import javax.swing.*;
 
@@ -17,55 +17,59 @@ public class QComponent extends JComponent {
 
     public void init(String win) {
 
-        if (lang.getWinByName(win) == null) {
+        if (util.getWinByName(win) == null) {
             System.out.println("[FATAL] the specified window: " + win + " does not exist.");
             System.exit(0);
         }
 
-        if (type.equals("button")) {
+        switch (type) {
+            case "button" -> {
 
-            JButton p = new JButton();
-            p.setText(this.s);
+                JButton p = new JButton();
+                p.setText(this.s);
 
-            try {
-                if (lang.getWinByName(win) != null) {
-                    lang.getWinByName(win).addComponent(p);
+                try {
+                    if (util.getWinByName(win) != null) {
+                        util.getWinByName(win).addComponent(p);
+                    }
+                } catch (Exception e) {
+                    System.out.println("[FATAL] The queried Window (" + win + ") does not exist.");
+                    System.exit(0);
                 }
-            } catch (Exception e) {
-                System.out.println("[FATAL] The queried Window (" + win + ") does not exist.");
+
+                break;
+            }
+            case "slider" -> {
+                JSlider slider = new JSlider(JSlider.HORIZONTAL);
+                try {
+                    if (util.getWinByName(win) != null) {
+                        util.getWinByName(win).addComponent(slider);
+                    }
+                } catch (Exception e) {
+                    System.out.println("[FATAL] The queried Window (" + win + ") does not exist.");
+                    System.exit(0);
+                }
+            }
+            case "text" -> {
+
+
+                JTextField p = new JTextField(this.s);
+
+                try {
+                    if (util.getWinByName(win) != null) {
+                        util.getWinByName(win).addComponent(p);
+                    }
+                } catch (Exception e) {
+                    System.out.println("[FATAL] The queried Window (" + win + ") does not exist.");
+                    System.exit(0);
+                }
+
+                break;
+            }
+            default -> {
+                System.out.println("[FATAL] Component type: " + type + " not found.");
                 System.exit(0);
             }
-
-        } else if (type.equals("slider")) {
-
-            JSlider slider = new JSlider(JSlider.HORIZONTAL);
-
-            try {
-                if (lang.getWinByName(win) != null) {
-                    lang.getWinByName(win).addComponent(slider);
-                }
-            } catch (Exception e) {
-                System.out.println("[FATAL] The queried Window (" + win + ") does not exist.");
-                System.exit(0);
-            }
-
-        } else if (type.equals("text")) {
-
-
-            JTextField p = new JTextField(this.s);
-
-            try {
-                if (lang.getWinByName(win) != null) {
-                    lang.getWinByName(win).addComponent(p);
-                }
-            } catch (Exception e) {
-                System.out.println("[FATAL] The queried Window (" + win + ") does not exist.");
-                System.exit(0);
-            }
-
-        } else {
-            System.out.println("[FATAL] Component type: " + type + " not found.");
-            System.exit(0);
         }
     }
 

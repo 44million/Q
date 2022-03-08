@@ -1,9 +1,10 @@
 package core.lang.q;
 
+import core.etc.Environment;
 import core.etc.Scope;
 import core.lang.Function;
 import core.lang.Visitor;
-import core.lang.lang;
+import core.lang.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,9 +29,9 @@ public class QClass implements Cloneable {
     }
 
     public QClass() {
-        this.name = lang.getSaltString();
+        this.name = util.getSaltString();
         this.functions = new HashMap<>();
-        this.scope = lang.scope;
+        this.scope = Environment.global.scope;
         this.constArgs = new ArrayList<>();
     }
 

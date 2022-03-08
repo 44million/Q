@@ -1,7 +1,8 @@
 package mod.core.modvals;
 
+import core.etc.Environment;
 import core.etc.Parser;
-import core.lang.lang;
+import core.lang.util;
 import mod.core.ilp.ModBaseVisitor;
 import mod.raw.ModLexer;
 import mod.raw.ModParser;
@@ -66,7 +67,7 @@ public class Visitor extends ModBaseVisitor<Val> {
         Parser parser = new Parser(new File(path.toString()));
         try {
             parser.parse(false);
-            lang.parsed.add(new File(path.toString()));
+            Environment.global.parsed.add(new File(path.toString()));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -77,7 +78,7 @@ public class Visitor extends ModBaseVisitor<Val> {
     @Override
     public Val visitLoadfStatement(ModParser.LoadfStatementContext ctx) {
 
-        lang.mod = mod;
+        Environment.global.mod = mod;
 
         return new Val(0);
     }
@@ -107,7 +108,7 @@ public class Visitor extends ModBaseVisitor<Val> {
                 .replace("/blob", "");
 
 
-        String fileContents = lang.getTextFromGithub(link);
+        String fileContents = util.getTextFromGithub(link);
 
         Parser parser = new Parser().fromText(fileContents);
         try {
@@ -129,7 +130,7 @@ public class Visitor extends ModBaseVisitor<Val> {
 
     @Override
     public Val visitFinishStatement(ModParser.FinishStatementContext ctx) {
-        lang.mod = mod;
+        Environment.global.mod = mod;
 
         return new Val(0);
     }

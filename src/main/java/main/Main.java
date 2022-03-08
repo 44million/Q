@@ -1,12 +1,11 @@
 package main;
 
+import core.etc.Environment;
 import core.etc.Parser;
-import core.lang.lang;
+import core.lang.util;
 import org.antlr.v4.runtime.CharStreams;
 
 import java.io.File;
-
-import static core.lang.lang.lst;
 
 public class Main {
 
@@ -14,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
 
         File input;
-        lang.addAll();
+        util.addAll();
 
         if (args.length >= 1) {
             int counter = 0;
@@ -34,9 +33,9 @@ public class Main {
                             }
 
                             Parser parser = new Parser(CharStreams.fromFileName(input.getAbsolutePath()));
-                            lst.addAll(parser.parse(false));
+                            Environment.global.lst.addAll(parser.parse(false));
 
-                            lang.write(input.getAbsolutePath(), new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")));
+                            util.write(input.getAbsolutePath(), new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")));
 
                         } catch (Exception e) {
 
@@ -75,9 +74,9 @@ public class Main {
                 }
 
                 Parser parser = new Parser(CharStreams.fromFileName(input.getAbsolutePath()));
-                lst.addAll(parser.parse(false));
+                Environment.global.lst.addAll(parser.parse(false));
 
-                lang.write(input.getAbsolutePath(), new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")));
+                util.write(input.getAbsolutePath(), new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")));
 
             } catch (Exception e) {
 

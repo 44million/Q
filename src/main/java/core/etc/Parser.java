@@ -2,7 +2,7 @@ package core.etc;
 
 import core.interp.QLexer;
 import core.interp.QParser;
-import core.lang.lang;
+import core.lang.util;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
@@ -43,7 +43,7 @@ public class Parser {
         parser.setBuildParseTree(true);
         ParseTree tree = parser.parse();
 
-        lang.visitor.visit(tree);
+        Environment.global.visitor.visit(tree);
 
     }
 
@@ -63,7 +63,7 @@ public class Parser {
             this.str = s;
         }
 
-        lang.resolveImport("System");
+        util.resolveImport("System");
 
         if (this.file != null) {
 
@@ -72,7 +72,7 @@ public class Parser {
             parser.setBuildParseTree(true);
             ParseTree tree = parser.parse();
 
-            lang.visitor.visit(tree);
+            Environment.global.visitor.visit(tree);
 
         } else if (this.s != null) {
 
@@ -91,7 +91,7 @@ public class Parser {
             });
 
             ParseTree tree = parser.parse();
-            lang.visitor.visit(tree);
+            Environment.global.visitor.visit(tree);
 
         } else if (this.str != null) {
 
@@ -100,7 +100,7 @@ public class Parser {
             parser.setBuildParseTree(true);
             ParseTree tree = parser.parse();
 
-            lang.visitor.visit(tree);
+            Environment.global.visitor.visit(tree);
         } else if (this.non != null) {
 
             lexer = new QLexer(CharStreams.fromString(this.non));
@@ -108,7 +108,7 @@ public class Parser {
             parser.setBuildParseTree(true);
             ParseTree tree = parser.parse();
 
-            lang.visitor.visit(tree);
+            Environment.global.visitor.visit(tree);
 
         }
 
@@ -121,7 +121,7 @@ public class Parser {
     }
 
     public void parse() throws IOException {
-        lang.resolveImport("System");
+        util.resolveImport("System");
 
         if (this.file != null) {
 
@@ -130,7 +130,7 @@ public class Parser {
             parser.setBuildParseTree(true);
             ParseTree tree = parser.parse();
 
-            lang.visitor.visit(tree);
+            Environment.global.visitor.visit(tree);
 
         } else if (this.s != null) {
 
@@ -139,7 +139,7 @@ public class Parser {
             parser.setBuildParseTree(true);
             ParseTree tree = parser.parse();
 
-            lang.visitor.visit(tree);
+            Environment.global.visitor.visit(tree);
 
         } else if (this.str != null) {
 
@@ -148,7 +148,7 @@ public class Parser {
             parser.setBuildParseTree(true);
             ParseTree tree = parser.parse();
 
-            lang.visitor.visit(tree);
+            Environment.global.visitor.visit(tree);
         } else if (this.non != null) {
 
             QLexer lexer = new QLexer(CharStreams.fromString(this.non));
@@ -156,7 +156,7 @@ public class Parser {
             parser.setBuildParseTree(true);
             ParseTree tree = parser.parse();
 
-            lang.visitor.visit(tree);
+            Environment.global.visitor.visit(tree);
 
         }
 

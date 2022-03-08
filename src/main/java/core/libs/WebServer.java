@@ -1,7 +1,7 @@
 package core.libs;
 
 import com.sun.net.httpserver.HttpServer;
-import core.lang.lang;
+import core.etc.Environment;
 import core.libs.utils.HTTP;
 import core.libs.utils.QLibrary;
 
@@ -35,7 +35,7 @@ public class WebServer extends QLibrary {
     }
 
     public void setText(String s) {
-        lang.response = s;
+        Environment.global.response = s;
     }
 
     public String getName() {
