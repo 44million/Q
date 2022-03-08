@@ -2,8 +2,7 @@ class E
 
     noval var x;
 
-    cn E(dd)
-        self::x = dd;
+    cn E()
     end
 
     fn print()
@@ -16,7 +15,7 @@ class Main
 
     fn main()
 
-        new E as esyiuh("Hello World");
+        new E as esyiuh();
 
         esyiuh::print();
 
