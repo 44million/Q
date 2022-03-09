@@ -1,6 +1,7 @@
 #import q.io;
 #import q.Files;
 #import src.main.QFiles.File;
+#import q.FileUtils;
 
 class Main
 
@@ -21,8 +22,7 @@ class Main
 
         std::ln(total);
 
-        df::setContent(total);
-        df::scribe();
+        std::ln(FileUtils::exists("src/main/QFiles/importme.l"));
 
     end
 

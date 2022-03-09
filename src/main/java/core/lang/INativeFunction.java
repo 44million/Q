@@ -12,9 +12,7 @@ public interface INativeFunction {
 
     QValue ret();
 
-    default String parent() {
-        return null;
-    }
+    String parent();
 
     void exec(List<QValue> list);
 

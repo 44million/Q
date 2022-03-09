@@ -12,4 +12,8 @@ public class Problem extends RuntimeException {
         super("[ERROR " + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + "] " + msg);
     }
 
+    public Problem(String msg) {
+        super("[ERROR] " + msg);
+    }
+
 }

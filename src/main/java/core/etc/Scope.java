@@ -13,7 +13,7 @@ public class Scope {
     private final boolean isFunction;
     public boolean lib;
 
-    public Scope() {
+    protected Scope() {
         this(null, false);
     }
 

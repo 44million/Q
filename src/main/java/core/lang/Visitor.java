@@ -22,8 +22,6 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import javax.swing.*;
 import java.io.*;
 import java.lang.String;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -89,16 +87,6 @@ public class Visitor extends QBaseVisitor<QValue> {
                 default:
 
                     throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx);
-
-            }
-
-        } else if (parentClass.equals("puddle")) {
-
-            util.check("puddle", "puddle");
-
-            if (method.equals("start")) {
-
-                Puddle.start(ctx);
 
             }
 

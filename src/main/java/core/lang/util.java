@@ -2,6 +2,7 @@ package core.lang;
 
 import core.etc.Environment;
 import core.etc.Parser;
+import core.etc.Problem;
 import core.lang.q.QValue;
 import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
@@ -14,7 +15,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -228,6 +228,15 @@ public class util {
             Environment.global.allowedLibs.add("io");
             new IO().init();
             return QValue.VOID;
+        } else if (text.equals(".q.FileUtils")) {
+
+            if (Environment.global.allowedLibs.contains("fileutils")) {
+                return QValue.VOID;
+            }
+
+            Environment.global.allowedLibs.add("fileutils");
+            return QValue.VOID;
+
         } else if (text.equals(".q.Environment")) {
 
             if (Environment.global.allowedLibs.contains("environment")) {
@@ -235,7 +244,6 @@ public class util {
             }
 
             Environment.global.allowedLibs.add("environment");
-            new IO().init();
             return QValue.VOID;
         }
         return QValue.VOID;
@@ -287,6 +295,7 @@ public class util {
         Environment.global.allLibs.add("io");
         Environment.global.allLibs.add("gtp");
         Environment.global.allLibs.add("environment");
+        Environment.global.allLibs.add("fileutils");
 
     }
 
@@ -715,6 +724,77 @@ public class util {
             public QValue ret(List<QValue> list) {
                 String request = list.get(0).toString();
                 return new QValue(System.getProperty(request));
+            }
+        });
+
+        Environment.global.defineNativeFunction(new INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "countLines";
+            }
+
+            @Override
+            public QValue ret() {
+                return null;
+            }
+
+            @Override
+            public String parent() {
+                return "Files";
+            }
+
+            @Override
+            public void exec(List<QValue> list) {
+            }
+
+            @Override
+            public QValue ret(List<QValue> list) {
+                File file = new File(list.get(0).toString());
+
+                if (!file.exists()) {
+                    throw new Problem("File '" + list.get(0).toString() + "' does not exist");
+                }
+
+                long amount = file.length();
+
+                return new QValue(amount);
+            }
+        });
+
+        Environment.global.defineNativeFunction(new INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return null;
+            }
+
+            @Override
+            public QValue ret() {
+                return null;
+            }
+
+            @Override
+            public String parent() {
+                return null;
+            }
+
+            @Override
+            public void exec(List<QValue> list) {
+
+            }
+
+            @Override
+            public QValue ret(List<QValue> list) {
+                return null;
             }
         });
 
