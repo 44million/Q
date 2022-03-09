@@ -15,9 +15,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 public class util {
 
@@ -317,6 +319,11 @@ public class util {
         }
     }
 
+    public static void registerLibrary(String f, String other) {
+        Environment.global.allLibs.add(other);
+        Environment.global.allowedLibs.add(other);
+    }
+
     public static void write(String path, File output) {
         new Thread(() -> {
             try {
@@ -398,6 +405,8 @@ public class util {
     }
 
     public static void registerNatives() {
+
+        util.registerLibrary("std", "std");
 
         Environment.global.defineNativeFunction(new INativeFunction() {
             @Override
@@ -768,13 +777,11 @@ public class util {
 
         Environment.global.defineNativeFunction(new INativeFunction() {
             @Override
-            public void exec() {
-
-            }
+            public void exec() {}
 
             @Override
             public String name() {
-                return null;
+                return "cout";
             }
 
             @Override
@@ -784,17 +791,105 @@ public class util {
 
             @Override
             public String parent() {
-                return null;
+                return "std";
             }
 
             @Override
             public void exec(List<QValue> list) {
-
+                System.out.print(list.get(0).toString());
             }
 
             @Override
             public QValue ret(List<QValue> list) {
                 return null;
+            }
+        });
+
+        Environment.global.defineNativeFunction(new INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "coutln";
+            }
+
+            @Override
+            public QValue ret() {
+                return null;
+            }
+
+            @Override
+            public String parent() {
+                return "std";
+            }
+
+            @Override
+            public void exec(List<QValue> list) {
+                System.out.println(list.get(0).toString());
+            }
+
+            @Override
+            public QValue ret(List<QValue> list) {
+                return null;
+            }
+        });
+
+        Environment.global.defineNativeFunction(new INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "workspace";
+            }
+
+            @Override
+            public QValue ret() {
+                return null;
+            }
+
+            @Override
+            public String parent() {
+                return "std";
+            }
+
+            @Override
+            public void exec(List<QValue> list) {}
+
+            @Override
+            public QValue ret(List<QValue> list) {
+                for (QValue v : list) {
+                    if (v.toString().equals("home")) {
+                        return new QValue(System.getProperty("user.home"));
+                    } else if (v.toString().equals("make")) {
+                        String dirname = list.get(1).toString();
+                        if (!new File(dirname).exists()) {
+                            new File(dirname).mkdirs();
+                            return new QValue(true);
+                        } else {
+                            return new QValue(false);
+                        }
+                    } else if (v.toString().equals("makefile")) {
+                        String dirname = list.get(1).toString();
+                        if (!new File(dirname).exists()) {
+                            try {
+                                new File(dirname).createNewFile();
+                            } catch (IOException e) {
+                                System.out.println(e.getMessage());
+                            }
+                            return new QValue(true);
+                        } else {
+                            return new QValue(false);
+                        }
+                    }
+
+                }
+                return new QValue(false);
             }
         });
 

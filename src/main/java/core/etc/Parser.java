@@ -40,6 +40,15 @@ public class Parser {
 
         QLexer lexer = new QLexer(CharStreams.fromString(str));
         QParser parser = new QParser(new CommonTokenStream(lexer));
+        parser.removeErrorListeners();
+
+        parser.addErrorListener(new BaseErrorListener() {
+            @Override
+            public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                System.out.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character '" + offendingSymbol + "'");
+                System.exit(-1);
+            }
+        });
         parser.setBuildParseTree(true);
         ParseTree tree = parser.parse();
 
@@ -69,6 +78,15 @@ public class Parser {
 
             lexer = new QLexer(CharStreams.fromFileName(this.file.getName()));
             QParser parser = new QParser(new CommonTokenStream(lexer));
+            parser.removeErrorListeners();
+
+            parser.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    System.out.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character '" + offendingSymbol + "'");
+                    System.exit(-1);
+                }
+            });
             parser.setBuildParseTree(true);
             ParseTree tree = parser.parse();
 
@@ -78,7 +96,25 @@ public class Parser {
 
             lexer = new QLexer(this.s);
             QParser parser = new QParser(new CommonTokenStream(lexer));
+
+            parser.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    System.out.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character '" + offendingSymbol + "'");
+                    System.exit(-1);
+                }
+            });
+
             parser.setBuildParseTree(true);
+            parser.removeErrorListeners();
+            ParseTree tree = parser.parse();
+            Environment.global.visitor.visit(tree);
+
+        } else if (this.str != null) {
+
+            lexer = new QLexer(CharStreams.fromFileName(this.str));
+            QParser parser = new QParser(new CommonTokenStream(lexer));
+
             parser.removeErrorListeners();
 
             parser.addErrorListener(new BaseErrorListener() {
@@ -89,14 +125,8 @@ public class Parser {
                 }
             });
 
-            ParseTree tree = parser.parse();
-            Environment.global.visitor.visit(tree);
-
-        } else if (this.str != null) {
-
-            lexer = new QLexer(CharStreams.fromFileName(this.str));
-            QParser parser = new QParser(new CommonTokenStream(lexer));
             parser.setBuildParseTree(true);
+
             ParseTree tree = parser.parse();
 
             Environment.global.visitor.visit(tree);
@@ -104,6 +134,15 @@ public class Parser {
 
             lexer = new QLexer(CharStreams.fromString(this.non));
             QParser parser = new QParser(new CommonTokenStream(lexer));
+            parser.removeErrorListeners();
+
+            parser.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    System.out.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character '" + offendingSymbol + "'");
+                    System.exit(-1);
+                }
+            });
             parser.setBuildParseTree(true);
             ParseTree tree = parser.parse();
 
@@ -126,6 +165,15 @@ public class Parser {
 
             QLexer lexer = new QLexer(CharStreams.fromFileName(this.file.getName()));
             QParser parser = new QParser(new CommonTokenStream(lexer));
+            parser.removeErrorListeners();
+
+            parser.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    System.out.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character '" + offendingSymbol + "'");
+                    System.exit(-1);
+                }
+            });
             parser.setBuildParseTree(true);
             ParseTree tree = parser.parse();
 
@@ -135,6 +183,15 @@ public class Parser {
 
             QLexer lexer = new QLexer(this.s);
             QParser parser = new QParser(new CommonTokenStream(lexer));
+            parser.removeErrorListeners();
+
+            parser.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    System.out.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character '" + offendingSymbol + "'");
+                    System.exit(-1);
+                }
+            });
             parser.setBuildParseTree(true);
             ParseTree tree = parser.parse();
 
@@ -144,6 +201,15 @@ public class Parser {
 
             QLexer lexer = new QLexer(CharStreams.fromFileName(this.str));
             QParser parser = new QParser(new CommonTokenStream(lexer));
+            parser.removeErrorListeners();
+
+            parser.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    System.out.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character '" + offendingSymbol + "'");
+                    System.exit(-1);
+                }
+            });
             parser.setBuildParseTree(true);
             ParseTree tree = parser.parse();
 
@@ -152,6 +218,15 @@ public class Parser {
 
             QLexer lexer = new QLexer(CharStreams.fromString(this.non));
             QParser parser = new QParser(new CommonTokenStream(lexer));
+            parser.removeErrorListeners();
+
+            parser.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    System.out.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character '" + offendingSymbol + "'");
+                    System.exit(-1);
+                }
+            });
             parser.setBuildParseTree(true);
             ParseTree tree = parser.parse();
 

@@ -2,27 +2,24 @@
 #import q.Files;
 #import src.main.QFiles.File;
 #import q.FileUtils;
+#import q.Random;
 
 class Main
 
     fn main()
 
-        io::cout("test\n");
+        new Random as r();
 
-        new DefaultFile as df();
-        df::setPath("src/main/QFiles/importme.l");
+        std::cout("test");
 
-        std::ln("Enter a username: ");
-        var user = std::in();
-        std::ln("Enter a password: ");
-        var pass = std::in();
+        var ls = "vro";
 
-        var upluscomma = user + ",";
-        var total = upluscomma + pass;
+        std::coutln(ls);
+        var path = "src/main/QFiles/testDir" + r::ran("str") + "/";
+        var fname = r::ran("str") + ".l";
 
-        std::ln(total);
-
-        std::ln(FileUtils::exists("src/main/QFiles/importme.l"));
+        std::workspace("make", path);
+        std::workspace("makefile", path + fname);
 
     end
 

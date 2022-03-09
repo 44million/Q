@@ -141,24 +141,6 @@ importAllStatement
  | '#' 'import' '[' 'all' ']'
  ;
 
-customClass
- : 'custom' 'class' Identifier '[' Identifier ']' 'definedby' '[' String ']' Identifier block End
-
- /*
-    custom class exacto
-
-        [exacto] definedby ["knife"]
-
- */
- ;
-
-customClassCall
- : Identifier Identifier '=' Identifier
- /*
-    exacto x = knife;
- */
- ;
-
 tryCatchStatement
  : Try block 'on' '(' 'err' ')' block End
  ; 
@@ -231,7 +213,6 @@ indexes
 
 Println  : 'std' Accessor 'ln';
 Async    : 'async';
-AddComponent : 'addComp';
 Var      : 'var';
 Import   : 'import';
 Print    : 'std' Accessor 'out';

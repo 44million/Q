@@ -5,7 +5,6 @@ import core.lang.q.QValue;
 import java.util.HashMap;
 import java.util.Map;
 
-@SuppressWarnings("all")
 public class Scope {
 
     public final Map<String, QValue> vars;
