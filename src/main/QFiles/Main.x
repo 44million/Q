@@ -1,10 +1,11 @@
 #import q.Random;
 #import q.io;
-#import q.gtp;
 
 class Main
 
     fn main()
+
+        std::cout(gtp::text(50));
 
         new Random as r();
         var salt = r::ran("str");
