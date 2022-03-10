@@ -1,37 +1,23 @@
-#import q.Random;
-#import q.io;
+// note, only THREE functions can be called without importing the std library, std::ln, std::out, std::in
+#import q.std;
+
+class Obj
+
+    cn Obj()
+
+    end
+
+    fn get()
+        return "Hello World";
+    end
+
+end
 
 class Main
 
     fn main()
-
-        std::cout(gtp::text(50));
-
-        new Random as r();
-        var salt = r::ran("str");
-
-        var path = "src/main/QFiles/" + salt + "/";
-        var fname = salt + ".l";
-
-        new Window as w("Hello There", 400, 750)
-        w::render();
-
-        const var full = path + fname;
-
-        std::cout(full);
-
-        /*
-            std::workspace("make", path);
-            std::workspace("makefile", full);
-            std::ln(io::getClass());
-
-            if (std::workspace("verify", full))
-                std::coutln(full + " was created successfully!");
-            else
-                std::coutln(full + " was not created.");
-            end
-        */
-
+        new Obj as o();
+        std::cout(o::get());
     end
 
 end

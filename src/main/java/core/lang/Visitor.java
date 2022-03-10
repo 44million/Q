@@ -110,8 +110,7 @@ public class Visitor extends QBaseVisitor<Value> {
             util.check("gtp", "gtp");
 
             if (ctx.exprList() == null) {
-                System.out.println("[FATAL:" + ctx.start.getLine() + ": + pos + " + "] All methods in the 'gtp' class require parameters. ");
-                System.exit(0);
+                throw new Problem("Parameter list is wrong", ctx);
             }
 
             int amount = this.visit(ctx.exprList().expression(0)).asDouble().intValue();
@@ -538,7 +537,7 @@ public class Visitor extends QBaseVisitor<Value> {
             }
         }
 
-        QLexer lexer = null;
+        QLexer lexer;
         Path currentRelativePath = Paths.get("");
         String currentPath = currentRelativePath.toAbsolutePath().toString();
 
@@ -551,6 +550,7 @@ public class Visitor extends QBaseVisitor<Value> {
         } catch (IOException e) {
             throw new Problem("Library or File not found: " + path, ctx);
         }
+
         QParser parser = new QParser(new CommonTokenStream(lexer));
         parser.setBuildParseTree(true);
         ParseTree tree = parser.parse();

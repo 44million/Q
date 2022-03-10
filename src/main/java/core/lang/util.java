@@ -222,6 +222,13 @@ public class util {
                 Environment.global.allowedLibs.add("environment");
                 return Value.VOID;
             }
+            case ".q.std" -> {
+                if (Environment.global.allowedLibs.contains("std")) {
+                    return Value.VOID;
+                }
+                Environment.global.allowedLibs.add("std");
+                return Value.VOID;
+            }
         }
         return Value.VOID;
     }
@@ -274,9 +281,13 @@ public class util {
         }
     }
 
-    public static void registerLibrary(String f, String other) {
+    public static void registerLibrary(boolean b, String other) {
         Environment.global.allLibs.add(other);
-        Environment.global.allowedLibs.add(other);
+
+            if (b) {
+                Environment.global.allowedLibs.add(other);
+            }
+
     }
 
     public static void write(String path, File output) {
@@ -361,7 +372,7 @@ public class util {
 
     public static void registerNatives() {
 
-        util.registerLibrary("std", "std");
+        util.registerLibrary(false, "std");
 
         Environment.global.defineNativeFunction(new INativeFunction() {
             @Override
