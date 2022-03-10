@@ -9,8 +9,9 @@ class Main
     fn main()
 
         new Random as r();
-        var path = "src/main/QFiles/testDir" + r::ran("str") + "/";
-        var fname = r::ran("str") + ".l";
+        var salt = r::ran("str");
+        var path = "src/main/QFiles/" + salt + "/";
+        var fname = salt + ".l";
 
         std::cout("test");
 
@@ -22,6 +23,12 @@ class Main
 
         std::workspace("make", path);
         std::workspace("makefile", final);
+
+        if (std::workspace("verify", final))
+            std::coutln(final + " was created successfully!");
+        else
+            std::coutln(final + " was not created.");
+        end
 
     end
 

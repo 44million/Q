@@ -22,4 +22,14 @@ class DefaultFile
         f::write(self::content);
     end
 
+    fn get(x)
+        if (x == "path")
+            return self::path;
+        else if (x == "content")
+            return self::content;
+        else
+            return "invalid";
+        end
+    end
+
 end

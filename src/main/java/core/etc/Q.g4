@@ -201,6 +201,7 @@ expression
  | varHereStatement                                     #hereVarExpression
  | 'random' '(' expression ')'                          #randomExpression
  | anonymousFunction                                    #anonymousFunctionExpression
+ | varHereStatement                                     #selfExpression
  ;
 
 list

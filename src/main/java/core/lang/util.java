@@ -15,11 +15,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.regex.Pattern;
 
 public class util {
 
@@ -270,34 +268,14 @@ public class util {
 
     // straight from stackoverflow
     public static String getSaltString() {
-        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*()_+=-`{}[]|\\'/.;,:.";
+        final String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();
         while (salt.length() < 18) { // length of the random string.
             int index = (int) (rnd.nextFloat() * SALTCHARS.length());
             salt.append(SALTCHARS.charAt(index));
         }
-        String saltStr = salt.toString();
-        return saltStr;
-
-    }
-
-    public static void addAll() {
-
-        Environment.global.allLibs.add("listener");
-        Environment.global.allLibs.add("puddle");
-        Environment.global.allLibs.add("console");
-        Environment.global.allLibs.add("time");
-        Environment.global.allLibs.add("random");
-        Environment.global.allLibs.add("math");
-        Environment.global.allLibs.add("files");
-        Environment.global.allLibs.add("http");
-        Environment.global.allLibs.add("windows");
-        Environment.global.allLibs.add("audio");
-        Environment.global.allLibs.add("io");
-        Environment.global.allLibs.add("gtp");
-        Environment.global.allLibs.add("environment");
-        Environment.global.allLibs.add("fileutils");
+        return salt.toString();
 
     }
 
@@ -874,6 +852,8 @@ public class util {
                         } else {
                             return new QValue(false);
                         }
+                    } else if (v.toString().equals("verify")) {
+                        return new QValue(new File(list.get(1).toString()).exists());
                     } else if (v.toString().equals("makefile")) {
                         String dirname = list.get(1).toString();
                         if (!new File(dirname).exists()) {
@@ -890,6 +870,41 @@ public class util {
 
                 }
                 return new QValue(false);
+            }
+        });
+
+        Environment.global.defineNativeFunction(new INativeFunction() {
+            @Override
+            public void exec() {}
+
+            @Override
+            public String name() {
+                return "class";
+                /*
+
+                    std::cout(std::class());
+
+                 */
+            }
+
+            @Override
+            public QValue ret() {
+                return null;
+            }
+
+            @Override
+            public String parent() {
+                return "std";
+            }
+
+            @Override
+            public void exec(List<QValue> list) {
+
+            }
+
+            @Override
+            public QValue ret(List<QValue> list) {
+                return null;
             }
         });
 

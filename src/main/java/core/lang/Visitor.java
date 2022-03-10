@@ -41,8 +41,13 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitAnonymousFunctionExpression(QParser.AnonymousFunctionExpressionContext ctx) {
+    public QValue visitSelfExpression(QParser.SelfExpressionContext ctx) {
+        String id = ctx.varHereStatement().Identifier().getText();
+        return this.scope.parent().parent().vars.getOrDefault(id, QValue.NULL);
+    }
 
+    @Override
+    public QValue visitAnonymousFunctionExpression(QParser.AnonymousFunctionExpressionContext ctx) {
         Scope s = new Scope(this.scope, true);
         Visitor v = new Visitor(s, this.functions);
         v.visit(ctx.anonymousFunction().block());
@@ -581,16 +586,21 @@ public class Visitor extends QBaseVisitor<QValue> {
         if (ctx.Identifier(0).getText().equals("File")) {
 
             util.check("files", "Files");
+            String id = ctx.Identifier(0).getText();
+
+            if (ctx.exprList().expression() == null) {
+                throw new Problem("File constructor MUST have an :str argument: the path", ctx);
+            }
 
             QValue v = this.visit(ctx.exprList().expression(0));
 
-            if (!v.isString()) {
-                throw new Problem("The file class accepts only :str arguments", ctx);
+            if (v == null) {
+                throw new Problem("File :str argument is null", ctx);
             }
 
-            File file = new File(v.asString());
+            File file = new File(v.toString());
 
-            Environment.global.files.put(ctx.Identifier(1).getText(), file);
+            Environment.global.files.put(id, file);
         } else if (ctx.Identifier(0).getText().equals("Window")) {
 
             util.check("windows", "Windows");
@@ -1069,8 +1079,13 @@ public class Visitor extends QBaseVisitor<QValue> {
 
     @Override
     public QValue visitHereVarExpression(QParser.HereVarExpressionContext ctx) {
-
         String id = ctx.varHereStatement().Identifier().getText();
+
+        if (this.scope.parent().vars.containsKey(id)) {
+            return this.scope.parent().vars.get(id);
+        } else if (this.scope.parent().parent().vars.containsKey(id)) {
+            return this.scope.parent().parent().vars.get(id);
+        }
 
         return this.scope.parent().parent().vars.getOrDefault(id, QValue.NULL);
     }
