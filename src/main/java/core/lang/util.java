@@ -125,126 +125,103 @@ public class util {
     }
 
     public static QValue parse(String text) {
-        if (text.equals(".q.Windows")) {
-
-            if (Environment.global.allowedLibs.contains("windows")) {
+        switch (text) {
+            case ".q.Windows" -> {
+                if (Environment.global.allowedLibs.contains("windows")) {
+                    return QValue.VOID;
+                }
+                Environment.global.allowedLibs.add("windows");
                 return QValue.VOID;
             }
-
-            Environment.global.allowedLibs.add("windows");
-            return QValue.VOID;
-        } else if (text.equals(".q.http")) {
-
-            if (Environment.global.allowedLibs.contains("http")) {
+            case ".q.http" -> {
+                if (Environment.global.allowedLibs.contains("http")) {
+                    return QValue.VOID;
+                }
+                Environment.global.allowedLibs.add("http");
                 return QValue.VOID;
             }
-
-            Environment.global.allowedLibs.add("http");
-            return QValue.VOID;
-        } else if (text.equals(".q.Files")) {
-
-            if (Environment.global.allowedLibs.contains("files")) {
+            case ".q.Files" -> {
+                if (Environment.global.allowedLibs.contains("files")) {
+                    return QValue.VOID;
+                }
+                Environment.global.allowedLibs.add("files");
                 return QValue.VOID;
             }
-
-            Environment.global.allowedLibs.add("files");
-            return QValue.VOID;
-        } else if (text.equals(".q.Math")) {
-
-            if (Environment.global.allowedLibs.contains("math")) {
+            case ".q.Math" -> {
+                if (Environment.global.allowedLibs.contains("math")) {
+                    return QValue.VOID;
+                }
+                Environment.global.allowedLibs.add("math");
+                new core.libs.Math().init();
                 return QValue.VOID;
             }
-
-            Environment.global.allowedLibs.add("math");
-            new core.libs.Math().init();
-            return QValue.VOID;
-        } else if (text.equals(".q.Audio")) {
-
-            if (Environment.global.allowedLibs.contains("audio")) {
+            case ".q.Audio" -> {
+                if (Environment.global.allowedLibs.contains("audio")) {
+                    return QValue.VOID;
+                }
+                Environment.global.allowedLibs.add("audio");
                 return QValue.VOID;
             }
-
-            Environment.global.allowedLibs.add("audio");
-            return QValue.VOID;
-        } else if (text.equals(".q.Random")) {
-
-            if (Environment.global.allowedLibs.contains("random")) {
+            case ".q.Random" -> {
+                if (Environment.global.allowedLibs.contains("random")) {
+                    return QValue.VOID;
+                }
+                Environment.global.allowedLibs.add("random");
+                new QRandom().init();
                 return QValue.VOID;
             }
-
-            Environment.global.allowedLibs.add("random");
-            new core.libs.QRandom().init();
-            return QValue.VOID;
-        } else if (text.equals(".q.Time")) {
-
-            if (Environment.global.allowedLibs.contains("time")) {
+            case ".q.Time" -> {
+                if (Environment.global.allowedLibs.contains("time")) {
+                    return QValue.VOID;
+                }
+                Environment.global.allowedLibs.add("time");
+                new Time().init();
                 return QValue.VOID;
             }
-
-            Environment.global.allowedLibs.add("time");
-            new core.libs.Time().init();
-            return QValue.VOID;
-        } else if (text.equals(".q.Console")) {
-
-            if (Environment.global.allowedLibs.contains("console")) {
+            case ".q.Console" -> {
+                if (Environment.global.allowedLibs.contains("console")) {
+                    return QValue.VOID;
+                }
+                Environment.global.allowedLibs.add("console");
                 return QValue.VOID;
             }
-
-            Environment.global.allowedLibs.add("console");
-            return QValue.VOID;
-        } else if (text.equals(".q.puddle")) {
-
-            if (Environment.global.allowedLibs.contains("puddle")) {
+            case ".q.puddle" -> {
+                if (Environment.global.allowedLibs.contains("puddle")) {
+                    return QValue.VOID;
+                }
+                Environment.global.allowedLibs.add("puddle");
                 return QValue.VOID;
             }
-
-            Environment.global.allowedLibs.add("puddle");
-            return QValue.VOID;
-        } else if (text.equals(".q.gtp")) {
-
-            if (Environment.global.allowedLibs.contains("gtp")) {
+            case ".q.gtp" -> {
+                if (Environment.global.allowedLibs.contains("gtp")) {
+                    return QValue.VOID;
+                }
+                Environment.global.allowedLibs.add("gtp");
+                new GTP().init();
                 return QValue.VOID;
             }
-
-            Environment.global.allowedLibs.add("gtp");
-            new GTP().init();
-            return QValue.VOID;
-
-        } else if (text.equals(".q.Listener")) {
-
-            if (Environment.global.allowedLibs.contains("listener")) {
+            case ".q.io" -> {
+                if (Environment.global.allowedLibs.contains("io")) {
+                    return QValue.VOID;
+                }
+                Environment.global.allowedLibs.add("io");
+                new IO().init();
                 return QValue.VOID;
             }
-
-            Environment.global.allowedLibs.add("listener");
-            new Listener().init();
-            return QValue.VOID;
-        } else if (text.equals(".q.io")) {
-
-            if (Environment.global.allowedLibs.contains("io")) {
+            case ".q.FileUtils" -> {
+                if (Environment.global.allowedLibs.contains("fileutils")) {
+                    return QValue.VOID;
+                }
+                Environment.global.allowedLibs.add("fileutils");
                 return QValue.VOID;
             }
-
-            Environment.global.allowedLibs.add("io");
-            new IO().init();
-            return QValue.VOID;
-        } else if (text.equals(".q.FileUtils")) {
-
-            if (Environment.global.allowedLibs.contains("fileutils")) {
+            case ".q.Environment" -> {
+                if (Environment.global.allowedLibs.contains("environment")) {
+                    return QValue.VOID;
+                }
+                Environment.global.allowedLibs.add("environment");
                 return QValue.VOID;
             }
-
-            Environment.global.allowedLibs.add("fileutils");
-            return QValue.VOID;
-
-        } else if (text.equals(".q.Environment")) {
-
-            if (Environment.global.allowedLibs.contains("environment")) {
-                return QValue.VOID;
-            }
-
-            Environment.global.allowedLibs.add("environment");
-            return QValue.VOID;
         }
         return QValue.VOID;
     }

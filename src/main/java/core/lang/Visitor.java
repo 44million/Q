@@ -611,18 +611,18 @@ public class Visitor extends QBaseVisitor<QValue> {
                 }
             }
             // Window w = new Window("Name", x, y);
-            if (list.get(0).isString() && list.get(1).isString() && list.get(2).isString()) {
+            if (list.size() == 3) {
 
-                int x = Integer.parseInt(ctx.exprList().expression(1).getText().replaceAll("\"", ""));
-                int y = Integer.parseInt(ctx.exprList().expression(2).getText().replaceAll("\"", ""));
-                String name = ctx.exprList().expression(0).getText().replaceAll("\"", "");
+                int x = this.visit(ctx.exprList().expression(1)).asDouble().intValue();
+                int y = this.visit(ctx.exprList().expression(2)).asDouble().intValue();
+                String name = this.visit(ctx.exprList().expression(0)).toString();
 
                 Window window = new Window(name, x, y);
                 window.setName(ctx.Identifier(1).getText());
                 Environment.global.wins.add(window);
 
             } else {
-                throw new Problem("Incorrect layout, Window class accepts the following: Window(name:str, x-axis:str, y-axis:str);", ctx);
+                throw new Problem("Incorrect layout, Window class accepts the following: Window(name:str, x-axis, y-axis);", ctx);
             }
         } else if (ctx.Identifier(0).getText().equals("Component")) {
 

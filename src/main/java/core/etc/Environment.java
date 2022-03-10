@@ -32,7 +32,6 @@ public class Environment {
     public List<WebServer> webs = new ArrayList<>();
     public HashMap<String, File> files = new HashMap<>();
     public HashMap<String, INativeFunction> natives = new HashMap<>();
-    public Parser parser = new Parser();
     public List<String> allowedLibs = new ArrayList<>();
     public List<String> allLibs = new ArrayList<>();
     public HashMap<String, Function> consts = new HashMap<>();
