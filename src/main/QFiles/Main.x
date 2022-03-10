@@ -13,7 +13,7 @@ class Sedan : Vehicle
     end
 
     fn honk()
-        std::coutln("hello");
+        std::coutln("honk honk");
     end
 
 end
@@ -21,12 +21,29 @@ end
 @autoimport
 class MuscleCar : Vehicle
 
+    noval var engine;
+    noval var hp;
+
     cn MuscleCar()
 
     end
 
     fn revv()
-        std::cout("world");
+        std::cout("VROOM VROOM");
+    end
+
+    fn setEngine(type)
+        self::engine = type;
+    end
+
+    fn setHp(hp)
+
+        if (self::engine == "viper V10")
+            self::hp = 707;
+        else
+            self::hp = hp;
+        end
+
     end
 
 end
@@ -40,6 +57,9 @@ class Main
 
         new MuscleCar as challenger();
         challenger::revv();
+
+        challenger::setHp(707);
+        challenger::setEngine("viper V10");
 
     end
 

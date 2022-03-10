@@ -34,7 +34,7 @@ statement
  ;
 
 reAssignment
- : Identifier indexes? '=' expression
+ : ( Identifier | objVar) indexes? '=' expression
  ;
 
 assignment
@@ -58,18 +58,6 @@ allImport
 
 objFunctionCall
  : Identifier Accessor Identifier '(' exprList? ')'
- ;
-
-newAt
- : 'new' '@' 'as' Identifier '(' ')' block End
-
- /*
-
-    new @ as thrownone()
-        std::cout("Oh Fuck");
-    end
-
- */
  ;
 
 header
@@ -228,10 +216,16 @@ expression
  | 'random' '(' expression ')'                          #randomExpression
  | anonymousFunction                                    #anonymousFunctionExpression
  | varHereStatement                                     #selfExpression
+ | objVar                                               #objVarExpression
  ;
 
 list
  : '[' exprList? ']'
+ ;
+
+objVar
+ : Identifier Accessor Identifier
+ // charger::hp
  ;
 
 indexes
