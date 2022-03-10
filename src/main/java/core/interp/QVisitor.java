@@ -224,6 +224,12 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitImportAllStatement(QParser.ImportAllStatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link QParser#atStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAtStatement(QParser.AtStatementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link QParser#tryCatchStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

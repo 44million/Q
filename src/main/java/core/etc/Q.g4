@@ -30,6 +30,7 @@ statement
  | anonymousFunction
  | hereStatement ';'
  | assignment ';'
+ | atStatement
  ;
 
 reAssignment
@@ -57,6 +58,18 @@ allImport
 
 objFunctionCall
  : Identifier Accessor Identifier '(' exprList? ')'
+ ;
+
+newAt
+ : 'new' '@' 'as' Identifier '(' ')' block End
+
+ /*
+
+    new @ as thrownone()
+        std::cout("Oh Fuck");
+    end
+
+ */
  ;
 
 header
@@ -139,6 +152,10 @@ importFromGithubStatement
 importAllStatement
  : '#''import' '[' '*' ']'
  | '#' 'import' '[' 'all' ']'
+ ;
+
+atStatement
+ : '@' Identifier
  ;
 
 tryCatchStatement

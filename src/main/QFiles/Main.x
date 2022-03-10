@@ -1,5 +1,6 @@
 #import q.Random;
 #import q.io;
+#import q.gtp;
 
 class Main
 
@@ -15,6 +16,8 @@ class Main
         w::render();
 
         const var full = path + fname;
+
+        std::cout(full);
 
         /*
             std::workspace("make", path);

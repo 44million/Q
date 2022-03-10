@@ -1,6 +1,6 @@
 package core.lang;
 
-import core.lang.q.QValue;
+import core.lang.q.Value;
 
 import java.util.List;
 
@@ -10,12 +10,12 @@ public interface INativeFunction {
 
     String name();
 
-    QValue ret();
+    Value ret();
 
     String parent();
 
-    void exec(List<QValue> list);
+    void exec(List<Value> list);
 
-    QValue ret(List<QValue> list);
+    Value ret(List<Value> list);
 
 }

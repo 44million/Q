@@ -2,7 +2,7 @@ package core.lang;
 
 import core.etc.RVal;
 import core.etc.Scope;
-import core.lang.q.QValue;
+import core.lang.q.Value;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -19,7 +19,7 @@ public class Function {
     public Visitor v;
     private Scope parentScope;
     private ParseTree block;
-    private List<QValue> qparams;
+    private List<Value> qparams;
 
     public Function(Scope parentScope, List<TerminalNode> params, ParseTree block) {
         this.parentScope = parentScope;
@@ -27,7 +27,7 @@ public class Function {
         this.block = block;
     }
 
-    public Function(Scope parentScope, List<QValue> params, ParseTree block, String s) {
+    public Function(Scope parentScope, List<Value> params, ParseTree block, String s) {
         this.parentScope = parentScope;
         this.qparams = params;
         this.block = block;
@@ -84,7 +84,7 @@ public class Function {
         assert exitCode == 0;
     }
 
-    public QValue call(List<QValue> args, Map<String, Function> functions) {
+    public Value call(List<Value> args, Map<String, Function> functions) {
 
         if (this.params == null) {
             if (args.size() != this.qparams.size()) {
@@ -94,13 +94,13 @@ public class Function {
             Scope scopeNext = new Scope(parentScope, true);
 
             for (int i = 0; i < this.qparams.size(); i++) {
-                QValue value = args.get(i);
+                Value value = args.get(i);
                 scopeNext.functionParam(this.qparams.get(i).id, value);
             }
 
             Visitor next = new Visitor(scopeNext, functions);
 
-            QValue ret = QValue.VOID;
+            Value ret = Value.VOID;
             try {
                 next.visit(this.block);
             } catch (RVal returnValue) {
@@ -115,13 +115,13 @@ public class Function {
         Scope scopeNext = new Scope(parentScope, true); // create function scope
 
         for (int i = 0; i < this.params.size(); i++) {
-            QValue value = args.get(i);
+            Value value = args.get(i);
             scopeNext.functionParam(this.params.get(i).getText(), value);
         }
 
         Visitor next = new Visitor(scopeNext, functions);
 
-        QValue ret = QValue.VOID;
+        Value ret = Value.VOID;
         try {
             next.visit(this.block);
         } catch (RVal returnValue) {

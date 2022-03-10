@@ -1,7 +1,7 @@
 package core.etc;
 
-import core.lang.q.QValue;
+import core.lang.q.Value;
 
 public class RVal extends RuntimeException {
-    public QValue value;
+    public Value value;
 }

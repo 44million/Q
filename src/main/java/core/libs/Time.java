@@ -1,7 +1,7 @@
 package core.libs;
 
 import core.etc.Parser;
-import core.lang.q.QValue;
+import core.lang.q.Value;
 import core.libs.utils.QLibrary;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class Time extends QLibrary {
                                 
                     """, Instant.now().toEpochMilli(), Instant.now().toString());
 
-    public QValue cur() {
+    public Value cur() {
         String time = "";
 
         LocalDateTime i = LocalDateTime.now();
@@ -34,10 +34,10 @@ public class Time extends QLibrary {
         time += ":";
         time += i.getSecond();
 
-        return new QValue(time);
+        return new Value(time);
     }
 
-    public QValue date() {
+    public Value date() {
         String date = "";
 
         date += LocalDateTime
@@ -49,12 +49,12 @@ public class Time extends QLibrary {
         date += LocalDateTime
                 .now().getYear();
 
-        return new QValue(date);
+        return new Value(date);
     }
 
-    public QValue instant() {
+    public Value instant() {
         String s = Instant.now().toString();
-        return new QValue(s);
+        return new Value(s);
     }
 
     @Override

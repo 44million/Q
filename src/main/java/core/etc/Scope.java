@@ -1,13 +1,13 @@
 package core.etc;
 
-import core.lang.q.QValue;
+import core.lang.q.Value;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Scope {
 
-    public final Map<String, QValue> vars;
+    public final Map<String, Value> vars;
     private final Scope parentScope;
     private final boolean isFunction;
     public boolean lib;
@@ -22,11 +22,11 @@ public class Scope {
         this.isFunction = function;
     }
 
-    public void functionParam(String var, QValue value) {
+    public void functionParam(String var, Value value) {
         vars.put(var, value);
     }
 
-    public void varAssign(String var, QValue value) {
+    public void varAssign(String var, Value value) {
         if (exists(var, !isFunction) != null) {
 
             if (value.constant) {
@@ -48,7 +48,7 @@ public class Scope {
         return this.parentScope;
     }
 
-    private void varReAssign(String var, QValue value) {
+    private void varReAssign(String var, Value value) {
         if (this.vars.containsKey(var)) {
             this.vars.put(var, value);
         } else if (parentScope != null) {
@@ -56,12 +56,12 @@ public class Scope {
         }
     }
 
-    public QValue exists(String var) {
+    public Value exists(String var) {
         return this.exists(var, true);
     }
 
-    private QValue exists(String var, boolean checkParent) {
-        QValue value = this.vars.get(var);
+    private Value exists(String var, boolean checkParent) {
+        Value value = this.vars.get(var);
         if (value != null) {
             return value;
         } else if (checkParent && !this.isGlobalScope()) {
@@ -84,11 +84,11 @@ public class Scope {
         return environment;
     }
 
-    public QValue getAt(int distance, String name) {
+    public Value getAt(int distance, String name) {
         return this.ancestor(distance).vars.get(name);
     }
 
-    public void assignAt(int distance, String name, QValue value) {
+    public void assignAt(int distance, String name, Value value) {
         this.ancestor(distance).vars.put(name, value);
     }
 

@@ -1,6 +1,6 @@
 package core.lang;
 
-import core.lang.q.QValue;
+import core.lang.q.Value;
 
 import java.util.List;
 import java.util.Map;
@@ -9,7 +9,7 @@ public class FunctionRunner implements Runnable {
 
     private Map<String, Function> functions;
     private Function function;
-    private List<QValue> args;
+    private List<Value> args;
 
     public void setFunctions(Map<String, Function> functions) {
         this.functions = functions;
@@ -19,7 +19,7 @@ public class FunctionRunner implements Runnable {
         this.function = f;
     }
 
-    public void setArgs(List<QValue> args) {
+    public void setArgs(List<Value> args) {
         this.args = args;
     }
 
@@ -27,7 +27,7 @@ public class FunctionRunner implements Runnable {
     public void run() {
     }
 
-    public QValue start() {
+    public Value start() {
         this.run();
         return this.function.call(this.args, this.functions);
     }

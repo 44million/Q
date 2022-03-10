@@ -18,7 +18,7 @@ public class QClass implements Cloneable {
     public String name;
     public Map<String, Function> functions;
     public Scope scope;
-    public List<QValue> constArgs;
+    public List<Value> constArgs;
     public QClass base;
     public Visitor v;
 
@@ -39,7 +39,7 @@ public class QClass implements Cloneable {
         return name;
     }
 
-    public void setConstArgs(List<QValue> constArgs) {
+    public void setConstArgs(List<Value> constArgs) {
         this.constArgs = constArgs;
     }
 

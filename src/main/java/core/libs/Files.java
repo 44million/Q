@@ -1,7 +1,7 @@
 package core.libs;
 
 import core.interp.QParser;
-import core.lang.q.QValue;
+import core.lang.q.Value;
 import core.libs.utils.QLibrary;
 
 import java.io.File;
@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 public class Files extends QLibrary {
 
 
-    public static QValue absPath(QParser.ObjFunctionCallExpressionContext ctx) {
+    public static Value absPath(QParser.ObjFunctionCallExpressionContext ctx) {
         String q = ctx
                 .exprList()
                 .expression(0)
@@ -22,7 +22,7 @@ public class Files extends QLibrary {
 
         if (q == null) {
             System.out.println("[ERROR] Method 'files.absPath(:str)' accepts one argument, the file, or directory in question.");
-            return QValue.NULL;
+            return Value.NULL;
         }
 
         Path dbpath = Paths.get(q);
@@ -31,13 +31,13 @@ public class Files extends QLibrary {
             System.out.println("[ERROR] Cannot find file '" + dbpath.toAbsolutePath() + "'");
         }
 
-        return new QValue(dbpath.toAbsolutePath());
+        return new Value(dbpath.toAbsolutePath());
     }
 
-    public static QValue canRead(String path) {
+    public static Value canRead(String path) {
         File file = new File(path);
 
-        return new QValue(java.nio.file.Files.isReadable(file.toPath()));
+        return new Value(java.nio.file.Files.isReadable(file.toPath()));
     }
 
     public static void delete(QParser.ObjFunctionCallExpressionContext ctx) {
@@ -61,21 +61,21 @@ public class Files extends QLibrary {
         }
     }
 
-    public static QValue size(String path) {
+    public static Value size(String path) {
 
         File file = new File(path);
         try {
-            return new QValue(java.nio.file.Files.size(file.toPath()));
+            return new Value(java.nio.file.Files.size(file.toPath()));
         } catch (IOException e) {
-            return new QValue(0);
+            return new Value(0);
         }
 
     }
 
-    public static QValue exists(String path) {
+    public static Value exists(String path) {
         File file = new File(path);
 
-        return new QValue(file.exists());
+        return new Value(file.exists());
     }
 
     @Override

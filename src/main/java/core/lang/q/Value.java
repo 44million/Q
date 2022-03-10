@@ -4,21 +4,21 @@ import java.io.File;
 import java.util.List;
 
 @SuppressWarnings("all")
-public class QValue implements Comparable<QValue> {
+public class Value implements Comparable<Value> {
 
-    public static final QValue NULL = new QValue();
-    public static final QValue VOID = new QValue();
+    public static final Value NULL = new Value();
+    public static final Value VOID = new Value();
 
     private final Object value;
     public boolean constant = false;
     public boolean hasVal;
     public String id;
 
-    private QValue() {
+    private Value() {
         value = new Object();
     }
 
-    public QValue(Object v) {
+    public Value(Object v) {
         if (v == null) {
             throw new RuntimeException("[ERROR] v is null.");
         }
@@ -45,8 +45,8 @@ public class QValue implements Comparable<QValue> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<QValue> asList() {
-        return (List<QValue>) value;
+    public List<Value> asList() {
+        return (List<Value>) value;
     }
 
     public String asString() {
@@ -54,7 +54,7 @@ public class QValue implements Comparable<QValue> {
     }
 
     @Override
-    public int compareTo(QValue that) {
+    public int compareTo(Value that) {
         if (this.isNumber() && that.isNumber()) {
             if (this.equals(that)) {
                 return 0;
@@ -79,7 +79,7 @@ public class QValue implements Comparable<QValue> {
         if (o == null || this.getClass() != o.getClass()) {
             return false;
         }
-        QValue that = (QValue) o;
+        Value that = (Value) o;
         if (this.isNumber() && that.isNumber()) {
             double diff = Math.abs(this.asDouble() - that.asDouble());
             return diff < 0.00000000001;
@@ -88,7 +88,7 @@ public class QValue implements Comparable<QValue> {
         }
     }
 
-    public QValue get() {
+    public Value get() {
         return this;
     }
 

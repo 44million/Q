@@ -11,7 +11,7 @@ public class QObject {
 
     public String name;
     public QClass qc;
-    public List<QValue> params;
+    public List<Value> params;
     public Map<String, Function> funcs;
     public Visitor v;
 
@@ -26,7 +26,7 @@ public class QObject {
         return this;
     }
 
-    public void setParams(List<QValue> n) {
+    public void setParams(List<Value> n) {
         this.params = n;
     }
 }

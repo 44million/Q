@@ -6,7 +6,7 @@ import core.interp.QLexer;
 import core.interp.QParser;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
-import core.lang.q.QValue;
+import core.lang.q.Value;
 import core.libs.AWT.Window;
 import core.libs.GTP;
 import core.libs.OS;
@@ -28,11 +28,12 @@ import java.util.*;
 
 import static core.interp.QParser.*;
 
-public class Visitor extends QBaseVisitor<QValue> {
+public class Visitor extends QBaseVisitor<Value> {
     private static final RVal returnValue = new RVal();
     public final Map<String, Function> functions;
     public Scope scope;
     public boolean lib;
+    public boolean sore;
 
     public Visitor(Scope scope, Map<String, Function> functions) {
         this.scope = scope;
@@ -40,21 +41,21 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitSelfExpression(QParser.SelfExpressionContext ctx) {
+    public Value visitSelfExpression(QParser.SelfExpressionContext ctx) {
         String id = ctx.varHereStatement().Identifier().getText();
-        return this.scope.parent().parent().vars.getOrDefault(id, QValue.NULL);
+        return this.scope.parent().parent().vars.getOrDefault(id, Value.NULL);
     }
 
     @Override
-    public QValue visitAnonymousFunctionExpression(QParser.AnonymousFunctionExpressionContext ctx) {
+    public Value visitAnonymousFunctionExpression(QParser.AnonymousFunctionExpressionContext ctx) {
         Scope s = new Scope(this.scope, true);
         Visitor v = new Visitor(s, this.functions);
         v.visit(ctx.anonymousFunction().block());
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitObjFunctionCallExpression(QParser.ObjFunctionCallExpressionContext ctx) {
+    public Value visitObjFunctionCallExpression(QParser.ObjFunctionCallExpressionContext ctx) {
 
         String parentClass = ctx.Identifier(0).getText();
         String method = ctx.Identifier(1).getText();
@@ -70,7 +71,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
                 case "here":
 
-                    return new QValue(System.getProperty("user.dir"));
+                    return new Value(System.getProperty("user.dir"));
 
                 case "delete":
 
@@ -119,9 +120,9 @@ public class Visitor extends QBaseVisitor<QValue> {
             switch (method) {
 
                 case "twp":
-                    return new QValue(new GTP().getText(amount, prefix));
+                    return new Value(new GTP().getText(amount, prefix));
                 case "text":
-                    return new QValue(new GTP().getText(amount));
+                    return new Value(new GTP().getText(amount));
             }
 
         } else if (util.getWebByName(parentClass) != null) {
@@ -137,7 +138,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             QObject obj = Environment.global.objs.get(parentClass);
             Visitor v = obj.v;
 
-            List<QValue> vals = new ArrayList<>();
+            List<Value> vals = new ArrayList<>();
 
             if (ctx.exprList() != null) {
                 for (ExpressionContext ex : ctx.exprList().expression()) {
@@ -155,7 +156,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         } else if (Environment.global.natives.containsKey(method)) {
 
-            List<QValue> l = new ArrayList<>();
+            List<Value> l = new ArrayList<>();
 
             if (ctx.exprList() != null) {
                 for (ExpressionContext c : ctx.exprList().expression()) {
@@ -183,11 +184,11 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         }
 
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitFunctionDecl(FunctionDeclContext ctx) {
+    public Value visitFunctionDecl(FunctionDeclContext ctx) {
         List<TerminalNode> params = ctx.idList() != null ? ctx.idList().Identifier() : new ArrayList<>();
         ParseTree block = ctx.block();
         String id = ctx.Identifier().getText() + params.size();
@@ -222,21 +223,21 @@ public class Visitor extends QBaseVisitor<QValue> {
         }
 
         this.functions.put(id, f);
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitFileWriteStatement(QParser.FileWriteStatementContext ctx) {
+    public Value visitFileWriteStatement(QParser.FileWriteStatementContext ctx) {
         try {
 
             FileWriter fw = new FileWriter(Environment.global.files.get(ctx.Identifier().getText()));
             fw.write("");
-            QValue val;
+            Value val;
 
             if (ctx.expression() != null) {
                 val = this.visit(ctx.expression());
             } else {
-                val = new QValue("NULL");
+                val = new Value("NULL");
             }
 
             fw.append(val.toString());
@@ -245,39 +246,39 @@ public class Visitor extends QBaseVisitor<QValue> {
         } catch (Exception e) {
             throw new Problem(e.getMessage(), ctx);
         }
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitVerifyFileStatement(QParser.VerifyFileStatementContext ctx) {
+    public Value visitVerifyFileStatement(QParser.VerifyFileStatementContext ctx) {
 
-        QValue xv = new QValue(this.visit(ctx.expression()));
+        Value xv = new Value(this.visit(ctx.expression()));
 
         if (new File(xv.asString()).exists()) {
-            return new QValue(true);
+            return new Value(true);
         }
 
-        return new QValue(false);
+        return new Value(false);
     }
 
     @Override
-    public QValue visitWindowRenderStatement(QParser.WindowRenderStatementContext ctx) {
+    public Value visitWindowRenderStatement(QParser.WindowRenderStatementContext ctx) {
 
         String id = ctx.Identifier().getText();
 
         if (util.getWinByName(id) == null) {
-            return QValue.VOID;
+            return Value.VOID;
         } else {
             assert util.getWinByName(id) != null;
             if (util.getWinByName(id) != null) {
                 util.getWinByName(id).init();
             }
         }
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitWindowAddCompStatement(QParser.WindowAddCompStatementContext ctx) {
+    public Value visitWindowAddCompStatement(QParser.WindowAddCompStatementContext ctx) {
 
         int line = ctx.start.getLine();
         int pos = ctx.start.getCharPositionInLine();
@@ -291,11 +292,11 @@ public class Visitor extends QBaseVisitor<QValue> {
                 util.getCompByName(component).init(ctx.Identifier().getText());
             }
         }
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitOsExecStatement(QParser.OsExecStatementContext ctx) {
+    public Value visitOsExecStatement(QParser.OsExecStatementContext ctx) {
 
         String method = ctx.Identifier().getText();
 
@@ -344,18 +345,18 @@ public class Visitor extends QBaseVisitor<QValue> {
                 throw new Problem("'sys.getProperty' must take a :str object as a parameter", ctx);
             }
 
-            QValue v = this.visit(ctx.expression());
+            Value v = this.visit(ctx.expression());
 
-            return new QValue(System.getProperty(v.asString()));
+            return new Value(System.getProperty(v.asString()));
 
         } else {
             throw new Problem("Sys function '" + ctx.Identifier().getText() + "' not found", ctx);
         }
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitRandomExpression(QParser.RandomExpressionContext ctx) {
+    public Value visitRandomExpression(QParser.RandomExpressionContext ctx) {
 
         int line = ctx.start.getLine();
         int pos = ctx.start.getCharPositionInLine();
@@ -368,24 +369,24 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         switch (s) {
             case "int":
-                return new QValue(new Random().nextInt());
+                return new Value(new Random().nextInt());
             case "str":
-                return new QValue(util.getSaltString());
+                return new Value(util.getSaltString());
             case "bool":
                 int i = new Random().nextInt(2);
 
                 if (i == 1) {
-                    return new QValue(true);
+                    return new Value(true);
                 } else {
-                    return new QValue(false);
+                    return new Value(false);
                 }
 
         }
-        return QValue.NULL;
+        return Value.NULL;
     }
 
     @Override
-    public QValue visitMainFunctionStatement(QParser.MainFunctionStatementContext ctx) {
+    public Value visitMainFunctionStatement(QParser.MainFunctionStatementContext ctx) {
 
         Scope l = this.scope;
         int line = ctx.start.getLine();
@@ -402,16 +403,16 @@ public class Visitor extends QBaseVisitor<QValue> {
         if (!Environment.global.hasMainExecuted) {
             Environment.global.hasMainExecuted = true;
             this.visit(ctx.block());
-            return QValue.VOID;
+            return Value.VOID;
         } else {
             System.out.println("[FATAL " + line + ":" + pos + "] Main function has already been called.");
             System.exit(0);
         }
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitTryCatchStatement(QParser.TryCatchStatementContext ctx) {
+    public Value visitTryCatchStatement(QParser.TryCatchStatementContext ctx) {
 
         try {
             this.visit(ctx.block(0));
@@ -419,19 +420,19 @@ public class Visitor extends QBaseVisitor<QValue> {
             this.visit(ctx.block(1));
             throw new Problem(e.getMessage(), ctx);
         }
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitAddWebServerTextStatement(QParser.AddWebServerTextStatementContext ctx) {
+    public Value visitAddWebServerTextStatement(QParser.AddWebServerTextStatementContext ctx) {
 
-        QValue resp = this.visit(ctx.expression());
+        Value resp = this.visit(ctx.expression());
         String id = ctx.Identifier().getText();
 
         for (WebServer w : Environment.global.webs) {
             if (w.id.equals(id)) {
                 w.setText(resp.asString());
-                return QValue.VOID;
+                return Value.VOID;
             }
         }
 
@@ -439,10 +440,10 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitToIntFunctionCall(QParser.ToIntFunctionCallContext ctx) {
+    public Value visitToIntFunctionCall(QParser.ToIntFunctionCallContext ctx) {
 
         int i = 0;
-        QValue x = this.visit(ctx.expression());
+        Value x = this.visit(ctx.expression());
         int line = ctx.start.getLine();
         int pos = ctx.start.getCharPositionInLine();
 
@@ -470,24 +471,24 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         double d = i;
 
-        return new QValue(d);
+        return new Value(d);
     }
 
     @Override
-    public QValue visitList(ListContext ctx) {
-        List<QValue> list = new ArrayList<>();
+    public Value visitList(ListContext ctx) {
+        List<Value> list = new ArrayList<>();
         if (ctx.exprList() != null) {
             for (ExpressionContext ex : ctx.exprList().expression()) {
                 list.add(this.visit(ex));
             }
         }
-        return new QValue(list);
+        return new Value(list);
     }
 
     @Override
-    public QValue visitImportFromGithubStatement(QParser.ImportFromGithubStatementContext ctx) {
+    public Value visitImportFromGithubStatement(QParser.ImportFromGithubStatementContext ctx) {
 
-        QValue o = this.visit(ctx.expression());
+        Value o = this.visit(ctx.expression());
 
         String link = o.asString();
 
@@ -505,11 +506,11 @@ public class Visitor extends QBaseVisitor<QValue> {
             System.out.println(e.getMessage());
         }
 
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitImportStatement(ImportStatementContext ctx) {
+    public Value visitImportStatement(ImportStatementContext ctx) {
 
         StringBuilder path = new StringBuilder();
         StringBuilder text = new StringBuilder();
@@ -524,7 +525,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         if (Environment.global.allLibs.contains(text.toString().replace(".q.", "").toLowerCase(Locale.ROOT))) {
             util.parse(text.toString());
-            return QValue.VOID;
+            return Value.VOID;
         }
 
         for (File f : Environment.global.parsed) {
@@ -559,25 +560,25 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         v.visit(tree);
 
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitForInStatement(QParser.ForInStatementContext ctx) {
+    public Value visitForInStatement(QParser.ForInStatementContext ctx) {
 
         int to = this.visit(ctx.expression()).asDouble().intValue();
         for (int i = 0; i <= to; i++) {
-            scope.varAssign(ctx.Identifier().getText(), new QValue(i));
-            QValue returnValue = this.visit(ctx.block());
-            if (returnValue != QValue.VOID) {
+            scope.varAssign(ctx.Identifier().getText(), new Value(i));
+            Value returnValue = this.visit(ctx.block());
+            if (returnValue != Value.VOID) {
                 return returnValue;
             }
         }
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitObjCreateStatement(QParser.ObjCreateStatementContext ctx) {
+    public Value visitObjCreateStatement(QParser.ObjCreateStatementContext ctx) {
 
         String parentClass = ctx.Identifier(0).getText();
         String nameO = ctx.Identifier(1).getText();
@@ -591,7 +592,7 @@ public class Visitor extends QBaseVisitor<QValue> {
                 throw new Problem("File constructor MUST have an :str argument: the path", ctx);
             }
 
-            QValue v = this.visit(ctx.exprList().expression(0));
+            Value v = this.visit(ctx.exprList().expression(0));
 
             if (v == null) {
                 throw new Problem("File :str argument is null", ctx);
@@ -604,7 +605,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
             util.check("windows", "Windows");
 
-            List<QValue> list = new ArrayList<>();
+            List<Value> list = new ArrayList<>();
             if (ctx.exprList() != null) {
                 for (ExpressionContext ex : ctx.exprList().expression()) {
                     list.add(this.visit(ex));
@@ -636,7 +637,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             }
 
         } else if (ctx.Identifier(0).getText().equals("WebServer") && ctx.Identifier(2).getText().equals("WebServer")) {
-            QValue x = this.visit(ctx.exprList().expression(0));
+            Value x = this.visit(ctx.exprList().expression(0));
 
             if (!Environment.global.allowedLibs.contains("http")) {
                 throw new Problem("The HTTP library has not been imported. Please import it first.\nThe library can be found at: 'q.http'", ctx);
@@ -655,7 +656,7 @@ public class Visitor extends QBaseVisitor<QValue> {
                 throw new Problem("Unable to clone '" + parentClass + "'", ctx);
             }
 
-            List<QValue> list = new ArrayList<>();
+            List<Value> list = new ArrayList<>();
             if (ctx.exprList() != null) {
                 for (ExpressionContext ex : ctx.exprList().expression()) {
                     list.add(this.visit(ex));
@@ -671,13 +672,13 @@ public class Visitor extends QBaseVisitor<QValue> {
             throw new Problem("Class/Object not recognized: " + parentClass, ctx);
         }
 
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitConstructorStatement(QParser.ConstructorStatementContext ctx) {
+    public Value visitConstructorStatement(QParser.ConstructorStatementContext ctx) {
 
-        List<QValue> l = new ArrayList<>();
+        List<Value> l = new ArrayList<>();
         if (ctx.exprList() != null) {
             for (ExpressionContext e : ctx.exprList().expression()) {
                 l.add(this.visit(e));
@@ -688,11 +689,11 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         Environment.global.consts.put(ctx.Identifier().getText(), f);
 
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitClassStatement(QParser.ClassStatementContext ctx) {
+    public Value visitClassStatement(QParser.ClassStatementContext ctx) {
 
         String id = ctx.Identifier(0).getText();
         Scope scope = new Scope(this.scope, true);
@@ -716,12 +717,12 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         Environment.global.classes.put(id, qClass);
 
-        return QValue.VOID;
+        return Value.VOID;
 
     }
 
     @Override
-    public QValue visitHeader(QParser.HeaderContext ctx) {
+    public Value visitHeader(QParser.HeaderContext ctx) {
 
         if (ctx.Identifier().getText().equals("")) {
             throw new Problem("Header MUST have a name\nie: '@header FileWriterLibrary' or '@header TokenFactoryLibrary'", ctx);
@@ -730,17 +731,17 @@ public class Visitor extends QBaseVisitor<QValue> {
         this.lib = true;
         this.scope.lib = true;
 
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitReAssignment(QParser.ReAssignmentContext ctx) {
+    public Value visitReAssignment(QParser.ReAssignmentContext ctx) {
 
-        QValue newVal = this.visit(ctx.expression());
+        Value newVal = this.visit(ctx.expression());
         String id = ctx.Identifier().getText();
 
         if ((ctx.indexes() != null)) {
-            QValue val = scope.exists(ctx.Identifier().getText());
+            Value val = scope.exists(ctx.Identifier().getText());
             List<ExpressionContext> exps = ctx.indexes().expression();
             setAtIndex(ctx, exps, val, newVal);
         } else {
@@ -755,13 +756,13 @@ public class Visitor extends QBaseVisitor<QValue> {
             }
         }
 
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitAssignment(QParser.AssignmentContext ctx) {
+    public Value visitAssignment(QParser.AssignmentContext ctx) {
 
-        QValue newVal = QValue.NULL;
+        Value newVal = Value.NULL;
         String id = ctx.Identifier().getText();
 
         if ((ctx.Noval(0) != null) && (ctx.expression() != null)) {
@@ -777,7 +778,7 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         if ((ctx.Noval(0) != null)) {
             scope.varAssign(id, newVal);
-            return QValue.VOID;
+            return Value.VOID;
         }
 
         if ((ctx.Const(0) != null)) {
@@ -785,7 +786,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         }
 
         if ((ctx.indexes() != null)) {
-            QValue val = scope.exists(ctx.Identifier().getText());
+            Value val = scope.exists(ctx.Identifier().getText());
             List<ExpressionContext> exps = ctx.indexes().expression();
             setAtIndex(ctx, exps, val, newVal);
         } else {
@@ -800,41 +801,41 @@ public class Visitor extends QBaseVisitor<QValue> {
             newVal.hasVal = true;
         }
 
-        return QValue.VOID;
+        return Value.VOID;
 
 
     }
 
     @Override
-    public QValue visitUnaryMinusExpression(UnaryMinusExpressionContext ctx) {
-        QValue v = this.visit(ctx.expression());
+    public Value visitUnaryMinusExpression(UnaryMinusExpressionContext ctx) {
+        Value v = this.visit(ctx.expression());
         if (!v.isNumber()) {
             throw new Problem(ctx);
         }
-        return new QValue(-1 * v.asDouble());
+        return new Value(-1 * v.asDouble());
     }
 
     @Override
-    public QValue visitNotExpression(NotExpressionContext ctx) {
-        QValue v = this.visit(ctx.expression());
+    public Value visitNotExpression(NotExpressionContext ctx) {
+        Value v = this.visit(ctx.expression());
         if (!v.isBoolean()) {
             throw new Problem(ctx);
         }
-        return new QValue(!v.asBoolean());
+        return new Value(!v.asBoolean());
     }
 
     @Override
-    public QValue visitPowerExpression(PowerExpressionContext ctx) {
-        QValue lhs = this.visit(ctx.expression(0));
-        QValue rhs = this.visit(ctx.expression(1));
+    public Value visitPowerExpression(PowerExpressionContext ctx) {
+        Value lhs = this.visit(ctx.expression(0));
+        Value rhs = this.visit(ctx.expression(1));
         if (lhs.isNumber() && rhs.isNumber()) {
-            return new QValue(Math.pow(lhs.asDouble(), rhs.asDouble()));
+            return new Value(Math.pow(lhs.asDouble(), rhs.asDouble()));
         }
         throw new Problem(ctx);
     }
 
     @Override
-    public QValue visitMultExpression(MultExpressionContext ctx) {
+    public Value visitMultExpression(MultExpressionContext ctx) {
 
         int line = ctx.start.getLine();
         int pos = ctx.start.getCharPositionInLine();
@@ -848,7 +849,7 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitAddExpression(AddExpressionContext ctx) {
+    public Value visitAddExpression(AddExpressionContext ctx) {
 
         int line = ctx.start.getLine();
         int pos = ctx.start.getCharPositionInLine();
@@ -861,7 +862,7 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitCompExpression(CompExpressionContext ctx) {
+    public Value visitCompExpression(CompExpressionContext ctx) {
 
         int line = ctx.start.getLine();
         int pos = ctx.start.getCharPositionInLine();
@@ -876,7 +877,7 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitEqExpression(EqExpressionContext ctx) {
+    public Value visitEqExpression(EqExpressionContext ctx) {
 
         int line = ctx.start.getLine();
         int pos = ctx.start.getCharPositionInLine();
@@ -888,9 +889,9 @@ public class Visitor extends QBaseVisitor<QValue> {
         };
     }
 
-    public QValue multiply(MultExpressionContext ctx) {
-        QValue lhs = this.visit(ctx.expression(0));
-        QValue rhs = this.visit(ctx.expression(1));
+    public Value multiply(MultExpressionContext ctx) {
+        Value lhs = this.visit(ctx.expression(0));
+        Value rhs = this.visit(ctx.expression(1));
         int line = ctx.start.getLine();
         int pos = ctx.start.getCharPositionInLine();
         if (lhs == null || rhs == null) {
@@ -898,7 +899,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         }
 
         if (lhs.isNumber() && rhs.isNumber()) {
-            return new QValue(lhs.asDouble() * rhs.asDouble());
+            return new Value(lhs.asDouble() * rhs.asDouble());
         }
 
         if (lhs.isString() && rhs.isNumber()) {
@@ -907,42 +908,42 @@ public class Visitor extends QBaseVisitor<QValue> {
             for (int i = 0; i < stop; i++) {
                 str.append(lhs.asString());
             }
-            return new QValue(str.toString());
+            return new Value(str.toString());
         }
 
         if (lhs.isList() && rhs.isNumber()) {
-            List<QValue> total = new ArrayList<>();
+            List<Value> total = new ArrayList<>();
             int stop = rhs.asDouble().intValue();
             for (int i = 0; i < stop; i++) {
                 total.addAll(lhs.asList());
             }
-            return new QValue(total);
+            return new Value(total);
         }
 
         throw new Problem(ctx);
     }
 
-    private QValue divide(QParser.MultExpressionContext ctx) {
-        QValue lhs = this.visit(ctx.expression(0));
-        QValue rhs = this.visit(ctx.expression(1));
+    private Value divide(QParser.MultExpressionContext ctx) {
+        Value lhs = this.visit(ctx.expression(0));
+        Value rhs = this.visit(ctx.expression(1));
         if (lhs.isNumber() && rhs.isNumber()) {
-            return new QValue(lhs.asDouble() / rhs.asDouble());
+            return new Value(lhs.asDouble() / rhs.asDouble());
         }
         throw new Problem(ctx);
     }
 
-    private QValue modulus(QParser.MultExpressionContext ctx) {
-        QValue lhs = this.visit(ctx.expression(0));
-        QValue rhs = this.visit(ctx.expression(1));
+    private Value modulus(QParser.MultExpressionContext ctx) {
+        Value lhs = this.visit(ctx.expression(0));
+        Value rhs = this.visit(ctx.expression(1));
         if (lhs.isNumber() && rhs.isNumber()) {
-            return new QValue(lhs.asDouble() % rhs.asDouble());
+            return new Value(lhs.asDouble() % rhs.asDouble());
         }
         throw new Problem(ctx);
     }
 
-    private QValue add(AddExpressionContext ctx) {
-        QValue lhs = this.visit(ctx.expression(0));
-        QValue rhs = this.visit(ctx.expression(1));
+    private Value add(AddExpressionContext ctx) {
+        Value lhs = this.visit(ctx.expression(0));
+        Value rhs = this.visit(ctx.expression(1));
 
         if (lhs == null || rhs == null) {
             throw new Problem(ctx);
@@ -950,121 +951,121 @@ public class Visitor extends QBaseVisitor<QValue> {
 
         // number + number
         if (lhs.isNumber() && rhs.isNumber()) {
-            return new QValue(lhs.asDouble() + rhs.asDouble());
+            return new Value(lhs.asDouble() + rhs.asDouble());
         }
 
         // list + any
         if (lhs.isList()) {
-            List<QValue> list = lhs.asList();
+            List<Value> list = lhs.asList();
             list.add(rhs);
-            return new QValue(list);
+            return new Value(list);
         }
 
         // string + any
         if (lhs.isString()) {
-            return new QValue(lhs.asString() + "" + rhs);
+            return new Value(lhs.asString() + "" + rhs);
         }
 
         // any + string
         if (rhs.isString()) {
-            return new QValue(lhs + "" + rhs.asString());
+            return new Value(lhs + "" + rhs.asString());
         }
 
-        return new QValue(lhs.toString() + rhs);
+        return new Value(lhs.toString() + rhs);
     }
 
-    private QValue subtract(AddExpressionContext ctx) {
-        QValue lhs = this.visit(ctx.expression(0));
-        QValue rhs = this.visit(ctx.expression(1));
+    private Value subtract(AddExpressionContext ctx) {
+        Value lhs = this.visit(ctx.expression(0));
+        Value rhs = this.visit(ctx.expression(1));
         if (lhs.isNumber() && rhs.isNumber()) {
-            return new QValue(lhs.asDouble() - rhs.asDouble());
+            return new Value(lhs.asDouble() - rhs.asDouble());
         }
         if (lhs.isList()) {
-            List<QValue> list = lhs.asList();
+            List<Value> list = lhs.asList();
             list.remove(rhs);
-            return new QValue(list);
+            return new Value(list);
         }
         throw new Problem(ctx);
     }
 
-    private QValue gtEq(CompExpressionContext ctx) {
-        QValue lhs = this.visit(ctx.expression(0));
-        QValue rhs = this.visit(ctx.expression(1));
+    private Value gtEq(CompExpressionContext ctx) {
+        Value lhs = this.visit(ctx.expression(0));
+        Value rhs = this.visit(ctx.expression(1));
         if (lhs.isNumber() && rhs.isNumber()) {
-            return new QValue(lhs.asDouble() >= rhs.asDouble());
+            return new Value(lhs.asDouble() >= rhs.asDouble());
         }
         if (lhs.isString() && rhs.isString()) {
-            return new QValue(lhs.asString().compareTo(rhs.asString()) >= 0);
+            return new Value(lhs.asString().compareTo(rhs.asString()) >= 0);
         }
         throw new Problem(ctx);
     }
 
-    private QValue ltEq(CompExpressionContext ctx) {
-        QValue lhs = this.visit(ctx.expression(0));
-        QValue rhs = this.visit(ctx.expression(1));
+    private Value ltEq(CompExpressionContext ctx) {
+        Value lhs = this.visit(ctx.expression(0));
+        Value rhs = this.visit(ctx.expression(1));
         if (lhs.isNumber() && rhs.isNumber()) {
-            return new QValue(lhs.asDouble() <= rhs.asDouble());
+            return new Value(lhs.asDouble() <= rhs.asDouble());
         }
         if (lhs.isString() && rhs.isString()) {
-            return new QValue(lhs.asString().compareTo(rhs.asString()) <= 0);
+            return new Value(lhs.asString().compareTo(rhs.asString()) <= 0);
         }
         throw new Problem(ctx);
     }
 
-    private QValue gt(CompExpressionContext ctx) {
-        QValue lhs = this.visit(ctx.expression(0));
-        QValue rhs = this.visit(ctx.expression(1));
+    private Value gt(CompExpressionContext ctx) {
+        Value lhs = this.visit(ctx.expression(0));
+        Value rhs = this.visit(ctx.expression(1));
         if (lhs.isNumber() && rhs.isNumber()) {
-            return new QValue(lhs.asDouble() > rhs.asDouble());
+            return new Value(lhs.asDouble() > rhs.asDouble());
         }
         if (lhs.isString() && rhs.isString()) {
-            return new QValue(lhs.asString().compareTo(rhs.asString()) > 0);
+            return new Value(lhs.asString().compareTo(rhs.asString()) > 0);
         }
         throw new Problem(ctx);
     }
 
-    private QValue lt(CompExpressionContext ctx) {
-        QValue lhs = this.visit(ctx.expression(0));
-        QValue rhs = this.visit(ctx.expression(1));
+    private Value lt(CompExpressionContext ctx) {
+        Value lhs = this.visit(ctx.expression(0));
+        Value rhs = this.visit(ctx.expression(1));
         if (lhs.isNumber() && rhs.isNumber()) {
-            return new QValue(lhs.asDouble() < rhs.asDouble());
+            return new Value(lhs.asDouble() < rhs.asDouble());
         }
         if (lhs.isString() && rhs.isString()) {
-            return new QValue(lhs.asString().compareTo(rhs.asString()) < 0);
+            return new Value(lhs.asString().compareTo(rhs.asString()) < 0);
         }
         throw new Problem(ctx);
     }
 
-    private QValue eq(EqExpressionContext ctx) {
-        QValue lhs = this.visit(ctx.expression(0));
-        QValue rhs = this.visit(ctx.expression(1));
+    private Value eq(EqExpressionContext ctx) {
+        Value lhs = this.visit(ctx.expression(0));
+        Value rhs = this.visit(ctx.expression(1));
         if (lhs == null) {
             throw new Problem(ctx);
         }
-        return new QValue(lhs.equals(rhs));
+        return new Value(lhs.equals(rhs));
     }
 
-    private QValue nEq(EqExpressionContext ctx) {
-        QValue lhs = this.visit(ctx.expression(0));
-        QValue rhs = this.visit(ctx.expression(1));
-        return new QValue(!lhs.equals(rhs));
+    private Value nEq(EqExpressionContext ctx) {
+        Value lhs = this.visit(ctx.expression(0));
+        Value rhs = this.visit(ctx.expression(1));
+        return new Value(!lhs.equals(rhs));
     }
 
     @Override
-    public QValue visitAndExpression(AndExpressionContext ctx) {
-        QValue lhs = this.visit(ctx.expression(0));
-        QValue rhs = this.visit(ctx.expression(1));
+    public Value visitAndExpression(AndExpressionContext ctx) {
+        Value lhs = this.visit(ctx.expression(0));
+        Value rhs = this.visit(ctx.expression(1));
 
         if (!lhs.isBoolean() || !rhs.isBoolean()) {
             throw new Problem(ctx);
         }
-        return new QValue(lhs.asBoolean() && rhs.asBoolean());
+        return new Value(lhs.asBoolean() && rhs.asBoolean());
     }
 
     @Override
-    public QValue visitHereStatement(QParser.HereStatementContext ctx) {
+    public Value visitHereStatement(QParser.HereStatementContext ctx) {
 
-        QValue q = this.visit(ctx.expression());
+        Value q = this.visit(ctx.expression());
         String id = ctx.Identifier().getText();
 
         if (this.scope.parent().parent().vars.containsKey(id)) {
@@ -1073,11 +1074,11 @@ public class Visitor extends QBaseVisitor<QValue> {
             throw new Problem("Variable '" + ctx.Identifier().getText() + "' does not exist in the current context", ctx);
         }
 
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitHereVarExpression(QParser.HereVarExpressionContext ctx) {
+    public Value visitHereVarExpression(QParser.HereVarExpressionContext ctx) {
         String id = ctx.varHereStatement().Identifier().getText();
 
         if (this.scope.parent().vars.containsKey(id)) {
@@ -1086,23 +1087,23 @@ public class Visitor extends QBaseVisitor<QValue> {
             return this.scope.parent().parent().vars.get(id);
         }
 
-        return this.scope.parent().parent().vars.getOrDefault(id, QValue.NULL);
+        return this.scope.parent().parent().vars.getOrDefault(id, Value.NULL);
     }
 
     @Override
-    public QValue visitOrExpression(OrExpressionContext ctx) {
-        QValue leftSideVar = this.visit(ctx.expression(0));
-        QValue rightSideVar = this.visit(ctx.expression(1));
+    public Value visitOrExpression(OrExpressionContext ctx) {
+        Value leftSideVar = this.visit(ctx.expression(0));
+        Value rightSideVar = this.visit(ctx.expression(1));
 
         if (!leftSideVar.isBoolean() || !rightSideVar.isBoolean()) {
             throw new Problem(ctx);
         }
-        return new QValue(leftSideVar.asBoolean() || rightSideVar.asBoolean());
+        return new Value(leftSideVar.asBoolean() || rightSideVar.asBoolean());
     }
 
     @Override
-    public QValue visitTernaryExpression(TernaryExpressionContext ctx) {
-        QValue condition = this.visit(ctx.expression(0));
+    public Value visitTernaryExpression(TernaryExpressionContext ctx) {
+        Value condition = this.visit(ctx.expression(0));
         if (condition.asBoolean()) {
             return this.visit(ctx.expression(1));
         } else {
@@ -1111,7 +1112,7 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitImportAllStatement(QParser.ImportAllStatementContext ctx) {
+    public Value visitImportAllStatement(QParser.ImportAllStatementContext ctx) {
 
         for (String s : Environment.global.allLibs) {
             String x = ".q.";
@@ -1129,49 +1130,65 @@ public class Visitor extends QBaseVisitor<QValue> {
             util.parse(fin);
         }
 
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitInExpression(InExpressionContext ctx) {
-        QValue lhs = this.visit(ctx.expression(0));
-        QValue rhs = this.visit(ctx.expression(1));
+    public Value visitAtStatement(QParser.AtStatementContext ctx) {
+
+        String id = ctx.Identifier().getText();
+
+        if (id.equals("notips")) {
+            // @notips
+            Environment.global.tips = false;
+        } else if (id.equals("sore")) {
+            // @sore
+            this.sore = true;
+        }
+
+        throw new Problem(id + " is not a valid @", ctx);
+    }
+
+    @Override
+    public Value visitInExpression(InExpressionContext ctx) {
+        Value lhs = this.visit(ctx.expression(0));
+        Value rhs = this.visit(ctx.expression(1));
 
         if (rhs.isList()) {
-            for (QValue val : rhs.asList()) {
+            for (Value val : rhs.asList()) {
                 if (val.equals(lhs)) {
-                    return new QValue(true);
+                    return new Value(true);
                 }
             }
-            return new QValue(false);
+            return new Value(false);
         }
         throw new Problem(rhs + " isn't a list, forin can only be applied to lists.", ctx);
     }
 
     @Override
-    public QValue visitNumberExpression(NumberExpressionContext ctx) {
-        return new QValue(Double.valueOf(ctx.getText()));
+    public Value visitNumberExpression(NumberExpressionContext ctx) {
+        return new Value(Double.valueOf(ctx.getText()));
     }
 
     @Override
-    public QValue visitBoolExpression(BoolExpressionContext ctx) {
-        return new QValue(Boolean.valueOf(ctx.getText()));
+    public Value visitBoolExpression(BoolExpressionContext ctx) {
+        return new Value(Boolean.valueOf(ctx.getText()));
     }
 
     @Override
-    public QValue visitNullExpression(NullExpressionContext ctx) {
-        return QValue.NULL;
+    public Value visitNullExpression(NullExpressionContext ctx) {
+        return Value.NULL;
     }
 
-    private QValue resolveIndexes(QValue val, List<ExpressionContext> indexes) {
+    private Value resolveIndexes(Value val, List<ExpressionContext> indexes) {
         for (ExpressionContext ec : indexes) {
-            QValue idx = this.visit(ec);
+            Value idx = this.visit(ec);
             if (!idx.isNumber() || (!val.isList() && !val.isString())) {
                 throw new Problem("Problem resolving indexes on " + val + " at " + idx, ec);
             }
             int i = idx.asDouble().intValue();
             if (val.isString()) {
-                val = new QValue(val.asString().substring(i, i + 1));
+                val = new Value(val.asString().substring(i, i + 1));
             } else {
                 val = val.asList().get(i);
             }
@@ -1179,18 +1196,18 @@ public class Visitor extends QBaseVisitor<QValue> {
         return val;
     }
 
-    private void setAtIndex(ParserRuleContext ctx, List<ExpressionContext> indexes, QValue val, QValue newVal) {
+    private void setAtIndex(ParserRuleContext ctx, List<ExpressionContext> indexes, Value val, Value newVal) {
         if (!val.isList()) {
             throw new Problem(ctx);
         }
         for (int i = 0; i < indexes.size() - 1; i++) {
-            QValue idx = this.visit(indexes.get(i));
+            Value idx = this.visit(indexes.get(i));
             if (!idx.isNumber()) {
                 throw new Problem(ctx);
             }
             val = val.asList().get(idx.asDouble().intValue());
         }
-        QValue idx = this.visit(indexes.get(indexes.size() - 1));
+        Value idx = this.visit(indexes.get(indexes.size() - 1));
         if (!idx.isNumber()) {
             throw new Problem(ctx);
         }
@@ -1198,8 +1215,8 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitFunctionCallExpression(FunctionCallExpressionContext ctx) {
-        QValue val = this.visit(ctx.functionCall());
+    public Value visitFunctionCallExpression(FunctionCallExpressionContext ctx) {
+        Value val = this.visit(ctx.functionCall());
         if (ctx.indexes() != null) {
             List<ExpressionContext> exps = ctx.indexes().expression();
             val = resolveIndexes(val, exps);
@@ -1208,8 +1225,8 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitListExpression(ListExpressionContext ctx) {
-        QValue val = this.visit(ctx.list());
+    public Value visitListExpression(ListExpressionContext ctx) {
+        Value val = this.visit(ctx.list());
         if (ctx.indexes() != null) {
             List<ExpressionContext> exps = ctx.indexes().expression();
             val = resolveIndexes(val, exps);
@@ -1218,9 +1235,9 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitIdentifierExpression(IdentifierExpressionContext ctx) {
+    public Value visitIdentifierExpression(IdentifierExpressionContext ctx) {
         String id = ctx.Identifier().getText();
-        QValue val = scope.exists(id);
+        Value val = scope.exists(id);
 
         if (ctx.indexes() != null) {
             List<ExpressionContext> exps = ctx.indexes().expression();
@@ -1230,10 +1247,10 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitStringExpression(StringExpressionContext ctx) {
+    public Value visitStringExpression(StringExpressionContext ctx) {
         String text = ctx.getText();
         text = text.substring(1, text.length() - 1).replaceAll("\\\\(.)", "$1");
-        QValue val = new QValue(text);
+        Value val = new Value(text);
         if (ctx.indexes() != null) {
             List<ExpressionContext> exps = ctx.indexes().expression();
             val = resolveIndexes(val, exps);
@@ -1242,8 +1259,8 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitExpressionExpression(ExpressionExpressionContext ctx) {
-        QValue val = this.visit(ctx.expression());
+    public Value visitExpressionExpression(ExpressionExpressionContext ctx) {
+        Value val = this.visit(ctx.expression());
         if (ctx.indexes() != null) {
             List<ExpressionContext> exps = ctx.indexes().expression();
             val = resolveIndexes(val, exps);
@@ -1252,16 +1269,16 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitInputExpression(InputExpressionContext ctx) {
+    public Value visitInputExpression(InputExpressionContext ctx) {
         TerminalNode inputString = ctx.String();
         try {
             if (inputString != null) {
                 String text = inputString.getText();
                 text = text.substring(1, text.length() - 1).replaceAll("\\\\(.)", "$1");
-                return new QValue(new String(Files.readAllBytes(Paths.get(text))));
+                return new Value(new String(Files.readAllBytes(Paths.get(text))));
             } else {
                 BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
-                return new QValue(buffer.readLine());
+                return new Value(buffer.readLine());
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -1269,19 +1286,19 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitAnonymousFunction(QParser.AnonymousFunctionContext ctx) {
+    public Value visitAnonymousFunction(QParser.AnonymousFunctionContext ctx) {
 
         Scope scopeNext = new Scope(this.scope, true);
         Visitor next = new Visitor(scopeNext, new HashMap<String, Function>());
 
         if (ctx.exprList() != null) {
             for (int i = 0; i < ctx.exprList().expression().size(); i++) {
-                QValue value = this.visit(ctx.exprList().expression(i));
+                Value value = this.visit(ctx.exprList().expression(i));
                 scopeNext.functionParam(ctx.exprList().expression(0).getText(), value);
             }
         }
 
-        QValue ret = QValue.VOID;
+        Value ret = Value.VOID;
         try {
             next.visit(ctx.block());
         } catch (RVal returnValue) {
@@ -1291,7 +1308,7 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitIdentifierFunctionCall(IdentifierFunctionCallContext ctx) {
+    public Value visitIdentifierFunctionCall(IdentifierFunctionCallContext ctx) {
         List<ExpressionContext> params = ctx.exprList() != null ? ctx.exprList().expression() : new ArrayList<>();
         String id = ctx.Identifier().getText() + params.size();
         Function function;
@@ -1303,7 +1320,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         }
 
         if (function != null) {
-            List<QValue> args = new ArrayList<>(params.size());
+            List<Value> args = new ArrayList<>(params.size());
             for (ExpressionContext param : params) {
                 args.add(this.visit(param));
             }
@@ -1322,24 +1339,24 @@ public class Visitor extends QBaseVisitor<QValue> {
     }
 
     @Override
-    public QValue visitPrintlnFunctionCall(PrintlnFunctionCallContext ctx) {
+    public Value visitPrintlnFunctionCall(PrintlnFunctionCallContext ctx) {
         if (ctx.expression() != null) {
             System.out.println(this.visit(ctx.expression()));
         } else {
             System.out.println();
         }
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitPrintFunctionCall(PrintFunctionCallContext ctx) {
+    public Value visitPrintFunctionCall(PrintFunctionCallContext ctx) {
         System.out.print(this.visit(ctx.expression()));
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitAssertFunctionCall(AssertFunctionCallContext ctx) {
-        QValue value = this.visit(ctx.expression());
+    public Value visitAssertFunctionCall(AssertFunctionCallContext ctx) {
+        Value value = this.visit(ctx.expression());
 
         if (!value.isBoolean()) {
             throw new Problem(ctx);
@@ -1349,11 +1366,11 @@ public class Visitor extends QBaseVisitor<QValue> {
             throw new AssertionError("Failed Assertion " + ctx.expression().getText() + " line:" + ctx.start.getLine());
         }
 
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitIfStatement(IfStatementContext ctx) {
+    public Value visitIfStatement(IfStatementContext ctx) {
 
         if (this.visit(ctx.ifStat().expression()).asBoolean()) {
             return this.visit(ctx.ifStat().block());
@@ -1369,11 +1386,11 @@ public class Visitor extends QBaseVisitor<QValue> {
             return this.visit(ctx.elseStat().block());
         }
 
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitBlock(BlockContext ctx) {
+    public Value visitBlock(BlockContext ctx) {
 
         scope = new Scope(scope, false);
         for (FunctionDeclContext fdx : ctx.functionDecl()) {
@@ -1389,32 +1406,32 @@ public class Visitor extends QBaseVisitor<QValue> {
             throw returnValue;
         }
         scope = scope.parent();
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitForStatement(ForStatementContext ctx) {
+    public Value visitForStatement(ForStatementContext ctx) {
         int start = this.visit(ctx.expression(0)).asDouble().intValue();
         int stop = this.visit(ctx.expression(1)).asDouble().intValue();
         for (int i = start; i <= stop; i++) {
-            scope.varAssign(ctx.Identifier().getText(), new QValue(i));
-            QValue returnValue = this.visit(ctx.block());
-            if (returnValue != QValue.VOID) {
+            scope.varAssign(ctx.Identifier().getText(), new Value(i));
+            Value returnValue = this.visit(ctx.block());
+            if (returnValue != Value.VOID) {
                 return returnValue;
             }
         }
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     @Override
-    public QValue visitWhileStatement(WhileStatementContext ctx) {
+    public Value visitWhileStatement(WhileStatementContext ctx) {
         while (this.visit(ctx.expression()).asBoolean()) {
-            QValue returnValue = this.visit(ctx.block());
-            if (returnValue != QValue.VOID) {
+            Value returnValue = this.visit(ctx.block());
+            if (returnValue != Value.VOID) {
                 return returnValue;
             }
         }
-        return QValue.VOID;
+        return Value.VOID;
     }
 
 }

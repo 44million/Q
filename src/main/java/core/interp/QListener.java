@@ -366,6 +366,16 @@ public interface QListener extends ParseTreeListener {
 	 */
 	void exitImportAllStatement(QParser.ImportAllStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link QParser#atStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterAtStatement(QParser.AtStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QParser#atStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitAtStatement(QParser.AtStatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link QParser#tryCatchStatement}.
 	 * @param ctx the parse tree
 	 */

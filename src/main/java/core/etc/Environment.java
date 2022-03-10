@@ -5,7 +5,7 @@ import core.lang.INativeFunction;
 import core.lang.Visitor;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
-import core.lang.q.QValue;
+import core.lang.q.Value;
 import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
 import core.libs.WebServer;
@@ -36,9 +36,10 @@ public class Environment {
     public List<String> allLibs = new ArrayList<>();
     public HashMap<String, Function> consts = new HashMap<>();
     public boolean hasMainExecuted = false;
+    public boolean tips = true;
 
     public HashMap<String, Function> fns;
-    public HashMap<String, QValue> vars;
+    public HashMap<String, Value> vars;
 
     public Environment() {
         this.before = null;

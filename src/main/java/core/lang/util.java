@@ -3,7 +3,7 @@ package core.lang;
 import core.etc.Environment;
 import core.etc.Parser;
 import core.etc.Problem;
-import core.lang.q.QValue;
+import core.lang.q.Value;
 import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
 import core.libs.*;
@@ -124,106 +124,106 @@ public class util {
         return null;
     }
 
-    public static QValue parse(String text) {
+    public static Value parse(String text) {
         switch (text) {
             case ".q.Windows" -> {
                 if (Environment.global.allowedLibs.contains("windows")) {
-                    return QValue.VOID;
+                    return Value.VOID;
                 }
                 Environment.global.allowedLibs.add("windows");
-                return QValue.VOID;
+                return Value.VOID;
             }
             case ".q.http" -> {
                 if (Environment.global.allowedLibs.contains("http")) {
-                    return QValue.VOID;
+                    return Value.VOID;
                 }
                 Environment.global.allowedLibs.add("http");
-                return QValue.VOID;
+                return Value.VOID;
             }
             case ".q.Files" -> {
                 if (Environment.global.allowedLibs.contains("files")) {
-                    return QValue.VOID;
+                    return Value.VOID;
                 }
                 Environment.global.allowedLibs.add("files");
-                return QValue.VOID;
+                return Value.VOID;
             }
             case ".q.Math" -> {
                 if (Environment.global.allowedLibs.contains("math")) {
-                    return QValue.VOID;
+                    return Value.VOID;
                 }
                 Environment.global.allowedLibs.add("math");
                 new core.libs.Math().init();
-                return QValue.VOID;
+                return Value.VOID;
             }
             case ".q.Audio" -> {
                 if (Environment.global.allowedLibs.contains("audio")) {
-                    return QValue.VOID;
+                    return Value.VOID;
                 }
                 Environment.global.allowedLibs.add("audio");
-                return QValue.VOID;
+                return Value.VOID;
             }
             case ".q.Random" -> {
                 if (Environment.global.allowedLibs.contains("random")) {
-                    return QValue.VOID;
+                    return Value.VOID;
                 }
                 Environment.global.allowedLibs.add("random");
                 new QRandom().init();
-                return QValue.VOID;
+                return Value.VOID;
             }
             case ".q.Time" -> {
                 if (Environment.global.allowedLibs.contains("time")) {
-                    return QValue.VOID;
+                    return Value.VOID;
                 }
                 Environment.global.allowedLibs.add("time");
                 new Time().init();
-                return QValue.VOID;
+                return Value.VOID;
             }
             case ".q.Console" -> {
                 if (Environment.global.allowedLibs.contains("console")) {
-                    return QValue.VOID;
+                    return Value.VOID;
                 }
                 Environment.global.allowedLibs.add("console");
-                return QValue.VOID;
+                return Value.VOID;
             }
             case ".q.puddle" -> {
                 if (Environment.global.allowedLibs.contains("puddle")) {
-                    return QValue.VOID;
+                    return Value.VOID;
                 }
                 Environment.global.allowedLibs.add("puddle");
-                return QValue.VOID;
+                return Value.VOID;
             }
             case ".q.gtp" -> {
                 if (Environment.global.allowedLibs.contains("gtp")) {
-                    return QValue.VOID;
+                    return Value.VOID;
                 }
                 Environment.global.allowedLibs.add("gtp");
                 new GTP().init();
-                return QValue.VOID;
+                return Value.VOID;
             }
             case ".q.io" -> {
                 if (Environment.global.allowedLibs.contains("io")) {
-                    return QValue.VOID;
+                    return Value.VOID;
                 }
                 Environment.global.allowedLibs.add("io");
                 new IO().init();
-                return QValue.VOID;
+                return Value.VOID;
             }
             case ".q.FileUtils" -> {
                 if (Environment.global.allowedLibs.contains("fileutils")) {
-                    return QValue.VOID;
+                    return Value.VOID;
                 }
                 Environment.global.allowedLibs.add("fileutils");
-                return QValue.VOID;
+                return Value.VOID;
             }
             case ".q.Environment" -> {
                 if (Environment.global.allowedLibs.contains("environment")) {
-                    return QValue.VOID;
+                    return Value.VOID;
                 }
                 Environment.global.allowedLibs.add("environment");
-                return QValue.VOID;
+                return Value.VOID;
             }
         }
-        return QValue.VOID;
+        return Value.VOID;
     }
 
     private static String readLine(String format, Object... args) throws IOException {
@@ -374,7 +374,7 @@ public class util {
             }
 
             @Override
-            public QValue ret() {
+            public Value ret() {
                 return new Time().cur();
             }
 
@@ -384,12 +384,12 @@ public class util {
             }
 
             @Override
-            public void exec(List<QValue> list) {
+            public void exec(List<Value> list) {
 
             }
 
             @Override
-            public QValue ret(List<QValue> list) {
+            public Value ret(List<Value> list) {
                 return null;
             }
 
@@ -406,7 +406,7 @@ public class util {
             }
 
             @Override
-            public QValue ret() {
+            public Value ret() {
                 return new Time().date();
             }
 
@@ -416,12 +416,12 @@ public class util {
             }
 
             @Override
-            public void exec(List<QValue> list) {
+            public void exec(List<Value> list) {
 
             }
 
             @Override
-            public QValue ret(List<QValue> list) {
+            public Value ret(List<Value> list) {
                 return null;
             }
         });
@@ -437,7 +437,7 @@ public class util {
             }
 
             @Override
-            public QValue ret() {
+            public Value ret() {
                 return null;
             }
 
@@ -447,15 +447,15 @@ public class util {
             }
 
             @Override
-            public void exec(List<QValue> list) {
-                for (QValue v : list) {
+            public void exec(List<Value> list) {
+                for (Value v : list) {
                     String s = v.toString();
                     System.out.println(s);
                 }
             }
 
             @Override
-            public QValue ret(List<QValue> list) {
+            public Value ret(List<Value> list) {
                 return null;
             }
         });
@@ -471,7 +471,7 @@ public class util {
             }
 
             @Override
-            public QValue ret() {
+            public Value ret() {
                 return null;
             }
 
@@ -481,7 +481,7 @@ public class util {
             }
 
             @Override
-            public void exec(List<QValue> list) {
+            public void exec(List<Value> list) {
                 String output = list.get(0).toString();
                 String format = list.get(1).toString();
 
@@ -490,7 +490,7 @@ public class util {
             }
 
             @Override
-            public QValue ret(List<QValue> list) {
+            public Value ret(List<Value> list) {
                 return null;
             }
         });
@@ -506,7 +506,7 @@ public class util {
             }
 
             @Override
-            public QValue ret() {
+            public Value ret() {
                 return null;
             }
 
@@ -516,7 +516,7 @@ public class util {
             }
 
             @Override
-            public void exec(List<QValue> list) {
+            public void exec(List<Value> list) {
                 String output = list.get(0).toString();
 
                 list.forEach((action) -> System.err.println(output));
@@ -524,7 +524,7 @@ public class util {
             }
 
             @Override
-            public QValue ret(List<QValue> list) {
+            public Value ret(List<Value> list) {
                 return null;
             }
         });
@@ -540,7 +540,7 @@ public class util {
             }
 
             @Override
-            public QValue ret() {
+            public Value ret() {
                 return null;
             }
 
@@ -550,7 +550,7 @@ public class util {
             }
 
             @Override
-            public void exec(List<QValue> list) {
+            public void exec(List<Value> list) {
                 String output = list.get(0).toString();
                 String format = list.get(1).toString();
 
@@ -559,7 +559,7 @@ public class util {
             }
 
             @Override
-            public QValue ret(List<QValue> list) {
+            public Value ret(List<Value> list) {
                 return null;
             }
         });
@@ -575,7 +575,7 @@ public class util {
             }
 
             @Override
-            public QValue ret() {
+            public Value ret() {
                 return new Time().instant();
             }
 
@@ -585,12 +585,12 @@ public class util {
             }
 
             @Override
-            public void exec(List<QValue> list) {
+            public void exec(List<Value> list) {
 
             }
 
             @Override
-            public QValue ret(List<QValue> list) {
+            public Value ret(List<Value> list) {
                 return null;
             }
         });
@@ -607,7 +607,7 @@ public class util {
             }
 
             @Override
-            public QValue ret() {
+            public Value ret() {
                 return null;
             }
 
@@ -617,12 +617,12 @@ public class util {
             }
 
             @Override
-            public void exec(List<QValue> list) {
+            public void exec(List<Value> list) {
 
             }
 
             @Override
-            public QValue ret(List<QValue> list) {
+            public Value ret(List<Value> list) {
                 return null;
             }
         });
@@ -639,8 +639,8 @@ public class util {
             }
 
             @Override
-            public QValue ret() {
-                return new QValue("broken");
+            public Value ret() {
+                return new Value("broken");
             }
 
             @Override
@@ -649,12 +649,12 @@ public class util {
             }
 
             @Override
-            public void exec(List<QValue> list) {
+            public void exec(List<Value> list) {
 
             }
 
             @Override
-            public QValue ret(List<QValue> list) {
+            public Value ret(List<Value> list) {
                 return null;
             }
         });
@@ -671,7 +671,7 @@ public class util {
             }
 
             @Override
-            public QValue ret() {
+            public Value ret() {
                 return null;
             }
 
@@ -681,13 +681,13 @@ public class util {
             }
 
             @Override
-            public void exec(List<QValue> list) {
+            public void exec(List<Value> list) {
             }
 
             @Override
-            public QValue ret(List<QValue> list) {
+            public Value ret(List<Value> list) {
                 String request = list.get(0).toString();
-                return new QValue(System.getProperty(request));
+                return new Value(System.getProperty(request));
             }
         });
 
@@ -703,7 +703,7 @@ public class util {
             }
 
             @Override
-            public QValue ret() {
+            public Value ret() {
                 return null;
             }
 
@@ -713,11 +713,11 @@ public class util {
             }
 
             @Override
-            public void exec(List<QValue> list) {
+            public void exec(List<Value> list) {
             }
 
             @Override
-            public QValue ret(List<QValue> list) {
+            public Value ret(List<Value> list) {
                 File file = new File(list.get(0).toString());
 
                 if (!file.exists()) {
@@ -726,7 +726,7 @@ public class util {
 
                 long amount = file.length();
 
-                return new QValue(amount);
+                return new Value(amount);
             }
         });
 
@@ -740,7 +740,7 @@ public class util {
             }
 
             @Override
-            public QValue ret() {
+            public Value ret() {
                 return null;
             }
 
@@ -750,12 +750,12 @@ public class util {
             }
 
             @Override
-            public void exec(List<QValue> list) {
+            public void exec(List<Value> list) {
                 System.out.print(list.get(0).toString());
             }
 
             @Override
-            public QValue ret(List<QValue> list) {
+            public Value ret(List<Value> list) {
                 return null;
             }
         });
@@ -772,7 +772,7 @@ public class util {
             }
 
             @Override
-            public QValue ret() {
+            public Value ret() {
                 return null;
             }
 
@@ -782,12 +782,12 @@ public class util {
             }
 
             @Override
-            public void exec(List<QValue> list) {
+            public void exec(List<Value> list) {
                 System.out.println(list.get(0).toString());
             }
 
             @Override
-            public QValue ret(List<QValue> list) {
+            public Value ret(List<Value> list) {
                 return null;
             }
         });
@@ -804,7 +804,7 @@ public class util {
             }
 
             @Override
-            public QValue ret() {
+            public Value ret() {
                 return null;
             }
 
@@ -814,23 +814,23 @@ public class util {
             }
 
             @Override
-            public void exec(List<QValue> list) {}
+            public void exec(List<Value> list) {}
 
             @Override
-            public QValue ret(List<QValue> list) {
-                for (QValue v : list) {
+            public Value ret(List<Value> list) {
+                for (Value v : list) {
                     if (v.toString().equals("home")) {
-                        return new QValue(System.getProperty("user.home"));
+                        return new Value(System.getProperty("user.home"));
                     } else if (v.toString().equals("make")) {
                         String dirname = list.get(1).toString();
                         if (!new File(dirname).exists()) {
                             new File(dirname).mkdirs();
-                            return new QValue(true);
+                            return new Value(true);
                         } else {
-                            return new QValue(false);
+                            return new Value(false);
                         }
                     } else if (v.toString().equals("verify")) {
-                        return new QValue(new File(list.get(1).toString()).exists());
+                        return new Value(new File(list.get(1).toString()).exists());
                     } else if (v.toString().equals("makefile")) {
                         String dirname = list.get(1).toString();
                         if (!new File(dirname).exists()) {
@@ -839,14 +839,14 @@ public class util {
                             } catch (IOException e) {
                                 System.out.println(e.getMessage());
                             }
-                            return new QValue(true);
+                            return new Value(true);
                         } else {
-                            return new QValue(false);
+                            return new Value(false);
                         }
                     }
 
                 }
-                return new QValue(false);
+                return new Value(false);
             }
         });
 
@@ -860,8 +860,8 @@ public class util {
             }
 
             @Override
-            public QValue ret() {
-                return new QValue(this.getClass().toString());
+            public Value ret() {
+                return new Value(this.getClass().toString());
             }
 
             @Override
@@ -870,12 +870,12 @@ public class util {
             }
 
             @Override
-            public void exec(List<QValue> list) {
+            public void exec(List<Value> list) {
 
             }
 
             @Override
-            public QValue ret(List<QValue> list) {
+            public Value ret(List<Value> list) {
                 return null;
             }
         });
