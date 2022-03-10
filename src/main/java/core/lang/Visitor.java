@@ -55,6 +55,33 @@ public class Visitor extends QBaseVisitor<Value> {
     }
 
     @Override
+    public Value visitObjVarExpression(QParser.ObjVarExpressionContext ctx) {
+        // obj::var
+
+        String var = ctx.objVar().Identifier(1).getText();
+
+        String obj = ctx.objVar().Identifier(0).getText();
+
+        QObject jj = Environment.global.objs.getOrDefault(var, QObject.NULL);
+
+        return jj.v.scope.vars.getOrDefault(obj, Value.NULL);
+    }
+
+    @Override
+    public Value visitObjVar(QParser.ObjVarContext ctx) {
+
+        // obj::var
+
+        String var = ctx.Identifier(1).getText();
+
+        String obj = ctx.Identifier(0).getText();
+
+        QObject jj = Environment.global.objs.getOrDefault(var, QObject.NULL);
+
+        return jj.v.scope.vars.getOrDefault(obj, Value.NULL);
+    }
+
+    @Override
     public Value visitObjFunctionCallExpression(QParser.ObjFunctionCallExpressionContext ctx) {
 
         String parentClass = ctx.Identifier(0).getText();

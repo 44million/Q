@@ -9,11 +9,17 @@ import java.util.Map;
 @SuppressWarnings("all")
 public class QObject {
 
+    public static QObject NULL = new QObject();
+
     public String name;
     public QClass qc;
     public List<Value> params;
     public Map<String, Function> funcs;
     public Visitor v;
+
+    private QObject() {
+        
+    }
 
     public QObject(String name, QClass instance) {
         this.name = name;
