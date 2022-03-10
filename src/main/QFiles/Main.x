@@ -52,14 +52,8 @@ class Main
 
     fn main()
 
-        new Sedan as charger();
-        charger::honk();
-
         new MuscleCar as challenger();
-        challenger::revv();
-
-        challenger::setHp(707);
-        challenger::setEngine("viper V10");
+        challenger::hp = 90;
 
     end
 

@@ -57,28 +57,28 @@ public class Visitor extends QBaseVisitor<Value> {
     @Override
     public Value visitObjVarExpression(QParser.ObjVarExpressionContext ctx) {
         // obj::var
+        Value v = this.visit(ctx.objVar());
 
-        String var = ctx.objVar().Identifier(1).getText();
-
-        String obj = ctx.objVar().Identifier(0).getText();
-
-        QObject jj = Environment.global.objs.getOrDefault(var, QObject.NULL);
-
-        return jj.v.scope.vars.getOrDefault(obj, Value.NULL);
+        return (v == null ? Value.NULL : v);
     }
 
     @Override
+    @SuppressWarnings("all")
     public Value visitObjVar(QParser.ObjVarContext ctx) {
-
-        // obj::var
-
+        // obj::var = 10;
+        // challenger::hp = 707;
+        String obj = ctx.Identifier(0).getText();
         String var = ctx.Identifier(1).getText();
 
-        String obj = ctx.Identifier(0).getText();
+        QObject jjk = Environment.global.objs.getOrDefault(obj, QObject.NULL);
 
-        QObject jj = Environment.global.objs.getOrDefault(var, QObject.NULL);
+        Value v = Value.NULL;
 
-        return jj.v.scope.vars.getOrDefault(obj, Value.NULL);
+        if (jjk.v.scope.vars.containsKey(var)) {
+            v = jjk.v.scope.vars.get(var);
+        }
+
+        return v;
     }
 
     @Override
@@ -764,7 +764,15 @@ public class Visitor extends QBaseVisitor<Value> {
     public Value visitReAssignment(QParser.ReAssignmentContext ctx) {
 
         Value newVal = this.visit(ctx.expression());
-        String id = ctx.Identifier().getText();
+        String id;
+
+        if (ctx.Identifier() == null) {
+            id = this.visit(ctx.objVar()).id;
+        } else {
+            id = ctx.Identifier().getText();
+        }
+
+        newVal.id = id;
 
         if ((ctx.indexes() != null)) {
             Value val = scope.exists(ctx.Identifier().getText());
