@@ -419,7 +419,6 @@ public class Visitor extends QBaseVisitor<Value> {
             this.visit(ctx.block(0));
         } catch (Exception e) {
             this.visit(ctx.block(1));
-            throw new Problem(e.getMessage(), ctx);
         }
         return Value.VOID;
     }
@@ -437,7 +436,7 @@ public class Visitor extends QBaseVisitor<Value> {
             }
         }
 
-        throw new Problem("'WebServer' object: " + id + " not found.", ctx);
+        throw new Problem("Object '" + id + "' does not exist in the current context", ctx);
     }
 
     @Override
@@ -445,8 +444,6 @@ public class Visitor extends QBaseVisitor<Value> {
 
         int i = 0;
         Value x = this.visit(ctx.expression());
-        int line = ctx.start.getLine();
-        int pos = ctx.start.getCharPositionInLine();
 
         if (x.isString()) {
 
@@ -1146,9 +1143,13 @@ public class Visitor extends QBaseVisitor<Value> {
         } else if (id.equals("sore")) {
             // @sore
             this.sore = true;
+        } else if (id.equals("autoimport")) {
+            // @autoimport
+            Environment.global.auto = true;
+        } else {
+            throw new Problem(id + " is not a valid @", ctx);
         }
-
-        throw new Problem(id + " is not a valid @", ctx);
+        return Value.VOID;
     }
 
     @Override

@@ -1,14 +1,32 @@
-#import q.std;
-#import q.io;
+@autoimport
+class Vehicle
+    fn honk()
+        std::coutln("honk honk");
+    end
+end
 
-class Obj
+@autoimport
+class Sedan : Vehicle
 
-    cn Obj()
+    cn Sedan()
 
     end
 
-    fn get()
-        return "Hello World";
+    fn honk()
+        std::coutln("hello");
+    end
+
+end
+
+@autoimport
+class MuscleCar : Vehicle
+
+    cn MuscleCar()
+
+    end
+
+    fn revv()
+        std::cout("world");
     end
 
 end
@@ -17,22 +35,11 @@ class Main
 
     fn main()
 
-        io::err("This will be red or something");
+        new Sedan as charger();
+        charger::honk();
 
-        std::coutln("Enter something:");
-
-        var input = std::cin();
-
-        std::cout(input);
-
-        io::err("This will be red or something");
-
-
-        try
-            std::iuhfiehfru("this will fail");
-        on (flaw)
-            io::err("Error message");
-        end
+        new MuscleCar as challenger();
+        challenger::revv();
 
     end
 

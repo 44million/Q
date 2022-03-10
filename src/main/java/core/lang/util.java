@@ -368,7 +368,7 @@ public class util {
     }
 
     public static void check(String p, String t2, ParserRuleContext ctx) {
-        if (!Environment.global.allowedLibs.contains(p)) {
+        if (!Environment.global.allowedLibs.contains(p) && !Environment.global.auto) {
             System.err.printf("[FATAL " + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + "] Cannot reference '%s', as the package has not been imported.\nThe library can be found at: 'q.%s'\n", t2, t2);
             System.exit(0);
         }
