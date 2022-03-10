@@ -9,16 +9,7 @@ public class QRandom extends QLibrary {
 
     @SuppressWarnings("all")
     private final String qcode
-            = ("""
-            #import q.Windows;
-            #import q.Files;
-            #import q.Math;
-            #import q.Audio;
-            #import q.http;
-            #import q.Random;
-            #import q.Console;
-            #import q.Time;
-                        
+            = ("""      
             class Random
                         
                 cn Random()

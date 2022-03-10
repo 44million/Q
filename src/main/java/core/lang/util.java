@@ -8,6 +8,7 @@ import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
 import core.libs.*;
 import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 
 import java.io.*;
@@ -15,9 +16,12 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Scanner;
 
 public class util {
 
@@ -363,9 +367,9 @@ public class util {
         return null;
     }
 
-    public static void check(String p, String t2) {
+    public static void check(String p, String t2, ParserRuleContext ctx) {
         if (!Environment.global.allowedLibs.contains(p)) {
-            System.out.printf("[FATAL] Cannot invoke '%s' subfunctions, as the package has not been imported.\nThe library can be found at: 'q.%s'\n", t2, t2);
+            System.err.printf("[FATAL " + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + "] Cannot reference '%s', as the package has not been imported.\nThe library can be found at: 'q.%s'\n", t2, t2);
             System.exit(0);
         }
     }
@@ -444,41 +448,7 @@ public class util {
 
             @Override
             public String name() {
-                return "cout";
-            }
-
-            @Override
-            public Value ret() {
-                return null;
-            }
-
-            @Override
-            public String parent() {
-                return "io";
-            }
-
-            @Override
-            public void exec(List<Value> list) {
-                for (Value v : list) {
-                    String s = v.toString();
-                    System.out.println(s);
-                }
-            }
-
-            @Override
-            public Value ret(List<Value> list) {
-                return null;
-            }
-        });
-
-        Environment.global.defineNativeFunction(new INativeFunction() {
-            @Override
-            public void exec() {
-            }
-
-            @Override
-            public String name() {
-                return "coutf";
+                return "std";
             }
 
             @Override
@@ -530,7 +500,7 @@ public class util {
             public void exec(List<Value> list) {
                 String output = list.get(0).toString();
 
-                list.forEach((action) -> System.err.println(output));
+                System.err.println(output);
 
             }
 

@@ -1,4 +1,4 @@
-// Generated from /Users/harryharbuck-marlowe/Desktop/Q/src/main/java/core/etc/Q.g4 by ANTLR 4.9.2
+// Generated from C:/Users/Bosque/Documents/GitHub/xxl/src/main/java/core/etc\Q.g4 by ANTLR 4.9.2
 package core.interp;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -191,6 +191,18 @@ public class QBaseListener implements QListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitObjFunctionCall(QParser.ObjFunctionCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNewAt(QParser.NewAtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNewAt(QParser.NewAtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

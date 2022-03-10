@@ -1,5 +1,5 @@
-// note, only THREE functions can be called without importing the std library, std::ln, std::out, std::in
 #import q.std;
+#import q.io;
 
 class Obj
 
@@ -16,8 +16,24 @@ end
 class Main
 
     fn main()
-        new Obj as o();
-        std::cout(o::get());
+
+        io::err("This will be red or something");
+
+        std::coutln("Enter something:");
+
+        var input = std::cin();
+
+        std::cout(input);
+
+        io::err("This will be red or something");
+
+
+        try
+            std::iuhfiehfru("this will fail");
+        on (flaw)
+            io::err("Error message");
+        end
+
     end
 
 end

@@ -1,4 +1,4 @@
-// Generated from /Users/harryharbuck-marlowe/Desktop/Q/src/main/java/core/etc/Q.g4 by ANTLR 4.9.2
+// Generated from C:/Users/Bosque/Documents/GitHub/xxl/src/main/java/core/etc\Q.g4 by ANTLR 4.9.2
 package core.interp;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -116,6 +116,13 @@ public class QBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QVis
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitObjFunctionCall(QParser.ObjFunctionCallContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitNewAt(QParser.NewAtContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

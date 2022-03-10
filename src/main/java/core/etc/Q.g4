@@ -159,7 +159,16 @@ atStatement
  ;
 
 tryCatchStatement
- : Try block 'on' '(' 'err' ')' block End
+ : Try block 'on' '(' 'flaw' ')' block End
+
+ /*
+    try
+        std::cout("hello there");
+    on (flaw)
+        std::coutln("errr");
+    end
+ */
+
  ; 
 
 whileStatement
@@ -229,12 +238,12 @@ indexes
  : ( '[' expression ']' )+
  ;
 
-Println  : 'std' Accessor 'ln';
+Println  : 'std' Accessor 'QAVB8KI72J65919YLC';
 Async    : 'async';
 Var      : 'var';
 Import   : 'import';
-Print    : 'std' Accessor 'out';
-Input    : 'std' Accessor 'in';
+Print    : 'std' Accessor 'AX7MRSUXQ61G8DXIZW';
+Input    : 'std' Accessor 'cin';
 Assert   : 'assert';
 Def      : 'fn';
 ToInt    : 'toInt';

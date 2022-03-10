@@ -25,7 +25,7 @@ public class IO extends QLibrary {
                     
                     fn input()
                         
-                        var x = std::in();
+                        var x = std::cin();
                         return x;
                         
                     end
@@ -39,15 +39,15 @@ public class IO extends QLibrary {
                     end
                     
                     fn printline(x)
-                        std::ln(x);
+                        std::QAVB8KI72J65919YLC(x);
                     end
                     
                     fn out(x)
-                        std::out(x);
+                        std::AX7MRSUXQ61G8DXIZW(x);
                     end
                     
                     fn newline()
-                        std::ln();
+                        std::QAVB8KI72J65919YLC();
                     end
                             
                 end
