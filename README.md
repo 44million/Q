@@ -30,16 +30,18 @@ end
 
 class Runner
 
-	noval c;
+	noval var c;
 	
-	cn Runner();
+	cn Runner()
+	
+	end
 
 	fn run(x, y)
-		std:ln(x * y);
+		io::cout(x * y);
 	end
 
 	fn set(nv)
-		self.c = nv;
+		self::c = nv;
 	end
 
 end
@@ -47,7 +49,7 @@ end
 class Main
 
 	fn main()
-		Runner r = new Runner();
+		new Runner as r();
 		r.run(20, 304);
 	end
 	
