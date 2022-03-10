@@ -10,24 +10,20 @@ class Main
 
         new Random as r();
         var salt = r::ran("str");
+
         var path = "src/main/QFiles/" + salt + "/";
         var fname = salt + ".l";
 
-        std::cout("test");
-
-        var ls = "vro";
-
-        std::coutln(ls);
-
-        const var final = path + fname;
+        const var full = path + fname;
 
         std::workspace("make", path);
-        std::workspace("makefile", final);
+        std::workspace("makefile", full);
+        std::ln(io::getClass());
 
-        if (std::workspace("verify", final))
-            std::coutln(final + " was created successfully!");
+        if (std::workspace("verify", full))
+            std::coutln(full + " was created successfully!");
         else
-            std::coutln(final + " was not created.");
+            std::coutln(full + " was not created.");
         end
 
     end

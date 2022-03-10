@@ -700,7 +700,7 @@ public class util {
 
             @Override
             public String parent() {
-                return null;
+                return "std";
             }
 
             @Override
@@ -879,22 +879,17 @@ public class util {
 
             @Override
             public String name() {
-                return "class";
-                /*
-
-                    std::cout(std::class());
-
-                 */
+                return "getClass";
             }
 
             @Override
             public QValue ret() {
-                return null;
+                return new QValue(this.getClass().toString());
             }
 
             @Override
             public String parent() {
-                return "std";
+                return "io";
             }
 
             @Override

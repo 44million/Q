@@ -11,7 +11,6 @@ import core.libs.AWT.Window;
 import core.libs.GTP;
 import core.libs.OS;
 import core.libs.WebServer;
-import core.libs.puddle.Puddle;
 import core.libs.utils.HTTP;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -58,7 +57,7 @@ public class Visitor extends QBaseVisitor<QValue> {
     public QValue visitObjFunctionCallExpression(QParser.ObjFunctionCallExpressionContext ctx) {
 
         String parentClass = ctx.Identifier(0).getText();
-        String method = (ctx.Identifier(1)).getText();
+        String method = ctx.Identifier(1).getText();
 
         if (parentClass.equals("Files")) {
 
@@ -418,7 +417,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             this.visit(ctx.block(0));
         } catch (Exception e) {
             this.visit(ctx.block(1));
-            System.out.println("[ERROR " + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + "] " + e.getMessage());
+            throw new Problem(e.getMessage(), ctx);
         }
         return QValue.VOID;
     }
@@ -844,7 +843,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             case QLexer.Multiply -> multiply(ctx);
             case QLexer.Divide -> divide(ctx);
             case QLexer.Modulus -> modulus(ctx);
-            default -> throw new RuntimeException("[ERROR " + line + ":" + pos + "] Unknown operator type: " + ctx.op.getType());
+            default -> throw new Problem("Unknown operator type: " + ctx.op.getType(), ctx);
         };
     }
 
@@ -857,7 +856,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         return switch (ctx.op.getType()) {
             case QLexer.Add -> add(ctx);
             case QLexer.Subtract -> subtract(ctx);
-            default -> throw new RuntimeException("[ERROR " + line + ":" + pos + "] Unknown operator type: " + ctx.op.getType());
+            default -> throw new Problem("Unknown operator type: " + ctx.op.getType(), ctx);
         };
     }
 
@@ -872,7 +871,7 @@ public class Visitor extends QBaseVisitor<QValue> {
             case QLexer.LTEquals -> ltEq(ctx);
             case QLexer.GT -> gt(ctx);
             case QLexer.GTEquals -> gtEq(ctx);
-            default -> throw new RuntimeException("[ERROR " + line + ":" + pos + "] Unknown operator type: " + ctx.op.getType());
+            default -> throw new Problem("Unknown operator type: " + ctx.op.getType(), ctx);
         };
     }
 
@@ -885,7 +884,7 @@ public class Visitor extends QBaseVisitor<QValue> {
         return switch (ctx.op.getType()) {
             case QLexer.Equals -> eq(ctx);
             case QLexer.NEquals -> nEq(ctx);
-            default -> throw new RuntimeException("[ERROR " + line + ":" + pos + "] Unknown operator type: " + ctx.op.getType());
+            default -> throw new Problem("Unknown operator type: " + ctx.op.getType(), ctx);
         };
     }
 
