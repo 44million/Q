@@ -1,28 +1,16 @@
 @autoimport
+
+
 class Vehicle
     fn honk()
         std::coutln("honk honk");
     end
 end
 
-@autoimport
-class Sedan : Vehicle
+class MuscleCar
 
-    cn Sedan()
-
-    end
-
-    fn honk()
-        std::coutln("honk honk");
-    end
-
-end
-
-@autoimport
-class MuscleCar : Vehicle
-
-    noval var engine;
-    noval var hp;
+    var engine = "v4";
+    var hp = 200;
 
     cn MuscleCar()
 

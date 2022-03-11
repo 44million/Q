@@ -58,8 +58,10 @@ public class Visitor extends QBaseVisitor<Value> {
     public Value visitObjVarExpression(QParser.ObjVarExpressionContext ctx) {
         // obj::var
         Value v = this.visit(ctx.objVar());
-
-        return (v == null ? Value.NULL : v);
+        if (v == null) {
+            return Value.NULL;
+        }
+        return v;
     }
 
     @Override
@@ -70,15 +72,16 @@ public class Visitor extends QBaseVisitor<Value> {
         String obj = ctx.Identifier(0).getText();
         String var = ctx.Identifier(1).getText();
 
-        QObject jjk = Environment.global.objs.getOrDefault(obj, QObject.NULL);
+        QObject object = Environment.global.objs.get(obj);
+        Visitor v = object.v;
 
-        Value v = Value.NULL;
+        Value val = Value.NULL;
 
-        if (jjk.v.scope.vars.containsKey(var)) {
-            v = jjk.v.scope.vars.get(var);
+        if (v.scope.vars.containsKey(var)) {
+            val = object.v.scope.exists(var);
         }
 
-        return v;
+        return val;
     }
 
     @Override
@@ -677,7 +680,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
             QObject obj;
             try {
-                obj = new QObject(nameO, (QClass) (Environment.global.classes.get(parentClass)).clone());
+                obj = new QObject(nameO, Environment.global.classes.get(parentClass));
             } catch (Exception e) {
                 throw new Problem("Unable to clone '" + parentClass + "'", ctx);
             }
@@ -692,10 +695,11 @@ public class Visitor extends QBaseVisitor<Value> {
             Environment.global.consts.get(ctx.Identifier(0).getText()).call(list, this.functions);
 
             obj.setParams(list);
+            obj.v = this;
 
             Environment.global.objs.put(nameO, obj);
         } else {
-            throw new Problem("Class/Object not recognized: " + parentClass, ctx);
+            throw new Problem("Class:Object not recognized: " + parentClass, ctx);
         }
 
         return Value.VOID;
@@ -810,7 +814,7 @@ public class Visitor extends QBaseVisitor<Value> {
             newVal.id = id;
         }
 
-        if ((ctx.Noval(0) != null)) {
+        if (ctx.Noval(0) != null) {
             scope.varAssign(id, newVal);
             return Value.VOID;
         }

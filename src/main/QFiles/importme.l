@@ -258,3 +258,23 @@ class Main
 
 end
 
+@autoimport
+class Vehicle
+    fn honk()
+        std::coutln("honk honk");
+    end
+end
+
+@autoimport
+class Sedan : Vehicle
+
+    cn Sedan()
+
+    end
+
+    fn honk()
+        std::coutln("honk honk");
+    end
+
+end
+
