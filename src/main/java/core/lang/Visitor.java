@@ -65,20 +65,25 @@ public class Visitor extends QBaseVisitor<Value> {
     }
 
     @Override
-    @SuppressWarnings("all")
     public Value visitObjVar(QParser.ObjVarContext ctx) {
-        // obj::var = 10;
+        // obj::var = value;
         // challenger::hp = 707;
         String obj = ctx.Identifier(0).getText();
         String var = ctx.Identifier(1).getText();
 
-        QObject object = Environment.global.objs.get(obj);
-        Visitor v = object.v;
+        QObject object = Environment.global.objs.getOrDefault(obj, QObject.NULL);
 
         Value val = Value.NULL;
+        Visitor v = object.v;
 
-        if (v.scope.vars.containsKey(var)) {
-            val = object.v.scope.exists(var);
+        if (object.vars.containsKey(var)) {
+            val = object.vars.get(var);
+        }
+
+        if (v.scope.parent().vars.containsKey(var)) {
+            return v.scope.parent().vars.get(var);
+        } else if (v.scope.parent().parent().vars.containsKey(var)) {
+            return v.scope.parent().parent().vars.get(var);
         }
 
         return val;
@@ -680,7 +685,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
             QObject obj;
             try {
-                obj = new QObject(nameO, Environment.global.classes.get(parentClass));
+                obj = new QObject(nameO, (QClass) Environment.global.classes.get(parentClass).clone());
             } catch (Exception e) {
                 throw new Problem("Unable to clone '" + parentClass + "'", ctx);
             }
@@ -726,11 +731,10 @@ public class Visitor extends QBaseVisitor<Value> {
     public Value visitClassStatement(QParser.ClassStatementContext ctx) {
 
         String id = ctx.Identifier(0).getText();
-        Scope scope = new Scope(this.scope, true);
+        Scope scope = new Scope(this.scope, false);
 
         Visitor v = new Visitor(scope, new HashMap<>());
         v.visit(ctx.block());
-
         QClass qClass = new QClass(id, v.functions, scope);
         String base = "";
         qClass.setV(v);

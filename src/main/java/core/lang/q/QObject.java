@@ -3,10 +3,10 @@ package core.lang.q;
 import core.lang.Function;
 import core.lang.Visitor;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings("all")
 public class QObject {
 
     public static QObject NULL = new QObject();
@@ -16,16 +16,15 @@ public class QObject {
     public List<Value> params;
     public Map<String, Function> funcs;
     public Visitor v;
+    public Map<String, Value> vars;
 
-    private QObject() {
-        
-    }
+    private QObject() {}
 
     public QObject(String name, QClass instance) {
         this.name = name;
         this.qc = instance;
-        this.funcs = qc.functions;
-        this.v = this.qc.v;
+        this.funcs = new HashMap<>(instance.functions);
+        this.vars = new HashMap<>(instance.scope.vars);
     }
 
     public QObject get() {
