@@ -57,11 +57,7 @@ public class Visitor extends QBaseVisitor<Value> {
     @Override
     public Value visitObjVarExpression(QParser.ObjVarExpressionContext ctx) {
         // obj::var
-        Value v = this.visit(ctx.objVar());
-        if (v == null) {
-            return Value.NULL;
-        }
-        return v;
+        return this.visit(ctx.objVar());
     }
 
     @Override
@@ -393,9 +389,6 @@ public class Visitor extends QBaseVisitor<Value> {
 
     @Override
     public Value visitRandomExpression(QParser.RandomExpressionContext ctx) {
-
-        int line = ctx.start.getLine();
-        int pos = ctx.start.getCharPositionInLine();
 
         if (ctx.expression() == null) {
             throw new Problem("System call 'sys.ran' requires a :str argument", ctx);
@@ -731,11 +724,11 @@ public class Visitor extends QBaseVisitor<Value> {
     public Value visitClassStatement(QParser.ClassStatementContext ctx) {
 
         String id = ctx.Identifier(0).getText();
-        Scope scope = new Scope(this.scope, false);
 
-        Visitor v = new Visitor(scope, new HashMap<>());
+        Visitor v = new Visitor(new Scope(Environment.global.scope, true), new HashMap<>());
         v.visit(ctx.block());
-        QClass qClass = new QClass(id, v.functions, scope);
+
+        QClass qClass = new QClass(id, v.functions, v.scope);
         String base = "";
         qClass.setV(v);
 

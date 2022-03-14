@@ -5,7 +5,6 @@ import core.lang.INativeFunction;
 import core.lang.Visitor;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
-import core.lang.q.Value;
 import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
 import core.libs.WebServer;
@@ -18,7 +17,6 @@ public class Environment {
 
     public static Environment global = new Environment();
 
-    final Environment before;
     public Map<String, Function> functions = Collections.emptyMap();
     public Scope scope = new Scope();
     public Visitor visitor = new Visitor(scope, functions);
@@ -34,21 +32,16 @@ public class Environment {
 
     public Map<String, QClass> classes = new HashMap<>();
     public Map<String, QObject> objs = new HashMap<>();
-    public HashMap<String, File> files = new HashMap<>();
-    public HashMap<String, INativeFunction> natives = new HashMap<>();
-    public HashMap<String, Function> consts = new HashMap<>();
+    public Map<String, File> files = new HashMap<>();
+    public Map<String, INativeFunction> natives = new HashMap<>();
+    public Map<String, Function> consts = new HashMap<>();
 
     public boolean hasMainExecuted = false;
     public boolean tips = true;
     public boolean auto = true;
 
-    public HashMap<String, Function> fns;
-    public HashMap<String, Value> vars;
-
     public Environment() {
-        this.before = null;
-        this.fns = new HashMap<>();
-        this.vars = new HashMap<>();
+
     }
 
     public void defineNativeFunction(INativeFunction e) {

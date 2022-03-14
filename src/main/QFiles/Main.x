@@ -1,16 +1,27 @@
-class Main
+class Obj
 
-    @autoimport
-    fn make()
+    noval var value;
 
-        new Window as w("Hello World", 90, 90);
-        w::render();
+    cn Obj()
 
     end
 
+    fn set(v)
+        self::value = v;
+    end
+
+    fn get()
+        return self::value;
+    end
+
+end
+
+class Main : Obj
+
     fn main()
-        std::cout("it aint work");
-        make();
+        new Obj as o();
+        o::set("he");
+        std::cout(o::value);
     end
 
 end
