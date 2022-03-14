@@ -38,7 +38,7 @@ public class Environment {
 
     public boolean hasMainExecuted = false;
     public boolean tips = true;
-    public boolean auto = true;
+    public boolean auto = false;
 
     public Environment() {
 

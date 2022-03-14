@@ -1,4 +1,8 @@
-#import q.std;
+/*
+    This import is simply to demonstrate how the `@autoimport` tag works, by importing the `all` file
+    and parsing the contents, you parse the `@autoimport` tag, meaning that every library is imported.
+*/
+#import all;
 
 class Obj
 
@@ -18,12 +22,18 @@ class Obj
 
 end
 
-class Main : Obj
+class BaseClass
+
+end
+
+class Main : BaseClass
 
     fn main()
+
         new Obj as o();
         o::set("he");
         std::cout(o::value);
+
     end
 
 end

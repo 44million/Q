@@ -138,7 +138,6 @@ importFromGithubStatement
 
 importAllStatement
  : '#''import' '[' '*' ']'
- | '#' 'import' '[' 'all' ']'
  ;
 
 atStatement
@@ -146,12 +145,12 @@ atStatement
  ;
 
 tryCatchStatement
- : Try block 'on' '(' 'flaw' ')' block End
+ : Try block 'except' block End
 
  /*
     try
         std::cout("hello there");
-    on (flaw)
+    except
         std::coutln("errr");
     end
  */
