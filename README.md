@@ -13,8 +13,8 @@ fn ->
 end
 ```
 
- - [ ] Change `variables` to a Variable object, from a HashMap.
-- [ ] Optimize code
+ - [ ] ~~Change `variables` to a Variable object, from a HashMap.~~ Would make execution time slower, plus there's no point
+- [x] Optimize code \[it went from ~12 second execution time, to 3\] 
 
  - [x] Possibly change function identifier?
 	 - [ ] func \[**old**\]
@@ -27,7 +27,7 @@ end
 	 - [ ] pro
  - [x] Classes/Objects
 ```js
-
+@autoimport
 class Runner
 
 	noval var c;
@@ -50,11 +50,13 @@ class Runner
 
 end
 
+@autoimport
 class Main
 
 	fn main()
 		new Runner as r();
 		r::run(20, 304);
+		io::cout(r::get());
 	end
 	
 end
