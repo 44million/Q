@@ -365,7 +365,9 @@ public class util {
     }
 
     public static void check(String p, String t2, ParserRuleContext ctx) {
-        if (!Environment.global.allowedLibs.contains(p) && !Environment.global.auto) {
+        if (Environment.global.allowedLibs.contains(p) || Environment.global.auto) {
+            return;
+        } else {
             throw new Problem("Cannot reference '" + t2 + "', as the package has not been imported.The library can be found at: 'q." + t2 +"'", ctx);
         }
     }
