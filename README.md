@@ -9,7 +9,7 @@
 
 ```js
 fn -> 
-	std:ln("Hello World"); 
+	std::coutln("Hello World"); 
 end
 ```
 
@@ -17,7 +17,7 @@ end
 - [ ] Optimize code
 
  - [x] Possibly change function identifier?
-	 - [ ] func
+	 - [ ] func \[**old**\]
 	 - [x] fn
 	 - [ ] val/void
 	 - [ ] def
@@ -43,6 +43,10 @@ class Runner
 	fn set(nv)
 		self::c = nv;
 	end
+	
+	fn get()
+		return self::c;
+	end
 
 end
 
@@ -50,7 +54,7 @@ class Main
 
 	fn main()
 		new Runner as r();
-		r.run(20, 304);
+		r::run(20, 304);
 	end
 	
 end
