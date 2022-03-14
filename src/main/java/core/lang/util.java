@@ -16,12 +16,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Scanner;
 
 public class util {
 
@@ -288,9 +285,9 @@ public class util {
     public static void registerLibrary(boolean b, String other) {
         Environment.global.allLibs.add(other);
 
-            if (b) {
-                Environment.global.allowedLibs.add(other);
-            }
+        if (b) {
+            Environment.global.allowedLibs.add(other);
+        }
 
     }
 
@@ -369,8 +366,7 @@ public class util {
 
     public static void check(String p, String t2, ParserRuleContext ctx) {
         if (!Environment.global.allowedLibs.contains(p) && !Environment.global.auto) {
-            System.err.printf("[FATAL " + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + "] Cannot reference '%s', as the package has not been imported.\nThe library can be found at: 'q.%s'\n", t2, t2);
-            System.exit(0);
+            throw new Problem("Cannot reference '" + t2 + "', as the package has not been imported.The library can be found at: 'q." + t2 +"'", ctx);
         }
     }
 
@@ -713,7 +709,8 @@ public class util {
 
         Environment.global.defineNativeFunction(new INativeFunction() {
             @Override
-            public void exec() {}
+            public void exec() {
+            }
 
             @Override
             public String name() {
@@ -795,7 +792,8 @@ public class util {
             }
 
             @Override
-            public void exec(List<Value> list) {}
+            public void exec(List<Value> list) {
+            }
 
             @Override
             public Value ret(List<Value> list) {
@@ -833,7 +831,8 @@ public class util {
 
         Environment.global.defineNativeFunction(new INativeFunction() {
             @Override
-            public void exec() {}
+            public void exec() {
+            }
 
             @Override
             public String name() {

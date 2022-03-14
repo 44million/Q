@@ -7,7 +7,6 @@ import org.antlr.v4.runtime.CharStreams;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.IOException;
 
 public class Main {
 
