@@ -30,7 +30,6 @@ statement
  | anonymousFunction
  | hereStatement ';'
  | assignment ';'
- | atStatement
  ;
 
 reAssignment
@@ -111,7 +110,7 @@ elseStat
  ;
 
 functionDecl
- : (Async | Native)*? Def Identifier '(' idList? ')' block End
+ : ( atStatement )? ( Async | Native )*? Def Identifier '(' idList? ')' block End
  ;
 
 forStatement
