@@ -11,6 +11,7 @@ public class Scope {
     private final Scope parentScope;
     private final boolean isFunction;
     public boolean lib;
+    public boolean sore;
 
     protected Scope() {
         this(null, false);

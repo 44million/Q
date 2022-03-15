@@ -364,11 +364,11 @@ public class util {
         return null;
     }
 
-    public static void check(String p, String t2, ParserRuleContext ctx) {
-        if (Environment.global.allowedLibs.contains(p) || Environment.global.auto) {
+    public static void check(String p, String t2, ParserRuleContext ctx, boolean sore) {
+        if (Environment.global.allowedLibs.contains(p) || sore) {
             return;
         } else {
-            throw new Problem("Cannot reference '" + t2 + "', as the package has not been imported.The library can be found at: 'q." + t2 +"'", ctx);
+            throw new Problem("Cannot reference '" + t2 + "', as the package has not been imported.The library can be found at: 'q." + t2 + "'", ctx);
         }
     }
 

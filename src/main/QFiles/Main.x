@@ -1,39 +1,16 @@
-/*
-    This import is simply to demonstrate how the `@autoimport` tag works, by importing the `all` file
-    and parsing the contents, you parse the `@autoimport` tag, meaning that every library is imported.
-*/
-#import all;
+class Main
 
-class Obj
+    @autoimport
+    fn make()
 
-    noval var value;
-
-    cn Obj()
+        new Window as w("Hello World", 90, 90);
+        w::render();
 
     end
-
-    fn set(v)
-        self::value = v;
-    end
-
-    fn get()
-        return self::value;
-    end
-
-end
-
-class BaseClass
-
-end
-
-class Main : BaseClass
 
     fn main()
-
-        new Obj as o();
-        o::set("he");
-        std::cout(o::value);
-
+        std::cout("Help me");
+        make();
     end
 
 end

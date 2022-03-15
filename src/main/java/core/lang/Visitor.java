@@ -93,7 +93,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         if (parentClass.equals("Files")) {
 
-            util.check("files", "Files", ctx);
+            util.check("files", "Files", ctx, this.sore);
 
             switch (method) {
                 case "absPath":
@@ -128,7 +128,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         } else if (parentClass.equals("http")) {
 
-            util.check("http", "http", ctx);
+            util.check("http", "http", ctx, this.sore);
 
             if (method.equals("get")) {
 
@@ -138,7 +138,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         } else if (parentClass.equals("GTP")) {
 
-            util.check("gtp", "gtp", ctx);
+            util.check("gtp", "gtp", ctx, this.sore);
 
             if (ctx.exprList() == null) {
                 throw new Problem("Parameter list is wrong", ctx);
@@ -194,7 +194,7 @@ public class Visitor extends QBaseVisitor<Value> {
                 }
             }
 
-            util.check(parentClass.toLowerCase(), parentClass, ctx);
+            util.check(parentClass.toLowerCase(), parentClass, ctx, this.sore);
 
             if (Environment.global.natives.get(method) == null) {
                 throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx);
@@ -237,7 +237,6 @@ public class Visitor extends QBaseVisitor<Value> {
             System.err.print(s);
         }
 
-
         Function f;
 
         if (ctx.Native(0) != null) {
@@ -252,6 +251,10 @@ public class Visitor extends QBaseVisitor<Value> {
 
         if (ctx.Async(0) != null) {
             f.setAsync(true);
+        }
+
+        if (ctx.atStatement() != null) {
+            this.visit(ctx.atStatement());
         }
 
         this.functions.put(id, f);
@@ -612,7 +615,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         if (ctx.Identifier(0).getText().equals("File")) {
 
-            util.check("files", "Files", ctx);
+            util.check("files", "Files", ctx, this.sore);
             String id = ctx.Identifier(0).getText();
 
             if (ctx.exprList().expression() == null) {
@@ -630,7 +633,7 @@ public class Visitor extends QBaseVisitor<Value> {
             Environment.global.files.put(id, file);
         } else if (ctx.Identifier(0).getText().equals("Window")) {
 
-            util.check("windows", "Windows", ctx);
+            util.check("windows", "Windows", ctx, this.sore);
 
             List<Value> list = new ArrayList<>();
             if (ctx.exprList() != null) {
@@ -1176,12 +1179,9 @@ public class Visitor extends QBaseVisitor<Value> {
         if (id.equals("notips")) {
             // @notips
             Environment.global.tips = false;
-        } else if (id.equals("sore")) {
-            // @sore
-            this.sore = true;
         } else if (id.equals("autoimport")) {
             // @autoimport
-            Environment.global.auto = true;
+            this.sore = true;
         } else {
             throw new Problem(id + " is not a valid @", ctx);
         }
@@ -1310,7 +1310,7 @@ public class Visitor extends QBaseVisitor<Value> {
     @Override
     public Value visitInputExpression(InputExpressionContext ctx) {
 
-        util.check("std", "std", ctx);
+        util.check("std", "std", ctx, this.sore);
 
         TerminalNode inputString = ctx.String();
         try {
