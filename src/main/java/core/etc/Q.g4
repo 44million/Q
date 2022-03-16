@@ -306,7 +306,7 @@ Comment
  ;
 
 Space
- : [ \t\r\n\u000C] -> skip
+ : [ \t\r\u000C] -> skip
  ;
 
 fragment Int
