@@ -1,3 +1,5 @@
+#import q.std;
+
 class Obj
 
     noval var value;

@@ -231,6 +231,12 @@ public class Visitor extends QBaseVisitor<Value> {
             }
         } catch (Exception e) {
             String s = e.getMessage();
+
+            if (s.contains("Function.exists()")) {
+                System.out.print("");
+                return Value.NULL;
+            }
+
             System.err.print(s);
         }
 
