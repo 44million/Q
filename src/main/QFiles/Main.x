@@ -9,6 +9,8 @@ class Main
         o::set("This is an Object, this :str value is held in the VALUE variable");
         std::cout(o::get());
 
+        std::cout("\n");
+
         new Calculator as calc();
         std::cout(calc::mul(6, 9));
     end

@@ -1390,7 +1390,17 @@ public class Visitor extends QBaseVisitor<Value> {
     @Override
     public Value visitPrintlnFunctionCall(PrintlnFunctionCallContext ctx) {
         if (ctx.expression() != null) {
-            System.out.println(this.visit(ctx.expression()));
+
+            String s = this.visit(ctx.expression()).toString();
+            char[] chars = s.toCharArray();
+            
+            for (int i = 0; i < chars.length; i++) {
+                if (chars[i] == '\n') {
+                    System.out.println();
+                } else {
+                    System.out.print(chars[i]);
+                }
+            }
         } else {
             System.out.println();
         }
@@ -1399,7 +1409,17 @@ public class Visitor extends QBaseVisitor<Value> {
 
     @Override
     public Value visitPrintFunctionCall(PrintFunctionCallContext ctx) {
-        System.out.print(this.visit(ctx.expression()));
+        
+        String s = this.visit(ctx.expression()).toString();
+        char[] chars = s.toCharArray();
+        
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == '\n') {
+                System.out.println();
+            } else {
+                System.out.print(chars[i]);
+            }
+        }
         return Value.VOID;
     }
 
