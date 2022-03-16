@@ -93,7 +93,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         if (parentClass.equals("Files")) {
 
-            util.check("files", "Files", ctx, this.sore);
+            util.check("files", "Files", ctx);
 
             switch (method) {
                 case "absPath":
@@ -128,7 +128,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         } else if (parentClass.equals("http")) {
 
-            util.check("http", "http", ctx, this.sore);
+            util.check("http", "http", ctx);
 
             if (method.equals("get")) {
 
@@ -138,7 +138,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         } else if (parentClass.equals("GTP")) {
 
-            util.check("gtp", "gtp", ctx, this.sore);
+            util.check("gtp", "gtp", ctx);
 
             if (ctx.exprList() == null) {
                 throw new Problem("Parameter list is wrong", ctx);
@@ -194,7 +194,7 @@ public class Visitor extends QBaseVisitor<Value> {
                 }
             }
 
-            util.check(parentClass.toLowerCase(), parentClass, ctx, this.sore);
+            util.check(parentClass.toLowerCase(), parentClass, ctx);
 
             if (Environment.global.natives.get(method) == null) {
                 throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx);
@@ -612,7 +612,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         if (ctx.Identifier(0).getText().equals("File")) {
 
-            util.check("files", "Files", ctx, this.sore);
+            util.check("files", "Files", ctx);
             String id = ctx.Identifier(0).getText();
 
             if (ctx.exprList().expression() == null) {
@@ -630,7 +630,7 @@ public class Visitor extends QBaseVisitor<Value> {
             Environment.global.files.put(id, file);
         } else if (ctx.Identifier(0).getText().equals("Window")) {
 
-            util.check("windows", "Windows", ctx, this.sore);
+            util.check("windows", "Windows", ctx);
 
             List<Value> list = new ArrayList<>();
             if (ctx.exprList() != null) {
@@ -1307,7 +1307,7 @@ public class Visitor extends QBaseVisitor<Value> {
     @Override
     public Value visitInputExpression(InputExpressionContext ctx) {
 
-        util.check("std", "std", ctx, this.sore);
+        util.check("std", "std", ctx);
 
         TerminalNode inputString = ctx.String();
         try {
