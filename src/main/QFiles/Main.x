@@ -9,7 +9,7 @@ class Main
     end
 
     fn main()
-        std::cout("Help me");
+        std::cout("it aint work");
         make();
     end
 
