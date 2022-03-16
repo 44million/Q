@@ -256,10 +256,6 @@ public class Visitor extends QBaseVisitor<Value> {
             f.setAsync(true);
         }
 
-        if (ctx.atStatement() != null) {
-            this.visit(ctx.atStatement());
-        }
-
         this.functions.put(id, f);
         return Value.VOID;
     }
