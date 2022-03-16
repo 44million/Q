@@ -57,7 +57,11 @@ public class Visitor extends QBaseVisitor<Value> {
     @Override
     public Value visitObjVarExpression(QParser.ObjVarExpressionContext ctx) {
         // obj::var
-        return this.visit(ctx.objVar());
+        Value v = this.visit(ctx.objVar());
+        if (v == null) {
+            return Value.NULL;
+        }
+        return v;
     }
 
     @Override
@@ -231,14 +235,12 @@ public class Visitor extends QBaseVisitor<Value> {
             }
         } catch (Exception e) {
             String s = e.getMessage();
-
-            if (s.contains("Function.exists()")) {
-                System.out.print("");
-                return Value.NULL;
+            if (e.getMessage().contains("Function.exists()")) {
+                s = "";
             }
-
             System.err.print(s);
         }
+
 
         Function f;
 
@@ -391,6 +393,9 @@ public class Visitor extends QBaseVisitor<Value> {
 
     @Override
     public Value visitRandomExpression(QParser.RandomExpressionContext ctx) {
+
+        int line = ctx.start.getLine();
+        int pos = ctx.start.getCharPositionInLine();
 
         if (ctx.expression() == null) {
             throw new Problem("System call 'sys.ran' requires a :str argument", ctx);
@@ -726,11 +731,11 @@ public class Visitor extends QBaseVisitor<Value> {
     public Value visitClassStatement(QParser.ClassStatementContext ctx) {
 
         String id = ctx.Identifier(0).getText();
+        Scope scope = new Scope(this.scope, false);
 
-        Visitor v = new Visitor(new Scope(Environment.global.scope, true), new HashMap<>());
+        Visitor v = new Visitor(scope, new HashMap<>());
         v.visit(ctx.block());
-
-        QClass qClass = new QClass(id, v.functions, v.scope);
+        QClass qClass = new QClass(id, v.functions, scope);
         String base = "";
         qClass.setV(v);
 
@@ -1178,9 +1183,12 @@ public class Visitor extends QBaseVisitor<Value> {
         if (id.equals("notips")) {
             // @notips
             Environment.global.tips = false;
+        } else if (id.equals("sore")) {
+            // @sore
+            this.sore = true;
         } else if (id.equals("autoimport")) {
             // @autoimport
-            this.sore = true;
+            Environment.global.auto = true;
         } else {
             throw new Problem(id + " is not a valid @", ctx);
         }
@@ -1330,7 +1338,7 @@ public class Visitor extends QBaseVisitor<Value> {
     public Value visitAnonymousFunction(QParser.AnonymousFunctionContext ctx) {
 
         Scope scopeNext = new Scope(this.scope, true);
-        Visitor next = new Visitor(scopeNext, new HashMap<>());
+        Visitor next = new Visitor(scopeNext, new HashMap<String, Function>());
 
         if (ctx.exprList() != null) {
             for (int i = 0; i < ctx.exprList().expression().size(); i++) {

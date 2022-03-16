@@ -30,6 +30,7 @@ statement
  | anonymousFunction
  | hereStatement ';'
  | assignment ';'
+ | atStatement
  ;
 
 reAssignment
@@ -110,7 +111,7 @@ elseStat
  ;
 
 functionDecl
- : ( atStatement )? ( Async | Native )*? Def Identifier '(' idList? ')' block End
+ : (Async | Native)*? Def Identifier '(' idList? ')' block End
  ;
 
 forStatement
@@ -138,6 +139,7 @@ importFromGithubStatement
 
 importAllStatement
  : '#''import' '[' '*' ']'
+ | '#' 'import' '[' 'all' ']'
  ;
 
 atStatement
@@ -145,12 +147,12 @@ atStatement
  ;
 
 tryCatchStatement
- : Try block 'except' block End
+ : Try block 'on' '(' 'flaw' ')' block End
 
  /*
     try
         std::cout("hello there");
-    except
+    on (flaw)
         std::coutln("errr");
     end
  */

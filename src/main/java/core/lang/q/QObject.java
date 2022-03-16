@@ -18,8 +18,7 @@ public class QObject {
     public Visitor v;
     public Map<String, Value> vars;
 
-    private QObject() {
-    }
+    private QObject() {}
 
     public QObject(String name, QClass instance) {
         this.name = name;

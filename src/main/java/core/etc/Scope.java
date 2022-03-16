@@ -11,7 +11,6 @@ public class Scope {
     private final Scope parentScope;
     private final boolean isFunction;
     public boolean lib;
-    public boolean sore;
 
     protected Scope() {
         this(null, false);
@@ -24,11 +23,11 @@ public class Scope {
     }
 
     public void functionParam(String var, Value value) {
-        this.vars.put(var, value);
+        vars.put(var, value);
     }
 
     public void varAssign(String var, Value value) {
-        if (this.exists(var, !this.isFunction) != null) {
+        if (exists(var, !isFunction) != null) {
 
             if (value.constant) {
                 System.out.println("[FATAL] Variable '" + var + "' is constant, and cannot be changed");
@@ -52,7 +51,7 @@ public class Scope {
     private void varReAssign(String var, Value value) {
         if (this.vars.containsKey(var)) {
             this.vars.put(var, value);
-        } else if (this.parentScope != null) {
+        } else if (parentScope != null) {
             this.parentScope.varReAssign(var, value);
         }
     }
