@@ -1,6 +1,6 @@
 @header ObjectLibrary
-@autoimport
 
+@autoimport
 class Object
 
     cn Object()

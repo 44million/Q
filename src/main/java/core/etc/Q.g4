@@ -110,7 +110,7 @@ elseStat
  ;
 
 functionDecl
- : ( atStatement )? ( Async | Native )*? Def Identifier '(' idList? ')' block End
+ : ( Async | Native )*? Def Identifier '(' idList? ')' block End
  ;
 
 forStatement
@@ -145,7 +145,7 @@ atStatement
  ;
 
 tryCatchStatement
- : Try block 'except' block End
+ : Try block 'except' ( '<' expression '>' )*? block End
 
  /*
     try
@@ -182,7 +182,7 @@ idList
  ;
 
 classStatement
- : Class Identifier ( ':' Identifier )? block 'end'
+ : ( atStatement )? Class Identifier ( ':' Identifier )? block 'end'
  ;
 
 exprList
@@ -306,7 +306,7 @@ Comment
  ;
 
 Space
- : [ \t\r\u000C] -> skip
+ : [ \t\r\n\u000C] -> skip
  ;
 
 fragment Int

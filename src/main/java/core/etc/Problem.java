@@ -12,6 +12,10 @@ public class Problem extends RuntimeException {
         super("[ERROR " + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + "] " + msg);
     }
 
+    public Problem(String msg, ParserRuleContext ctx, String c) {
+        super("[ERROR " + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + "] in class '" + c + "' {\n\t'" + msg + "'\n}");
+    }
+
     public Problem(String msg) {
         super("[ERROR] " + msg);
     }

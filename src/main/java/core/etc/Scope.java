@@ -72,25 +72,4 @@ public class Scope {
         }
     }
 
-    public Scope ancestor(int history) {
-
-        Scope environment = this;
-
-        for (int i = 0; i < history; i++) {
-            if (environment.parentScope != null) {
-                environment = environment.parentScope;
-            }
-        }
-
-        return environment;
-    }
-
-    public Value getAt(int distance, String name) {
-        return this.ancestor(distance).vars.get(name);
-    }
-
-    public void assignAt(int distance, String name, Value value) {
-        this.ancestor(distance).vars.put(name, value);
-    }
-
 }

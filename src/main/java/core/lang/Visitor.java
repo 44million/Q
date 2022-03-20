@@ -8,7 +8,6 @@ import core.lang.q.QClass;
 import core.lang.q.QObject;
 import core.lang.q.Value;
 import core.libs.AWT.Window;
-import core.libs.GTP;
 import core.libs.OS;
 import core.libs.WebServer;
 import core.libs.utils.HTTP;
@@ -33,11 +32,18 @@ public class Visitor extends QBaseVisitor<Value> {
     public final Map<String, Function> functions;
     public Scope scope;
     public boolean lib;
-    public boolean sore;
+    public String curClass;
+    public Visitor parent;
 
     public Visitor(Scope scope, Map<String, Function> functions) {
         this.scope = scope;
         this.functions = new HashMap<>(functions);
+    }
+
+    public Visitor(Scope scope, Map<String, Function> functions, String cname) {
+        this.scope = scope;
+        this.functions = new HashMap<>(functions);
+        this.curClass = cname;
     }
 
     @Override
@@ -93,7 +99,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         if (parentClass.equals("Files")) {
 
-            util.check("files", "Files", ctx, this.sore);
+            util.check("files", "Files", ctx, this.scope.parent().parent().parent().sore, this.curClass);
 
             switch (method) {
                 case "absPath":
@@ -122,13 +128,13 @@ public class Visitor extends QBaseVisitor<Value> {
 
                 default:
 
-                    throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx);
+                    throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx, this.curClass);
 
             }
 
         } else if (parentClass.equals("http")) {
 
-            util.check("http", "http", ctx, this.sore);
+            util.check("http", "http", ctx, this.scope.parent().parent().parent().sore, this.curClass);
 
             if (method.equals("get")) {
 
@@ -136,31 +142,12 @@ public class Visitor extends QBaseVisitor<Value> {
 
             }
 
-        } else if (parentClass.equals("GTP")) {
-
-            util.check("gtp", "gtp", ctx, this.sore);
-
-            if (ctx.exprList() == null) {
-                throw new Problem("Parameter list is wrong", ctx);
-            }
-
-            int amount = this.visit(ctx.exprList().expression(0)).asDouble().intValue();
-            String prefix = this.visit(ctx.exprList().expression(1)).asString();
-
-            switch (method) {
-
-                case "twp":
-                    return new Value(new GTP().getText(amount, prefix));
-                case "text":
-                    return new Value(new GTP().getText(amount));
-            }
-
         } else if (util.getWebByName(parentClass) != null) {
 
             if (method.equals("stop") && util.getWebByName(parentClass) != null) {
                 util.getWebByName(parentClass).stop();
             } else {
-                throw new Problem("Unknown method '" + method + "'", ctx);
+                throw new Problem("Unknown method '" + method + "'", ctx, this.curClass);
             }
 
         } else if (Environment.global.objs.containsKey(parentClass)) {
@@ -181,7 +168,7 @@ public class Visitor extends QBaseVisitor<Value> {
                 return obj.funcs.get(method + vals.size()).call(vals, new HashMap<>());
 
             } else {
-                throw new Problem(Environment.global.objs.get(parentClass).qc.name + " does not contain a definition for '" + method + "'", ctx);
+                throw new Problem(Environment.global.objs.get(parentClass).qc.name + " does not contain a definition for '" + method + "'", ctx, this.curClass);
             }
 
         } else if (Environment.global.natives.containsKey(method)) {
@@ -194,10 +181,10 @@ public class Visitor extends QBaseVisitor<Value> {
                 }
             }
 
-            util.check(parentClass.toLowerCase(), parentClass, ctx, this.sore);
+            util.check(parentClass.toLowerCase(), parentClass, ctx, this.scope.parent().parent().parent().sore, this.curClass);
 
             if (Environment.global.natives.get(method) == null) {
-                throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx);
+                throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx, this.curClass);
             }
 
             if (l.size() >= 1) {
@@ -227,7 +214,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         try {
             if (this.functions.get(id).exists()) {
-                throw new Problem("Function: '" + id + "' already exists.", ctx);
+                throw new Problem("Function: '" + id + "' already exists.", ctx, this.curClass);
             }
         } catch (Exception e) {
             String s = e.getMessage();
@@ -253,10 +240,6 @@ public class Visitor extends QBaseVisitor<Value> {
             f.setAsync(true);
         }
 
-        if (ctx.atStatement() != null) {
-            this.visit(ctx.atStatement());
-        }
-
         this.functions.put(id, f);
         return Value.VOID;
     }
@@ -279,7 +262,7 @@ public class Visitor extends QBaseVisitor<Value> {
             fw.close();
 
         } catch (Exception e) {
-            throw new Problem(e.getMessage(), ctx);
+            throw new Problem(e.getMessage(), ctx, this.curClass);
         }
         return Value.VOID;
     }
@@ -321,7 +304,7 @@ public class Visitor extends QBaseVisitor<Value> {
         String component = this.visit(ctx.expression()).asString();
 
         if (util.getWinByName(ctx.Identifier().getText()) == null) {
-            throw new Problem("The specified window: " + ctx.Identifier().getText() + " does not exist!", ctx);
+            throw new Problem("The specified window: " + ctx.Identifier().getText() + " does not exist.", ctx, this.curClass);
         } else {
             if (util.getCompByName(component) != null) {
                 util.getCompByName(component).init(ctx.Identifier().getText());
@@ -339,12 +322,12 @@ public class Visitor extends QBaseVisitor<Value> {
             try {
                 OS.execS(this.visit(ctx.expression()).asString());
             } catch (Exception e) {
-                throw new Problem("Could not execute text: " + this.visit(ctx.expression()).asString() + " [" + e.getMessage() + "]", ctx);
+                throw new Problem("Could not execute text: " + this.visit(ctx.expression()).asString() + " [" + e.getMessage() + "]", ctx, this.curClass);
             }
         } else if (method.equals("quit") && ctx.expression() != null) {
 
             if (ctx.expression() == null) {
-                throw new Problem("Function 'sys.quit(:int) requires an argument", ctx);
+                throw new Problem("Function 'sys.quit(:int) requires an argument", ctx, this.curClass);
             }
 
             int code = (this.visit(ctx.expression()).asDouble().intValue());
@@ -357,7 +340,7 @@ public class Visitor extends QBaseVisitor<Value> {
             try {
                 Thread.sleep(time);
             } catch (Exception e) {
-                throw new Problem(e.getMessage(), ctx);
+                throw new Problem(e.getMessage(), ctx, this.curClass);
             }
         } else if (method.equals("destroy")) {
 
@@ -368,7 +351,7 @@ public class Visitor extends QBaseVisitor<Value> {
             if (Environment.global.objs.containsKey(s)) {
                 Environment.global.objs.remove(s);
             } else {
-                throw new Problem("Object: '" + s + "' does not exist.", ctx);
+                throw new Problem("Object: '" + s + "' does not exist.", ctx, this.curClass);
             }
         } else if (method.equals("parent")) {
 
@@ -377,7 +360,7 @@ public class Visitor extends QBaseVisitor<Value> {
         } else if (method.equals("getProperty")) {
 
             if (ctx.expression() == null) {
-                throw new Problem("'sys.getProperty' must take a :str object as a parameter", ctx);
+                throw new Problem("'sys.getProperty' must take a :str object as a parameter", ctx, this.curClass);
             }
 
             Value v = this.visit(ctx.expression());
@@ -385,7 +368,7 @@ public class Visitor extends QBaseVisitor<Value> {
             return new Value(System.getProperty(v.asString()));
 
         } else {
-            throw new Problem("Sys function '" + ctx.Identifier().getText() + "' not found", ctx);
+            throw new Problem("Sys function '" + ctx.Identifier().getText() + "' not found", ctx, this.curClass);
         }
         return Value.VOID;
     }
@@ -394,7 +377,7 @@ public class Visitor extends QBaseVisitor<Value> {
     public Value visitRandomExpression(QParser.RandomExpressionContext ctx) {
 
         if (ctx.expression() == null) {
-            throw new Problem("System call 'sys.ran' requires a :str argument", ctx);
+            throw new Problem("System call 'sys.ran' requires a :str argument", ctx, this.curClass);
         }
 
         String s = this.visit(ctx.expression()).asString();
@@ -426,7 +409,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         while (l != null) {
             if (l.lib) {
-                throw new Problem("Library files cannot contain a function 'main'.\nPlease either remove the '@header' statement, or rename the function.", ctx);
+                throw new Problem("Library files cannot contain a function 'main'.\nPlease either remove the '@header' statement, or rename the function.", ctx, this.curClass);
             } else {
                 l = l.parent();
             }
@@ -446,10 +429,71 @@ public class Visitor extends QBaseVisitor<Value> {
     @Override
     public Value visitTryCatchStatement(QParser.TryCatchStatementContext ctx) {
 
+        Value v;
+        boolean print = true;
+        int num = 0;
+        boolean before = true;
+        boolean after = false;
+
+        String ops =
+                """
+                        \t\t<"default">
+                        \t\t\tApplies the default actions to the try-except loop
+                        \t\t<"suppress">
+                        \t\t\tDisables automatic error printing.
+                        \t\t<"dontprint">
+                        \t\t\tDisables automatic error printing.
+                        \t\t<"printbefore">
+                        \t\t\tPrints the error message BEFORE executing the code within the except block
+                        \t\t<"printafter">
+                        \t\t\tPrints the error message AFTER executing the code within the except block
+                        """;
+
+        if (ctx.expression(0) == null) {
+            throw new Problem("try-except statement MUST have a specification tag, or the default tag. The options are:\n" + ops, ctx, this.curClass);
+        }
+
+        while (ctx.expression(num) != null) {
+            v = this.visit(ctx.expression(num));
+            num++;
+
+            if (v.toString().equals("suppress") || v.toString().equals("dontprint")) {
+                print = false;
+            } else if (v.toString().equals("printbefore")) {
+
+                if (!print) {
+                    throw new Problem("Cannot attach tag '" + v + "' to try-except, as the 'suppress' tag has already been attached", ctx, this.curClass);
+                }
+
+                before = true;
+                after = false;
+            } else if (v.toString().equals("printafter")) {
+                if (!print) {
+                    throw new Problem("Cannot attach tag '" + v + "' to try-except, as the 'suppress' tag has already been attached", ctx, this.curClass);
+                }
+                after = true;
+                before = false;
+            } else if (v.toString().equals("default")) {
+                after = false;
+                before = true;
+            } else {
+                throw new Problem("Tag '" + v + "' is not a valid tag.", ctx, this.curClass);
+            }
+        }
+
         try {
             this.visit(ctx.block(0));
         } catch (Exception e) {
-            this.visit(ctx.block(1));
+
+            if (print && before) {
+                System.err.println(e.getMessage());
+                this.visit(ctx.block(1));
+            } else if (print && after) {
+                this.visit(ctx.block(1));
+                System.err.println(e.getMessage());
+            } else {
+                this.visit(ctx.block(1));
+            }
         }
         return Value.VOID;
     }
@@ -467,7 +511,7 @@ public class Visitor extends QBaseVisitor<Value> {
             }
         }
 
-        throw new Problem("Object '" + id + "' does not exist in the current context", ctx);
+        throw new Problem("Object '" + id + "' does not exist in the current context", ctx, this.curClass);
     }
 
     @Override
@@ -482,20 +526,19 @@ public class Visitor extends QBaseVisitor<Value> {
                 i = Integer.parseInt(x.asString());
             } catch (Exception e) {
 
-                String err = "Could not cast to integer " + e.getMessage().replace("F", "f");
-                throw new Problem(err, ctx);
+                throw new Problem("Could not cast to integer " + e.getMessage().replace("F", "f"), ctx, this.curClass);
             }
 
         } else if (x.isNumber()) {
-            throw new Problem("'" + x + "' is already an integer value.", ctx);
+            throw new Problem("'" + x + "' is already an integer value.", ctx, this.curClass);
         } else if (x.isList()) {
-            throw new Problem("Incompatible cast: List to Integer", ctx);
+            throw new Problem("Incompatible cast: List to Integer", ctx, this.curClass);
         } else if (x.isBoolean()) {
-            throw new Problem("Incompatible cast: Boolean to Integer", ctx);
+            throw new Problem("Incompatible cast: Boolean to Integer", ctx, this.curClass);
         } else if (x.isNull()) {
-            throw new Problem("null values cannot be cast ", ctx);
+            throw new Problem("null values cannot be cast ", ctx, this.curClass);
         } else if (x.isVoid()) {
-            throw new Problem("void values cannot be cast", ctx);
+            throw new Problem("void values cannot be cast", ctx, this.curClass);
         }
 
         double d = i;
@@ -615,17 +658,17 @@ public class Visitor extends QBaseVisitor<Value> {
 
         if (ctx.Identifier(0).getText().equals("File")) {
 
-            util.check("files", "Files", ctx, this.sore);
+            util.check("files", "Files", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass);
             String id = ctx.Identifier(0).getText();
 
             if (ctx.exprList().expression() == null) {
-                throw new Problem("File constructor MUST have an :str argument: the path", ctx);
+                throw new Problem("File constructor MUST have an :str argument: the path", ctx, this.curClass);
             }
 
             Value v = this.visit(ctx.exprList().expression(0));
 
             if (v == null) {
-                throw new Problem("File :str argument is null", ctx);
+                throw new Problem("File :str argument is null", ctx, this.curClass);
             }
 
             File file = new File(v.toString());
@@ -633,7 +676,7 @@ public class Visitor extends QBaseVisitor<Value> {
             Environment.global.files.put(id, file);
         } else if (ctx.Identifier(0).getText().equals("Window")) {
 
-            util.check("windows", "Windows", ctx, this.sore);
+            util.check("windows", "Windows", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass);
 
             List<Value> list = new ArrayList<>();
             if (ctx.exprList() != null) {
@@ -653,7 +696,7 @@ public class Visitor extends QBaseVisitor<Value> {
                 Environment.global.wins.add(window);
 
             } else {
-                throw new Problem("Incorrect layout, Window class accepts the following: Window(name:str, x-axis, y-axis);", ctx);
+                throw new Problem("Incorrect layout, Window class accepts the following: Window(name:str, x-axis, y-axis);", ctx, this.curClass);
             }
         } else if (ctx.Identifier(0).getText().equals("Component")) {
 
@@ -670,7 +713,7 @@ public class Visitor extends QBaseVisitor<Value> {
             Value x = this.visit(ctx.exprList().expression(0));
 
             if (!Environment.global.allowedLibs.contains("http")) {
-                throw new Problem("The HTTP library has not been imported. Please import it first.\nThe library can be found at: 'q.http'", ctx);
+                throw new Problem("The HTTP library has not been imported. Please import it first.\nThe library can be found at: 'q.http'", ctx, this.curClass);
             }
 
             core.libs.WebServer w = new WebServer(Integer.parseInt(x.asString()), ctx.Identifier(1).getText());
@@ -683,7 +726,7 @@ public class Visitor extends QBaseVisitor<Value> {
             try {
                 obj = new QObject(nameO, (QClass) Environment.global.classes.get(parentClass).clone());
             } catch (Exception e) {
-                throw new Problem("Unable to clone '" + parentClass + "'", ctx);
+                throw new Problem("Unable to clone '" + parentClass + "'", ctx, this.curClass);
             }
 
             List<Value> list = new ArrayList<>();
@@ -700,7 +743,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
             Environment.global.objs.put(nameO, obj);
         } else {
-            throw new Problem("Class:Object not recognized: " + parentClass, ctx);
+            throw new Problem("Class:Object not recognized: " + parentClass, ctx, this.curClass);
         }
 
         return Value.VOID;
@@ -728,7 +771,13 @@ public class Visitor extends QBaseVisitor<Value> {
 
         String id = ctx.Identifier(0).getText();
 
-        Visitor v = new Visitor(new Scope(Environment.global.scope, true), new HashMap<>());
+        Visitor v = new Visitor(new Scope(this.scope, true), new HashMap<>(), id);
+        v.parent = this;
+
+        if (ctx.atStatement() != null) {
+            v.visit(ctx.atStatement());
+        }
+
         v.visit(ctx.block());
 
         QClass qClass = new QClass(id, v.functions, v.scope);
@@ -755,7 +804,7 @@ public class Visitor extends QBaseVisitor<Value> {
     public Value visitHeader(QParser.HeaderContext ctx) {
 
         if (ctx.Identifier().getText().equals("")) {
-            throw new Problem("Header MUST have a name\nie: '@header FileWriterLibrary' or '@header TokenFactoryLibrary'", ctx);
+            throw new Problem("Header MUST have a name\nie: '@header FileWriterLibrary' or '@header TokenFactoryLibrary'", ctx, this.curClass);
         }
 
         this.lib = true;
@@ -788,9 +837,9 @@ public class Visitor extends QBaseVisitor<Value> {
                 scope.varAssign(id, newVal);
                 newVal.hasVal = true;
             } else if (this.scope.vars.containsKey(id) && this.scope.vars.get(id).constant) {
-                throw new Problem("Variable '" + ctx.Identifier() + "' is constant, and cannot be changed", ctx);
+                throw new Problem("Variable '" + ctx.Identifier() + "' is constant, and cannot be changed", ctx, this.curClass);
             } else {
-                throw new Problem("Variable '" + ctx.Identifier() + "' not found", ctx);
+                throw new Problem("Variable '" + ctx.Identifier() + "' not found", ctx, this.curClass);
             }
         }
 
@@ -804,9 +853,9 @@ public class Visitor extends QBaseVisitor<Value> {
         String id = ctx.Identifier().getText();
 
         if ((ctx.Noval(0) != null) && (ctx.expression() != null)) {
-            throw new Problem("Noval variable: '" + id + " must NOT have a value", ctx);
+            throw new Problem("Noval variable: '" + id + " must NOT have a value", ctx, this.curClass);
         } else if ((ctx.Noval(0) != null) && (ctx.Const(0) != null)) {
-            throw new Problem("Constant variables must have a value to begin with. See variable '" + id + "'.", ctx);
+            throw new Problem("Constant variables must have a value to begin with. See variable '" + id + "'.", ctx, this.curClass);
         }
 
         if (ctx.expression() != null) {
@@ -875,14 +924,11 @@ public class Visitor extends QBaseVisitor<Value> {
     @Override
     public Value visitMultExpression(MultExpressionContext ctx) {
 
-        int line = ctx.start.getLine();
-        int pos = ctx.start.getCharPositionInLine();
-
         return switch (ctx.op.getType()) {
             case QLexer.Multiply -> multiply(ctx);
             case QLexer.Divide -> divide(ctx);
             case QLexer.Modulus -> modulus(ctx);
-            default -> throw new Problem("Unknown operator type: " + ctx.op.getType(), ctx);
+            default -> throw new Problem("Unknown operator type: " + ctx.op.getType(), ctx, this.curClass);
         };
     }
 
@@ -895,22 +941,19 @@ public class Visitor extends QBaseVisitor<Value> {
         return switch (ctx.op.getType()) {
             case QLexer.Add -> add(ctx);
             case QLexer.Subtract -> subtract(ctx);
-            default -> throw new Problem("Unknown operator type: " + ctx.op.getType(), ctx);
+            default -> throw new Problem("Unknown operator type: " + ctx.op.getType(), ctx, this.curClass);
         };
     }
 
     @Override
     public Value visitCompExpression(CompExpressionContext ctx) {
 
-        int line = ctx.start.getLine();
-        int pos = ctx.start.getCharPositionInLine();
-
         return switch (ctx.op.getType()) {
             case QLexer.LT -> lt(ctx);
             case QLexer.LTEquals -> ltEq(ctx);
             case QLexer.GT -> gt(ctx);
             case QLexer.GTEquals -> gtEq(ctx);
-            default -> throw new Problem("Unknown operator type: " + ctx.op.getType(), ctx);
+            default -> throw new Problem("Unknown operator type: " + ctx.op.getType(), ctx, this.curClass);
         };
     }
 
@@ -923,15 +966,13 @@ public class Visitor extends QBaseVisitor<Value> {
         return switch (ctx.op.getType()) {
             case QLexer.Equals -> eq(ctx);
             case QLexer.NEquals -> nEq(ctx);
-            default -> throw new Problem("Unknown operator type: " + ctx.op.getType(), ctx);
+            default -> throw new Problem("Unknown operator type: " + ctx.op.getType(), ctx, this.curClass);
         };
     }
 
     public Value multiply(MultExpressionContext ctx) {
         Value lhs = this.visit(ctx.expression(0));
         Value rhs = this.visit(ctx.expression(1));
-        int line = ctx.start.getLine();
-        int pos = ctx.start.getCharPositionInLine();
         if (lhs == null || rhs == null) {
             throw new Problem(ctx);
         }
@@ -1109,7 +1150,7 @@ public class Visitor extends QBaseVisitor<Value> {
         if (this.scope.parent().parent().vars.containsKey(id)) {
             this.scope.parent().parent().vars.replace(id, q);
         } else {
-            throw new Problem("Variable '" + ctx.Identifier().getText() + "' does not exist in the current context", ctx);
+            throw new Problem("Variable '" + ctx.Identifier().getText() + "' does not exist in the current context", ctx, this.curClass);
         }
 
         return Value.VOID;
@@ -1181,9 +1222,9 @@ public class Visitor extends QBaseVisitor<Value> {
             Environment.global.tips = false;
         } else if (id.equals("autoimport")) {
             // @autoimport
-            this.sore = true;
+            this.scope.parent().sore = true;
         } else {
-            throw new Problem(id + " is not a valid @", ctx);
+            throw new Problem(id + " is not a valid @", ctx, this.curClass);
         }
         return Value.VOID;
     }
@@ -1201,7 +1242,7 @@ public class Visitor extends QBaseVisitor<Value> {
             }
             return new Value(false);
         }
-        throw new Problem(rhs + " isn't a list, forin can only be applied to lists.", ctx);
+        throw new Problem(rhs + " isn't a list, forin can only be applied to lists.", ctx, this.curClass);
     }
 
     @Override
@@ -1223,7 +1264,7 @@ public class Visitor extends QBaseVisitor<Value> {
         for (ExpressionContext ec : indexes) {
             Value idx = this.visit(ec);
             if (!idx.isNumber() || (!val.isList() && !val.isString())) {
-                throw new Problem("Problem resolving indexes on " + val + " at " + idx, ec);
+                throw new Problem("Problem resolving indexes on " + val + " at " + idx, ec, this.curClass);
             }
             int i = idx.asDouble().intValue();
             if (val.isString()) {
@@ -1310,7 +1351,7 @@ public class Visitor extends QBaseVisitor<Value> {
     @Override
     public Value visitInputExpression(InputExpressionContext ctx) {
 
-        util.check("std", "std", ctx, this.sore);
+        util.check("std", "std", ctx, this.scope.parent().parent().parent().sore, this.curClass);
 
         TerminalNode inputString = ctx.String();
         try {
@@ -1386,7 +1427,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
             String s = this.visit(ctx.expression()).toString();
             char[] chars = s.toCharArray();
-            
+
             for (int i = 0; i < chars.length; i++) {
                 if (chars[i] == '\n') {
                     System.out.println();
@@ -1402,10 +1443,10 @@ public class Visitor extends QBaseVisitor<Value> {
 
     @Override
     public Value visitPrintFunctionCall(PrintFunctionCallContext ctx) {
-        
+
         String s = this.visit(ctx.expression()).toString();
         char[] chars = s.toCharArray();
-        
+
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] == '\n') {
                 System.out.println();
