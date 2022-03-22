@@ -6,7 +6,7 @@ class Secondary
     cn Secondary()
     end
 
-    fn run()
+    fn trycatch()
         try
             new Window as w("no", 70, 70);
         except
@@ -28,7 +28,7 @@ class Main
         std::coutln("Help me");
 
         new Secondary as s();
-        s::run();
+        s::trycatch();
 
     end
 
