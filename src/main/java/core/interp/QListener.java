@@ -1,4 +1,4 @@
-// Generated from /Users/harryharbuck-marlowe/Desktop/Q/src/main/java/core/etc/Q.g4 by ANTLR 4.9.2
+// Generated from /Users/harryharbuck-marlowe/Downloads/Q/src/main/java/core/etc/Q.g4 by ANTLR 4.9.2
 package core.interp;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -175,6 +175,16 @@ public interface QListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitObjFunctionCall(QParser.ObjFunctionCallContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QParser#packageStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterPackageStatement(QParser.PackageStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QParser#packageStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitPackageStatement(QParser.PackageStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QParser#header}.
 	 * @param ctx the parse tree

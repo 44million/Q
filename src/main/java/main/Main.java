@@ -33,7 +33,7 @@ public class Main {
 
         if (args.length >= 1) {
 
-            util.get(args, input);
+            util.get(args);
 
         } else {
 

@@ -1,7 +1,7 @@
 grammar Q;
 
 parse
- : header? ( allImport ';' )*? block EOF
+ : header? packageStatement? ( allImport ';' )*? block EOF
  ;
 
 block
@@ -57,6 +57,10 @@ allImport
 
 objFunctionCall
  : Identifier Accessor Identifier '(' exprList? ')'
+ ;
+
+packageStatement
+ : Package Identifier ( '.' Identifier )*? ';'
  ;
 
 header
@@ -241,6 +245,7 @@ Def      : 'fn';
 ToInt    : 'toInt';
 If       : 'if';
 Else     : 'else';
+Package  : 'namespace';
 Return   : 'return';
 For      : 'for';
 While    : 'while';

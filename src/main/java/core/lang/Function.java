@@ -138,6 +138,22 @@ public class Function {
         this.async = flag;
     }
 
+    public interface INativeFunction {
+
+        void exec();
+
+        String name();
+
+        Value ret();
+
+        String parent();
+
+        void exec(List<Value> list);
+
+        Value ret(List<Value> list);
+
+    }
+
     private static class StreamGobbler implements Runnable {
         private final InputStream inputStream;
         private final Consumer<String> consumer;
@@ -180,22 +196,6 @@ public class Function {
             this.run();
             return this.function.call(this.args, this.functions);
         }
-
-    }
-
-    public interface INativeFunction {
-
-        void exec();
-
-        String name();
-
-        Value ret();
-
-        String parent();
-
-        void exec(List<Value> list);
-
-        Value ret(List<Value> list);
 
     }
 }

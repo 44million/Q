@@ -34,6 +34,7 @@ public class Visitor extends QBaseVisitor<Value> {
     public boolean lib;
     public String curClass;
     public Visitor parent;
+    public String p;
 
     public Visitor(Scope scope, Map<String, Function> functions) {
         this.scope = scope;
@@ -1348,6 +1349,23 @@ public class Visitor extends QBaseVisitor<Value> {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override public Value visitPackageStatement(QParser.PackageStatementContext ctx) {
+
+        StringBuilder text = new StringBuilder();
+
+        for (TerminalNode o : ctx.Identifier()) {
+            text.append(".").append(o.getText());
+        }
+
+        if (text.toString().equals("std")) {
+            this.p = "standard";
+        } else {
+            this.p = text.toString();
+        }
+
+        return Value.VOID;
     }
 
     @Override

@@ -3,14 +3,15 @@ package core.lang;
 import core.etc.Environment;
 import core.etc.Parser;
 import core.etc.Problem;
-import core.lang.q.QClass;
 import core.lang.q.Value;
 import core.libs.AWT.Window;
-import core.libs.*;
+import core.libs.IO;
+import core.libs.QRandom;
+import core.libs.Time;
+import core.libs.WebServer;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
-import org.apache.commons.io.FileUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -23,13 +24,13 @@ import java.util.Random;
 
 public class util {
 
-    public static void get(String[] args, File input) {
+    public static void get(String[] args) {
         int counter = 0;
         for (String cmd : args) {
 
             switch (cmd) {
                 case "--setpath", "-p" -> {
-                    input = new File(args[++counter]);
+                    File input = new File(args[++counter]);
                     try {
 
                         if (!new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")).exists()) {

@@ -1,6 +1,7 @@
 package core.libs;
 
 import core.etc.Parser;
+import core.etc.Problem;
 import core.libs.utils.QLibrary;
 
 import java.io.IOException;
@@ -57,7 +58,7 @@ public class IO extends QLibrary {
         try {
             parser.parse(false);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            throw new Problem(e.getMessage());
         }
     }
 }

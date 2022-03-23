@@ -234,7 +234,6 @@ public class Parser {
 
         }
 
-
     }
 
     public Parser fromText(String text) {

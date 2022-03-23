@@ -1,42 +1,52 @@
-#import q.io;
 #import q.std;
-#import q.FileUtils;
 
-class Secondary
+@autoimport
+class CLI
 
-    cn Secondary()
+    noval var isOn;
+
+    cn CLI()
+
     end
 
-    fn trycatch()
-        try
-            new Window as w("no", 70, 70);
-        except
-            <"printafter">
-            io::err("Could not call the window package");
+    fn on()
+        self::isOn = true;
+    end
+
+    fn off()
+        self::isOn = false;
+    end
+
+    fn listen()
+
+        std::coutln("Enter text:");
+        var input = std::cin();
+
+        if (input == "print hello")
+            std::cout("hello");
+        else if (input == "print goodbye")
+            std::cout("goodbye");
+        else
+            std::cout("I don't understand what you said");
+            sys::quit(-1);
         end
+
     end
 
 end
 
-// this works!
 @autoimport
 class Main
 
-    fn (x, y) ->
-
-        std::cout("This is an anonymous functionnnnnnn so");
-
-    end
-
     fn main()
-        std::coutln("Help me");
 
-        new Secondary as s();
-        s::trycatch();
-        new Random as r();
-        var path = "src/main/QFiles/" + r::ran("str") + ".l";
+        new CLI as cli();
 
-        std::cout(std::workspace("makefile", path));
+        cli::on();
+
+        cli::listen();
+
+        cli::off();
 
     end
 
