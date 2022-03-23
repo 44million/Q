@@ -22,9 +22,9 @@ end
 @autoimport
 class Main
 
-    fn ("Hello World!") ->
+    fn (x, y) ->
 
-        std::cout("This is an anonymous functionnnnnnn so")
+        std::cout("This is an anonymous functionnnnnnn so");
 
     end
 
@@ -33,8 +33,10 @@ class Main
 
         new Secondary as s();
         s::trycatch();
+        new Random as r();
+        var path = "src/main/QFiles/" + r::ran("str") + ".l";
 
-        io::cout(FileUtils::countChars("src/main/QFiles/archive.l");
+        std::cout(std::workspace("makefile", path));
 
     end
 
