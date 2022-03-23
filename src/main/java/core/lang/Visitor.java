@@ -1372,7 +1372,7 @@ public class Visitor extends QBaseVisitor<Value> {
     public Value visitAnonymousFunction(QParser.AnonymousFunctionContext ctx) {
 
         Scope scopeNext = new Scope(this.scope, true);
-        Visitor next = new Visitor(scopeNext, new HashMap<String, Function>());
+        Visitor next = new Visitor(scopeNext, new HashMap<>());
 
         if (ctx.exprList() != null) {
             for (int i = 0; i < ctx.exprList().expression().size(); i++) {

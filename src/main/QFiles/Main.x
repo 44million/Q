@@ -10,10 +10,7 @@ class Secondary
         try
             new Window as w("no", 70, 70);
         except
-            // <"default">
             <"suppress">
-            // <"printafter">
-            // <"printbefore">
             io::err("Could not call the window package");
         end
     end
