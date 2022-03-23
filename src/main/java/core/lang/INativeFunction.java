@@ -19,3 +19,4 @@ public interface INativeFunction {
     Value ret(List<Value> list);
 
 }
+

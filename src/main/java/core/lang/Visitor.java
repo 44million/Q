@@ -173,6 +173,8 @@ public class Visitor extends QBaseVisitor<Value> {
 
         } else if (Environment.global.natives.containsKey(method)) {
 
+            util.check(Environment.global.natives.get(method).parent(), parentClass, ctx, this.scope.parent().parent().parent().sore, this.curClass);
+
             List<Value> l = new ArrayList<>();
 
             if (ctx.exprList() != null) {
@@ -180,8 +182,6 @@ public class Visitor extends QBaseVisitor<Value> {
                     l.add(this.visit(c));
                 }
             }
-
-            util.check(parentClass.toLowerCase(), parentClass, ctx, this.scope.parent().parent().parent().sore, this.curClass);
 
             if (Environment.global.natives.get(method) == null) {
                 throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx, this.curClass);
@@ -290,24 +290,6 @@ public class Visitor extends QBaseVisitor<Value> {
             assert util.getWinByName(id) != null;
             if (util.getWinByName(id) != null) {
                 util.getWinByName(id).init();
-            }
-        }
-        return Value.VOID;
-    }
-
-    @Override
-    public Value visitWindowAddCompStatement(QParser.WindowAddCompStatementContext ctx) {
-
-        int line = ctx.start.getLine();
-        int pos = ctx.start.getCharPositionInLine();
-
-        String component = this.visit(ctx.expression()).asString();
-
-        if (util.getWinByName(ctx.Identifier().getText()) == null) {
-            throw new Problem("The specified window: " + ctx.Identifier().getText() + " does not exist.", ctx, this.curClass);
-        } else {
-            if (util.getCompByName(component) != null) {
-                util.getCompByName(component).init(ctx.Identifier().getText());
             }
         }
         return Value.VOID;

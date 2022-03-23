@@ -5,7 +5,6 @@ import core.lang.INativeFunction;
 import core.lang.Visitor;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
-import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
 import core.libs.WebServer;
 import org.antlr.v4.runtime.Token;
@@ -25,7 +24,6 @@ public class Environment {
     public List<File> parsed = new ArrayList<>();
     public List<Token> lst = new ArrayList<>();
     public List<Window> wins = new ArrayList<>();
-    public List<QComponent> comps = new ArrayList<>();
     public List<WebServer> webs = new ArrayList<>();
     public List<String> allowedLibs = new ArrayList<>();
     public List<String> allLibs = new ArrayList<>();

@@ -4,7 +4,6 @@ import core.etc.Environment;
 import core.etc.Parser;
 import core.etc.Problem;
 import core.lang.q.Value;
-import core.libs.AWT.QComponent;
 import core.libs.AWT.Window;
 import core.libs.*;
 import org.antlr.v4.runtime.CharStreams;
@@ -193,14 +192,6 @@ public class util {
                 Environment.global.allowedLibs.add("puddle");
                 return Value.VOID;
             }
-            case ".q.gtp" -> {
-                if (Environment.global.allowedLibs.contains("gtp")) {
-                    return Value.VOID;
-                }
-                Environment.global.allowedLibs.add("gtp");
-                new GTP().init();
-                return Value.VOID;
-            }
             case ".q.io" -> {
                 if (Environment.global.allowedLibs.contains("io")) {
                     return Value.VOID;
@@ -342,16 +333,6 @@ public class util {
             System.out.println("Import not resolved: " + imp);
         }
 
-    }
-
-    public static QComponent getCompByName(String comp) {
-
-        for (QComponent xcomp : Environment.global.comps) {
-            if (xcomp.name.equals(comp)) {
-                return xcomp;
-            }
-        }
-        return null;
     }
 
     public static Window getWinByName(String name) {
@@ -849,6 +830,38 @@ public class util {
             @Override
             public String parent() {
                 return "io";
+            }
+
+            @Override
+            public void exec(List<Value> list) {
+
+            }
+
+            @Override
+            public Value ret(List<Value> list) {
+                return null;
+            }
+        });
+
+        Environment.global.defineNativeFunction(new INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "countChars";
+            }
+
+            @Override
+            public Value ret() {
+                return null;
+            }
+
+            @Override
+            public String parent() {
+                return "FileUtils";
             }
 
             @Override

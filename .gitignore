@@ -6,3 +6,4 @@ target/
 gen/
 .antlr/
 *.pb
+*.comp
