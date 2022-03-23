@@ -3,12 +3,14 @@ package core.lang;
 import core.etc.Environment;
 import core.etc.Parser;
 import core.etc.Problem;
+import core.lang.q.QClass;
 import core.lang.q.Value;
 import core.libs.AWT.Window;
 import core.libs.*;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
+import org.apache.commons.io.FileUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -357,7 +359,7 @@ public class util {
 
         util.registerLibrary(false, "std");
 
-        Environment.global.defineNativeFunction(new INativeFunction() {
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
             public void exec() {
             }
@@ -389,7 +391,7 @@ public class util {
 
         });
 
-        Environment.global.defineNativeFunction(new INativeFunction() {
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
             public void exec() {
             }
@@ -420,7 +422,7 @@ public class util {
             }
         });
 
-        Environment.global.defineNativeFunction(new INativeFunction() {
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
             public void exec() {
             }
@@ -455,7 +457,7 @@ public class util {
             }
         });
 
-        Environment.global.defineNativeFunction(new INativeFunction() {
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
             public void exec() {
             }
@@ -489,7 +491,7 @@ public class util {
             }
         });
 
-        Environment.global.defineNativeFunction(new INativeFunction() {
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
             public void exec() {
             }
@@ -524,7 +526,7 @@ public class util {
             }
         });
 
-        Environment.global.defineNativeFunction(new INativeFunction() {
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
             public void exec() {
             }
@@ -555,7 +557,7 @@ public class util {
             }
         });
 
-        Environment.global.defineNativeFunction(new INativeFunction() {
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
             public void exec() {
                 System.console().flush();
@@ -587,7 +589,7 @@ public class util {
             }
         });
 
-        Environment.global.defineNativeFunction(new INativeFunction() {
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
             public void exec() {
 
@@ -619,7 +621,7 @@ public class util {
             }
         });
 
-        Environment.global.defineNativeFunction(new INativeFunction() {
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
             public void exec() {
 
@@ -651,7 +653,7 @@ public class util {
             }
         });
 
-        Environment.global.defineNativeFunction(new INativeFunction() {
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
             public void exec() {
 
@@ -690,7 +692,7 @@ public class util {
             }
         });
 
-        Environment.global.defineNativeFunction(new INativeFunction() {
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
             public void exec() {
             }
@@ -721,7 +723,7 @@ public class util {
             }
         });
 
-        Environment.global.defineNativeFunction(new INativeFunction() {
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
             public void exec() {
 
@@ -753,7 +755,7 @@ public class util {
             }
         });
 
-        Environment.global.defineNativeFunction(new INativeFunction() {
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
             public void exec() {
 
@@ -812,7 +814,7 @@ public class util {
             }
         });
 
-        Environment.global.defineNativeFunction(new INativeFunction() {
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
             public void exec() {
             }
@@ -843,7 +845,7 @@ public class util {
             }
         });
 
-        Environment.global.defineNativeFunction(new INativeFunction() {
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
             public void exec() {
 
@@ -871,7 +873,13 @@ public class util {
 
             @Override
             public Value ret(List<Value> list) {
-                return null;
+                try {
+                    FileUtil n = new FileUtil(list.get(0).toString());
+                    return new Value(n.getCharCount());
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                return Value.NULL;
             }
         });
 

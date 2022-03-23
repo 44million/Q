@@ -1,5 +1,6 @@
 #import q.io;
 #import q.std;
+#import q.FileUtils;
 
 class Secondary
 
@@ -10,7 +11,7 @@ class Secondary
         try
             new Window as w("no", 70, 70);
         except
-            <"suppress">
+            <"printafter">
             io::err("Could not call the window package");
         end
     end
@@ -21,11 +22,19 @@ end
 @autoimport
 class Main
 
+    fn ("Hello World!") ->
+
+        std::cout("This is an anonymous functionnnnnnn so")
+
+    end
+
     fn main()
         std::coutln("Help me");
 
         new Secondary as s();
         s::trycatch();
+
+        io::cout(FileUtils::countChars("src/main/QFiles/archive.l");
 
     end
 

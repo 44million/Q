@@ -138,10 +138,6 @@ public class Function {
         this.async = flag;
     }
 
-    public void setV(Visitor s) {
-        this.v = s;
-    }
-
     private static class StreamGobbler implements Runnable {
         private final InputStream inputStream;
         private final Consumer<String> consumer;
@@ -158,4 +154,48 @@ public class Function {
         }
     }
 
+    public static class FunctionRunner implements Runnable {
+
+        private Map<String, Function> functions;
+        private Function function;
+        private List<Value> args;
+
+        public void setFunctions(Map<String, Function> functions) {
+            this.functions = functions;
+        }
+
+        public void setFunction(Function f) {
+            this.function = f;
+        }
+
+        public void setArgs(List<Value> args) {
+            this.args = args;
+        }
+
+        @Override
+        public void run() {
+        }
+
+        public Value start() {
+            this.run();
+            return this.function.call(this.args, this.functions);
+        }
+
+    }
+
+    public interface INativeFunction {
+
+        void exec();
+
+        String name();
+
+        Value ret();
+
+        String parent();
+
+        void exec(List<Value> list);
+
+        Value ret(List<Value> list);
+
+    }
 }

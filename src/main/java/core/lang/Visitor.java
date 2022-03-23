@@ -234,7 +234,7 @@ public class Visitor extends QBaseVisitor<Value> {
             f = new Function(this.scope, params, block);
         }
 
-        f.setV(this);
+        f.v = (this);
 
         if (ctx.Async(0) != null) {
             f.setAsync(true);
@@ -1391,7 +1391,7 @@ public class Visitor extends QBaseVisitor<Value> {
             }
 
             if (function.async) {
-                FunctionRunner r = new FunctionRunner();
+                Function.FunctionRunner r = new Function.FunctionRunner();
                 r.setFunction(function);
                 r.setArgs(args);
                 r.setFunctions(this.functions);

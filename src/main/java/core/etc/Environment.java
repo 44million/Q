@@ -1,7 +1,6 @@
 package core.etc;
 
 import core.lang.Function;
-import core.lang.INativeFunction;
 import core.lang.Visitor;
 import core.lang.q.QClass;
 import core.lang.q.QObject;
@@ -31,7 +30,7 @@ public class Environment {
     public Map<String, QClass> classes = new HashMap<>();
     public Map<String, QObject> objs = new HashMap<>();
     public Map<String, File> files = new HashMap<>();
-    public Map<String, INativeFunction> natives = new HashMap<>();
+    public Map<String, Function.INativeFunction> natives = new HashMap<>();
     public Map<String, Function> consts = new HashMap<>();
 
     public boolean hasMainExecuted = false;
@@ -41,7 +40,7 @@ public class Environment {
 
     }
 
-    public void defineNativeFunction(INativeFunction e) {
+    public void defineNativeFunction(Function.INativeFunction e) {
         this.natives.put(e.name(), e);
     }
 
