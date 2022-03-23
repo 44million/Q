@@ -30,6 +30,9 @@ class Main
         new Secondary as s();
         s::trycatch();
 
+        new File as file("src/main/QFiles/archive.l");
+
+
     end
 
 end

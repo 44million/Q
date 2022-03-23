@@ -656,7 +656,29 @@ public class Visitor extends QBaseVisitor<Value> {
         String parentClass = ctx.Identifier(0).getText();
         String nameO = ctx.Identifier(1).getText();
 
-        if (ctx.Identifier(0).getText().equals("File")) {
+        if (Environment.global.classes.containsKey(parentClass)) {
+
+            QObject obj;
+            try {
+                obj = new QObject(nameO, (QClass) Environment.global.classes.get(parentClass).clone());
+            } catch (Exception e) {
+                throw new Problem("Unable to clone '" + parentClass + "'", ctx, this.curClass);
+            }
+
+            List<Value> list = new ArrayList<>();
+            if (ctx.exprList() != null) {
+                for (ExpressionContext ex : ctx.exprList().expression()) {
+                    list.add(this.visit(ex));
+                }
+            }
+
+            Environment.global.consts.get(ctx.Identifier(0).getText()).call(list, this.functions);
+
+            obj.setParams(list);
+            obj.v = this;
+
+            Environment.global.objs.put(nameO, obj);
+        } else if (ctx.Identifier(0).getText().equals("File")) {
 
             util.check("files", "Files", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass);
             String id = ctx.Identifier(0).getText();
@@ -720,28 +742,6 @@ public class Visitor extends QBaseVisitor<Value> {
             w.init();
 
             Environment.global.webs.add(w);
-        } else if (Environment.global.classes.containsKey(parentClass)) {
-
-            QObject obj;
-            try {
-                obj = new QObject(nameO, (QClass) Environment.global.classes.get(parentClass).clone());
-            } catch (Exception e) {
-                throw new Problem("Unable to clone '" + parentClass + "'", ctx, this.curClass);
-            }
-
-            List<Value> list = new ArrayList<>();
-            if (ctx.exprList() != null) {
-                for (ExpressionContext ex : ctx.exprList().expression()) {
-                    list.add(this.visit(ex));
-                }
-            }
-
-            Environment.global.consts.get(ctx.Identifier(0).getText()).call(list, this.functions);
-
-            obj.setParams(list);
-            obj.v = this;
-
-            Environment.global.objs.put(nameO, obj);
         } else {
             throw new Problem("Class:Object not recognized: " + parentClass, ctx, this.curClass);
         }
