@@ -90,9 +90,7 @@ constructorStatement
  ;
 
 objCreateStatement
- : 'new' Identifier 'as' Identifier '(' exprList? ')'
- // new Object as o();
- // new FileReader as fw("files/file.txt");
+ : 'new' Identifier 'as' Identifier ( '(' exprList? ')' )?
  ;
 
 osExecStatement

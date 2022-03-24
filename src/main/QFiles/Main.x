@@ -2,16 +2,27 @@ namespace testing;
 
 #import q.Random;
 #import q.std;
+#import [*];
 
 class Main
 
     fn main()
 
-        new Random as r();
+        new Window as w("Hello, World!", 750, 750, 0, 0);
+        w::create();
 
-        for (i in range(10))
-            std::coutln(r::ran("str") + r::ran("str"));
-        end
+        w::setLayout("flow");
+        std::coutln("after flow");
+        w::setCloseOperation("HIDE_ON_CLOSE");
+        std::coutln("after close");
+        w::addComponent("button", "Click Me!");
+        std::coutln("after button");
+        w::setLocation(300, 300);
+        std::coutln("after location");
+        w::addComponent("checkbox", "Check me.");
+        std::coutln("after checkbox");
+
+        w::render();
 
     end
 

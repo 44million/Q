@@ -18,11 +18,13 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.lang.String;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.*;
 
 import static core.interp.QParser.*;
@@ -138,26 +140,141 @@ public class Visitor extends QBaseVisitor<Value> {
             util.check("http", "http", ctx, this.scope.parent().parent().parent().sore, this.curClass, this.p);
 
             if (method.equals("get")) {
-
                 HTTP.get(ctx);
-
             }
 
         } else if (util.getWinByName(parentClass) != null) {
 
-            if (method.equals("render")) {
+            try {
 
-                if (util.getWinByName(parentClass) == null) {
-                    return Value.VOID;
-                } else {
-                    assert util.getWinByName(parentClass) != null;
-                    if (util.getWinByName(parentClass) != null) {
-                        util.getWinByName(parentClass).init();
+                switch (method) {
+                    case "render":
+
+                        if (util.getWinByName(parentClass) == null) {
+                            return Value.VOID;
+                        } else {
+                            assert util.getWinByName(parentClass) != null;
+                            if (util.getWinByName(parentClass) != null) {
+                                util.getWinByName(parentClass).init();
+                            }
+                        }
+                        return Value.VOID;
+                    case "addComponent": {
+
+                        List<Value> v = new ArrayList<>();
+
+                        if (ctx.exprList() != null) {
+                            for (ExpressionContext e : ctx.exprList().expression()) {
+                                v.add(this.visit(e));
+                            }
+                        }
+
+                        String compType = v.get(0).toString();
+
+                        if (v.size() == 2) {
+                            if (compType.equals("button")) {
+                                util.getWinByName(parentClass).addComponent(new JButton(v.get(1).toString()));
+                            } else if (compType.equals("label")) {
+                                util.getWinByName(parentClass).addComponent(new JLabel(v.get(1).toString()));
+                            } else if (compType.equals("textfield")) {
+                                util.getWinByName(parentClass).addComponent(new JTextField(v.get(1).toString()));
+                            } else if (compType.equals("textarea")) {
+                                util.getWinByName(parentClass).addComponent(new JTextArea(v.get(1).toString()));
+                            } else if (compType.equals("checkbox")) {
+                                util.getWinByName(parentClass).addComponent(new JCheckBox(v.get(1).toString()));
+                            }
+                        } else {
+                            throw new Problem("Invalid number of arguments for '" + method + "'", ctx, this.curClass);
+                        }
+
+                        break;
                     }
+                    case "getComponent": {
+
+                        List<Value> v = new ArrayList<>();
+
+                        if (ctx.exprList() != null) {
+                            for (ExpressionContext e : ctx.exprList().expression()) {
+                                v.add(this.visit(e));
+                            }
+                        }
+
+                        int comp = v.get(0).asDouble().intValue();
+
+                        assert util.getWinByName(parentClass) != null;
+                        return new Value(util.getWinByName(parentClass).f.getComponent(comp));
+
+                    }
+                    case "getComponentCount":
+                        return new Value(util.getWinByName(parentClass).f.getComponentCount());
+                    case "setTitle":
+                        util.getWinByName(parentClass).f.setTitle(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
+                        break;
+                    case "setLayout": {
+
+                        List<Value> v = new ArrayList<>();
+
+                        if (ctx.exprList() != null) {
+                            for (ExpressionContext e : ctx.exprList().expression()) {
+                                v.add(this.visit(e));
+                            }
+                        }
+
+                        String layout = v.get(0).toString();
+
+                        if (layout.equals("grid")) {
+                            util.getWinByName(parentClass).f.setLayout(new GridLayout(v.get(1).asDouble().intValue(), v.get(2).asDouble().intValue()));
+                        } else if (layout.equals("flow")) {
+                            util.getWinByName(parentClass).f.setLayout(new FlowLayout());
+                        } else if (layout.equals("border")) {
+                            util.getWinByName(parentClass).f.setLayout(new BorderLayout());
+                        }
+
+                        break;
+                    }
+
+                    case "setCloseOperation": {
+
+                        String operation = this.visit(ctx.exprList().expression(0)).toString();
+
+                        if (operation.equals("EXIT_ON_CLOSE")) {
+                            util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        } else if (operation.equals("DISPOSE_ON_CLOSE")) {
+                            util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        } else if (operation.equals("HIDE_ON_CLOSE")) {
+                            util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                        } else if (operation.equals("DO_NOTHING_ON_CLOSE")) {
+                            util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                        } else {
+                            throw new Problem("Invalid close operation", ctx, this.curClass);
+                        }
+
+                    }
+
+                    case "create":
+
+                        util.getWinByName(parentClass).create();
+
+                        break;
+                    case "setLocation": {
+
+                        List<Value> v = new ArrayList<>();
+
+                        if (ctx.exprList() != null) {
+                            for (ExpressionContext e : ctx.exprList().expression()) {
+                                v.add(this.visit(e));
+                            }
+                        }
+
+                        util.getWinByName(parentClass).f.setLocation(v.get(0).asDouble().intValue(), v.get(1).asDouble().intValue());
+
+                        break;
+                    }
+                    default:
+                        throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx, this.curClass);
                 }
-                return Value.VOID;
-            } else {
-                throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx, this.curClass);
+            } catch (Exception e) {
+                throw new Problem(e.getMessage(), ctx, this.curClass);
             }
 
         } else if (util.getWebByName(parentClass) != null) {
@@ -699,7 +816,21 @@ public class Visitor extends QBaseVisitor<Value> {
                 }
             }
             // Window w = new Window("Name", x, y);
-            if (list.size() == 3) {
+            if (list.size() == 5) {
+
+                // new Window as w("name", x, y, width, height);
+
+                int x = this.visit(ctx.exprList().expression(1)).asDouble().intValue();
+                int y = this.visit(ctx.exprList().expression(2)).asDouble().intValue();
+                int width = this.visit(ctx.exprList().expression(3)).asDouble().intValue();
+                int height = this.visit(ctx.exprList().expression(4)).asDouble().intValue();
+                String name = this.visit(ctx.exprList().expression(0)).toString();
+
+                Window window = new Window(name, x, y, width, height);
+                window.setName(ctx.Identifier(1).getText());
+                Environment.global.wins.add(window);
+
+            } else if (list.size() == 3) {
 
                 int x = this.visit(ctx.exprList().expression(1)).asDouble().intValue();
                 int y = this.visit(ctx.exprList().expression(2)).asDouble().intValue();
@@ -712,17 +843,6 @@ public class Visitor extends QBaseVisitor<Value> {
             } else {
                 throw new Problem("Incorrect layout, Window class accepts the following: Window(name:str, x-axis, y-axis);", ctx, this.curClass);
             }
-        } else if (ctx.Identifier(0).getText().equals("Component")) {
-
-            // Component c = new X("Hello World!");
-
-            String type = ctx.Identifier(2).getText();
-            String name = ctx.Identifier(1).getText();
-
-            if (type.equals("Button")) {
-                JButton button = new JButton(ctx.exprList().expression(0).getText());
-            }
-
         } else if (ctx.Identifier(0).getText().equals("WebServer") && ctx.Identifier(2).getText().equals("WebServer")) {
             Value x = this.visit(ctx.exprList().expression(0));
 
@@ -1361,7 +1481,8 @@ public class Visitor extends QBaseVisitor<Value> {
         }
     }
 
-    @Override public Value visitPackageStatement(QParser.PackageStatementContext ctx) {
+    @Override
+    public Value visitPackageStatement(QParser.PackageStatementContext ctx) {
 
         StringBuilder text = new StringBuilder();
 
