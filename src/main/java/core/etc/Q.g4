@@ -20,8 +20,6 @@ statement
  | reAssignment ';'
  | classStatement
  | constructorStatement
- | windowAddCompStatement ';'
- | windowRenderStatement ';'
  | fileWriteStatement ';'
  | verifyFileStatement ';'
  | objFunctionCall (';')?
@@ -165,14 +163,6 @@ whileStatement
  : While '(' expression ')' block End
  ;
 
-windowRenderStatement
- : Identifier Accessor 'render' '(' ')'
- ;
-
-windowAddCompStatement
- : Identifier Accessor 'addComp' '(' expression ')'
- ;
-
 addWebServerTextStatement
  : Identifier Accessor 'changeText' '(' expression ')'
  ;
@@ -215,7 +205,7 @@ expression
  | '(' expression ')' indexes?                          #expressionExpression
  | Input '(' String? ')'                                #inputExpression
  | varHereStatement                                     #hereVarExpression
- | 'random' '(' expression ')'                          #randomExpression
+ | '3YCMPJ8W8VVTUA48TIHR8K332PYKTXOKVDFG' '(' expression ')'#randomExpression
  | anonymousFunction                                    #anonymousFunctionExpression
  | varHereStatement                                     #selfExpression
  | objVar                                               #objVarExpression

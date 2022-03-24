@@ -143,6 +143,23 @@ public class Visitor extends QBaseVisitor<Value> {
 
             }
 
+        } else if (util.getWinByName(parentClass) != null) {
+
+            if (method.equals("render")) {
+
+                if (util.getWinByName(parentClass) == null) {
+                    return Value.VOID;
+                } else {
+                    assert util.getWinByName(parentClass) != null;
+                    if (util.getWinByName(parentClass) != null) {
+                        util.getWinByName(parentClass).init();
+                    }
+                }
+                return Value.VOID;
+            } else {
+                throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx, this.curClass);
+            }
+
         } else if (util.getWebByName(parentClass) != null) {
 
             if (method.equals("stop") && util.getWebByName(parentClass) != null) {
@@ -174,10 +191,15 @@ public class Visitor extends QBaseVisitor<Value> {
 
         } else if (Environment.global.natives.containsKey(method)) {
 
-            System.out.println(this.p);
-            System.out.println(this.parent == null);
+            String p;
 
-            util.check(Environment.global.natives.get(method).parent(), parentClass, ctx, this.scope.parent().parent().parent().sore, this.curClass, this.p);
+            if (this.parent != null) {
+                p = this.parent.p;
+            } else {
+                p = this.p;
+            }
+
+            util.check(Environment.global.natives.get(method).parent(), parentClass, ctx, this.scope.parent().parent().parent().sore, this.curClass, p);
 
             List<Value> l = new ArrayList<>();
 
@@ -281,22 +303,6 @@ public class Visitor extends QBaseVisitor<Value> {
         }
 
         return new Value(false);
-    }
-
-    @Override
-    public Value visitWindowRenderStatement(QParser.WindowRenderStatementContext ctx) {
-
-        String id = ctx.Identifier().getText();
-
-        if (util.getWinByName(id) == null) {
-            return Value.VOID;
-        } else {
-            assert util.getWinByName(id) != null;
-            if (util.getWinByName(id) != null) {
-                util.getWinByName(id).init();
-            }
-        }
-        return Value.VOID;
     }
 
     @Override
@@ -760,8 +766,6 @@ public class Visitor extends QBaseVisitor<Value> {
         Visitor v = new Visitor(new Scope(this.scope, true), new HashMap<>(), id);
         v.parent = Environment.global.visitor;
         v.p = this.p;
-
-        System.out.println(v.parent.p);
 
         if (ctx.atStatement() != null) {
             v.visit(ctx.atStatement());
@@ -1365,11 +1369,7 @@ public class Visitor extends QBaseVisitor<Value> {
             text.append(".").append(o.getText());
         }
 
-        if (text.toString().equals("std") || text.toString().equals(".std")) {
-            this.p = "standard";
-        } else {
-            this.p = text.toString();
-        }
+        this.p = text.toString();
 
         return Value.VOID;
     }

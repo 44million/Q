@@ -1,52 +1,17 @@
-namespace std;
+namespace testing;
 
-@autoimport
-class CLI
+#import q.Random;
+#import q.std;
 
-    noval var isOn;
-
-    cn CLI()
-
-    end
-
-    fn on()
-        self::isOn = true;
-    end
-
-    fn off()
-        self::isOn = false;
-    end
-
-    fn listen()
-
-        std::coutln("Enter text:");
-        var input = std::cin();
-
-        if (input == "print hello")
-            std::cout("hello");
-        else if (input == "print goodbye")
-            std::cout("goodbye");
-        else
-            std::cout("I don't understand what you said");
-            sys::quit(-1);
-        end
-
-    end
-
-end
-
-@autoimport
 class Main
 
     fn main()
 
-        new CLI as cli();
+        new Random as r();
 
-        cli::on();
-
-        cli::listen();
-
-        cli::off();
+        for (i in range(10))
+            std::coutln(r::ran("str") + r::ran("str"));
+        end
 
     end
 

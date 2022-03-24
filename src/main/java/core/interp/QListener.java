@@ -406,26 +406,6 @@ public interface QListener extends ParseTreeListener {
 	 */
 	void exitWhileStatement(QParser.WhileStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QParser#windowRenderStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterWindowRenderStatement(QParser.WindowRenderStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QParser#windowRenderStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitWindowRenderStatement(QParser.WindowRenderStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QParser#windowAddCompStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterWindowAddCompStatement(QParser.WindowAddCompStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QParser#windowAddCompStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitWindowAddCompStatement(QParser.WindowAddCompStatementContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link QParser#addWebServerTextStatement}.
 	 * @param ctx the parse tree
 	 */

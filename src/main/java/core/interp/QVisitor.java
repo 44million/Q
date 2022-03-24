@@ -248,18 +248,6 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitWhileStatement(QParser.WhileStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QParser#windowRenderStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitWindowRenderStatement(QParser.WindowRenderStatementContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QParser#windowAddCompStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitWindowAddCompStatement(QParser.WindowAddCompStatementContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link QParser#addWebServerTextStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
