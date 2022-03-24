@@ -348,7 +348,11 @@ public class util {
         return null;
     }
 
-    public static void check(String p, String t2, ParserRuleContext ctx, boolean sore, String c) {
+    public static void check(String p, String t2, ParserRuleContext ctx, boolean sore, String c, String namespace) {
+        if ((p.equals(".std") || p.equals("std")) && namespace.equals("standard")) {
+            return;
+        }
+
         if (sore || Environment.global.allowedLibs.contains(p)) {
             return;
         } else {

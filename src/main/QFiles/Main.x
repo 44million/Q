@@ -1,4 +1,4 @@
-#import q.std;
+namespace std;
 
 @autoimport
 class CLI

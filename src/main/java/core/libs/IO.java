@@ -57,7 +57,7 @@ public class IO extends QLibrary {
         Parser parser = new Parser().fromText(qcode);
         try {
             parser.parse(false);
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new Problem(e.getMessage());
         }
     }

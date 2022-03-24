@@ -34,7 +34,7 @@ public class Visitor extends QBaseVisitor<Value> {
     public boolean lib;
     public String curClass;
     public Visitor parent;
-    public String p;
+    public String p = util.getSaltString();
 
     public Visitor(Scope scope, Map<String, Function> functions) {
         this.scope = scope;
@@ -100,7 +100,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         if (parentClass.equals("Files")) {
 
-            util.check("files", "Files", ctx, this.scope.parent().parent().parent().sore, this.curClass);
+            util.check("files", "Files", ctx, this.scope.parent().parent().parent().sore, this.curClass, this.p);
 
             switch (method) {
                 case "absPath":
@@ -135,7 +135,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         } else if (parentClass.equals("http")) {
 
-            util.check("http", "http", ctx, this.scope.parent().parent().parent().sore, this.curClass);
+            util.check("http", "http", ctx, this.scope.parent().parent().parent().sore, this.curClass, this.p);
 
             if (method.equals("get")) {
 
@@ -174,7 +174,10 @@ public class Visitor extends QBaseVisitor<Value> {
 
         } else if (Environment.global.natives.containsKey(method)) {
 
-            util.check(Environment.global.natives.get(method).parent(), parentClass, ctx, this.scope.parent().parent().parent().sore, this.curClass);
+            System.out.println(this.p);
+            System.out.println(this.parent == null);
+
+            util.check(Environment.global.natives.get(method).parent(), parentClass, ctx, this.scope.parent().parent().parent().sore, this.curClass, this.p);
 
             List<Value> l = new ArrayList<>();
 
@@ -663,7 +666,7 @@ public class Visitor extends QBaseVisitor<Value> {
             Environment.global.objs.put(nameO, obj);
         } else if (ctx.Identifier(0).getText().equals("File")) {
 
-            util.check("files", "Files", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass);
+            util.check("files", "Files", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.p);
             String id = ctx.Identifier(0).getText();
 
             if (ctx.exprList().expression() == null) {
@@ -681,7 +684,7 @@ public class Visitor extends QBaseVisitor<Value> {
             Environment.global.files.put(id, file);
         } else if (ctx.Identifier(0).getText().equals("Window")) {
 
-            util.check("windows", "Windows", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass);
+            util.check("windows", "Windows", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.p);
 
             List<Value> list = new ArrayList<>();
             if (ctx.exprList() != null) {
@@ -755,7 +758,10 @@ public class Visitor extends QBaseVisitor<Value> {
         String id = ctx.Identifier(0).getText();
 
         Visitor v = new Visitor(new Scope(this.scope, true), new HashMap<>(), id);
-        v.parent = this;
+        v.parent = Environment.global.visitor;
+        v.p = this.p;
+
+        System.out.println(v.parent.p);
 
         if (ctx.atStatement() != null) {
             v.visit(ctx.atStatement());
@@ -1334,7 +1340,7 @@ public class Visitor extends QBaseVisitor<Value> {
     @Override
     public Value visitInputExpression(InputExpressionContext ctx) {
 
-        util.check("std", "std", ctx, this.scope.parent().parent().parent().sore, this.curClass);
+        util.check("std", "std", ctx, this.scope.parent().parent().parent().sore, this.curClass, this.p);
 
         TerminalNode inputString = ctx.String();
         try {
@@ -1359,7 +1365,7 @@ public class Visitor extends QBaseVisitor<Value> {
             text.append(".").append(o.getText());
         }
 
-        if (text.toString().equals("std")) {
+        if (text.toString().equals("std") || text.toString().equals(".std")) {
             this.p = "standard";
         } else {
             this.p = text.toString();
