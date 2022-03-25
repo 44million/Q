@@ -24,7 +24,7 @@ import java.util.Random;
 
 public class util {
 
-    public static void get(String[] args) {
+    public static void animate(String[] args) {
         int counter = 0;
         for (String cmd : args) {
 
@@ -129,11 +129,11 @@ public class util {
 
     public static Value parse(String text) {
         switch (text) {
-            case ".q.Windows" -> {
-                if (Environment.global.allowedLibs.contains("windows")) {
+            case ".q.awt" -> {
+                if (Environment.global.allowedLibs.contains("awt")) {
                     return Value.VOID;
                 }
-                Environment.global.allowedLibs.add("windows");
+                Environment.global.allowedLibs.add("awt");
                 return Value.VOID;
             }
             case ".q.http" -> {
@@ -224,6 +224,7 @@ public class util {
                 Environment.global.allowedLibs.add("std");
                 return Value.VOID;
             }
+            default -> System.out.println("[ERROR] Unknown library: " + text);
         }
         return Value.VOID;
     }
@@ -236,13 +237,6 @@ public class util {
         BufferedReader reader = new BufferedReader(new InputStreamReader(
                 System.in));
         return reader.readLine();
-    }
-
-    public static char[] readPassword(String format, Object... args)
-            throws IOException {
-        if (System.console() != null)
-            return System.console().readPassword(format, args);
-        return readLine(format, args).toCharArray();
     }
 
     // straight from stackoverflow

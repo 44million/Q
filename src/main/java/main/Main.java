@@ -14,26 +14,28 @@ public class Main {
     public static void main(String @NotNull [] args) {
 
         File input = null;
-        Environment.global.allLibs.add("listener");
-        Environment.global.allLibs.add("puddle");
-        Environment.global.allLibs.add("console");
-        Environment.global.allLibs.add("time");
-        Environment.global.allLibs.add("random");
-        Environment.global.allLibs.add("math");
-        Environment.global.allLibs.add("files");
-        Environment.global.allLibs.add("http");
-        Environment.global.allLibs.add("windows");
-        Environment.global.allLibs.add("audio");
-        Environment.global.allLibs.add("io");
-        Environment.global.allLibs.add("gtp");
-        Environment.global.allLibs.add("environment");
-        Environment.global.allLibs.add("fileutils");
+        {
+            Environment.global.allLibs.add("listener");
+            Environment.global.allLibs.add("puddle");
+            Environment.global.allLibs.add("console");
+            Environment.global.allLibs.add("time");
+            Environment.global.allLibs.add("random");
+            Environment.global.allLibs.add("math");
+            Environment.global.allLibs.add("files");
+            Environment.global.allLibs.add("http");
+            Environment.global.allLibs.add("awt");
+            Environment.global.allLibs.add("audio");
+            Environment.global.allLibs.add("io");
+            Environment.global.allLibs.add("gtp");
+            Environment.global.allLibs.add("environment");
+            Environment.global.allLibs.add("fileutils");
+        }
 
         util.registerNatives();
 
         if (args.length >= 1) {
 
-            util.get(args);
+            util.animate(args);
 
         } else {
 

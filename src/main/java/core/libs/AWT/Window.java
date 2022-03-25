@@ -33,13 +33,17 @@ public class Window extends QLibrary {
 
     public void init() {
         if (this.has4) {
-            this.f = new JFrame(this.realName);
+            if (this.f == null) {
+                this.f = new JFrame(this.name);
+            }
             this.f.setSize(this.x, this.y);
             this.f.setLocation(this.width, this.height);
             this.f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.f.setVisible(true);
         } else {
-            this.f = new JFrame(this.name);
+            if (this.f == null) {
+                this.f = new JFrame(this.name);
+            }
             this.f.setLayout(new GridBagLayout());
             this.f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.f.setSize(x, y);
@@ -49,17 +53,10 @@ public class Window extends QLibrary {
     }
 
     public void create() {
-        if (this.has4) {
-            this.f = new JFrame(this.realName);
-            this.f.setSize(this.width, this.height);
-            this.f.setLocation(this.x, this.y);
-            this.f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        } else {
+        if (this.f == null) {
             this.f = new JFrame(this.name);
-            this.f.setLayout(new GridBagLayout());
-            this.f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            this.f.setSize(x, y);
-            this.f.setLocationRelativeTo(null);
+        } else {
+            this.f.setTitle(this.name);
         }
     }
 
@@ -74,7 +71,7 @@ public class Window extends QLibrary {
 
     @Override
     public String getName() {
-        return "q.Windows";
+        return "q.awt";
     }
 
     public void setName(String name) {

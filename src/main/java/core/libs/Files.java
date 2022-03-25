@@ -1,5 +1,6 @@
 package core.libs;
 
+import core.etc.Problem;
 import core.interp.QParser;
 import core.lang.q.Value;
 import core.libs.utils.QLibrary;
@@ -34,15 +35,9 @@ public class Files extends QLibrary {
         return new Value(dbpath.toAbsolutePath());
     }
 
-    public static Value canRead(String path) {
-        File file = new File(path);
-
-        return new Value(java.nio.file.Files.isReadable(file.toPath()));
-    }
-
     public static void delete(QParser.ObjFunctionCallExpressionContext ctx) {
         if (ctx.exprList().expression(0) == null) {
-            System.out.println("[ERROR] Function 'paths.delete(:str)' needs a string argument.");
+            throw new Problem("Function 'files::delete(:str)' accepts one argument, the file, or directory in question.");
         }
 
         String path = ctx.exprList().expression(0).getText();
@@ -70,12 +65,6 @@ public class Files extends QLibrary {
             return new Value(0);
         }
 
-    }
-
-    public static Value exists(String path) {
-        File file = new File(path);
-
-        return new Value(file.exists());
     }
 
     @Override

@@ -5,7 +5,6 @@ import core.interp.QBaseVisitor;
 import core.interp.QLexer;
 import core.interp.QParser;
 import core.lang.q.QClass;
-import core.lang.q.QObject;
 import core.lang.q.Value;
 import core.libs.AWT.Window;
 import core.libs.OS;
@@ -76,7 +75,7 @@ public class Visitor extends QBaseVisitor<Value> {
         String obj = ctx.Identifier(0).getText();
         String var = ctx.Identifier(1).getText();
 
-        QObject object = Environment.global.objs.getOrDefault(obj, QObject.NULL);
+        QClass.QObject object = Environment.global.objs.getOrDefault(obj, QClass.QObject.NULL);
 
         Value val = Value.NULL;
         Visitor v = object.v;
@@ -119,7 +118,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
                 case "canRead":
 
-                    return core.libs.Files.canRead(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
+                    return new Value(Files.isReadable(new File(ctx.exprList().expression(0).getText().replaceAll("\"", "")).toPath()));
 
                 case "size":
 
@@ -127,7 +126,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
                 case "exists":
 
-                    return core.libs.Files.exists(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
+                    return new Value(new File(ctx.exprList().expression(0).getText().replaceAll("\"", "")).exists());
 
                 default:
 
@@ -141,6 +140,16 @@ public class Visitor extends QBaseVisitor<Value> {
 
             if (method.equals("get")) {
                 HTTP.get(ctx);
+            } else if (method.equals("post")) {
+                HTTP.post(ctx);
+            } else if (method.equals("put")) {
+                HTTP.put(ctx);
+            } else if (method.equals("delete")) {
+                HTTP.delete(ctx);
+            } else if (method.equals("head")) {
+                HTTP.head(ctx);
+            } else if (method.equals("options")) {
+                HTTP.options(ctx);
             }
 
         } else if (util.getWinByName(parentClass) != null) {
@@ -159,7 +168,7 @@ public class Visitor extends QBaseVisitor<Value> {
                             }
                         }
                         return Value.VOID;
-                    case "addComponent": {
+                    case "add": {
 
                         List<Value> v = new ArrayList<>();
 
@@ -172,16 +181,19 @@ public class Visitor extends QBaseVisitor<Value> {
                         String compType = v.get(0).toString();
 
                         if (v.size() == 2) {
-                            if (compType.equals("button")) {
-                                util.getWinByName(parentClass).addComponent(new JButton(v.get(1).toString()));
-                            } else if (compType.equals("label")) {
-                                util.getWinByName(parentClass).addComponent(new JLabel(v.get(1).toString()));
-                            } else if (compType.equals("textfield")) {
-                                util.getWinByName(parentClass).addComponent(new JTextField(v.get(1).toString()));
-                            } else if (compType.equals("textarea")) {
-                                util.getWinByName(parentClass).addComponent(new JTextArea(v.get(1).toString()));
-                            } else if (compType.equals("checkbox")) {
-                                util.getWinByName(parentClass).addComponent(new JCheckBox(v.get(1).toString()));
+                            switch (compType) {
+                                case "button" -> util.getWinByName(parentClass).f.add(new JButton(v.get(1).toString()));
+                                case "label" -> util.getWinByName(parentClass).f.add(new JLabel(v.get(1).toString()));
+                                case "textfield" -> util.getWinByName(parentClass).f.add(new JTextField(v.get(1).toString()));
+                                case "textarea" -> util.getWinByName(parentClass).f.add(new JTextArea(v.get(1).toString()));
+                                case "checkbox" -> util.getWinByName(parentClass).f.add(new JCheckBox(v.get(1).toString()));
+                                case "combobox" -> util.getWinByName(parentClass).f.add(new JComboBox<>(v.get(1).toString().split(",")));
+                                case "list" -> util.getWinByName(parentClass).f.add(new JList<>(v.get(1).toString().split(",")));
+                                case "scrollpane" -> util.getWinByName(parentClass).f.add(new JScrollPane(new JList<>(v.get(1).toString().split(","))));
+                                case "textpane" -> util.getWinByName(parentClass).f.add(new JTextPane());
+                                case "tabbedpane" -> util.getWinByName(parentClass).f.add(new JTabbedPane());
+                                case "panel" -> util.getWinByName(parentClass).f.add(new JPanel());
+                                default -> throw new Problem("Unknown component type: " + compType, ctx, this.curClass);
                             }
                         } else {
                             throw new Problem("Invalid number of arguments for '" + method + "'", ctx, this.curClass);
@@ -287,7 +299,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         } else if (Environment.global.objs.containsKey(parentClass)) {
 
-            QObject obj = Environment.global.objs.get(parentClass);
+            QClass.QObject obj = Environment.global.objs.get(parentClass);
             Visitor v = obj.v;
 
             List<Value> vals = new ArrayList<>();
@@ -453,9 +465,7 @@ public class Visitor extends QBaseVisitor<Value> {
             }
         } else if (method.equals("destroy")) {
 
-            String s = ctx.expression()
-                    .getText()
-                    .replaceAll("\"", "");
+            String s = ctx.expression().getText().replaceAll("\"", "");
 
             if (Environment.global.objs.containsKey(s)) {
                 Environment.global.objs.remove(s);
@@ -544,19 +554,18 @@ public class Visitor extends QBaseVisitor<Value> {
         boolean before = true;
         boolean after = false;
 
-        String ops =
-                """
-                        \t\t<"default">
-                        \t\t\tApplies the default actions to the try-except loop
-                        \t\t<"suppress">
-                        \t\t\tDisables automatic error printing.
-                        \t\t<"dontprint">
-                        \t\t\tDisables automatic error printing.
-                        \t\t<"printbefore">
-                        \t\t\tPrints the error message BEFORE executing the code within the except block
-                        \t\t<"printafter">
-                        \t\t\tPrints the error message AFTER executing the code within the except block
-                        """;
+        String ops = """
+                \t\t<"default">
+                \t\t\tApplies the default actions to the try-except loop
+                \t\t<"suppress">
+                \t\t\tDisables automatic error printing.
+                \t\t<"dontprint">
+                \t\t\tDisables automatic error printing.
+                \t\t<"printbefore">
+                \t\t\tPrints the error message BEFORE executing the code within the except block
+                \t\t<"printafter">
+                \t\t\tPrints the error message AFTER executing the code within the except block
+                """;
 
         if (ctx.expression(0) == null) {
             throw new Problem("try-except statement MUST have a specification tag, or the default tag. The options are:\n" + ops, ctx, this.curClass);
@@ -673,9 +682,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         String link = o.asString();
 
-        link = link
-                .replace("https://github.com/", "https://raw.githubusercontent.com/")
-                .replace("/blob", "");
+        link = link.replace("https://github.com/", "https://raw.githubusercontent.com/").replace("/blob", "");
 
 
         String fileContents = util.getTextFromGithub(link);
@@ -767,9 +774,9 @@ public class Visitor extends QBaseVisitor<Value> {
 
         if (Environment.global.classes.containsKey(parentClass)) {
 
-            QObject obj;
+            QClass.QObject obj;
             try {
-                obj = new QObject(nameO, (QClass) Environment.global.classes.get(parentClass).clone());
+                obj = new QClass.QObject(nameO, (QClass) Environment.global.classes.get(parentClass).clone());
             } catch (Exception e) {
                 throw new Problem("Unable to clone '" + parentClass + "'", ctx, this.curClass);
             }
@@ -807,7 +814,7 @@ public class Visitor extends QBaseVisitor<Value> {
             Environment.global.files.put(id, file);
         } else if (ctx.Identifier(0).getText().equals("Window")) {
 
-            util.check("windows", "Windows", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.p);
+            util.check("awt", "awt", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.p);
 
             List<Value> list = new ArrayList<>();
             if (ctx.exprList() != null) {
@@ -1316,6 +1323,7 @@ public class Visitor extends QBaseVisitor<Value> {
                 case ".q.Io" -> ".q.io";
                 case ".q.Http" -> ".q.http";
                 case ".q.Puddle" -> ".q.puddle";
+                case ".q.Awt" -> ".q.awt";
                 default -> x + g;
             };
 

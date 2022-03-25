@@ -3,7 +3,6 @@ package core.etc;
 import core.lang.Function;
 import core.lang.Visitor;
 import core.lang.q.QClass;
-import core.lang.q.QObject;
 import core.libs.AWT.Window;
 import core.libs.WebServer;
 import org.antlr.v4.runtime.Token;
@@ -28,7 +27,7 @@ public class Environment {
     public List<String> allLibs = new ArrayList<>();
 
     public Map<String, QClass> classes = new HashMap<>();
-    public Map<String, QObject> objs = new HashMap<>();
+    public Map<String, QClass.QObject> objs = new HashMap<>();
     public Map<String, File> files = new HashMap<>();
     public Map<String, Function.INativeFunction> natives = new HashMap<>();
     public Map<String, Function> consts = new HashMap<>();
