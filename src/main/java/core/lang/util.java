@@ -127,7 +127,18 @@ public class util {
         return null;
     }
 
+    public static String capitalizeFirstLetter(String input) {
+        return input.substring(0, 1).toUpperCase() + input.substring(1);
+    }
+
     public static Value parse(String text) {
+
+        String textCapitalized = ".q." + capitalizeFirstLetter(text.replaceFirst("\\.q\\.", ""));
+
+        if (Environment.global.allowedLibs.contains(text) || Environment.global.allowedLibs.contains(textCapitalized)) {
+            return Value.VOID;
+        }
+
         switch (text) {
             case ".q.awt" -> {
                 if (Environment.global.allowedLibs.contains("awt")) {
@@ -188,6 +199,13 @@ public class util {
                 Environment.global.allowedLibs.add("console");
                 return Value.VOID;
             }
+            case ".q.Lang" -> {
+                if (Environment.global.allowedLibs.contains("lang")) {
+                    return Value.VOID;
+                }
+                Environment.global.allowedLibs.add("lang");
+                return Value.VOID;
+            }
             case ".q.puddle" -> {
                 if (Environment.global.allowedLibs.contains("puddle")) {
                     return Value.VOID;
@@ -203,13 +221,14 @@ public class util {
                 new IO().init();
                 return Value.VOID;
             }
-            case ".q.FileUtils" -> {
+            case ".q.FileUtils", ".q.Fileutils", ".q.fileutils" -> {
                 if (Environment.global.allowedLibs.contains("fileutils")) {
                     return Value.VOID;
                 }
                 Environment.global.allowedLibs.add("fileutils");
                 return Value.VOID;
             }
+
             case ".q.Environment" -> {
                 if (Environment.global.allowedLibs.contains("environment")) {
                     return Value.VOID;
@@ -227,16 +246,6 @@ public class util {
             default -> System.out.println("[ERROR] Unknown library: " + text);
         }
         return Value.VOID;
-    }
-
-    private static String readLine(String format, Object... args) throws IOException {
-        if (System.console() != null) {
-            return System.console().readLine(format, args);
-        }
-        System.out.print(String.format(format, args));
-        BufferedReader reader = new BufferedReader(new InputStreamReader(
-                System.in));
-        return reader.readLine();
     }
 
     // straight from stackoverflow
@@ -270,11 +279,11 @@ public class util {
         }
     }
 
-    public static void registerLibrary(boolean b, String other) {
-        Environment.global.allLibs.add(other);
+    public static void registerLibrary(boolean b, String lib) {
+        Environment.global.allLibs.add(lib);
 
         if (b) {
-            Environment.global.allowedLibs.add(other);
+            Environment.global.allowedLibs.add(lib);
         }
 
     }
@@ -350,13 +359,14 @@ public class util {
         if (sore || Environment.global.allowedLibs.contains(p)) {
             return;
         } else {
-            throw new Problem("Cannot reference '" + t2 + "', as the package has not been imported.The library can be found at: 'q." + t2 + "'", ctx, c);
+            throw new Problem("Cannot reference '" + t2 + "', as the package has not been imported. The library can be found at: 'q." + t2 + "'", ctx, c);
         }
     }
 
     public static void registerNatives() {
 
         util.registerLibrary(false, "std");
+        util.registerLibrary(true, "lang");
 
         Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
@@ -879,6 +889,86 @@ public class util {
                     System.out.println(e.getMessage());
                 }
                 return Value.NULL;
+            }
+        });
+
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "getQCode";
+            }
+
+            @Override
+            public Value ret() {
+                return new Value(core.libs.Math.qcode);
+            }
+
+            @Override
+            public String parent() {
+                return "math";
+            }
+
+            @Override
+            public void exec(List<Value> list) {
+
+            }
+
+            @Override
+            public Value ret(List<Value> list) {
+                return null;
+            }
+        });
+
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "parse";
+            }
+
+            @Override
+            public Value ret() {
+                return null;
+            }
+
+            @Override
+            public String parent() {
+                return "lang";
+            }
+
+            @Override
+            public void exec(List<Value> list) {
+                String method = list.get(0).toString();
+
+                if (method.equals("parseString")) {
+                    String str = list.get(1).toString();
+                    Parser.execBlock(str);
+                } else if (method.equals("parseFile")) {
+                    String file = list.get(1).toString();
+
+                    try {
+                        String fcontents = CharStreams.fromFileName(file).toString();
+                        Parser parser = new Parser().fromText(fcontents);
+                        parser.parse(false);
+                    } catch (IOException e) {
+                        throw new Problem(e.getMessage());
+                    }
+
+                }
+            }
+
+            @Override
+            public Value ret(List<Value> list) {
+                return null;
             }
         });
 

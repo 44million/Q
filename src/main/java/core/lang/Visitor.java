@@ -1324,6 +1324,10 @@ public class Visitor extends QBaseVisitor<Value> {
                 case ".q.Http" -> ".q.http";
                 case ".q.Puddle" -> ".q.puddle";
                 case ".q.Awt" -> ".q.awt";
+                case ".q.Listener" -> ".q.listener";
+                case ".q.Gtp" -> ".q.gtp";
+                case ".q.FileUtils" -> ".q.fileutils";
+                case ".q.Std" -> ".q.std";
                 default -> x + g;
             };
 

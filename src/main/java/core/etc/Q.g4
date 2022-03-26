@@ -292,6 +292,7 @@ Identifier
 
 String
  : '"' (ESC | ~["\r\n\\])+ '"'
+ | '\'' (ESC | ~[\r\n\\])+ '\''
  ;
 
 Comment

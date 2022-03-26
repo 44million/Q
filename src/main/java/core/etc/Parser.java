@@ -2,12 +2,14 @@ package core.etc;
 
 import core.interp.QLexer;
 import core.interp.QParser;
+import core.lang.Visitor;
 import core.lang.util;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,6 +20,7 @@ public class Parser {
     private CharStream s;
     private boolean text;
     private String non;
+    public Visitor v;
 
     public Parser() {
 
@@ -25,15 +28,12 @@ public class Parser {
 
     public Parser(File file) {
         this.file = file;
+        this.v = new Visitor(new Scope(Environment.global.scope, false), new HashMap<>());
     }
 
     public Parser(CharStream s) {
         this.s = s;
-    }
-
-    public Parser(String str) {
-        this.str = str;
-        this.file = new File(str);
+        this.v = new Visitor(new Scope(Environment.global.scope, false), new HashMap<>());
     }
 
     public static void execBlock(String str) {
@@ -239,6 +239,7 @@ public class Parser {
     public Parser fromText(String text) {
         this.text = true;
         this.non = text;
+        this.v = new Visitor(new Scope(Environment.global.scope, false), new HashMap<>());
         return this;
     }
 
