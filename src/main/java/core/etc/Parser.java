@@ -39,6 +39,19 @@ public class Parser {
     public static void execBlock(String str) {
 
         QLexer lexer = new QLexer(CharStreams.fromString(str));
+
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(new BaseErrorListener() {
+            @Override
+            public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                if (msg.contains("token recognition error at: '\"\"")) {
+                    return;
+                }
+                System.err.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character: '" + msg + "'");
+                System.exit(-1);
+            }
+        });
+
         QParser parser = new QParser(new CommonTokenStream(lexer));
         parser.removeErrorListeners();
 
@@ -77,6 +90,17 @@ public class Parser {
         if (this.file != null) {
 
             lexer = new QLexer(CharStreams.fromFileName(this.file.getName()));
+            lexer.removeErrorListeners();
+            lexer.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    if (msg.contains("token recognition error at: '\"\"")) {
+                        return;
+                    }
+                    System.err.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character: '" + msg + "'");
+                    System.exit(-1);
+                }
+            });
             QParser parser = new QParser(new CommonTokenStream(lexer));
             parser.removeErrorListeners();
 
@@ -95,6 +119,17 @@ public class Parser {
         } else if (this.s != null) {
 
             lexer = new QLexer(this.s);
+            lexer.removeErrorListeners();
+            lexer.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    if (msg.contains("token recognition error at: '\"\"")) {
+                        return;
+                    }
+                    System.err.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character: '" + msg + "'");
+                    System.exit(-1);
+                }
+            });
             QParser parser = new QParser(new CommonTokenStream(lexer));
 
             parser.addErrorListener(new BaseErrorListener() {
@@ -113,6 +148,17 @@ public class Parser {
         } else if (this.str != null) {
 
             lexer = new QLexer(CharStreams.fromFileName(this.str));
+            lexer.removeErrorListeners();
+            lexer.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    if (msg.contains("token recognition error at: '\"\"")) {
+                        return;
+                    }
+                    System.err.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character: '" + msg + "'");
+                    System.exit(-1);
+                }
+            });
             QParser parser = new QParser(new CommonTokenStream(lexer));
 
             parser.removeErrorListeners();
@@ -133,6 +179,17 @@ public class Parser {
         } else if (this.non != null) {
 
             lexer = new QLexer(CharStreams.fromString(this.non));
+            lexer.removeErrorListeners();
+            lexer.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    if (msg.contains("token recognition error at: '\"\"")) {
+                        return;
+                    }
+                    System.err.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character: '" + msg + "'");
+                    System.exit(-1);
+                }
+            });
             QParser parser = new QParser(new CommonTokenStream(lexer));
             parser.removeErrorListeners();
 
@@ -164,6 +221,17 @@ public class Parser {
         if (this.file != null) {
 
             QLexer lexer = new QLexer(CharStreams.fromFileName(this.file.getName()));
+            lexer.removeErrorListeners();
+            lexer.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    if (msg.contains("token recognition error at: '\"\"")) {
+                        return;
+                    }
+                    System.err.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character: '" + msg + "'");
+                    System.exit(-1);
+                }
+            });
             QParser parser = new QParser(new CommonTokenStream(lexer));
             parser.removeErrorListeners();
 
@@ -182,6 +250,17 @@ public class Parser {
         } else if (this.s != null) {
 
             QLexer lexer = new QLexer(this.s);
+            lexer.removeErrorListeners();
+            lexer.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    if (msg.contains("token recognition error at: '\"\"")) {
+                        return;
+                    }
+                    System.err.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character: '" + msg + "'");
+                    System.exit(-1);
+                }
+            });
             QParser parser = new QParser(new CommonTokenStream(lexer));
             parser.removeErrorListeners();
 
@@ -200,6 +279,17 @@ public class Parser {
         } else if (this.str != null) {
 
             QLexer lexer = new QLexer(CharStreams.fromFileName(this.str));
+            lexer.removeErrorListeners();
+            lexer.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    if (msg.contains("token recognition error at: '\"\"")) {
+                        return;
+                    }
+                    System.err.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character: '" + msg + "'");
+                    System.exit(-1);
+                }
+            });
             QParser parser = new QParser(new CommonTokenStream(lexer));
             parser.removeErrorListeners();
 
@@ -217,6 +307,17 @@ public class Parser {
         } else if (this.non != null) {
 
             QLexer lexer = new QLexer(CharStreams.fromString(this.non));
+            lexer.removeErrorListeners();
+            lexer.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    if (msg.contains("token recognition error at: '\"\"")) {
+                        return;
+                    }
+                    System.err.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character: '" + msg + "'");
+                    System.exit(-1);
+                }
+            });
             QParser parser = new QParser(new CommonTokenStream(lexer));
             parser.removeErrorListeners();
 

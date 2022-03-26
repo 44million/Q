@@ -101,7 +101,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         if (parentClass.equals("Files")) {
 
-            util.check("files", "Files", ctx, this.scope.parent().parent().parent().sore, this.curClass, this.p);
+            util.check("files", "Files", ctx, util.getOrDefault(false, this), this.curClass, this.p);
 
             switch (method) {
                 case "absPath":
@@ -136,7 +136,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         } else if (parentClass.equals("http")) {
 
-            util.check("http", "http", ctx, this.scope.parent().parent().parent().sore, this.curClass, this.p);
+            util.check("http", "http", ctx, util.getOrDefault(false, this), this.curClass, this.p);
 
             if (method.equals("get")) {
                 HTTP.get(ctx);
@@ -328,7 +328,7 @@ public class Visitor extends QBaseVisitor<Value> {
                 p = this.p;
             }
 
-            util.check(Environment.global.natives.get(method).parent(), parentClass, ctx, this.scope.parent().parent().parent().sore, this.curClass, p);
+            util.check(Environment.global.natives.get(method).parent(), parentClass, ctx, util.getOrDefault(false, this), this.curClass, p);
 
             List<Value> l = new ArrayList<>();
 
@@ -1476,7 +1476,7 @@ public class Visitor extends QBaseVisitor<Value> {
     @Override
     public Value visitInputExpression(InputExpressionContext ctx) {
 
-        util.check("std", "std", ctx, this.scope.parent().parent().parent().sore, this.curClass, this.p);
+        util.check("std", "std", ctx, util.getOrDefault(false, this), this.curClass, this.p);
 
         TerminalNode inputString = ctx.String();
         try {

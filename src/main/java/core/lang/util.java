@@ -24,6 +24,15 @@ import java.util.Random;
 
 public class util {
 
+    public static boolean getOrDefault(boolean otherB, Visitor v) {
+        try {
+            boolean answer = v.scope.parent().parent().parent().sore;
+            return answer;
+        } catch (Exception e) {
+            return otherB;
+        }
+    }
+
     public static void animate(String[] args) {
         int counter = 0;
         for (String cmd : args) {
