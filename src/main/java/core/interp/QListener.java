@@ -286,16 +286,6 @@ public interface QListener extends ParseTreeListener {
 	 */
 	void exitFileWriteStatement(QParser.FileWriteStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QParser#verifyFileStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterVerifyFileStatement(QParser.VerifyFileStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QParser#verifyFileStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitVerifyFileStatement(QParser.VerifyFileStatementContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link QParser#elseStat}.
 	 * @param ctx the parse tree
 	 */
@@ -405,16 +395,6 @@ public interface QListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitWhileStatement(QParser.WhileStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QParser#addWebServerTextStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterAddWebServerTextStatement(QParser.AddWebServerTextStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QParser#addWebServerTextStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitAddWebServerTextStatement(QParser.AddWebServerTextStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QParser#mainFunctionStatement}.
 	 * @param ctx the parse tree

@@ -176,12 +176,6 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFileWriteStatement(QParser.FileWriteStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QParser#verifyFileStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVerifyFileStatement(QParser.VerifyFileStatementContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link QParser#elseStat}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -247,12 +241,6 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitWhileStatement(QParser.WhileStatementContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QParser#addWebServerTextStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAddWebServerTextStatement(QParser.AddWebServerTextStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QParser#mainFunctionStatement}.
 	 * @param ctx the parse tree

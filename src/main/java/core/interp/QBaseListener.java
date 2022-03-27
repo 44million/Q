@@ -328,18 +328,6 @@ public class QBaseListener implements QListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVerifyFileStatement(QParser.VerifyFileStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitVerifyFileStatement(QParser.VerifyFileStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterElseStat(QParser.ElseStatContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -467,18 +455,6 @@ public class QBaseListener implements QListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitWhileStatement(QParser.WhileStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAddWebServerTextStatement(QParser.AddWebServerTextStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAddWebServerTextStatement(QParser.AddWebServerTextStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

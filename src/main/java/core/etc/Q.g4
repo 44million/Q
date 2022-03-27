@@ -16,12 +16,10 @@ statement
  | whileStatement
  | tryCatchStatement
  | mainFunctionStatement
- | addWebServerTextStatement ';'
  | reAssignment ';'
  | classStatement
  | constructorStatement
  | fileWriteStatement ';'
- | verifyFileStatement ';'
  | objFunctionCall (';')?
  | objCreateStatement ';'
  | osExecStatement ';'
@@ -70,7 +68,7 @@ ifStatement
  ;
 
 ifStat
- : If '(' expression ')' block
+ : If '(' expression ')' ':' block
  ;
 
 hereStatement
@@ -82,11 +80,11 @@ varHereStatement
  ;
 
 elseIfStat
- : Else If '(' expression ')' block
+ : Else If '(' expression ')' ':' block
  ;
 
 constructorStatement
- : 'cn' Identifier '(' exprList? ')' block End
+ : 'cn' Identifier '(' exprList? ')' ':' block End
  ;
 
 objCreateStatement
@@ -97,28 +95,27 @@ osExecStatement
  : 'sys' Accessor Identifier '(' expression? ')'
  ;
 
+/*
+    TODO: CHANGE THIS
+*/
 fileWriteStatement
  : Identifier Accessor 'write' '(' expression ')'
  ;
 
-verifyFileStatement
- : 'verify' '(' expression ')'
- ;
-
 elseStat
- : Else block
+ : Else ':' block
  ;
 
 functionDecl
- : ( Async | Native )*? Def Identifier '(' idList? ')' block End
+ : ( Async | Native )*? Def Identifier '(' idList? ')' ':' block End
  ;
 
 forStatement
- : For '(' Identifier '=' expression To expression ')' block End
+ : For '(' Identifier '=' expression To expression ')' ':' block End
  ;
 
 forInStatement
- : For '(' Identifier 'in' 'range' '(' expression ')' ')' block End
+ : For '(' Identifier 'in' 'range' '(' expression ')' ')' ':' block End
  ;
 
 importStatement
@@ -126,8 +123,8 @@ importStatement
  ;
 
 anonymousFunction
- : 'fn' '(' exprList? ')' '-' '>' block End
- // fn(x, y) ->
+ : 'fn' '(' exprList? ')' ':' '-' '>' block End
+ // fn(x, y): ->
  //     std:ln(x);
  // end
  ;
@@ -145,12 +142,12 @@ atStatement
  ;
 
 tryCatchStatement
- : Try block 'except' ( '<' expression '>' )*? block End
+ : Try ':' block 'except' ':' ( '<' expression '>' )*? block End
 
  /*
-    try
+    try:
         std::cout("hello there");
-    except
+    except:
         std::coutln("errr");
     end
  */
@@ -158,15 +155,11 @@ tryCatchStatement
  ; 
 
 whileStatement
- : While '(' expression ')' block End
- ;
-
-addWebServerTextStatement
- : Identifier Accessor 'changeText' '(' expression ')'
+ : While '(' expression ')' ':' block End
  ;
 
 mainFunctionStatement
- : 'fn main()' block End
+ : 'fn' 'main()' ':' block End
  ;
 
 idList

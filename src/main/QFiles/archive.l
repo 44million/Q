@@ -366,3 +366,49 @@ class Main
     end
 
 end
+
+namespace testing;
+
+class Main
+
+    fn main()
+
+        /*
+            PLEASE NOTE: using lang::parse creates a separate environment,
+            meaning that any variables, objects, or classes created:
+            WILL NOT BE ACCESSIBLE ANYWHERE BUT INSIDE THE ENCLOSED CODE BLOCK.
+        */
+
+        const var content = """
+                #import test;
+
+                class Main
+
+                    fn runTheRunner()
+                        new Runner as runner();
+
+                        runner::start();
+                        runner::run();
+                        runner::stop();
+
+                    end
+
+                    runTheRunner();
+
+                end
+
+            """;
+
+
+        try
+            var path = "test.l";
+
+            lang::parse("parseFile", path);
+            lang::parse("parseString", content);
+        except
+            <"printafter">
+            std::err("error: ");
+        end
+    end
+
+end

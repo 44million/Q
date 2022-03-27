@@ -57,7 +57,7 @@ public class Main {
             } catch (Exception e) {
 
                 String err = "[FATAL] " + e.getMessage();
-                if (e.getMessage().endsWith(".x")) {
+                if (e.getMessage().endsWith(".x") || (e.getMessage().endsWith(".l"))) {
                     err += " (File not found)";
                 }
 

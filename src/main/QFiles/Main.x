@@ -1,19 +1,38 @@
 namespace testing;
 
+#import [*];
+
+class TestCase
+
+    noval var name;
+
+    cn TestCase()
+
+    end
+
+    fn set(v)
+        self::name = v;
+    end;
+
+    fn get()
+        return self::name;
+    end;
+end
+
 class Main
 
     fn main()
 
-        const var content = """
-                #import q.awt;
-                #import q.std;
+        new TestCase as t();
 
-                var x = 'Hello There';
+        t::set("test");
 
-                std::coutln(x);
-            """;
+        new TestCase as t2();
 
-        lang::parse("parseString", content);
+        t2::set("test2");
+
+        std::coutln(t::get());
+        std::coutln(t2::get());
 
     end
 

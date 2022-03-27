@@ -293,10 +293,84 @@ public class Visitor extends QBaseVisitor<Value> {
 
             if (method.equals("stop") && util.getWebByName(parentClass) != null) {
                 util.getWebByName(parentClass).stop();
+            } else if (method.equals("changeText")) {
+
+                List<Value> l = new ArrayList<>();
+
+                if (ctx.exprList() != null) {
+                    for (ExpressionContext e : ctx.exprList().expression()) {
+                        l.add(this.visit(e));
+                    }
+                }
+
+                for (WebServer w : Environment.global.webs) {
+                    if (w.id.equals(parentClass)) {
+                        w.setText(l.get(0).toString());
+                        return Value.VOID;
+                    }
+                }
+
+                throw new Problem("Object '" + parentClass + "' does not exist in the current context", ctx, this.curClass);
             } else {
                 throw new Problem("Unknown method '" + method + "'", ctx, this.curClass);
             }
 
+        } else if (Environment.global.files.containsKey(parentClass)) {
+
+            List<Value> v = new ArrayList<>();
+
+            if (ctx.exprList() != null) {
+                for (ExpressionContext e : ctx.exprList().expression()) {
+                    v.add(this.visit(e));
+                }
+            }
+
+            if (method.equals("write")) {
+
+                try {
+
+                    FileWriter fw = new FileWriter(Environment.global.files.get(parentClass));
+                    fw.write("");
+
+                    v.forEach((action) -> {
+                        try {
+                            fw.append(action.toString());
+                        } catch (IOException e) {
+                            throw new Problem(e.getMessage(), ctx, this.curClass);
+                        }
+                    });
+                    fw.close();
+
+                } catch (Exception e) {
+                    throw new Problem(e.getMessage(), ctx, this.curClass);
+                }
+                return Value.VOID;
+            } else if (method.equals("read")) {
+
+                try {
+                    FileReader fr = new FileReader(Environment.global.files.get(parentClass));
+                    BufferedReader br = new BufferedReader(fr);
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line);
+                    }
+                    br.close();
+                    fr.close();
+                    return new Value(sb.toString());
+                } catch (Exception e) {
+                    throw new Problem(e.getMessage(), ctx, this.curClass);
+                }
+            } else if (method.equals("verify")) {
+
+                String path = Environment.global.files.get(parentClass).getAbsolutePath();
+
+                if (new File(path).exists()) {
+                    return new Value(true);
+                }
+
+                return new Value(false);
+            }
         } else if (Environment.global.objs.containsKey(parentClass)) {
 
             QClass.QObject obj = Environment.global.objs.get(parentClass);
@@ -423,18 +497,6 @@ public class Visitor extends QBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitVerifyFileStatement(QParser.VerifyFileStatementContext ctx) {
-
-        Value xv = new Value(this.visit(ctx.expression()));
-
-        if (new File(xv.asString()).exists()) {
-            return new Value(true);
-        }
-
-        return new Value(false);
-    }
-
-    @Override
     public Value visitOsExecStatement(QParser.OsExecStatementContext ctx) {
 
         String method = ctx.Identifier().getText();
@@ -539,7 +601,7 @@ public class Visitor extends QBaseVisitor<Value> {
             this.visit(ctx.block());
             return Value.VOID;
         } else {
-            System.out.println("[FATAL " + line + ":" + pos + "] Main function has already been called.");
+            System.err.println("[FATAL " + line + ":" + pos + "] Main function has already been called.");
             System.exit(0);
         }
         return Value.VOID;
@@ -614,22 +676,6 @@ public class Visitor extends QBaseVisitor<Value> {
             }
         }
         return Value.VOID;
-    }
-
-    @Override
-    public Value visitAddWebServerTextStatement(QParser.AddWebServerTextStatementContext ctx) {
-
-        Value resp = this.visit(ctx.expression());
-        String id = ctx.Identifier().getText();
-
-        for (WebServer w : Environment.global.webs) {
-            if (w.id.equals(id)) {
-                w.setText(resp.asString());
-                return Value.VOID;
-            }
-        }
-
-        throw new Problem("Object '" + id + "' does not exist in the current context", ctx, this.curClass);
     }
 
     @Override
@@ -772,6 +818,10 @@ public class Visitor extends QBaseVisitor<Value> {
         String parentClass = ctx.Identifier(0).getText();
         String nameO = ctx.Identifier(1).getText();
 
+        if (Environment.global.objs.containsKey(parentClass) || Environment.global.files.containsKey(parentClass) || util.getWinByName(parentClass) != null || util.getWebByName(parentClass) != null) {
+            throw new Problem("Object already exists: " + parentClass, ctx);
+        }
+
         if (Environment.global.classes.containsKey(parentClass)) {
 
             QClass.QObject obj;
@@ -794,6 +844,7 @@ public class Visitor extends QBaseVisitor<Value> {
             obj.v = this;
 
             Environment.global.objs.put(nameO, obj);
+
         } else if (ctx.Identifier(0).getText().equals("File")) {
 
             util.check("files", "Files", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.p);
@@ -1342,10 +1393,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         String id = ctx.Identifier().getText();
 
-        if (id.equals("notips")) {
-            // @notips
-            Environment.global.tips = false;
-        } else if (id.equals("autoimport")) {
+        if (id.equals("autoimport")) {
             // @autoimport
             this.scope.parent().sore = true;
         } else {
@@ -1503,6 +1551,11 @@ public class Visitor extends QBaseVisitor<Value> {
         }
 
         this.p = text.toString();
+
+        String packageName = text.toString();
+
+        NameSpace ns = new NameSpace(packageName, Environment.global.classes.get(this.curClass));
+        Environment.global.namespaces.put(packageName, ns);
 
         return Value.VOID;
     }

@@ -31,9 +31,9 @@ public class Environment {
     public Map<String, File> files = new HashMap<>();
     public Map<String, Function.INativeFunction> natives = new HashMap<>();
     public Map<String, Function> consts = new HashMap<>();
+    public Map<String, NameSpace> namespaces = new HashMap<>();
 
     public boolean hasMainExecuted = false;
-    public boolean tips = true;
 
     public Environment() {
 
