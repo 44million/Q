@@ -6,22 +6,22 @@ class TestCase
 
     noval var name;
 
-    cn TestCase()
+    cn TestCase():
 
     end
 
     fn set(v)
         self::name = v;
-    end;
+    end
 
-    fn get()
+    fn get():
         return self::name;
-    end;
+    end
 end
 
 class Main
 
-    fn main()
+    fn main():
 
         new TestCase as t();
 

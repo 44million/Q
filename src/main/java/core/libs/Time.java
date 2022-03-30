@@ -13,11 +13,11 @@ public class Time extends QLibrary {
     private final String qcode = String.format(
             """
                                 
-                    fn EAL()
+                    fn EAL():
                         return "%s";
                     end
                                         
-                    fn IAL()
+                    fn IAL():
                         return "%s";
                     end
                                 

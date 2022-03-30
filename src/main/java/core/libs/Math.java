@@ -10,37 +10,37 @@ public class Math extends QLibrary {
                         
             class Calculator
                         
-                cn Calculator()
+                cn Calculator():
                 
                 end
                         
-                fn pow(x, y)
+                fn pow(x, y):
                     return x^y;
                 end
                         
-                fn fib(n)
+                fn fib(n):
               
-                    if (n < 2)
+                    if (n < 2):
                         return n;
-                    else
+                    else:
                         return fib(n - 1) + fib(n - 2);
                     end
                 
                 end
 
-                fn fact(n)
-                    if (n < 2)
+                fn fact(n):
+                    if (n < 2):
                         return n;
-                    else
+                    else:
                         return n * fact(n - 1);
                     end
                 end
                         
-                fn sqrt(x)
+                fn sqrt(x):
                     return x^0.5;
                 end
 
-                fn triang(n)
+                fn triang(n):
 
                     var p1 = n + 1;
                     var mul = n * p1;
@@ -48,60 +48,60 @@ public class Math extends QLibrary {
                     return mul / 2;
                 end
                         
-                fn density(mass, volume)
+                fn density(mass, volume):
                     var d = mass / volume;
                     return d;
                 end
                         
-                fn density(mass, volume, density)
+                fn density(mass, volume, density):
                     var d = density * mass / volume;
                     return d;
                 end
 
-                fn volume(mass, density)
+                fn volume(mass, density):
                     var v = mass / density;
                     return v;
                 end
 
-                fn mass(volume, density)
+                fn mass(volume, density):
                     var m = density * volume;
                     return m;
                 end
 
-                fn mass(volume, density, mass)
+                fn mass(volume, density, mass):
                     var m = mass * density / volume;
                     return m;
                 end
 
-                fn mph(distance, time)
+                fn mph(distance, time):
                     var mph = distance / time;
                     return mph;
                 end
 
-                fn mph(distance, time, mph)
+                fn mph(distance, time, mph):
                     var mph = mph * distance / time;
                     return mph;
                 end
 
-                fn o(n)
+                fn o(n):
                         
-                    if (n < 2)
+                    if (n < 2):
                         return 1;
-                    else
+                    else:
                         return n * o(n-1);
                     end
                         
                 end
                         
-                fn mul(x, y)
+                fn mul(x, y):
                     return x * y;
                 end
                 
-                fn div(x, y)
+                fn div(x, y):
                     return x / y;
                 end
                 
-                fn mod(x, y)
+                fn mod(x, y):
                     return x % y;
                 end
                         

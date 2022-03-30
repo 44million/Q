@@ -12,11 +12,11 @@ public class QRandom extends QLibrary {
             = ("""      
             class Random
                         
-                cn Random()
+                cn Random():
                 
                 end
                 
-                fn ran(x)
+                fn ran(x):
                     return random(x);
                 end
                         

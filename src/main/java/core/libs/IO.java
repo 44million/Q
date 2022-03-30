@@ -17,14 +17,15 @@ public class IO extends QLibrary {
     public void init() {
 
         String qcode = """
-                            
+                
+                @autoimport
                 class InputStream
                             
-                    cn InputStream()
+                    cn InputStream():
                     
                     end
                     
-                    fn input()
+                    fn input():
                         
                         var x = std::cin();
                         return x;
@@ -35,19 +36,23 @@ public class IO extends QLibrary {
                             
                 class OutputStream
                             
-                    cn OutputStream()
+                    cn OutputStream():
                     
                     end
                     
-                    fn printline(x)
+                    fn println(x):
                         std::QAVB8KI72J65919YLC(x);
                     end
                     
-                    fn out(x)
+                    fn println():
+                        std::QAVB8KI72J65919YLC();
+                    end
+                    
+                    fn out(x):
                         std::AX7MRSUXQ61G8DXIZW(x);
                     end
                     
-                    fn newline()
+                    fn newline():
                         std::QAVB8KI72J65919YLC();
                     end
                             

@@ -18,7 +18,6 @@ public class Parser {
     private File file;
     private String str;
     private CharStream s;
-    private boolean text;
     private String non;
     public Visitor v;
 
@@ -338,7 +337,6 @@ public class Parser {
     }
 
     public Parser fromText(String text) {
-        this.text = true;
         this.non = text;
         this.v = new Visitor(new Scope(Environment.global.scope, false), new HashMap<>());
         return this;
