@@ -15,11 +15,11 @@ import java.util.Scanner;
 
 public class Parser {
 
+    public Visitor v;
     private File file;
     private String str;
     private CharStream s;
     private String non;
-    public Visitor v;
 
     public Parser() {
 

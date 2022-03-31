@@ -1,6 +1,7 @@
 namespace testing;
 
-#import [*];
+#import q.Time;
+#import q.std;
 
 class TestCase
 
@@ -10,7 +11,7 @@ class TestCase
 
     end
 
-    fn set(v)
+    fn set(v):
         self::name = v;
     end
 
@@ -33,6 +34,14 @@ class Main
 
         std::coutln(t::get());
         std::coutln(t2::get());
+
+        std::coutln(std::property("user.dir"));
+        std::coutln(std::libraries(false));
+        std::coutln(std::parsed());
+
+        // cur, date, instant
+        std::coutln(Time::cur());
+
 
     end
 

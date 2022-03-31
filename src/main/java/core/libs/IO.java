@@ -4,8 +4,6 @@ import core.etc.Parser;
 import core.etc.Problem;
 import core.libs.utils.QLibrary;
 
-import java.io.IOException;
-
 public class IO extends QLibrary {
 
     @Override
@@ -17,8 +15,15 @@ public class IO extends QLibrary {
     public void init() {
 
         String qcode = """
-                
-                @autoimport
+                                
+                /*
+                * IO
+                *
+                * IO is a library that provides a simple interface for reading and writing to files.
+                *
+                *
+                */
+                                
                 class InputStream
                             
                     cn InputStream():

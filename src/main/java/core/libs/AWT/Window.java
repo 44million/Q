@@ -9,11 +9,11 @@ public class Window extends QLibrary {
 
     private final int x;
     private final int y;
-    private int width;
-    private int height;
     public String name;
     public String realName;
     public JFrame f;
+    private int width;
+    private int height;
     private boolean has4;
 
     public Window(String name, int x, int y) {

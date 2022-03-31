@@ -115,7 +115,7 @@ public class Math extends QLibrary {
 
     @Override
     public void init() {
-        Parser.execBlock(this.qcode);
+        Parser.execBlock(qcode);
     }
 
 }

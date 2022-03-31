@@ -16,17 +16,17 @@ public class Main {
         File input = null;
         {
             Environment.global.allLibs.add("puddle");
-            Environment.global.allLibs.add("console");
-            Environment.global.allLibs.add("time");
-            Environment.global.allLibs.add("random");
-            Environment.global.allLibs.add("math");
-            Environment.global.allLibs.add("files");
+            Environment.global.allLibs.add("Console");
+            Environment.global.allLibs.add("Time");
+            Environment.global.allLibs.add("Random");
+            Environment.global.allLibs.add("Math");
+            Environment.global.allLibs.add("Files");
             Environment.global.allLibs.add("http");
             Environment.global.allLibs.add("awt");
-            Environment.global.allLibs.add("audio");
+            Environment.global.allLibs.add("Audio");
             Environment.global.allLibs.add("io");
-            Environment.global.allLibs.add("environment");
-            Environment.global.allLibs.add("fileutils");
+            Environment.global.allLibs.add("Environment");
+            Environment.global.allLibs.add("FileUtils");
         }
 
         util.registerNatives();
@@ -51,8 +51,6 @@ public class Main {
 
                 Parser parser = new Parser(CharStreams.fromFileName(input.getAbsolutePath()));
                 Environment.global.lst.addAll(parser.parse(false));
-
-                util.write(input.getAbsolutePath(), new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")));
 
             } catch (Exception e) {
 

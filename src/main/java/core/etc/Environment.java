@@ -3,6 +3,7 @@ package core.etc;
 import core.lang.Function;
 import core.lang.Visitor;
 import core.lang.q.QClass;
+import core.lang.util;
 import core.libs.AWT.Window;
 import core.libs.WebServer;
 import org.antlr.v4.runtime.Token;
@@ -36,6 +37,26 @@ public class Environment {
     public boolean hasMainExecuted = false;
 
     public Environment() {
+
+    }
+
+    public boolean getObj(String name) {
+        return util.getWebByName(name) != null || util.getWinByName(name) != null || this.files.containsKey(name) || this.objs.containsKey(name);
+    }
+
+    public void destroy(String name) {
+
+        if (util.getWebByName(name) != null) {
+            this.webs.remove(util.getWebByName(name));
+        } else if (util.getWinByName(name) != null) {
+            this.wins.remove(util.getWinByName(name));
+        } else if (this.files.containsKey(name)) {
+            this.files.remove(name);
+        } else if (this.objs.containsKey(name)) {
+            this.objs.remove(name);
+        } else {
+            throw new Problem("No such object to destroy: " + name);
+        }
 
     }
 

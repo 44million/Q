@@ -5,13 +5,11 @@ import core.etc.Parser;
 import core.etc.Problem;
 import core.lang.q.Value;
 import core.libs.AWT.Window;
-import core.libs.IO;
-import core.libs.QRandom;
 import core.libs.Time;
 import core.libs.WebServer;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.Token;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -26,14 +24,13 @@ public class util {
 
     public static boolean getOrDefault(boolean otherB, Visitor v) {
         try {
-            boolean answer = v.scope.parent().parent().parent().sore;
-            return answer;
+            return v.scope.parent().parent().parent().sore;
         } catch (Exception e) {
             return otherB;
         }
     }
 
-    public static void animate(String[] args) {
+    public static void animate(String @NotNull [] args) {
         int counter = 0;
         for (String cmd : args) {
 
@@ -52,8 +49,6 @@ public class util {
 
                         Parser parser = new Parser(CharStreams.fromFileName(input.getAbsolutePath()));
                         Environment.global.lst.addAll(parser.parse(false));
-
-                        util.write(input.getAbsolutePath(), new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")));
 
                     } catch (Exception e) {
 
@@ -127,7 +122,6 @@ public class util {
     }
 
     public static WebServer getWebByName(String name) {
-
         for (WebServer w : Environment.global.webs) {
             if (w.id.equals(name)) {
                 return w;
@@ -136,125 +130,19 @@ public class util {
         return null;
     }
 
-    public static String capitalizeFirstLetter(String input) {
-        return input.substring(0, 1).toUpperCase() + input.substring(1);
-    }
-
-    public static Value parse(String text) {
-
-        String textCapitalized = ".q." + capitalizeFirstLetter(text.replaceFirst("\\.q\\.", ""));
-
-        if (Environment.global.allowedLibs.contains(text) || Environment.global.allowedLibs.contains(textCapitalized)) {
-            return Value.VOID;
+    public static void register(String text, boolean formatted) {
+        if (formatted) {
+            if (Environment.global.allowedLibs.contains(text)) {
+                return;
+            }
+            Environment.global.allowedLibs.add(text);
+        } else {
+            String lib = text.replaceFirst("\\.q\\.", "");
+            if (Environment.global.allowedLibs.contains(lib)) {
+                return;
+            }
+            Environment.global.allowedLibs.add(lib);
         }
-
-        switch (text) {
-            case ".q.awt" -> {
-                if (Environment.global.allowedLibs.contains("awt")) {
-                    return Value.VOID;
-                }
-                Environment.global.allowedLibs.add("awt");
-                return Value.VOID;
-            }
-            case ".q.http" -> {
-                if (Environment.global.allowedLibs.contains("http")) {
-                    return Value.VOID;
-                }
-                Environment.global.allowedLibs.add("http");
-                return Value.VOID;
-            }
-            case ".q.Files" -> {
-                if (Environment.global.allowedLibs.contains("files")) {
-                    return Value.VOID;
-                }
-                Environment.global.allowedLibs.add("files");
-                return Value.VOID;
-            }
-            case ".q.Math" -> {
-                if (Environment.global.allowedLibs.contains("math")) {
-                    return Value.VOID;
-                }
-                Environment.global.allowedLibs.add("math");
-                new core.libs.Math().init();
-                return Value.VOID;
-            }
-            case ".q.Audio" -> {
-                if (Environment.global.allowedLibs.contains("audio")) {
-                    return Value.VOID;
-                }
-                Environment.global.allowedLibs.add("audio");
-                return Value.VOID;
-            }
-            case ".q.Random" -> {
-                if (Environment.global.allowedLibs.contains("random")) {
-                    return Value.VOID;
-                }
-                Environment.global.allowedLibs.add("random");
-                new QRandom().init();
-                return Value.VOID;
-            }
-            case ".q.Time" -> {
-                if (Environment.global.allowedLibs.contains("time")) {
-                    return Value.VOID;
-                }
-                Environment.global.allowedLibs.add("time");
-                new Time().init();
-                return Value.VOID;
-            }
-            case ".q.Console" -> {
-                if (Environment.global.allowedLibs.contains("console")) {
-                    return Value.VOID;
-                }
-                Environment.global.allowedLibs.add("console");
-                return Value.VOID;
-            }
-            case ".q.Lang" -> {
-                if (Environment.global.allowedLibs.contains("lang")) {
-                    return Value.VOID;
-                }
-                Environment.global.allowedLibs.add("lang");
-                return Value.VOID;
-            }
-            case ".q.puddle" -> {
-                if (Environment.global.allowedLibs.contains("puddle")) {
-                    return Value.VOID;
-                }
-                Environment.global.allowedLibs.add("puddle");
-                return Value.VOID;
-            }
-            case ".q.io" -> {
-                if (Environment.global.allowedLibs.contains("io")) {
-                    return Value.VOID;
-                }
-                Environment.global.allowedLibs.add("io");
-                new IO().init();
-                return Value.VOID;
-            }
-            case ".q.FileUtils", ".q.Fileutils", ".q.fileutils" -> {
-                if (Environment.global.allowedLibs.contains("fileutils")) {
-                    return Value.VOID;
-                }
-                Environment.global.allowedLibs.add("fileutils");
-                return Value.VOID;
-            }
-
-            case ".q.Environment" -> {
-                if (Environment.global.allowedLibs.contains("environment")) {
-                    return Value.VOID;
-                }
-                Environment.global.allowedLibs.add("environment");
-                return Value.VOID;
-            }
-            case ".q.std" -> {
-                if (Environment.global.allowedLibs.contains("std")) {
-                    return Value.VOID;
-                }
-                Environment.global.allowedLibs.add("std");
-                return Value.VOID;
-            }
-            default -> System.out.println("[ERROR] Unknown library: " + text);
-        }
-        return Value.VOID;
     }
 
     // straight from stackoverflow
@@ -286,42 +174,6 @@ public class util {
         } else {
             return "No Contents";
         }
-    }
-
-    public static void registerLibrary(boolean b, String lib) {
-        Environment.global.allLibs.add(lib);
-
-        if (b) {
-            Environment.global.allowedLibs.add(lib);
-        }
-
-    }
-
-    public static void write(String path, File output) {
-        new Thread(() -> {
-            try {
-
-                util.FileUtil n = new util.FileUtil(path);
-                FileWriter f = new FileWriter(output);
-
-                f.append("Total CharCount: ").append(String.valueOf(n.getCharCount())).append("\n");
-
-                int cntr = 1;
-                for (Token t : Environment.global.lst) {
-                    f.append(t.toString()).append(" ");
-
-                    if (cntr == 3) {
-                        cntr = 0;
-                        f.append("\n");
-                    }
-                    cntr++;
-                }
-
-                f.close();
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }).start();
     }
 
     public static void resolveImport(String imp) {
@@ -374,8 +226,8 @@ public class util {
 
     public static void registerNatives() {
 
-        util.registerLibrary(false, "std");
-        util.registerLibrary(true, "lang");
+        register("std", true);
+        register("lang", true);
 
         Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
@@ -973,6 +825,74 @@ public class util {
                     }
 
                 }
+            }
+
+            @Override
+            public Value ret(List<Value> list) {
+                return null;
+            }
+        });
+
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "libraries";
+            }
+
+            @Override
+            public Value ret() {
+                return new Value(Environment.global.allLibs.toString());
+            }
+
+            @Override
+            public String parent() {
+                return "std";
+            }
+
+            @Override
+            public void exec(List<Value> list) {
+
+            }
+
+            @Override
+            public Value ret(List<Value> list) {
+                if (list.get(0).asBoolean()) {
+                    return new Value(Environment.global.allLibs.toString());
+                } else {
+                    return new Value(Environment.global.allLibs.toString().replaceAll("\\[", "").replaceAll("]", ""));
+                }
+            }
+        });
+
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "parsed";
+            }
+
+            @Override
+            public Value ret() {
+                return new Value(Environment.global.parsed.toString());
+            }
+
+            @Override
+            public String parent() {
+                return "std";
+            }
+
+            @Override
+            public void exec(List<Value> list) {
+
             }
 
             @Override

@@ -101,7 +101,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         if (parentClass.equals("Files")) {
 
-            util.check("files", "Files", ctx, util.getOrDefault(false, this), this.curClass, this.p);
+            util.check("Files", "Files", ctx, util.getOrDefault(false, this), this.curClass, this.p);
 
             switch (method) {
                 case "absPath":
@@ -510,7 +510,7 @@ public class Visitor extends QBaseVisitor<Value> {
         } else if (method.equals("quit") && ctx.expression() != null) {
 
             if (ctx.expression() == null) {
-                throw new Problem("Function 'sys.quit(:int) requires an argument", ctx, this.curClass);
+                throw new Problem("Function 'sys::quit(:int) requires an argument", ctx, this.curClass);
             }
 
             int code = (this.visit(ctx.expression()).asDouble().intValue());
@@ -529,8 +529,12 @@ public class Visitor extends QBaseVisitor<Value> {
 
             String s = ctx.expression().getText().replaceAll("\"", "");
 
-            if (Environment.global.objs.containsKey(s)) {
-                Environment.global.objs.remove(s);
+            if (Environment.global.getObj(s)) {
+                try {
+                    Environment.global.destroy(s);
+                } catch (RuntimeException e) {
+                    throw new Problem(e.getMessage(), ctx, this.curClass);
+                }
             } else {
                 throw new Problem("Object: '" + s + "' does not exist.", ctx, this.curClass);
             }
@@ -541,7 +545,7 @@ public class Visitor extends QBaseVisitor<Value> {
         } else if (method.equals("getProperty")) {
 
             if (ctx.expression() == null) {
-                throw new Problem("'sys.getProperty' must take a :str object as a parameter", ctx, this.curClass);
+                throw new Problem("'sys::getProperty' must take a :str object as a parameter", ctx, this.curClass);
             }
 
             Value v = this.visit(ctx.expression());
@@ -757,8 +761,8 @@ public class Visitor extends QBaseVisitor<Value> {
             text.append(".").append(o.getText());
         }
 
-        if (Environment.global.allLibs.contains(text.toString().replace(".q.", "").toLowerCase(Locale.ROOT))) {
-            util.parse(text.toString());
+        if (Environment.global.allLibs.contains(text.toString().replace(".q.", ""))) {
+            util.register(text.toString(), false);
             return Value.VOID;
         }
 
@@ -780,7 +784,6 @@ public class Visitor extends QBaseVisitor<Value> {
         Environment.global.parsed.add(file);
 
         try {
-
             lexer = new QLexer(CharStreams.fromFileName(currentPath + "/" + path + ".l"));
         } catch (IOException e) {
             throw new Problem("Library or File not found: " + path, ctx);
@@ -847,7 +850,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         } else if (ctx.Identifier(0).getText().equals("File")) {
 
-            util.check("files", "Files", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.p);
+            util.check("Files", "Files", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.p);
             String id = ctx.Identifier(0).getText();
 
             if (ctx.exprList().expression() == null) {
@@ -1365,24 +1368,22 @@ public class Visitor extends QBaseVisitor<Value> {
     public Value visitImportAllStatement(QParser.ImportAllStatementContext ctx) {
 
         for (String s : Environment.global.allLibs) {
-            String x = ".q.";
             String g = s.substring(0, 1).toUpperCase() + s.substring(1);
 
-            String xyy = x + g;
+            String xyy = ".q." + g;
 
             String fin = switch (xyy) {
                 case ".q.Io" -> ".q.io";
                 case ".q.Http" -> ".q.http";
                 case ".q.Puddle" -> ".q.puddle";
                 case ".q.Awt" -> ".q.awt";
-                case ".q.Listener" -> ".q.listener";
                 case ".q.Gtp" -> ".q.gtp";
-                case ".q.FileUtils" -> ".q.fileutils";
+                case ".q.FileUtils" -> ".q.FileUtils";
                 case ".q.Std" -> ".q.std";
-                default -> x + g;
+                default -> ".q." + g;
             };
 
-            util.parse(fin);
+            util.register(fin, false);
         }
 
         return Value.VOID;
