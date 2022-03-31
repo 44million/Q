@@ -29,7 +29,9 @@ class Main : Obj
 
         new Obj as o2();
         o2::set("this is o2");
-        std::cout(o2::get());
+        std::coutln(o2::get());
+
+        std::coutln(o::get());
 
     end
 
