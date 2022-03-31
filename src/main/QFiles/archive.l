@@ -533,7 +533,54 @@ class Main
 
 end
 
-
 fn run(x):
     std::cout(x);
+end
+
+#import q.std;
+
+class Main
+
+    fn main(cliArgs):
+
+        var hello = cliArgs[0];
+        var there = cliArgs[1];
+        var kenobi = hello + " " + there;
+        std::cout(kenobi);
+
+    end
+
+end
+
+namespace testing;
+
+#import q.std;
+
+class Obj
+
+    noval var obj;
+
+    cn Obj():
+    end
+
+    fn set(x):
+        self::obj = x;
+    end
+
+    fn get():
+        return self::obj;
+    end
+
+end
+
+class Main : Obj
+
+    fn main(args)
+
+        new Obj as o();
+        o::set("I LOVE LEAN");
+        std::cout(o::get());
+
+    end
+
 end

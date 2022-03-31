@@ -250,16 +250,12 @@ public class Visitor extends QBaseVisitor<Value> {
 
                         String operation = this.visit(ctx.exprList().expression(0)).toString();
 
-                        if (operation.equals("EXIT_ON_CLOSE")) {
-                            util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        } else if (operation.equals("DISPOSE_ON_CLOSE")) {
-                            util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                        } else if (operation.equals("HIDE_ON_CLOSE")) {
-                            util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-                        } else if (operation.equals("DO_NOTHING_ON_CLOSE")) {
-                            util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                        } else {
-                            throw new Problem("Invalid close operation", ctx, this.curClass);
+                        switch (operation) {
+                            case "EXIT_ON_CLOSE" -> util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            case "DISPOSE_ON_CLOSE" -> util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            case "HIDE_ON_CLOSE" -> util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                            case "DO_NOTHING_ON_CLOSE" -> util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                            default -> throw new Problem("Invalid close operation", ctx, this.curClass);
                         }
 
                     }
@@ -326,51 +322,52 @@ public class Visitor extends QBaseVisitor<Value> {
                 }
             }
 
-            if (method.equals("write")) {
+            switch (method) {
+                case "write":
 
-                try {
+                    try {
 
-                    FileWriter fw = new FileWriter(Environment.global.files.get(parentClass));
-                    fw.write("");
+                        FileWriter fw = new FileWriter(Environment.global.files.get(parentClass));
+                        fw.write("");
 
-                    v.forEach((action) -> {
-                        try {
-                            fw.append(action.toString());
-                        } catch (IOException e) {
-                            throw new Problem(e.getMessage(), ctx, this.curClass);
-                        }
-                    });
-                    fw.close();
+                        v.forEach((action) -> {
+                            try {
+                                fw.append(action.toString());
+                            } catch (IOException e) {
+                                throw new Problem(e.getMessage(), ctx, this.curClass);
+                            }
+                        });
+                        fw.close();
 
-                } catch (Exception e) {
-                    throw new Problem(e.getMessage(), ctx, this.curClass);
-                }
-                return Value.VOID;
-            } else if (method.equals("read")) {
-
-                try {
-                    FileReader fr = new FileReader(Environment.global.files.get(parentClass));
-                    BufferedReader br = new BufferedReader(fr);
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        sb.append(line);
+                    } catch (Exception e) {
+                        throw new Problem(e.getMessage(), ctx, this.curClass);
                     }
-                    br.close();
-                    fr.close();
-                    return new Value(sb.toString());
-                } catch (Exception e) {
-                    throw new Problem(e.getMessage(), ctx, this.curClass);
-                }
-            } else if (method.equals("verify")) {
+                    return Value.VOID;
+                case "read":
 
-                String path = Environment.global.files.get(parentClass).getAbsolutePath();
+                    try {
+                        FileReader fr = new FileReader(Environment.global.files.get(parentClass));
+                        BufferedReader br = new BufferedReader(fr);
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            sb.append(line);
+                        }
+                        br.close();
+                        fr.close();
+                        return new Value(sb.toString());
+                    } catch (Exception e) {
+                        throw new Problem(e.getMessage(), ctx, this.curClass);
+                    }
+                case "verify":
 
-                if (new File(path).exists()) {
-                    return new Value(true);
-                }
+                    String path = Environment.global.files.get(parentClass).getAbsolutePath();
 
-                return new Value(false);
+                    if (new File(path).exists()) {
+                        return new Value(true);
+                    }
+
+                    return new Value(false);
             }
         } else if (Environment.global.objs.containsKey(parentClass)) {
 
@@ -827,7 +824,7 @@ public class Visitor extends QBaseVisitor<Value> {
         String parentClass = ctx.Identifier(0).getText();
         String nameO = ctx.Identifier(1).getText();
 
-        if (Environment.global.objs.containsKey(parentClass) || Environment.global.files.containsKey(parentClass) || util.getWinByName(parentClass) != null || util.getWebByName(parentClass) != null) {
+        if (Environment.global.getObj(parentClass)) {
             throw new Problem("Object already exists: " + parentClass, ctx);
         }
 
@@ -850,7 +847,10 @@ public class Visitor extends QBaseVisitor<Value> {
             Environment.global.consts.get(ctx.Identifier(0).getText()).call(list, this.functions);
 
             obj.setParams(list);
-            obj.v = this;
+
+            Scope sc = new Scope(this.scope, false);
+
+            obj.v = new Visitor(sc, new HashMap<>());
 
             Environment.global.objs.put(nameO, obj);
 
