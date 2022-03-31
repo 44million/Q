@@ -10,6 +10,7 @@ import core.libs.AWT.Window;
 import core.libs.OS;
 import core.libs.WebServer;
 import core.libs.utils.HTTP;
+import main.Main;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -589,8 +590,9 @@ public class Visitor extends QBaseVisitor<Value> {
     public Value visitMainFunctionStatement(QParser.MainFunctionStatementContext ctx) {
 
         Scope l = this.scope;
-        int line = ctx.start.getLine();
-        int pos = ctx.start.getCharPositionInLine();
+
+        Scope v = new Scope(this.scope, true);
+        Visitor vis = new Visitor(v, new HashMap<>());
 
         while (l != null) {
             if (l.lib) {
@@ -602,10 +604,17 @@ public class Visitor extends QBaseVisitor<Value> {
 
         if (!Environment.global.hasMainExecuted) {
             Environment.global.hasMainExecuted = true;
-            this.visit(ctx.block());
+
+            List<Value> args = new ArrayList<>();
+
+            for (String s : Main.args) {
+                args.add(new Value(s));
+            }
+            vis.scope.varAssign(ctx.Identifier().getText(), new Value(args));
+            vis.visit(ctx.block());
             return Value.VOID;
         } else {
-            System.err.println("[FATAL " + line + ":" + pos + "] Main function has already been called.");
+            System.err.println("[FATAL " + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + "] Main function has already been called.");
             System.exit(0);
         }
         return Value.VOID;

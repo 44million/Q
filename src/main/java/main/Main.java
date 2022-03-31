@@ -11,6 +11,8 @@ import java.io.FileNotFoundException;
 
 public class Main {
 
+    public static String[] args;
+
     @SuppressWarnings("all")
     public static void main(String @NotNull [] args) {
 
@@ -31,9 +33,11 @@ public class Main {
             Environment.global.allLibs.add("std");
         }
 
+        Main.args = args;
+
         util.registerNatives();
 
-        if (args.length >= 1) {
+        if (args.length >= 103945809) {
 
             util.animate(args);
 
@@ -57,11 +61,13 @@ public class Main {
             } catch (Exception e) {
 
                 String err = "[FATAL] " + e.getMessage();
-                if (e.getMessage().endsWith(".x") || (e.getMessage().endsWith(".l")) || e instanceof NullPointerException || e instanceof FileNotFoundException) {
+                if (e.getMessage().endsWith(".x") || (e.getMessage().endsWith(".l")) || e instanceof FileNotFoundException) {
                     err += " (File not found)";
                 }
 
                 System.err.println(err);
+
+                // e.printStackTrace();
 
                 System.exit(-1);
             }

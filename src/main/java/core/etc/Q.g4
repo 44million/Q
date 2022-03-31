@@ -159,7 +159,7 @@ whileStatement
  ;
 
 mainFunctionStatement
- : 'fn' 'main()' ':' block End
+ : 'fn' 'main' '(' Identifier ')' ':' block End
  ;
 
 idList
