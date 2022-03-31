@@ -6,7 +6,7 @@ import core.interp.QLexer;
 import core.interp.QParser;
 import core.lang.q.QClass;
 import core.lang.q.Value;
-import core.libs.AWT;
+import core.libs.AWT.Window;
 import core.libs.OS;
 import core.libs.WebServer;
 import core.libs.utils.HTTP;
@@ -30,7 +30,6 @@ import java.util.*;
 import static core.interp.QParser.*;
 
 public class Visitor extends QBaseVisitor<Value> {
-
     private static final RVal returnValue = new RVal();
     public final Map<String, Function> functions;
     public Scope scope;
@@ -38,7 +37,6 @@ public class Visitor extends QBaseVisitor<Value> {
     public String curClass;
     public Visitor parent;
     public String p = util.getSaltString();
-    public Object currentObj;
 
     public Visitor(Scope scope, Map<String, Function> functions) {
         this.scope = scope;
@@ -100,10 +98,221 @@ public class Visitor extends QBaseVisitor<Value> {
     public Value visitObjFunctionCallExpression(QParser.ObjFunctionCallExpressionContext ctx) {
 
         String parentClass = ctx.Identifier(0).getText();
+        String method = ctx.Identifier(1).getText();
 
-        for (int i = 0; i < ctx.Identifier().size(); i++) {
+        if (parentClass.equals("Files")) {
 
-            String method = ctx.Identifier(i).getText();
+            util.check("Files", "Files", ctx, util.getOrDefault(false, this), this.curClass, this.p);
+
+            switch (method) {
+                case "absPath":
+
+                    return core.libs.Files.absPath(ctx);
+
+                case "here":
+
+                    return new Value(System.getProperty("user.dir"));
+
+                case "delete":
+
+                    core.libs.Files.delete(ctx);
+
+                case "canRead":
+
+                    return new Value(Files.isReadable(new File(ctx.exprList().expression(0).getText().replaceAll("\"", "")).toPath()));
+
+                case "size":
+
+                    return core.libs.Files.size(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
+
+                case "exists":
+
+                    return new Value(new File(ctx.exprList().expression(0).getText().replaceAll("\"", "")).exists());
+
+                default:
+
+                    throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx, this.curClass);
+
+            }
+
+        } else if (parentClass.equals("http")) {
+
+            util.check("http", "http", ctx, util.getOrDefault(false, this), this.curClass, this.p);
+
+            if (method.equals("get")) {
+                HTTP.get(ctx);
+            } else if (method.equals("post")) {
+                HTTP.post(ctx);
+            } else if (method.equals("put")) {
+                HTTP.put(ctx);
+            } else if (method.equals("delete")) {
+                HTTP.delete(ctx);
+            } else if (method.equals("head")) {
+                HTTP.head(ctx);
+            } else if (method.equals("options")) {
+                HTTP.options(ctx);
+            }
+
+        } else if (util.getWinByName(parentClass) != null) {
+
+            try {
+
+                switch (method) {
+                    case "render":
+
+                        if (util.getWinByName(parentClass) == null) {
+                            return Value.VOID;
+                        } else {
+                            assert util.getWinByName(parentClass) != null;
+                            if (util.getWinByName(parentClass) != null) {
+                                util.getWinByName(parentClass).init();
+                            }
+                        }
+                        return Value.VOID;
+                    case "add": {
+
+                        List<Value> v = new ArrayList<>();
+
+                        if (ctx.exprList() != null) {
+                            for (ExpressionContext e : ctx.exprList().expression()) {
+                                v.add(this.visit(e));
+                            }
+                        }
+
+                        String compType = v.get(0).toString();
+
+                        if (v.size() == 2) {
+                            switch (compType) {
+                                case "button" -> util.getWinByName(parentClass).f.add(new JButton(v.get(1).toString()));
+                                case "label" -> util.getWinByName(parentClass).f.add(new JLabel(v.get(1).toString()));
+                                case "textfield" -> util.getWinByName(parentClass).f.add(new JTextField(v.get(1).toString()));
+                                case "textarea" -> util.getWinByName(parentClass).f.add(new JTextArea(v.get(1).toString()));
+                                case "checkbox" -> util.getWinByName(parentClass).f.add(new JCheckBox(v.get(1).toString()));
+                                case "combobox" -> util.getWinByName(parentClass).f.add(new JComboBox<>(v.get(1).toString().split(",")));
+                                case "list" -> util.getWinByName(parentClass).f.add(new JList<>(v.get(1).toString().split(",")));
+                                case "scrollpane" -> util.getWinByName(parentClass).f.add(new JScrollPane(new JList<>(v.get(1).toString().split(","))));
+                                case "textpane" -> util.getWinByName(parentClass).f.add(new JTextPane());
+                                case "tabbedpane" -> util.getWinByName(parentClass).f.add(new JTabbedPane());
+                                case "panel" -> util.getWinByName(parentClass).f.add(new JPanel());
+                                default -> throw new Problem("Unknown component type: " + compType, ctx, this.curClass);
+                            }
+                        } else {
+                            throw new Problem("Invalid number of arguments for '" + method + "'", ctx, this.curClass);
+                        }
+
+                        break;
+                    }
+                    case "getComponent": {
+
+                        List<Value> v = new ArrayList<>();
+
+                        if (ctx.exprList() != null) {
+                            for (ExpressionContext e : ctx.exprList().expression()) {
+                                v.add(this.visit(e));
+                            }
+                        }
+
+                        int comp = v.get(0).asDouble().intValue();
+
+                        assert util.getWinByName(parentClass) != null;
+                        return new Value(util.getWinByName(parentClass).f.getComponent(comp));
+
+                    }
+                    case "getComponentCount":
+                        return new Value(util.getWinByName(parentClass).f.getComponentCount());
+                    case "setTitle":
+                        util.getWinByName(parentClass).f.setTitle(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
+                        break;
+                    case "setLayout": {
+
+                        List<Value> v = new ArrayList<>();
+
+                        if (ctx.exprList() != null) {
+                            for (ExpressionContext e : ctx.exprList().expression()) {
+                                v.add(this.visit(e));
+                            }
+                        }
+
+                        String layout = v.get(0).toString();
+
+                        if (layout.equals("grid")) {
+                            util.getWinByName(parentClass).f.setLayout(new GridLayout(v.get(1).asDouble().intValue(), v.get(2).asDouble().intValue()));
+                        } else if (layout.equals("flow")) {
+                            util.getWinByName(parentClass).f.setLayout(new FlowLayout());
+                        } else if (layout.equals("border")) {
+                            util.getWinByName(parentClass).f.setLayout(new BorderLayout());
+                        }
+
+                        break;
+                    }
+
+                    case "setCloseOperation": {
+
+                        String operation = this.visit(ctx.exprList().expression(0)).toString();
+
+                        switch (operation) {
+                            case "EXIT_ON_CLOSE" -> util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            case "DISPOSE_ON_CLOSE" -> util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            case "HIDE_ON_CLOSE" -> util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                            case "DO_NOTHING_ON_CLOSE" -> util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                            default -> throw new Problem("Invalid close operation", ctx, this.curClass);
+                        }
+
+                    }
+
+                    case "create":
+
+                        util.getWinByName(parentClass).create();
+
+                        break;
+                    case "setLocation": {
+
+                        List<Value> v = new ArrayList<>();
+
+                        if (ctx.exprList() != null) {
+                            for (ExpressionContext e : ctx.exprList().expression()) {
+                                v.add(this.visit(e));
+                            }
+                        }
+
+                        util.getWinByName(parentClass).f.setLocation(v.get(0).asDouble().intValue(), v.get(1).asDouble().intValue());
+
+                        break;
+                    }
+                    default:
+                        throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx, this.curClass);
+                }
+            } catch (Exception e) {
+                throw new Problem(e.getMessage(), ctx, this.curClass);
+            }
+
+        } else if (util.getWebByName(parentClass) != null) {
+
+            if (method.equals("stop") && util.getWebByName(parentClass) != null) {
+                util.getWebByName(parentClass).stop();
+            } else if (method.equals("changeText")) {
+
+                List<Value> l = new ArrayList<>();
+
+                if (ctx.exprList() != null) {
+                    for (ExpressionContext e : ctx.exprList().expression()) {
+                        l.add(this.visit(e));
+                    }
+                }
+
+                for (WebServer w : Environment.global.webs) {
+                    if (w.id.equals(parentClass)) {
+                        w.setText(l.get(0).toString());
+                        return Value.VOID;
+                    }
+                }
+
+                throw new Problem("Object '" + parentClass + "' does not exist in the current context", ctx, this.curClass);
+            } else {
+                throw new Problem("Unknown method '" + method + "'", ctx, this.curClass);
+            }
+
+        } else if (Environment.global.files.containsKey(parentClass)) {
 
             List<Value> v = new ArrayList<>();
 
@@ -113,282 +322,106 @@ public class Visitor extends QBaseVisitor<Value> {
                 }
             }
 
-            if (parentClass.equals("Files")) {
+            switch (method) {
+                case "write":
 
-                util.check("Files", "Files", ctx, util.getOrDefault(false, this), this.curClass, this.p);
+                    try {
 
-                switch (method) {
-                    case "absPath":
+                        FileWriter fw = new FileWriter(Environment.global.files.get(parentClass));
+                        fw.write("");
 
-                        return core.libs.Files.absPath(ctx);
-
-                    case "here":
-
-                        return new Value(System.getProperty("user.dir"));
-
-                    case "delete":
-
-                        core.libs.Files.delete(ctx);
-
-                    case "canRead":
-
-                        return new Value(Files.isReadable(new File(ctx.exprList().expression(0).getText().replaceAll("\"", "")).toPath()));
-
-                    case "size":
-
-                        return core.libs.Files.size(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
-
-                    case "exists":
-
-                        return new Value(new File(ctx.exprList().expression(0).getText().replaceAll("\"", "")).exists());
-
-                    default:
-
-                        throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx, this.curClass);
-
-                }
-
-            } else if (parentClass.equals("http")) {
-
-                util.check("http", "http", ctx, util.getOrDefault(false, this), this.curClass, this.p);
-
-                switch (method) {
-                    case "get" -> HTTP.get(ctx);
-                    case "post" -> HTTP.post(ctx);
-                    case "put" -> HTTP.put(ctx);
-                    case "delete" -> HTTP.delete(ctx);
-                    case "head" -> HTTP.head(ctx);
-                    case "options" -> HTTP.options(ctx);
-                }
-
-            } else if (util.getWinByName(parentClass) != null) {
-
-                try {
-
-                    switch (method) {
-                        case "render":
-
-                            if (util.getWinByName(parentClass) == null) {
-                                return Value.VOID;
-                            } else {
-                                assert util.getWinByName(parentClass) != null;
-                                if (util.getWinByName(parentClass) != null) {
-                                    util.getWinByName(parentClass).init();
-                                }
+                        v.forEach((action) -> {
+                            try {
+                                fw.append(action.toString());
+                            } catch (IOException e) {
+                                throw new Problem(e.getMessage(), ctx, this.curClass);
                             }
-                            return Value.VOID;
-                        case "add": {
+                        });
+                        fw.close();
 
-                            String compType = v.get(0).toString();
-
-                            if (v.size() == 2) {
-                                switch (compType) {
-                                    case "button" -> util.getWinByName(parentClass).f.add(new JButton(v.get(1).toString()));
-                                    case "label" -> util.getWinByName(parentClass).f.add(new JLabel(v.get(1).toString()));
-                                    case "textfield" -> util.getWinByName(parentClass).f.add(new JTextField(v.get(1).toString()));
-                                    case "textarea" -> util.getWinByName(parentClass).f.add(new JTextArea(v.get(1).toString()));
-                                    case "checkbox" -> util.getWinByName(parentClass).f.add(new JCheckBox(v.get(1).toString()));
-                                    case "combobox" -> util.getWinByName(parentClass).f.add(new JComboBox<>(v.get(1).toString().split(",")));
-                                    case "list" -> util.getWinByName(parentClass).f.add(new JList<>(v.get(1).toString().split(",")));
-                                    case "scrollpane" -> util.getWinByName(parentClass).f.add(new JScrollPane(new JList<>(v.get(1).toString().split(","))));
-                                    case "textpane" -> util.getWinByName(parentClass).f.add(new JTextPane());
-                                    case "tabbedpane" -> util.getWinByName(parentClass).f.add(new JTabbedPane());
-                                    case "panel" -> util.getWinByName(parentClass).f.add(new JPanel());
-                                    default -> throw new Problem("Unknown component type: " + compType, ctx, this.curClass);
-                                }
-                            } else {
-                                throw new Problem("Invalid number of arguments for '" + method + "'", ctx, this.curClass);
-                            }
-
-                            break;
-                        }
-                        case "getComponent": {
-
-                            int comp = v.get(0).asDouble().intValue();
-
-                            assert util.getWinByName(parentClass) != null;
-                            return new Value(util.getWinByName(parentClass).f.getComponent(comp));
-
-                        }
-                        case "getComponentCount":
-                            return new Value(util.getWinByName(parentClass).f.getComponentCount());
-                        case "setTitle":
-                            util.getWinByName(parentClass).f.setTitle(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
-                            break;
-                        case "setLayout": {
-
-                            String layout = v.get(0).toString();
-
-                            switch (layout) {
-                                case "grid" -> util.getWinByName(parentClass).f.setLayout(new GridLayout(v.get(1).asDouble().intValue(), v.get(2).asDouble().intValue()));
-                                case "flow" -> util.getWinByName(parentClass).f.setLayout(new FlowLayout());
-                                case "border" -> util.getWinByName(parentClass).f.setLayout(new BorderLayout());
-                            }
-
-                            break;
-                        }
-
-                        case "setCloseOperation": {
-
-                            String operation = this.visit(ctx.exprList().expression(0)).toString();
-
-                            switch (operation) {
-                                case "EXIT_ON_CLOSE" -> util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                                case "DISPOSE_ON_CLOSE" -> util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                                case "HIDE_ON_CLOSE" -> util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-                                case "DO_NOTHING_ON_CLOSE" -> util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                                default -> throw new Problem("Invalid close operation", ctx, this.curClass);
-                            }
-
-                        }
-
-                        case "create":
-
-                            util.getWinByName(parentClass).create();
-
-                            break;
-                        case "setLocation": {
-
-                            util.getWinByName(parentClass).f.setLocation(v.get(0).asDouble().intValue(), v.get(1).asDouble().intValue());
-
-                            break;
-                        }
-                        default:
-                            throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx, this.curClass);
+                    } catch (Exception e) {
+                        throw new Problem(e.getMessage(), ctx, this.curClass);
                     }
-                } catch (Exception e) {
-                    throw new Problem(e.getMessage(), ctx, this.curClass);
-                }
+                    return Value.VOID;
+                case "read":
 
-            } else if (util.getWebByName(parentClass) != null) {
-
-                if (method.equals("stop") && util.getWebByName(parentClass) != null) {
-                    util.getWebByName(parentClass).stop();
-                } else if (method.equals("changeText")) {
-
-                    List<Value> l = new ArrayList<>();
-
-                    if (ctx.exprList() != null) {
-                        for (ExpressionContext e : ctx.exprList().expression()) {
-                            l.add(this.visit(e));
+                    try {
+                        FileReader fr = new FileReader(Environment.global.files.get(parentClass));
+                        BufferedReader br = new BufferedReader(fr);
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            sb.append(line);
                         }
+                        br.close();
+                        fr.close();
+                        return new Value(sb.toString());
+                    } catch (Exception e) {
+                        throw new Problem(e.getMessage(), ctx, this.curClass);
+                    }
+                case "verify":
+
+                    String path = Environment.global.files.get(parentClass).getAbsolutePath();
+
+                    if (new File(path).exists()) {
+                        return new Value(true);
                     }
 
-                    for (WebServer w : Environment.global.webs) {
-                        if (w.id.equals(parentClass)) {
-                            w.setText(l.get(0).toString());
-                            return Value.VOID;
-                        }
-                    }
-
-                    throw new Problem("Object '" + parentClass + "' does not exist in the current context", ctx, this.curClass);
-                } else {
-                    throw new Problem("Unknown method '" + method + "'", ctx, this.curClass);
-                }
-
-            } else if (Environment.global.files.containsKey(parentClass)) {
-
-                switch (method) {
-                    case "write":
-
-                        try {
-
-                            FileWriter fw = new FileWriter(Environment.global.files.get(parentClass));
-                            fw.write("");
-
-                            v.forEach((action) -> {
-                                try {
-                                    fw.append(action.toString());
-                                } catch (IOException e) {
-                                    throw new Problem(e.getMessage(), ctx, this.curClass);
-                                }
-                            });
-                            fw.close();
-
-                        } catch (Exception e) {
-                            throw new Problem(e.getMessage(), ctx, this.curClass);
-                        }
-                        return Value.VOID;
-                    case "read":
-
-                        try {
-                            FileReader fr = new FileReader(Environment.global.files.get(parentClass));
-                            BufferedReader br = new BufferedReader(fr);
-                            StringBuilder sb = new StringBuilder();
-                            String line;
-                            while ((line = br.readLine()) != null) {
-                                sb.append(line);
-                            }
-                            br.close();
-                            fr.close();
-                            return new Value(sb.toString());
-                        } catch (Exception e) {
-                            throw new Problem(e.getMessage(), ctx, this.curClass);
-                        }
-                    case "verify":
-
-                        String path = Environment.global.files.get(parentClass).getAbsolutePath();
-
-                        if (new File(path).exists()) {
-                            return new Value(true);
-                        }
-
-                        return new Value(false);
-                }
-            } else if (Environment.global.objs.containsKey(parentClass)) {
-
-                QClass.QObject obj = Environment.global.objs.get(parentClass);
-                Visitor vis = obj.v;
-
-                List<Value> vals = new ArrayList<>();
-
-                if (ctx.exprList() != null) {
-                    for (ExpressionContext ex : ctx.exprList().expression()) {
-                        vals.add(vis.visit(ex));
-                    }
-                }
-
-                if (obj.funcs.containsKey(method + vals.size())) {
-                    return obj.funcs.get(method + vals.size()).call(vals, new HashMap<>());
-                } else {
-                    throw new Problem(Environment.global.objs.get(parentClass).qc.name + " does not contain a definition for '" + method + "'", ctx, this.curClass);
-                }
-
-            } else if (Environment.global.natives.containsKey(method)) {
-
-                String p;
-
-                p = Objects.requireNonNullElse(this.parent, this).p;
-
-                util.check(Environment.global.natives.get(method).parent(), parentClass, ctx, util.getOrDefault(false, this), this.curClass, p);
-
-                List<Value> l = new ArrayList<>();
-
-                if (ctx.exprList() != null) {
-                    for (ExpressionContext c : ctx.exprList().expression()) {
-                        l.add(this.visit(c));
-                    }
-                }
-
-                if (Environment.global.natives.get(method) == null) {
-                    throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx, this.curClass);
-                }
-
-                if (l.size() >= 1) {
-                    if (Environment.global.natives.get(method).ret(l) != null) {
-                        return Environment.global.natives.get(method).ret(l);
-                    } else {
-                        Environment.global.natives.get(method).exec(l);
-                    }
-                }
-
-                if (Environment.global.natives.get(method).ret() != null) {
-                    return Environment.global.natives.get(method).ret();
-                } else {
-                    Environment.global.natives.get(method).exec();
-                }
-
+                    return new Value(false);
             }
+        } else if (Environment.global.objs.containsKey(parentClass)) {
+
+            QClass.QObject obj = Environment.global.objs.get(parentClass);
+            Visitor v = obj.v;
+
+            List<Value> vals = new ArrayList<>();
+
+            if (ctx.exprList() != null) {
+                for (ExpressionContext ex : ctx.exprList().expression()) {
+                    vals.add(v.visit(ex));
+                }
+            }
+
+            if (obj.funcs.containsKey(method + vals.size())) {
+                return obj.funcs.get(method + vals.size()).call(vals, new HashMap<>());
+            } else {
+                throw new Problem(Environment.global.objs.get(parentClass).qc.name + " does not contain a definition for '" + method + "'", ctx, this.curClass);
+            }
+
+        } else if (Environment.global.natives.containsKey(method)) {
+
+            String p;
+
+            p = Objects.requireNonNullElse(this.parent, this).p;
+
+            util.check(Environment.global.natives.get(method).parent(), parentClass, ctx, util.getOrDefault(false, this), this.curClass, p);
+
+            List<Value> l = new ArrayList<>();
+
+            if (ctx.exprList() != null) {
+                for (ExpressionContext c : ctx.exprList().expression()) {
+                    l.add(this.visit(c));
+                }
+            }
+
+            if (Environment.global.natives.get(method) == null) {
+                throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx, this.curClass);
+            }
+
+            if (l.size() >= 1) {
+                if (Environment.global.natives.get(method).ret(l) != null) {
+                    return Environment.global.natives.get(method).ret(l);
+                } else {
+                    Environment.global.natives.get(method).exec(l);
+                }
+            }
+
+            if (Environment.global.natives.get(method).ret() != null) {
+                return Environment.global.natives.get(method).ret();
+            } else {
+                Environment.global.natives.get(method).exec();
+            }
+
         }
 
         return Value.VOID;
@@ -805,7 +838,7 @@ public class Visitor extends QBaseVisitor<Value> {
                 }
             }
 
-            Environment.global.consts.get(parentClass).call(list, this.functions);
+            Environment.global.consts.get(ctx.Identifier(0).getText()).call(list, this.functions);
 
             obj.setParams(list);
 
@@ -814,8 +847,6 @@ public class Visitor extends QBaseVisitor<Value> {
             obj.v = new Visitor(sc, new HashMap<>());
 
             Environment.global.objs.put(nameO, obj);
-
-            System.out.println(nameO);
 
         } else if (ctx.Identifier(0).getText().equals("File")) {
 
@@ -856,7 +887,7 @@ public class Visitor extends QBaseVisitor<Value> {
                 int height = this.visit(ctx.exprList().expression(4)).asDouble().intValue();
                 String name = this.visit(ctx.exprList().expression(0)).toString();
 
-                AWT window = new AWT(name, x, y, width, height);
+                Window window = new Window(name, x, y, width, height);
                 window.setName(ctx.Identifier(1).getText());
                 Environment.global.wins.add(window);
 
@@ -866,7 +897,7 @@ public class Visitor extends QBaseVisitor<Value> {
                 int y = this.visit(ctx.exprList().expression(2)).asDouble().intValue();
                 String name = this.visit(ctx.exprList().expression(0)).toString();
 
-                AWT window = new AWT(name, x, y);
+                Window window = new Window(name, x, y);
                 window.setName(ctx.Identifier(1).getText());
                 Environment.global.wins.add(window);
 
@@ -963,7 +994,7 @@ public class Visitor extends QBaseVisitor<Value> {
         String id;
 
         if (ctx.Identifier() == null) {
-            throw new Problem("Re-assignment must have an identifier", ctx, this.curClass);
+            id = this.visit(ctx.objVar()).id;
         } else {
             id = ctx.Identifier().getText();
         }
@@ -982,7 +1013,7 @@ public class Visitor extends QBaseVisitor<Value> {
             } else if (this.scope.vars.containsKey(id) && this.scope.vars.get(id).constant) {
                 throw new Problem("Variable '" + ctx.Identifier() + "' is constant, and cannot be changed", ctx, this.curClass);
             } else {
-                throw new Problem("Variable '" + ctx.Identifier() + "' does not exist in the current context", ctx, this.curClass);
+                throw new Problem("Variable '" + ctx.Identifier() + "' not found", ctx, this.curClass);
             }
         }
 
@@ -995,7 +1026,9 @@ public class Visitor extends QBaseVisitor<Value> {
         Value newVal = Value.NULL;
         String id = ctx.Identifier().getText();
 
-        if ((ctx.expression() == null) && (ctx.Const() != null)) {
+        if ((ctx.Noval(0) != null) && (ctx.expression() != null)) {
+            throw new Problem("Noval variable: '" + id + " must NOT have a value", ctx, this.curClass);
+        } else if ((ctx.Noval(0) != null) && (ctx.Const(0) != null)) {
             throw new Problem("Constant variables must have a value to begin with. See variable '" + id + "'.", ctx, this.curClass);
         }
 
@@ -1004,16 +1037,16 @@ public class Visitor extends QBaseVisitor<Value> {
             newVal.id = id;
         }
 
-        if (ctx.expression() == null) {
+        if (ctx.Noval(0) != null) {
             scope.varAssign(id, newVal);
             return Value.VOID;
         }
 
-        if (ctx.Const() != null) {
+        if ((ctx.Const(0) != null)) {
             newVal.constant = true;
         }
 
-        if (ctx.indexes() != null) {
+        if ((ctx.indexes() != null)) {
             Value val = scope.exists(ctx.Identifier().getText());
             List<ExpressionContext> exps = ctx.indexes().expression();
             setAtIndex(ctx, exps, val, newVal);
@@ -1030,6 +1063,8 @@ public class Visitor extends QBaseVisitor<Value> {
         }
 
         return Value.VOID;
+
+
     }
 
     @Override
@@ -1286,17 +1321,8 @@ public class Visitor extends QBaseVisitor<Value> {
         Value q = this.visit(ctx.expression());
         String id = ctx.Identifier().getText();
 
-        Scope sc = this.scope;
-
-        while (sc != null) {
-            if (sc.vars.containsKey(id)) {
-                System.out.println(sc.vars.containsKey(id));
-            }
-            sc = sc.parent();
-        }
-
-        if (this.scope./*parent().parent().*/vars.containsKey(id)) {
-            this.scope./*parent().parent().*/vars.replace(id, q);
+        if (this.scope.parent().parent().vars.containsKey(id)) {
+            this.scope.parent().parent().vars.replace(id, q);
         } else {
             throw new Problem("Variable '" + ctx.Identifier().getText() + "' does not exist in the current context", ctx, this.curClass);
         }
@@ -1465,14 +1491,7 @@ public class Visitor extends QBaseVisitor<Value> {
     @Override
     public Value visitIdentifierExpression(IdentifierExpressionContext ctx) {
         String id = ctx.Identifier().getText();
-        Value val;
-
-        if (Environment.global.getObj(id)) {
-            this.currentObj = Environment.global.get(id);
-            return Value.VOID;
-        } else {
-            val = this.scope.exists(id);
-        }
+        Value val = scope.exists(id);
 
         if (ctx.indexes() != null) {
             List<ExpressionContext> exps = ctx.indexes().expression();

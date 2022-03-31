@@ -47,16 +47,8 @@ public class Main {
 
             try {
 
-                if (!new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")).exists()) {
-                    try {
-                        new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")).createNewFile();
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
-                }
-
                 Parser parser = new Parser(CharStreams.fromFileName(input.getAbsolutePath()));
-                Environment.global.lst.addAll(parser.parse(false));
+                parser.parse(false);
 
             } catch (Exception e) {
 
