@@ -8,7 +8,7 @@
  - [x] Anonymous functions:
 
 ```js
-fn -> 
+fn (): -> 
 	std::coutln("Hello World"); 
 end
 ```
@@ -27,36 +27,40 @@ end
 	 - [ ] pro
  - [x] Classes/Objects
 ```js
-@autoimport
+
+#import q.std;
+
+// #import [*];
+
 class Runner
 
 	noval var c;
 	
-	cn Runner()
+	cn Runner():
 	
 	end
 
-	fn run(x, y)
-		io::cout(x * y);
+	fn run(x, y):
+		std::cout(x * y);
 	end
 
-	fn set(nv)
+	fn set(nv):
 		self::c = nv;
 	end
 	
-	fn get()
+	fn get():
 		return self::c;
 	end
 
 end
 
-@autoimport
 class Main
 
-	fn main()
+	fn main(args):
 		new Runner as r();
+		r::set(80);
 		r::run(20, 304);
-		io::cout(r::get());
+		std::cout(r::get());
 	end
 	
 end
