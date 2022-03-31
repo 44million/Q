@@ -672,7 +672,7 @@ public class Visitor extends QBaseVisitor<Value> {
             if (print && before) {
                 System.err.println(e.getMessage());
                 this.visit(ctx.block(1));
-            } else if (print && after) {
+            } else if (print) {
                 this.visit(ctx.block(1));
                 System.err.println(e.getMessage());
             } else {
@@ -709,9 +709,7 @@ public class Visitor extends QBaseVisitor<Value> {
             throw new Problem("void values cannot be cast", ctx, this.curClass);
         }
 
-        double d = i;
-
-        return new Value(d);
+        return new Value((double) i);
     }
 
     @Override
@@ -734,14 +732,13 @@ public class Visitor extends QBaseVisitor<Value> {
 
         link = link.replace("https://github.com/", "https://raw.githubusercontent.com/").replace("/blob", "");
 
-
         String fileContents = util.getTextFromGithub(link);
 
         Parser parser = new Parser().fromText(fileContents);
         try {
             parser.parse(false);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new Problem("Could not import from github: " + e.getMessage(), ctx, this.curClass);
         }
 
         return Value.VOID;

@@ -19,7 +19,7 @@ public class Function {
     public Visitor v;
     private Scope parentScope;
     private ParseTree block;
-    private List<Value> qparams;
+    private List<Value> qParams;
 
     public Function(Scope parentScope, List<TerminalNode> params, ParseTree block) {
         this.parentScope = parentScope;
@@ -29,7 +29,7 @@ public class Function {
 
     public Function(Scope parentScope, List<Value> params, ParseTree block, String s) {
         this.parentScope = parentScope;
-        this.qparams = params;
+        this.qParams = params;
         this.block = block;
     }
 
@@ -87,15 +87,15 @@ public class Function {
     public Value call(List<Value> args, Map<String, Function> functions) {
 
         if (this.params == null) {
-            if (args.size() != this.qparams.size()) {
+            if (args.size() != this.qParams.size()) {
                 throw new RuntimeException("[ERROR] Illegal Function call");
             }
 
             Scope scopeNext = new Scope(parentScope, true);
 
-            for (int i = 0; i < this.qparams.size(); i++) {
+            for (int i = 0; i < this.qParams.size(); i++) {
                 Value value = args.get(i);
-                scopeNext.functionParam(this.qparams.get(i).id, value);
+                scopeNext.functionParam(this.qParams.get(i).id, value);
             }
 
             Visitor next = new Visitor(scopeNext, functions);

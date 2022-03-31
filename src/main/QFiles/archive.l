@@ -453,3 +453,87 @@ class Main
 
 end
 
+#import [*];
+
+class Runner
+
+    noval var isRunning;
+
+    cn Runner()
+        std::cout("Runner");
+    end
+
+    fn start()
+        std::cout("running");
+        self::isRunning = true;
+    end
+
+    fn run()
+        if (self::isRunning)
+            std::cout("running");
+        else
+            std::cout("not running");
+        end
+    end
+
+    fn stop()
+        std::cout("stopped");
+        self::isRunning = false;
+    end
+
+end
+
+namespace testing;
+
+#import q.Time;
+#import q.std;
+#import q.awt;
+
+class TestCase
+
+    noval var name;
+
+    cn TestCase():
+
+    end
+
+    fn set(v):
+        self::name = v;
+    end
+
+    fn get():
+        return self::name;
+    end
+end
+
+class Main
+
+    fn main():
+
+        new TestCase as t();
+
+        t::set("test");
+
+        new TestCase as t2();
+
+        t2::set("test2");
+
+        std::coutln(t::get());
+        std::coutln(t2::get());
+
+        std::coutln(std::property("user.dir"));
+        std::coutln(std::libraries(false));
+        std::coutln(std::parsed());
+
+        // cur, date, instant
+        std::coutln(Time::cur());
+
+
+    end
+
+end
+
+
+fn run(x):
+    std::cout(x);
+end

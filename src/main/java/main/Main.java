@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Main {
 
@@ -27,6 +28,7 @@ public class Main {
             Environment.global.allLibs.add("io");
             Environment.global.allLibs.add("Environment");
             Environment.global.allLibs.add("FileUtils");
+            Environment.global.allLibs.add("std");
         }
 
         util.registerNatives();
@@ -55,7 +57,7 @@ public class Main {
             } catch (Exception e) {
 
                 String err = "[FATAL] " + e.getMessage();
-                if (e.getMessage().endsWith(".x") || (e.getMessage().endsWith(".l"))) {
+                if (e.getMessage().endsWith(".x") || (e.getMessage().endsWith(".l")) || e instanceof NullPointerException || e instanceof FileNotFoundException) {
                     err += " (File not found)";
                 }
 

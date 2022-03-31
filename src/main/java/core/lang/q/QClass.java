@@ -39,10 +39,6 @@ public class QClass implements Cloneable {
         return name;
     }
 
-    public void setConstArgs(List<Value> constArgs) {
-        this.constArgs = constArgs;
-    }
-
     public void setBase(QClass base) {
         this.base = base;
     }

@@ -15,16 +15,16 @@ public class Files extends QLibrary {
 
 
     public static Value absPath(QParser.ObjFunctionCallExpressionContext ctx) {
+
+        if (ctx.exprList().expression(0) == null) {
+            throw new Problem("Function 'files::absPath(:str)' accepts one argument, the file, or directory in question.");
+        }
+
         String q = ctx
                 .exprList()
                 .expression(0)
                 .getText()
                 .replace("\"", "");
-
-        if (q == null) {
-            System.out.println("[ERROR] Method 'files.absPath(:str)' accepts one argument, the file, or directory in question.");
-            return Value.NULL;
-        }
 
         Path dbpath = Paths.get(q);
 

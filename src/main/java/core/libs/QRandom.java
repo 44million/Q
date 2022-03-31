@@ -3,8 +3,6 @@ package core.libs;
 import core.etc.Parser;
 import core.libs.utils.QLibrary;
 
-import java.util.Random;
-
 public class QRandom extends QLibrary {
 
     @SuppressWarnings("all")
@@ -17,7 +15,7 @@ public class QRandom extends QLibrary {
                 end
                 
                 fn ran(x):
-                    return random(x);
+                    return 3YCMPJ8W8VVTUA48TIHR8K332PYKTXOKVDFG(x);
                 end
                         
             end
@@ -27,11 +25,6 @@ public class QRandom extends QLibrary {
     @Override
     public String getName() {
         return "q.Random";
-    }
-
-    public String ranInt() {
-        Random r = new Random();
-        return String.valueOf(r.nextInt());
     }
 
     @Override
