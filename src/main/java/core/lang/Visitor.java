@@ -383,9 +383,7 @@ public class Visitor extends QBaseVisitor<Value> {
             }
 
             if (obj.funcs.containsKey(method + vals.size())) {
-
                 return obj.funcs.get(method + vals.size()).call(vals, new HashMap<>());
-
             } else {
                 throw new Problem(Environment.global.objs.get(parentClass).qc.name + " does not contain a definition for '" + method + "'", ctx, this.curClass);
             }
@@ -394,11 +392,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
             String p;
 
-            if (this.parent != null) {
-                p = this.parent.p;
-            } else {
-                p = this.p;
-            }
+            p = Objects.requireNonNullElse(this.parent, this).p;
 
             util.check(Environment.global.natives.get(method).parent(), parentClass, ctx, util.getOrDefault(false, this), this.curClass, p);
 
