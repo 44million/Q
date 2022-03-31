@@ -24,11 +24,11 @@ class Main : Obj
     fn main(args)
 
         new Obj as o();
-        o::set("I LOVE LEAN");
+        o::set("this is o");
         std::coutln(o::get());
 
         new Obj as o2();
-        o2::set("test");
+        o2::set("this is o2");
         std::cout(o2::get());
 
     end
