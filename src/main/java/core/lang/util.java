@@ -843,14 +843,12 @@ public class util {
             public Value ret() {
 
                 StringBuilder sb = new StringBuilder();
-                sb.append("[").append("\n");
+
                 Environment.global.natives.forEach((k, v) -> {
-                    sb.append("\t")
-                            .append(v.parent()).append("::").append(k).append(' ')
-                            .append("(").append(v.args()).append(")").append("\n");
+                    sb.append(k).append(' ');
+                    sb.append("(").append(v.args()).append(")").append("\n");
                 });
-                // fns (false)
-                sb.append("]");
+
                 return new Value(sb.toString());
             }
 
