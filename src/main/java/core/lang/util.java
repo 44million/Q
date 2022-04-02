@@ -10,6 +10,7 @@ import core.libs.WebServer;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.jetbrains.annotations.NotNull;
+import org.tensorflow.op.core.IdentityN;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -259,6 +260,11 @@ public class util {
                 return null;
             }
 
+            @Override
+            public boolean args() {
+                return false;
+            }
+
         });
 
         Environment.global.defineNativeFunction(new Function.INativeFunction() {
@@ -290,6 +296,11 @@ public class util {
             public Value ret(List<Value> list) {
                 return null;
             }
+
+            @Override
+            public boolean args() {
+                return false;
+            }
         });
 
         Environment.global.defineNativeFunction(new Function.INativeFunction() {
@@ -299,7 +310,7 @@ public class util {
 
             @Override
             public String name() {
-                return "std";
+                return "printf";
             }
 
             @Override
@@ -324,6 +335,11 @@ public class util {
             @Override
             public Value ret(List<Value> list) {
                 return null;
+            }
+
+            @Override
+            public boolean args() {
+                return true;
             }
         });
 
@@ -358,6 +374,11 @@ public class util {
             @Override
             public Value ret(List<Value> list) {
                 return null;
+            }
+
+            @Override
+            public boolean args() {
+                return true;
             }
         });
 
@@ -394,6 +415,11 @@ public class util {
             public Value ret(List<Value> list) {
                 return null;
             }
+
+            @Override
+            public boolean args() {
+                return true;
+            }
         });
 
         Environment.global.defineNativeFunction(new Function.INativeFunction() {
@@ -424,6 +450,11 @@ public class util {
             @Override
             public Value ret(List<Value> list) {
                 return null;
+            }
+
+            @Override
+            public boolean args() {
+                return false;
             }
         });
 
@@ -457,6 +488,11 @@ public class util {
             public Value ret(List<Value> list) {
                 return null;
             }
+
+            @Override
+            public boolean args() {
+                return false;
+            }
         });
 
         Environment.global.defineNativeFunction(new Function.INativeFunction() {
@@ -489,6 +525,11 @@ public class util {
             public Value ret(List<Value> list) {
                 return null;
             }
+
+            @Override
+            public boolean args() {
+                return false;
+            }
         });
 
         Environment.global.defineNativeFunction(new Function.INativeFunction() {
@@ -520,6 +561,11 @@ public class util {
             public Value ret(List<Value> list) {
                 String request = list.get(0).toString();
                 return new Value(System.getProperty(request));
+            }
+
+            @Override
+            public boolean args() {
+                return true;
             }
         });
 
@@ -560,6 +606,11 @@ public class util {
 
                 return new Value(amount);
             }
+
+            @Override
+            public boolean args() {
+                return true;
+            }
         });
 
         Environment.global.defineNativeFunction(new Function.INativeFunction() {
@@ -590,6 +641,11 @@ public class util {
             @Override
             public Value ret(List<Value> list) {
                 return null;
+            }
+
+            @Override
+            public boolean args() {
+                return true;
             }
         });
 
@@ -622,6 +678,11 @@ public class util {
             @Override
             public Value ret(List<Value> list) {
                 return null;
+            }
+
+            @Override
+            public boolean args() {
+                return true;
             }
         });
 
@@ -682,6 +743,11 @@ public class util {
                 }
                 return new Value(false);
             }
+
+            @Override
+            public boolean args() {
+                return true;
+            }
         });
 
         Environment.global.defineNativeFunction(new Function.INativeFunction() {
@@ -701,7 +767,7 @@ public class util {
 
             @Override
             public String parent() {
-                return "io";
+                return "std";
             }
 
             @Override
@@ -712,6 +778,11 @@ public class util {
             @Override
             public Value ret(List<Value> list) {
                 return null;
+            }
+
+            @Override
+            public boolean args() {
+                return false;
             }
         });
 
@@ -751,6 +822,56 @@ public class util {
                 }
                 return Value.NULL;
             }
+
+            @Override
+            public boolean args() {
+                return true;
+            }
+        });
+
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "fns";
+            }
+
+            @Override
+            public Value ret() {
+
+                StringBuilder sb = new StringBuilder();
+
+                Environment.global.natives.forEach((k, v) -> {
+                    sb.append(k).append(' ');
+                    sb.append("(").append(v.args()).append(")").append("\n");
+                });
+
+                return new Value(sb.toString());
+            }
+
+            @Override
+            public String parent() {
+                return "std";
+            }
+
+            @Override
+            public void exec(List<Value> list) {
+
+            }
+
+            @Override
+            public Value ret(List<Value> list) {
+                return null;
+            }
+
+            @Override
+            public boolean args() {
+                return false;
+            }
         });
 
         Environment.global.defineNativeFunction(new Function.INativeFunction() {
@@ -771,7 +892,7 @@ public class util {
 
             @Override
             public String parent() {
-                return "math";
+                return "Math";
             }
 
             @Override
@@ -782,6 +903,11 @@ public class util {
             @Override
             public Value ret(List<Value> list) {
                 return null;
+            }
+
+            @Override
+            public boolean args() {
+                return false;
             }
         });
 
@@ -823,13 +949,36 @@ public class util {
                     } catch (IOException e) {
                         throw new Problem(e.getMessage());
                     }
+                } else if (method.equals("parseStringWith")) {
+                    String str = list.get(1).toString();
+                    Parser.execBlock(str);
 
+                    String with = list.get(2).toString();
+                    Parser.execBlock(with);
+                } else if (method.equals("parseFileWith")) {
+                    String file = list.get(1).toString();
+
+                    try {
+                        String fcontents = CharStreams.fromFileName(file).toString();
+                        Parser parser = new Parser().fromText(fcontents);
+                        parser.parse(false);
+                    } catch (IOException e) {
+                        throw new Problem(e.getMessage());
+                    }
+
+                    String with = list.get(2).toString();
+                    Parser.execBlock(with);
                 }
             }
 
             @Override
             public Value ret(List<Value> list) {
                 return null;
+            }
+
+            @Override
+            public boolean args() {
+                return true;
             }
         });
 
@@ -867,6 +1016,11 @@ public class util {
                     return new Value(Environment.global.allLibs.toString().replaceAll("\\[", "").replaceAll("]", ""));
                 }
             }
+
+            @Override
+            public boolean args() {
+                return true;
+            }
         });
 
         Environment.global.defineNativeFunction(new Function.INativeFunction() {
@@ -898,6 +1052,11 @@ public class util {
             @Override
             public Value ret(List<Value> list) {
                 return null;
+            }
+
+            @Override
+            public boolean args() {
+                return false;
             }
         });
 

@@ -1,6 +1,7 @@
 namespace testing;
 
 #import q.std;
+#import q.io;
 
 class Obj
 
@@ -32,6 +33,10 @@ class Main : Obj
         std::coutln(o2::get());
 
         std::coutln(o::get());
+
+        std::err(std::getClass());
+
+        std::coutln(std::fns());
 
     end
 

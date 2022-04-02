@@ -152,6 +152,8 @@ public class Function {
 
         Value ret(List<Value> list);
 
+        boolean args();
+
     }
 
     private static class StreamGobbler implements Runnable {
