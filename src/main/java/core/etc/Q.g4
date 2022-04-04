@@ -52,7 +52,7 @@ allImport
  ;
 
 objFunctionCall
- : Identifier Accessor Identifier '(' exprList? ')'
+ : Identifier ( Accessor Identifier )* '(' exprList? ')'
  ;
 
 packageStatement

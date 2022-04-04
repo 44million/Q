@@ -2,6 +2,7 @@ namespace testing;
 
 #import q.std;
 #import q.io;
+#import q.Console;
 
 class Obj
 
