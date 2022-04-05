@@ -4,9 +4,22 @@ namespace testing;
 #import q.io;
 #import q.Console;
 
-class Obj
+class Sub
 
-    noval var obj;
+    cn Sub():
+
+    end
+
+    fn g():
+        return 200;
+    end
+
+end
+
+class Objext
+
+    var obj;
+    new Sub as sub();
 
     cn Obj():
     end
@@ -19,25 +32,31 @@ class Obj
         return self::obj;
     end
 
+    fn ss():
+        return self::sub;
+    end
+
 end
 
-class Main : Obj
+class Main : Objext
 
     fn main(args)
 
-        new Obj as o();
-        o::set("this is o");
-        std::coutln(o::get());
+        fn getObj():
+            new Objext as obj();
+            obj::set(100);
+            return obj;
+        end
 
-        new Obj as o2();
-        o2::set("this is o2");
-        std::coutln(o2::get());
+        /*
+        new Objext as obj();
 
-        std::coutln(o::get());
+        obj::set("200");
 
-        std::err(std::getClass());
+        std::cout(obj::ss()::get());
+        */
 
-        std::coutln(std::fns());
+        std::cout(getObj()::get());
 
     end
 

@@ -66,9 +66,6 @@ public class Main {
                 }
 
                 System.err.println(err);
-
-                // e.printStackTrace();
-
                 System.exit(-1);
             }
         }

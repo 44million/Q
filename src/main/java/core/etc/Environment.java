@@ -44,6 +44,19 @@ public class Environment {
         return util.getWebByName(name) != null || util.getWinByName(name) != null || this.files.containsKey(name) || this.objs.containsKey(name);
     }
 
+    public Object get(String name) {
+        if (util.getWebByName(name) != null) {
+            return util.getWebByName(name);
+        } else if (util.getWinByName(name) != null) {
+            return util.getWinByName(name);
+        } else if (this.files.containsKey(name)) {
+            return this.files.get(name);
+        } else if (this.objs.containsKey(name)) {
+            return this.objs.get(name);
+        }
+        return null;
+    }
+
     public void destroy(String name) {
 
         if (util.getWebByName(name) != null) {
