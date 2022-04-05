@@ -1,61 +1,31 @@
-namespace testing;
+#import [*];
 
-#import q.std;
-#import q.io;
+class Obj
 
-class Sub
-
-    cn Sub():
-
-    end
-
-    fn g():
-        return 200;
-    end
-
-end
-
-class Objext
-
-    var obj;
-    new Sub as sub();
+    var val;
 
     cn Obj():
+
     end
 
-    fn set(x):
-        self::obj = x;
+    fn set(v):
+        self::val = v;
     end
 
     fn get():
-        return self::obj;
-    end
-
-    fn ss():
-        return self::sub;
+        return self::val;
     end
 
 end
 
-class Main : Objext
+class Main
 
-    fn main(args)
+    fn main(args):
 
-        fn getObj():
-            new Objext as obj();
-            obj::set(100);
-            return obj;
-        end
+        new Obj as obj1();
 
-        /*
-        new Objext as obj();
-
-        obj::set("200");
-
-        std::cout(obj::ss()::get());
-        */
-
-        std::cout(getObj()::get());
+        obj1::set(1);
+        std::coutln(obj1::get());
 
     end
 

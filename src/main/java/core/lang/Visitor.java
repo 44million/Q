@@ -815,6 +815,8 @@ public class Visitor extends QBaseVisitor<Value> {
 
             Environment.global.objs.put(nameO, obj);
 
+            System.out.println(nameO);
+
         } else if (ctx.Identifier(0).getText().equals("File")) {
 
             util.check("Files", "Files", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.p);
@@ -961,7 +963,7 @@ public class Visitor extends QBaseVisitor<Value> {
         String id;
 
         if (ctx.Identifier() == null) {
-            id = this.visit(ctx.objVar()).id;
+            throw new Problem("Re-assignment must have an identifier", ctx, this.curClass);
         } else {
             id = ctx.Identifier().getText();
         }
@@ -980,7 +982,7 @@ public class Visitor extends QBaseVisitor<Value> {
             } else if (this.scope.vars.containsKey(id) && this.scope.vars.get(id).constant) {
                 throw new Problem("Variable '" + ctx.Identifier() + "' is constant, and cannot be changed", ctx, this.curClass);
             } else {
-                throw new Problem("Variable '" + ctx.Identifier() + "' not found", ctx, this.curClass);
+                throw new Problem("Variable '" + ctx.Identifier() + "' does not exist in the current context", ctx, this.curClass);
             }
         }
 
@@ -1284,8 +1286,17 @@ public class Visitor extends QBaseVisitor<Value> {
         Value q = this.visit(ctx.expression());
         String id = ctx.Identifier().getText();
 
-        if (this.scope.parent().parent().vars.containsKey(id)) {
-            this.scope.parent().parent().vars.replace(id, q);
+        Scope sc = this.scope;
+
+        while (sc != null) {
+            if (sc.vars.containsKey(id)) {
+                System.out.println(sc.vars.containsKey(id));
+            }
+            sc = sc.parent();
+        }
+
+        if (this.scope./*parent().parent().*/vars.containsKey(id)) {
+            this.scope./*parent().parent().*/vars.replace(id, q);
         } else {
             throw new Problem("Variable '" + ctx.Identifier().getText() + "' does not exist in the current context", ctx, this.curClass);
         }

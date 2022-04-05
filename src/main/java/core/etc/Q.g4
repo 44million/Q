@@ -89,6 +89,8 @@ constructorStatement
 
 objCreateStatement
  : 'new' Identifier 'as' Identifier ( '(' exprList? ')' )?
+ // new Object as object;
+ // new Object as o();
  ;
 
 osExecStatement
