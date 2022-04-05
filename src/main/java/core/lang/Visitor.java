@@ -6,7 +6,7 @@ import core.interp.QLexer;
 import core.interp.QParser;
 import core.lang.q.QClass;
 import core.lang.q.Value;
-import core.libs.AWT.Window;
+import core.libs.AWT;
 import core.libs.OS;
 import core.libs.WebServer;
 import core.libs.utils.HTTP;
@@ -854,7 +854,7 @@ public class Visitor extends QBaseVisitor<Value> {
                 int height = this.visit(ctx.exprList().expression(4)).asDouble().intValue();
                 String name = this.visit(ctx.exprList().expression(0)).toString();
 
-                Window window = new Window(name, x, y, width, height);
+                AWT window = new AWT(name, x, y, width, height);
                 window.setName(ctx.Identifier(1).getText());
                 Environment.global.wins.add(window);
 
@@ -864,7 +864,7 @@ public class Visitor extends QBaseVisitor<Value> {
                 int y = this.visit(ctx.exprList().expression(2)).asDouble().intValue();
                 String name = this.visit(ctx.exprList().expression(0)).toString();
 
-                Window window = new Window(name, x, y);
+                AWT window = new AWT(name, x, y);
                 window.setName(ctx.Identifier(1).getText());
                 Environment.global.wins.add(window);
 
