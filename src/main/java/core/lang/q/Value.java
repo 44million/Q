@@ -49,6 +49,10 @@ public class Value implements Comparable<Value> {
         return (List<Value>) value;
     }
 
+    public Object asObject() {
+        return value;
+    }
+
     public String asString() {
         return (String) value;
     }

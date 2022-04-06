@@ -4,7 +4,7 @@ import core.etc.Environment;
 import core.etc.Parser;
 import core.etc.Problem;
 import core.lang.q.Value;
-import core.libs.AWT.Window;
+import core.libs.AWT;
 import core.libs.Time;
 import core.libs.WebServer;
 import org.antlr.v4.runtime.CharStreams;
@@ -203,9 +203,9 @@ public class util {
 
     }
 
-    public static Window getWinByName(String name) {
+    public static AWT getWinByName(String name) {
 
-        for (Window xc : Environment.global.wins) {
+        for (AWT xc : Environment.global.wins) {
             if (xc.realName.equals(name)) {
                 return xc;
             }

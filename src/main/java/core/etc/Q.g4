@@ -33,7 +33,7 @@ reAssignment
  ;
 
 assignment
- : ( Const | Noval )*? Var Identifier ( indexes? '=' expression )?
+ : ( Const | Var )? Identifier ( indexes? '=' expression )?
  ;
 
 functionCall
@@ -52,7 +52,7 @@ allImport
  ;
 
 objFunctionCall
- : Identifier ( Accessor Identifier )* '(' exprList? ')'
+ : Identifier ( Accessor Identifier '(' exprList? ')' )* '(' exprList? ')'
  ;
 
 packageStatement
@@ -89,6 +89,8 @@ constructorStatement
 
 objCreateStatement
  : 'new' Identifier 'as' Identifier ( '(' exprList? ')' )?
+ // new Object as object;
+ // new Object as o();
  ;
 
 osExecStatement
