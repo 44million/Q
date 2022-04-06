@@ -16,6 +16,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -407,28 +408,33 @@ public class Visitor extends QBaseVisitor<Value> {
             if (Environment.global.natives.get(method) == null) {
                 throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx, this.curClass);
             }
-
-            if (l.size() >= 1) {
-                if (Environment.global.natives.get(method).ret(l) != null) {
-                    return Environment.global.natives.get(method).ret(l);
-                } else {
-                    Environment.global.natives.get(method).exec(l);
+            try {
+                if (l.size() >= 1) {
+                    if (Environment.global.natives.get(method).ret(l) != null) {
+                        return Environment.global.natives.get(method).ret(l);
+                    } else {
+                        Environment.global.natives.get(method).exec(l);
+                    }
                 }
+
+                if (Environment.global.natives.get(method).ret() != null) {
+                    return Environment.global.natives.get(method).ret();
+                } else {
+                    Environment.global.natives.get(method).exec();
+                }
+            } catch (Exception e) {
+                throw new Problem(e.getMessage(), ctx, this.curClass);
             }
 
-            if (Environment.global.natives.get(method).ret() != null) {
-                return Environment.global.natives.get(method).ret();
-            } else {
-                Environment.global.natives.get(method).exec();
-            }
-
+        } else {
+            throw new Problem("Object '" + parentClass + "' does not exist in the current context", ctx, this.curClass);
         }
 
         return Value.VOID;
     }
 
     @Override
-    public Value visitFunctionDecl(FunctionDeclContext ctx) {
+    public Value visitFunctionDecl(@NotNull FunctionDeclContext ctx) {
         List<TerminalNode> params = ctx.idList() != null ? ctx.idList().Identifier() : new ArrayList<>();
         ParseTree block = ctx.block();
         String id = ctx.Identifier().getText() + params.size();
@@ -680,36 +686,6 @@ public class Visitor extends QBaseVisitor<Value> {
             }
         }
         return Value.VOID;
-    }
-
-    @Override
-    public Value visitToIntFunctionCall(QParser.ToIntFunctionCallContext ctx) {
-
-        int i = 0;
-        Value x = this.visit(ctx.expression());
-
-        if (x.isString()) {
-
-            try {
-                i = Integer.parseInt(x.asString());
-            } catch (Exception e) {
-
-                throw new Problem("Could not cast to integer " + e.getMessage().replace("F", "f"), ctx, this.curClass);
-            }
-
-        } else if (x.isNumber()) {
-            throw new Problem("'" + x + "' is already an integer value.", ctx, this.curClass);
-        } else if (x.isList()) {
-            throw new Problem("Incompatible cast: List to Integer", ctx, this.curClass);
-        } else if (x.isBoolean()) {
-            throw new Problem("Incompatible cast: Boolean to Integer", ctx, this.curClass);
-        } else if (x.isNull()) {
-            throw new Problem("null values cannot be cast ", ctx, this.curClass);
-        } else if (x.isVoid()) {
-            throw new Problem("void values cannot be cast", ctx, this.curClass);
-        }
-
-        return new Value((double) i);
     }
 
     @Override
@@ -1026,9 +1002,7 @@ public class Visitor extends QBaseVisitor<Value> {
         Value newVal = Value.NULL;
         String id = ctx.Identifier().getText();
 
-        if ((ctx.Noval(0) != null) && (ctx.expression() != null)) {
-            throw new Problem("Noval variable: '" + id + " must NOT have a value", ctx, this.curClass);
-        } else if ((ctx.Noval(0) != null) && (ctx.Const(0) != null)) {
+        if ((ctx.expression() == null) && (ctx.Const() != null)) {
             throw new Problem("Constant variables must have a value to begin with. See variable '" + id + "'.", ctx, this.curClass);
         }
 
@@ -1037,12 +1011,12 @@ public class Visitor extends QBaseVisitor<Value> {
             newVal.id = id;
         }
 
-        if (ctx.Noval(0) != null) {
+        if (ctx.expression() == null) {
             scope.varAssign(id, newVal);
             return Value.VOID;
         }
 
-        if ((ctx.Const(0) != null)) {
+        if ((ctx.Const() != null)) {
             newVal.constant = true;
         }
 

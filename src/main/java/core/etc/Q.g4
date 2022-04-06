@@ -33,7 +33,7 @@ reAssignment
  ;
 
 assignment
- : ( Const | Var )? Identifier ( indexes? '=' expression )?
+ : ( Const | Var ) Identifier ( indexes? '=' expression )?
  ;
 
 functionCall
@@ -41,7 +41,6 @@ functionCall
  | Println '(' expression? ')'  #printlnFunctionCall
  | Print '(' expression ')'     #printFunctionCall
  | Assert '(' expression ')'    #assertFunctionCall
- | ToInt '(' expression ')'     #toIntFunctionCall
  | Identifier Accessor Identifier '(' exprList? ')' #objFunctionCallExpression
  ;
 
@@ -52,7 +51,7 @@ allImport
  ;
 
 objFunctionCall
- : Identifier ( Accessor Identifier '(' exprList? ')' )* '(' exprList? ')'
+ : Identifier Accessor Identifier '(' exprList? ')'
  ;
 
 packageStatement
@@ -89,8 +88,6 @@ constructorStatement
 
 objCreateStatement
  : 'new' Identifier 'as' Identifier ( '(' exprList? ')' )?
- // new Object as object;
- // new Object as o();
  ;
 
 osExecStatement
@@ -225,7 +222,6 @@ Print    : 'std' Accessor 'AX7MRSUXQ61G8DXIZW';
 Input    : 'std' Accessor 'cin';
 Assert   : 'assert';
 Def      : 'fn';
-ToInt    : 'toInt';
 If       : 'if';
 Else     : 'else';
 Package  : 'namespace';
@@ -240,7 +236,6 @@ Null     : 'null';
 Try      : 'try';
 Class    : 'class';
 Const    : 'const';
-Noval    : 'noval';
 Self     : 'self';
 Native   : 'native';
 

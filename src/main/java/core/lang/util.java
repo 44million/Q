@@ -4,13 +4,12 @@ import core.etc.Environment;
 import core.etc.Parser;
 import core.etc.Problem;
 import core.lang.q.Value;
-import core.libs.AWT;
+import core.libs.AWT.Window;
 import core.libs.Time;
 import core.libs.WebServer;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.jetbrains.annotations.NotNull;
-import org.tensorflow.op.core.IdentityN;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -203,9 +202,9 @@ public class util {
 
     }
 
-    public static AWT getWinByName(String name) {
+    public static Window getWinByName(String name) {
 
-        for (AWT xc : Environment.global.wins) {
+        for (Window xc : Environment.global.wins) {
             if (xc.realName.equals(name)) {
                 return xc;
             }
@@ -844,14 +843,12 @@ public class util {
             public Value ret() {
 
                 StringBuilder sb = new StringBuilder();
-                sb.append("[").append("\n");
+
                 Environment.global.natives.forEach((k, v) -> {
-                    sb.append("\t")
-                            .append(v.parent()).append("::").append(k).append(' ')
-                            .append("(").append(v.args()).append(")").append("\n");
+                    sb.append(k).append(' ');
+                    sb.append("(").append(v.args()).append(")").append("\n");
                 });
-                // fns (false)
-                sb.append("]");
+
                 return new Value(sb.toString());
             }
 
@@ -1059,6 +1056,44 @@ public class util {
             @Override
             public boolean args() {
                 return false;
+            }
+        });
+
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "toInt";
+            }
+
+            @Override
+            public Value ret() {
+                return null;
+            }
+
+            @Override
+            public String parent() {
+                return "Math";
+            }
+
+            @Override
+            public void exec(List<Value> list) {
+
+            }
+
+            @Override
+            public Value ret(List<Value> list) {
+                int x = Integer.parseInt(list.get(0).toString());
+                return new Value(x);
+            }
+
+            @Override
+            public boolean args() {
+                return true;
             }
         });
 
