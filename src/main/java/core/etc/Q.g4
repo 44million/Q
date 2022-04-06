@@ -67,7 +67,7 @@ ifStatement
  ;
 
 ifStat
- : If '(' expression ')' ':' block
+ : If '(' expression ')' Colon block
  ;
 
 hereStatement
@@ -79,11 +79,11 @@ varHereStatement
  ;
 
 elseIfStat
- : Else If '(' expression ')' ':' block
+ : Else If '(' expression ')' Colon block
  ;
 
 constructorStatement
- : 'cn' Identifier '(' exprList? ')' ':' block End
+ : 'cn' Identifier '(' exprList? ')' Colon block End
  ;
 
 objCreateStatement
@@ -102,19 +102,19 @@ fileWriteStatement
  ;
 
 elseStat
- : Else ':' block
+ : Else Colon block
  ;
 
 functionDecl
- : ( Async | Native )*? Def Identifier '(' idList? ')' ':' block End
+ : ( Async | Native )*? Def Identifier '(' idList? ')' Colon block End
  ;
 
 forStatement
- : For '(' Identifier '=' expression To expression ')' ':' block End
+ : For '(' Identifier '=' expression To expression ')' Colon block End
  ;
 
 forInStatement
- : For '(' Identifier 'in' 'range' '(' expression ')' ')' ':' block End
+ : For '(' Identifier 'in' 'range' '(' expression ')' ')' Colon block End
  ;
 
 importStatement
@@ -122,7 +122,7 @@ importStatement
  ;
 
 anonymousFunction
- : 'fn' '(' exprList? ')' ':' '-' '>' block End
+ : 'fn' '(' exprList? ')' Colon '-' '>' block End
  // fn(x, y): ->
  //     std:ln(x);
  // end
@@ -141,7 +141,7 @@ atStatement
  ;
 
 tryCatchStatement
- : Try ':' block 'except' ':' ( '<' expression '>' )*? block End
+ : Try Colon block 'except' Colon ( '<' expression '>' )*? block End
 
  /*
     try:
@@ -154,11 +154,11 @@ tryCatchStatement
  ; 
 
 whileStatement
- : While '(' expression ')' ':' block End
+ : While '(' expression ')' Colon block End
  ;
 
 mainFunctionStatement
- : 'fn' 'main' '(' Identifier ')' ':' block End
+ : 'fn' 'main' '(' Identifier ')' Colon block End
  ;
 
 idList
@@ -166,7 +166,7 @@ idList
  ;
 
 classStatement
- : ( atStatement )? Class Identifier ( ':' Identifier )? block 'end'
+ : ( atStatement )? Class Identifier ( Colon Identifier )? block 'end'
  ;
 
 exprList

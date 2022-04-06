@@ -22,17 +22,7 @@ end
 
 class Main : Obj
 
-    fn main(args)
-
-        new Obj as o();
-        o::set("this is o");
-        std::coutln(o::get());
-
-        new Obj as o2();
-        o2::set("this is o2");
-        std::coutln(o2::get());
-
-        std::coutln(o::get());
+    fn main(args):
 
         std::err(std::getClass());
 
