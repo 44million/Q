@@ -794,8 +794,8 @@ public class Visitor extends QBaseVisitor<Value> {
         String parentClass = ctx.Identifier(0).getText();
         String nameO = ctx.Identifier(1).getText();
 
-        if (Environment.global.getObj(parentClass)) {
-            throw new Problem("Object already exists: " + parentClass, ctx);
+        if (Environment.global.getObj(nameO) || this.scope.vars.containsKey(nameO)) {
+            throw new Problem("Variable '" + nameO + "' already exists", ctx);
         }
 
         if (Environment.global.classes.containsKey(parentClass)) {
@@ -1002,6 +1002,10 @@ public class Visitor extends QBaseVisitor<Value> {
         Value newVal = Value.NULL;
         String id = ctx.Identifier().getText();
 
+        if (Environment.global.getObj(id)) {
+            throw new Problem("Variable '" + id + "' already exists", ctx);
+        }
+
         if ((ctx.expression() == null) && (ctx.Const() != null)) {
             throw new Problem("Constant variables must have a value to begin with. See variable '" + id + "'.", ctx, this.curClass);
         }
@@ -1037,8 +1041,6 @@ public class Visitor extends QBaseVisitor<Value> {
         }
 
         return Value.VOID;
-
-
     }
 
     @Override

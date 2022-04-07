@@ -24,9 +24,13 @@ class Main : Obj
 
     fn main(args):
 
-        std::err(std::getClass());
+        var one = args[0];
+        var two = args[1];
 
-        std::coutln(std::fns());
+        std::cout(one + " " + two);
+
+        // var o = new Obj();
+
 
     end
 
