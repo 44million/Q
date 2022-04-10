@@ -1,6 +1,6 @@
 package core.lang;
 
-import core.etc.RVal;
+import core.etc.errors.RVal;
 import core.etc.Scope;
 import core.lang.q.Value;
 import org.antlr.v4.runtime.tree.ParseTree;

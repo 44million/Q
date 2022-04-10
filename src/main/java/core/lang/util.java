@@ -2,7 +2,7 @@ package core.lang;
 
 import core.etc.Environment;
 import core.etc.Parser;
-import core.etc.Problem;
+import core.etc.errors.Problem;
 import core.lang.q.Value;
 import core.libs.AWT.Window;
 import core.libs.Time;

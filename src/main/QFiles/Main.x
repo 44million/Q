@@ -1,33 +1,10 @@
-namespace testing;
+#import "https://github.com/44-million/QGithubImportsTesting/blob/main/XYZ.x";
+#import "https://github.com/44-million/QGithubImportsTesting/blob/main/X3Z.x";
 
-#import q.std;
-#import q.io;
-
-class Obj
-
-    noval var obj;
-
-    cn Obj():
-    end
-
-    fn set(x):
-        self::obj = x;
-    end
-
-    fn get():
-        return self::obj;
-    end
-
-end
-
-class Main : Obj
+class Main
 
     fn main(args):
-
-        std::err(std::getClass());
-
-        std::coutln(std::fns());
-
+        println("Hello, world!");
     end
 
 end

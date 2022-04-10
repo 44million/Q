@@ -1,6 +1,9 @@
 package core.lang;
 
 import core.etc.*;
+import core.etc.errors.Problem;
+import core.etc.errors.RVal;
+import core.etc.errors.Tip;
 import core.interp.QBaseVisitor;
 import core.interp.QLexer;
 import core.interp.QParser;
@@ -714,7 +717,8 @@ public class Visitor extends QBaseVisitor<Value> {
         try {
             parser.parse(false);
         } catch (Exception e) {
-            throw new Problem("Could not import from github: " + e.getMessage(), ctx, this.curClass);
+            Tip tip = new Tip("GitHub takes some time to update the 'https://raw.githubusercontent.com/' domain, so allow up to an hour for the file to be downloaded.\n");
+            throw new Problem("Error whilst importing from GitHub: {\n\t\t" + e.getMessage() + "\n\t}", ctx, this.curClass, tip);
         }
 
         return Value.VOID;

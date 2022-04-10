@@ -1,6 +1,6 @@
 package core.libs;
 
-import core.etc.Problem;
+import core.etc.errors.Problem;
 import core.interp.QParser;
 import core.lang.q.Value;
 import core.libs.utils.QLibrary;

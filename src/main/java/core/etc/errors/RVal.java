@@ -1,4 +1,4 @@
-package core.etc;
+package core.etc.errors;
 
 import core.lang.q.Value;
 

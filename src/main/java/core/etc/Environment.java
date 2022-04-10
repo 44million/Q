@@ -1,5 +1,6 @@
 package core.etc;
 
+import core.etc.errors.Problem;
 import core.lang.Function;
 import core.lang.Visitor;
 import core.lang.q.QClass;
