@@ -57,6 +57,10 @@ public class Main {
                     err += " (File not found)";
                 }
 
+                if (e instanceof ArrayIndexOutOfBoundsException || e instanceof IndexOutOfBoundsException) {
+                    err += " (An array starts at index zero)";
+                }
+
                 System.err.println(err);
 
                 // e.printStackTrace();

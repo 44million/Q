@@ -98,7 +98,7 @@ osExecStatement
     TODO: CHANGE THIS
 */
 fileWriteStatement
- : Identifier Accessor 'write' '(' expression ')'
+ : Identifier Accessor 'i3v8wm08wxpudwty0' '(' expression ')'
  ;
 
 elseStat

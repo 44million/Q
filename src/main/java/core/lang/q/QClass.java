@@ -73,10 +73,6 @@ public class QClass implements Cloneable {
             this.vars = new HashMap<>(instance.scope.vars);
         }
 
-        public QObject get() {
-            return this;
-        }
-
         public void setParams(List<Value> n) {
             this.params = n;
         }
