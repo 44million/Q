@@ -5,7 +5,7 @@ import core.libs.utils.QLibrary;
 import javax.swing.*;
 import java.awt.*;
 
-public class Window extends QLibrary {
+public class AWT extends QLibrary {
 
     private final int x;
     private final int y;
@@ -16,13 +16,13 @@ public class Window extends QLibrary {
     private int height;
     private boolean has4;
 
-    public Window(String name, int x, int y) {
+    public AWT(String name, int x, int y) {
         this.x = x;
         this.y = y;
         this.name = name;
     }
 
-    public Window(String name, int x, int y, int w, int h) {
+    public AWT(String name, int x, int y, int w, int h) {
         this.x = x;
         this.y = y;
         this.name = name;

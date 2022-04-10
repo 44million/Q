@@ -9,7 +9,7 @@ import core.interp.QLexer;
 import core.interp.QParser;
 import core.lang.q.QClass;
 import core.lang.q.Value;
-import core.libs.AWT.Window;
+import core.libs.AWT.AWT;
 import core.libs.OS;
 import core.libs.WebServer;
 import core.libs.utils.HTTP;
@@ -717,8 +717,7 @@ public class Visitor extends QBaseVisitor<Value> {
         try {
             parser.parse(false);
         } catch (Exception e) {
-            Tip tip = new Tip("GitHub takes some time to update the 'https://raw.githubusercontent.com/' domain, so allow up to an hour for the file to be downloaded.\n");
-            throw new Problem("Error whilst importing from GitHub: {\n\t\t" + e.getMessage() + "\n\t}", ctx, this.curClass, tip);
+            throw new Problem(e.getMessage(), ctx, this.curClass, new Tip("GitHub takes some time to update the 'https://raw.githubusercontent.com/' domain, so allow up to an hour for the file to be downloaded.\n"));
         }
 
         return Value.VOID;
@@ -763,7 +762,7 @@ public class Visitor extends QBaseVisitor<Value> {
         try {
             lexer = new QLexer(CharStreams.fromFileName(currentPath + "/" + path + ".l"));
         } catch (IOException e) {
-            throw new Problem("Library or File not found: " + path, ctx);
+            throw new Problem("Library or File not found: " + path, ctx, this.curClass);
         }
 
         QParser parser = new QParser(new CommonTokenStream(lexer));
@@ -799,7 +798,8 @@ public class Visitor extends QBaseVisitor<Value> {
         String nameO = ctx.Identifier(1).getText();
 
         if (Environment.global.getObj(nameO) || this.scope.vars.containsKey(nameO)) {
-            throw new Problem("Variable '" + nameO + "' already exists", ctx);
+            Tip t = new Tip("Objects cannot be named the same as a variable or a class");
+            throw new Problem("Variable '" + nameO + "' already exists", ctx, this.curClass, t);
         }
 
         if (Environment.global.classes.containsKey(parentClass)) {
@@ -867,7 +867,7 @@ public class Visitor extends QBaseVisitor<Value> {
                 int height = this.visit(ctx.exprList().expression(4)).asDouble().intValue();
                 String name = this.visit(ctx.exprList().expression(0)).toString();
 
-                Window window = new Window(name, x, y, width, height);
+                AWT window = new AWT(name, x, y, width, height);
                 window.setName(ctx.Identifier(1).getText());
                 Environment.global.wins.add(window);
 
@@ -877,7 +877,7 @@ public class Visitor extends QBaseVisitor<Value> {
                 int y = this.visit(ctx.exprList().expression(2)).asDouble().intValue();
                 String name = this.visit(ctx.exprList().expression(0)).toString();
 
-                Window window = new Window(name, x, y);
+                AWT window = new AWT(name, x, y);
                 window.setName(ctx.Identifier(1).getText());
                 Environment.global.wins.add(window);
 
