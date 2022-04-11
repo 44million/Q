@@ -30,11 +30,9 @@ end
 
 #import q.std;
 
-// #import [*];
-
 class Runner
 
-	noval var c;
+	var c;
 	
 	cn Runner():
 	
