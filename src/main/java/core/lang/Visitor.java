@@ -104,7 +104,63 @@ public class Visitor extends QBaseVisitor<Value> {
         String parentClass = ctx.Identifier(0).getText();
         String method = ctx.Identifier(1).getText();
 
-        if (parentClass.equals("Files")) {
+        if (Environment.global.objs.containsKey(parentClass)) {
+
+            QClass.QObject obj = Environment.global.objs.get(parentClass);
+            Visitor v = obj.v;
+
+            List<Value> vals = new ArrayList<>();
+
+            if (ctx.exprList() != null) {
+                for (ExpressionContext ex : ctx.exprList().expression()) {
+                    vals.add(v.visit(ex));
+                }
+            }
+
+            if (obj.funcs.containsKey(method + vals.size())) {
+                return obj.funcs.get(method + vals.size()).call(vals, new HashMap<>());
+            } else {
+                throw new Problem(Environment.global.objs.get(parentClass).qc.name + " does not contain a definition for '" + method + "'", ctx, this.curClass);
+            }
+
+        } else if (Environment.global.natives.containsKey(method)) {
+
+            String p;
+
+            p = Objects.requireNonNullElse(this.parent, this).p;
+
+            util.check(Environment.global.natives.get(method).parent(), parentClass, ctx, util.getOrDefault(false, this), this.curClass, p);
+
+            List<Value> l = new ArrayList<>();
+
+            if (ctx.exprList() != null) {
+                for (ExpressionContext c : ctx.exprList().expression()) {
+                    l.add(this.visit(c));
+                }
+            }
+
+            if (Environment.global.natives.get(method) == null) {
+                throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx, this.curClass);
+            }
+            try {
+                if (l.size() >= 1) {
+                    if (Environment.global.natives.get(method).ret(l) != null) {
+                        return Environment.global.natives.get(method).ret(l);
+                    } else {
+                        Environment.global.natives.get(method).exec(l);
+                    }
+                }
+
+                if (Environment.global.natives.get(method).ret() != null) {
+                    return Environment.global.natives.get(method).ret();
+                } else {
+                    Environment.global.natives.get(method).exec();
+                }
+            } catch (Exception e) {
+                throw new Problem(e.getMessage(), ctx, this.curClass);
+            }
+
+        } else if (parentClass.equals("Files")) {
 
             util.check("Files", "Files", ctx, util.getOrDefault(false, this), this.curClass, this.p);
 
@@ -143,18 +199,13 @@ public class Visitor extends QBaseVisitor<Value> {
 
             util.check("http", "http", ctx, util.getOrDefault(false, this), this.curClass, this.p);
 
-            if (method.equals("get")) {
-                HTTP.get(ctx);
-            } else if (method.equals("post")) {
-                HTTP.post(ctx);
-            } else if (method.equals("put")) {
-                HTTP.put(ctx);
-            } else if (method.equals("delete")) {
-                HTTP.delete(ctx);
-            } else if (method.equals("head")) {
-                HTTP.head(ctx);
-            } else if (method.equals("options")) {
-                HTTP.options(ctx);
+            switch (method) {
+                case "get" -> HTTP.get(ctx);
+                case "post" -> HTTP.post(ctx);
+                case "put" -> HTTP.put(ctx);
+                case "delete" -> HTTP.delete(ctx);
+                case "head" -> HTTP.head(ctx);
+                case "options" -> HTTP.options(ctx);
             }
 
         } else if (util.getWinByName(parentClass) != null) {
@@ -239,12 +290,10 @@ public class Visitor extends QBaseVisitor<Value> {
 
                         String layout = v.get(0).toString();
 
-                        if (layout.equals("grid")) {
-                            util.getWinByName(parentClass).f.setLayout(new GridLayout(v.get(1).asDouble().intValue(), v.get(2).asDouble().intValue()));
-                        } else if (layout.equals("flow")) {
-                            util.getWinByName(parentClass).f.setLayout(new FlowLayout());
-                        } else if (layout.equals("border")) {
-                            util.getWinByName(parentClass).f.setLayout(new BorderLayout());
+                        switch (layout) {
+                            case "grid" -> util.getWinByName(parentClass).f.setLayout(new GridLayout(v.get(1).asDouble().intValue(), v.get(2).asDouble().intValue()));
+                            case "flow" -> util.getWinByName(parentClass).f.setLayout(new FlowLayout());
+                            case "border" -> util.getWinByName(parentClass).f.setLayout(new BorderLayout());
                         }
 
                         break;
@@ -373,62 +422,6 @@ public class Visitor extends QBaseVisitor<Value> {
 
                     return new Value(false);
             }
-        } else if (Environment.global.objs.containsKey(parentClass)) {
-
-            QClass.QObject obj = Environment.global.objs.get(parentClass);
-            Visitor v = obj.v;
-
-            List<Value> vals = new ArrayList<>();
-
-            if (ctx.exprList() != null) {
-                for (ExpressionContext ex : ctx.exprList().expression()) {
-                    vals.add(v.visit(ex));
-                }
-            }
-
-            if (obj.funcs.containsKey(method + vals.size())) {
-                return obj.funcs.get(method + vals.size()).call(vals, new HashMap<>());
-            } else {
-                throw new Problem(Environment.global.objs.get(parentClass).qc.name + " does not contain a definition for '" + method + "'", ctx, this.curClass);
-            }
-
-        } else if (Environment.global.natives.containsKey(method)) {
-
-            String p;
-
-            p = Objects.requireNonNullElse(this.parent, this).p;
-
-            util.check(Environment.global.natives.get(method).parent(), parentClass, ctx, util.getOrDefault(false, this), this.curClass, p);
-
-            List<Value> l = new ArrayList<>();
-
-            if (ctx.exprList() != null) {
-                for (ExpressionContext c : ctx.exprList().expression()) {
-                    l.add(this.visit(c));
-                }
-            }
-
-            if (Environment.global.natives.get(method) == null) {
-                throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx, this.curClass);
-            }
-            try {
-                if (l.size() >= 1) {
-                    if (Environment.global.natives.get(method).ret(l) != null) {
-                        return Environment.global.natives.get(method).ret(l);
-                    } else {
-                        Environment.global.natives.get(method).exec(l);
-                    }
-                }
-
-                if (Environment.global.natives.get(method).ret() != null) {
-                    return Environment.global.natives.get(method).ret();
-                } else {
-                    Environment.global.natives.get(method).exec();
-                }
-            } catch (Exception e) {
-                throw new Problem(e.getMessage(), ctx, this.curClass);
-            }
-
         } else {
             throw new Problem("Object '" + parentClass + "' does not exist in the current context", ctx, this.curClass);
         }
@@ -1432,18 +1425,18 @@ public class Visitor extends QBaseVisitor<Value> {
 
     private void setAtIndex(ParserRuleContext ctx, List<ExpressionContext> indexes, Value val, Value newVal) {
         if (!val.isList()) {
-            throw new Problem(ctx);
+            throw new Problem("Can't set index on " + val, ctx, this.curClass);
         }
         for (int i = 0; i < indexes.size() - 1; i++) {
             Value idx = this.visit(indexes.get(i));
             if (!idx.isNumber()) {
-                throw new Problem(ctx);
+                throw new Problem("Can't set index on " + val, ctx, this.curClass);
             }
             val = val.asList().get(idx.asDouble().intValue());
         }
         Value idx = this.visit(indexes.get(indexes.size() - 1));
         if (!idx.isNumber()) {
-            throw new Problem(ctx);
+            throw new Problem("Can't set index on " + val, ctx, this.curClass);
         }
         val.asList().set(idx.asDouble().intValue(), newVal);
     }

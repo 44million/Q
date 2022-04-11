@@ -207,7 +207,7 @@ list
 
 objVar
  : Identifier Accessor Identifier
- // charger::hp
+
  ;
 
 indexes

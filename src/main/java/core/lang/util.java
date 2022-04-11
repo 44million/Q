@@ -16,9 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class util {
 
@@ -1090,6 +1088,48 @@ public class util {
             public Value ret(List<Value> list) {
                 int x = Integer.parseInt(list.get(0).toString());
                 return new Value(x);
+            }
+
+            @Override
+            public boolean args() {
+                return true;
+            }
+        });
+
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "split";
+            }
+
+            @Override
+            public Value ret() {
+                return null;
+            }
+
+            @Override
+            public String parent() {
+                return "std";
+            }
+
+            @Override
+            public void exec(List<Value> list) {
+
+            }
+
+            @Override
+            public Value ret(List<Value> list) {
+                String s = list.get(0).toString();
+                String delim = list.get(1).toString();
+
+                String[] in = s.split(delim);
+
+                return new Value(new ArrayList<>(Arrays.asList(in)));
             }
 
             @Override
