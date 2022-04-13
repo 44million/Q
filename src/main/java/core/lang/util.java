@@ -145,12 +145,12 @@ public class util {
 
     // straight from stackoverflow
     public static String string() {
-        final String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();
         while (salt.length() < 18) { // length of the random string.
-            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
-            salt.append(SALTCHARS.charAt(index));
+            int index = (int) (rnd.nextFloat() * alphabet.length());
+            salt.append(alphabet.charAt(index));
         }
         return salt.toString();
 
@@ -195,7 +195,7 @@ public class util {
                 return;
             }
 
-            System.out.println("Import not resolved: " + imp);
+            throw new Problem("Could not parse " + imp + ".l (the file may not exist or be in the wrong format)");
         }
 
     }
@@ -210,6 +210,8 @@ public class util {
         return null;
     }
 
+    // suppress warnings because this code is phenomenally bad
+    @SuppressWarnings("all")
     public static void check(String p, String t2, ParserRuleContext ctx, boolean sore, String c, String namespace) {
         if ((p.equals(".std") || p.equals("std")) && namespace.equals("standard")) {
             return;
@@ -226,6 +228,7 @@ public class util {
 
         register("std", true);
         register("lang", true);
+        register("String", true);
 
         Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
@@ -1130,6 +1133,44 @@ public class util {
                 String[] in = s.split(delim);
 
                 return new Value(new ArrayList<>(Arrays.asList(in)));
+            }
+
+            @Override
+            public boolean args() {
+                return true;
+            }
+        });
+
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
+
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "toString";
+            }
+
+            @Override
+            public Value ret() {
+                return null;
+            }
+
+            @Override
+            public String parent() {
+                return "String";
+            }
+
+            @Override
+            public void exec(List<Value> list) {
+
+            }
+
+            @Override
+            public Value ret(List<Value> list) {
+                return new Value(list.get(0).toString());
             }
 
             @Override
