@@ -1,7 +1,7 @@
 package core.lang;
 
-import core.etc.errors.RVal;
 import core.etc.Scope;
+import core.etc.errors.RVal;
 import core.lang.q.Value;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;

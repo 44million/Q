@@ -2,7 +2,7 @@ package core.libs;
 
 import core.etc.Parser;
 import core.etc.errors.Problem;
-import core.libs.utils.QLibrary;
+import core.libs.util.QLibrary;
 
 public class IO extends QLibrary {
 

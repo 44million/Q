@@ -16,8 +16,20 @@ class Main
         // 99999999999999999999
 
         var y = Math::toInt(x);
-        std::cout(y * 20);
+        std::coutln(y * 20);
         // 180
+
+        try:
+            var z = Math::toInt("2");
+            var zSquared = z * z;
+            var zCubed = zSquared * z;
+            std::coutln(zSquared);
+        except:
+            <"printafter">
+            std::coutln("error");
+        // error
+        end
+
     end
 
 end

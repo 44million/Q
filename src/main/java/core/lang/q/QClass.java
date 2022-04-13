@@ -29,7 +29,7 @@ public class QClass implements Cloneable {
     }
 
     public QClass() {
-        this.name = util.getSaltString();
+        this.name = util.string();
         this.functions = new HashMap<>();
         this.scope = Environment.global.scope;
         this.constArgs = new ArrayList<>();

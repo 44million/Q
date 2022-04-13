@@ -2,7 +2,7 @@ package core.libs;
 
 import core.etc.Parser;
 import core.lang.q.Value;
-import core.libs.utils.QLibrary;
+import core.libs.util.QLibrary;
 
 import java.io.IOException;
 import java.time.Instant;

@@ -1,7 +1,7 @@
 package core.libs;
 
 import core.etc.Parser;
-import core.libs.utils.QLibrary;
+import core.libs.util.QLibrary;
 
 public class Math extends QLibrary {
 

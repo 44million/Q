@@ -1,4 +1,4 @@
-package core.libs.utils;
+package core.libs.util;
 
 public abstract class QLibrary {
 

@@ -2,8 +2,8 @@ package core.libs;
 
 import com.sun.net.httpserver.HttpServer;
 import core.etc.Environment;
-import core.libs.utils.HTTP;
-import core.libs.utils.QLibrary;
+import core.libs.util.HTTP;
+import core.libs.util.QLibrary;
 
 import java.net.InetSocketAddress;
 

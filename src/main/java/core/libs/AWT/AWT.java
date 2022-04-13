@@ -1,6 +1,6 @@
 package core.libs.AWT;
 
-import core.libs.utils.QLibrary;
+import core.libs.util.QLibrary;
 
 import javax.swing.*;
 import java.awt.*;

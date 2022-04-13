@@ -144,7 +144,7 @@ public class util {
     }
 
     // straight from stackoverflow
-    public static String getSaltString() {
+    public static String string() {
         final String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();
@@ -156,16 +156,16 @@ public class util {
 
     }
 
-    private static String getStringFromStream(InputStream Stream) throws IOException {
-        if (Stream != null) {
+    private static String getStringFromStream(InputStream stream) throws IOException {
+        if (stream != null) {
             Writer Writer = new StringWriter();
 
-            char[] Buffer = new char[2048];
-            try (Stream) {
-                Reader Reader = new BufferedReader(new InputStreamReader(Stream, StandardCharsets.UTF_8));
+            char[] buffer = new char[2048];
+            try (stream) {
+                Reader Reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
                 int counter;
-                while ((counter = Reader.read(Buffer)) != -1) {
-                    Writer.write(Buffer, 0, counter);
+                while ((counter = Reader.read(buffer)) != -1) {
+                    Writer.write(buffer, 0, counter);
                 }
             }
             return Writer.toString();

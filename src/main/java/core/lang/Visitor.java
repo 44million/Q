@@ -1,6 +1,9 @@
 package core.lang;
 
-import core.etc.*;
+import core.etc.Environment;
+import core.etc.NameSpace;
+import core.etc.Parser;
+import core.etc.Scope;
 import core.etc.errors.Problem;
 import core.etc.errors.RVal;
 import core.etc.errors.Tip;
@@ -12,7 +15,7 @@ import core.lang.q.Value;
 import core.libs.AWT.AWT;
 import core.libs.OS;
 import core.libs.WebServer;
-import core.libs.utils.HTTP;
+import core.libs.util.HTTP;
 import main.Main;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -40,7 +43,7 @@ public class Visitor extends QBaseVisitor<Value> {
     public boolean lib;
     public String curClass;
     public Visitor parent;
-    public String p = util.getSaltString();
+    public String p = util.string();
 
     public Visitor(Scope scope, Map<String, Function> functions) {
         this.scope = scope;
@@ -565,7 +568,7 @@ public class Visitor extends QBaseVisitor<Value> {
             case "int":
                 return new Value(new Random().nextInt());
             case "str":
-                return new Value(util.getSaltString());
+                return new Value(util.string());
             case "bool":
                 int i = new Random().nextInt(2);
 

@@ -1,6 +1,6 @@
 package core.libs;
 
-import core.libs.utils.QLibrary;
+import core.libs.util.QLibrary;
 
 import java.io.IOException;
 

@@ -3,7 +3,7 @@ package core.libs;
 import core.etc.errors.Problem;
 import core.interp.QParser;
 import core.lang.q.Value;
-import core.libs.utils.QLibrary;
+import core.libs.util.QLibrary;
 
 import java.io.File;
 import java.io.FileNotFoundException;
