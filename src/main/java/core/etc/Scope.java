@@ -13,7 +13,7 @@ public class Scope {
     public boolean lib;
     public boolean sore;
 
-    protected Scope() {
+    private Scope() {
         this(null, false);
     }
 

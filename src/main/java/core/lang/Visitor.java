@@ -209,6 +209,7 @@ public class Visitor extends QBaseVisitor<Value> {
                 case "delete" -> HTTP.delete(ctx);
                 case "head" -> HTTP.head(ctx);
                 case "options" -> HTTP.options(ctx);
+                case "trace" -> HTTP.trace(ctx);
             }
 
         } else if (util.getWinByName(parentClass) != null) {

@@ -15,6 +15,8 @@ class Main
 
         std::cout(std::fns());
 
+        return 0;
+
     end
 
 end

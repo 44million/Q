@@ -62,7 +62,7 @@ public class AWT extends QLibrary {
 
     public void addComponent(JComponent o) {
         if (o == null) {
-            System.out.println("[FATAL] The component attached to: " + this.name + " is not a valid component.\nOffender: " + o.toString());
+            System.err.println("[FATAL] The component attached to: " + this.name + " is not a valid component.");
             System.exit(0);
         } else {
             this.f.add(o);

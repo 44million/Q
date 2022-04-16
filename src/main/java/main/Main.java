@@ -2,16 +2,21 @@ package main;
 
 import core.etc.Environment;
 import core.etc.Parser;
+import core.etc.Scope;
+import core.lang.Visitor;
+import core.lang.q.QFile;
 import core.lang.util;
 import org.antlr.v4.runtime.CharStreams;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 
 public class Main {
 
     public static String[] args;
+    public static QFile MAINFILE;
 
     @SuppressWarnings("all")
     public static void main(String @NotNull [] args) {
@@ -42,6 +47,11 @@ public class Main {
             util.animate(args);
 
         } else {
+
+            Scope scope = new Scope(null, false);
+            Visitor visitor = new Visitor(scope, new HashMap<>());
+            Environment env = new Environment();
+            MAINFILE = new QFile(visitor, env, "Main", new Parser());
 
             input = new File("src/main/QFiles/Main.x");
 
