@@ -1,5 +1,6 @@
 #import q.std;
 #import q.Math;
+#import q.http;
 
 class Main
 
@@ -14,6 +15,9 @@ class Main
         // 180
 
         std::cout(std::fns());
+
+        new WebServer as w(8080);
+        w::fromFile("src/main/QFiles/index.html");
 
         return 0;
 

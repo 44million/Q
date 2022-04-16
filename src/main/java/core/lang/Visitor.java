@@ -365,6 +365,27 @@ public class Visitor extends QBaseVisitor<Value> {
                 }
 
                 throw new Problem("Object '" + parentClass + "' does not exist in the current context", ctx, this.curClass);
+            } else if (method.equals("fromFile")) {
+                List<Value> l = new ArrayList<>();
+
+                if (ctx.exprList() != null) {
+                    for (ExpressionContext e : ctx.exprList().expression()) {
+                        l.add(this.visit(e));
+                    }
+                }
+
+                for (WebServer w : Environment.global.webs) {
+                    if (w.id.equals(parentClass)) {
+                        try {
+                            w.setText(new String(Files.readAllBytes(Paths.get(l.get(0).toString()))));
+                            return Value.VOID;
+                        } catch (IOException e) {
+                            System.out.println(e.getMessage());
+                            throw new Problem("Could not read file: " + l.get(0).toString(), ctx, this.curClass);
+                        }
+                    }
+                }
+                throw new Problem("Object '" + parentClass + "' does not exist in the current context", ctx, this.curClass);
             } else {
                 throw new Problem("Unknown method '" + method + "'", ctx, this.curClass);
             }
@@ -881,14 +902,12 @@ public class Visitor extends QBaseVisitor<Value> {
             } else {
                 throw new Problem("Incorrect layout, Window class accepts the following: Window(name:str, x-axis, y-axis);", ctx, this.curClass);
             }
-        } else if (ctx.Identifier(0).getText().equals("WebServer") && ctx.Identifier(2).getText().equals("WebServer")) {
+        } else if (ctx.Identifier(0).getText().equals("WebServer")) {
             Value x = this.visit(ctx.exprList().expression(0));
 
-            if (!Environment.global.allowedLibs.contains("http")) {
-                throw new Problem("The HTTP library has not been imported. Please import it first.\nThe library can be found at: 'q.http'", ctx, this.curClass);
-            }
+            util.check("http", "http", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.p);
 
-            core.libs.WebServer w = new WebServer(Integer.parseInt(x.asString()), ctx.Identifier(1).getText());
+            core.libs.WebServer w = new WebServer(x.asDouble().intValue(), ctx.Identifier(1).getText());
             w.init();
 
             Environment.global.webs.add(w);

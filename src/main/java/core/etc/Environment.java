@@ -19,7 +19,7 @@ public class Environment {
     public Map<String, Function> functions = Collections.emptyMap();
     public Scope scope = new Scope();
     public Visitor visitor = new Visitor(scope, functions);
-    public String response = "Standard";
+    public String response = util.string();
 
     public List<File> parsed = new ArrayList<>();
     public List<Token> lst = new ArrayList<>();

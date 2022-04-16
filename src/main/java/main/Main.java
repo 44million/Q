@@ -62,7 +62,11 @@ public class Main {
 
             } catch (Exception e) {
 
-                String err = "[FATAL] " + e.getMessage();
+                if (e == null || e.getMessage() == null) {
+                    e = new Exception("Unknown error");
+                }
+
+                String err = "\n\n[FATAL] " + e.getMessage();
                 if (e.getMessage().endsWith(".x") || (e.getMessage().endsWith(".l")) || e instanceof FileNotFoundException) {
                     err += " (File not found)";
                 }
@@ -72,7 +76,7 @@ public class Main {
                 }
 
                 System.err.println(err);
-                // e.printStackTrace();
+                e.printStackTrace();
 
                 System.exit(-1);
             }

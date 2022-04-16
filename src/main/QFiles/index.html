@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+    </script>
+
+    <div class="latin">
+        Latin Story
+        <style>
+            .latin {
+                width: 250px;
+                color: blue;
+                display: block;
+                font-size: xx-large;
+            }
+        </style>
+    </div>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<script>
+    function setTo(v, v2) {
+        v = v2;
+    }
+
+    function is(v, v2) {
+        return v == v2;
+    }
+
+    function popup(wordDivId, meaningDivId) {
+        /*
+            yes, im aware that this is unreadable.
+        */
+        $flag = -1;
+        $("a." + wordDivId).hover(
+            // mouse in
+            function() {
+                $("page." + meaningDivId).attr("style", "display:block");
+            },
+            function() {
+                if (is($flag, -1)) {
+                    $("page." + meaningDivId).attr("style", "display:none");
+                }
+            }
+        );
+
+        $("a." + wordDivId).click(function() {
+            setTo($flag, 1);
+        });
+    }
+
+    function definition(word, meaning) {
+
+        const identifier = Math.random().toString(36).slice(2);
+        const id2 = Math.random().toString(36).slice(2);
+
+        var wordDivClassGenerated = `
+			<a class="${identifier}" href="#">${word}</a>
+		`;
+
+        var meaningDivClass = `
+			<div class="${id2}">
+				${meaning}
+				<style>
+					.${id2} {
+						width: 250px;
+						color: red;
+						display: none;
+					}
+				</style>
+			</div>
+				`;
+
+        var onHover = `
+            <style>
+                .${identifier}:hover+.${id2} {
+                    display: block;
+                    color: red;
+                }
+            </style>
+        `;
+        document.getElementById("page").innerHTML += wordDivClassGenerated;
+        document.getElementById("page").innerHTML += meaningDivClass;
+        document.getElementById("page").innerHTML += onHover;
+
+        // it works *better* without javascript
+        // popup(identifier, id2, $flag);
+    }
+
+    function sentence(sent) {
+        document.getElementById("page").innerHTML += " " + sent;
+    }
+</script>
+
+<body>
+    <div id="vars"></div>
+    <div id="page">
+        <script>
+            // string concatenation
+            definition("Nomen mihi", "My name");
+            sentence("est Gustavo.");
+            definition("Quod", "What");
+            sentence("nomen tibi est?");
+            definition("Est", "Is");
+            sentence("quod est nomen tibi.");
+        </script>
+    </div>
+</body>
+
+</html>
