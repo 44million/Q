@@ -158,7 +158,7 @@ whileStatement
  ;
 
 mainFunctionStatement
- : 'fn' 'main' '(' Identifier ')' Colon block ( Return expression ) End
+ : 'fn' 'main' '(' Identifier ')' Colon block End
  ;
 
 idList

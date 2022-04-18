@@ -295,7 +295,7 @@ public class QParser extends Parser {
 
     private static String[] makeLiteralNames() {
         return new String[]{
-                null, "'.'", "'@'", "'header'", "'cn'", "'new'", "'as'", "'sys'", "'write'",
+                null, "'.'", "'@'", "'header'", "'cn'", "'new'", "'as'", "'sys'", "'i3v8wm08wxpudwty0'",
                 "'range'", "'#'", "'except'", "'main'", "'3YCMPJ8W8VVTUA48TIHR8K332PYKTXOKVDFG'",
                 null, "'async'", "'var'", "'import'", null, null, "'assert'", "'fn'",
                 "'if'", "'else'", "'namespace'", "'return'", "'for'", "'while'", "'to'",

@@ -4,7 +4,7 @@ import core.etc.Parser;
 import core.etc.errors.Problem;
 import core.libs.util.QLibrary;
 
-public class IO extends QLibrary {
+public class QCONSOLELIBRARY extends QLibrary {
 
     @Override
     public String getName() {
@@ -15,14 +15,6 @@ public class IO extends QLibrary {
     public void init() {
 
         String qcode = """
-                                
-                /*
-                * IO
-                *
-                * IO is a library that provides a simple interface for reading and writing to files.
-                *
-                *
-                */
                                 
                 class InputStream
                             

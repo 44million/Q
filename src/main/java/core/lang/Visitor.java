@@ -14,6 +14,7 @@ import core.lang.q.QClass;
 import core.lang.q.Value;
 import core.libs.AWT.AWT;
 import core.libs.OS;
+import core.libs.QCONSOLELIBRARY;
 import core.libs.WebServer;
 import core.libs.util.HTTP;
 import main.Main;
@@ -33,6 +34,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static core.interp.QParser.*;
 
@@ -345,7 +347,7 @@ public class Visitor extends QBaseVisitor<Value> {
 
         } else if (util.getWebByName(parentClass) != null) {
 
-            if (method.equals("stop") && util.getWebByName(parentClass) != null) {
+            if (method.equals("kill") && util.getWebByName(parentClass) != null) {
                 util.getWebByName(parentClass).stop();
             } else if (method.equals("changeText")) {
 
@@ -357,12 +359,11 @@ public class Visitor extends QBaseVisitor<Value> {
                     }
                 }
 
-                for (WebServer w : Environment.global.webs) {
-                    if (w.id.equals(parentClass)) {
-                        w.setText(l.get(0).toString());
-                        return Value.VOID;
-                    }
+                if (util.getWebByName(parentClass) != null) {
+                    util.getWebByName(parentClass).setText(l.get(0).toString());
+                    return Value.VOID;
                 }
+
 
                 throw new Problem("Object '" + parentClass + "' does not exist in the current context", ctx, this.curClass);
             } else if (method.equals("fromFile")) {
@@ -374,18 +375,38 @@ public class Visitor extends QBaseVisitor<Value> {
                     }
                 }
 
-                for (WebServer w : Environment.global.webs) {
+                AtomicBoolean ret = new AtomicBoolean(false);
+
+                Environment.global.webs.forEach((v, w) -> {
                     if (w.id.equals(parentClass)) {
                         try {
                             w.setText(new String(Files.readAllBytes(Paths.get(l.get(0).toString()))));
-                            return Value.VOID;
+                            ret.set(true);
                         } catch (IOException e) {
-                            System.out.println(e.getMessage());
                             throw new Problem("Could not read file: " + l.get(0).toString(), ctx, this.curClass);
                         }
                     }
+                });
+                if (!ret.get()) {
+                    throw new Problem("Object '" + parentClass + "' does not exist in the current context", ctx, this.curClass);
                 }
-                throw new Problem("Object '" + parentClass + "' does not exist in the current context", ctx, this.curClass);
+            } else if (method.equals("appendText")) {
+                List<Value> l = new ArrayList<>();
+
+                if (ctx.exprList() != null) {
+                    for (ExpressionContext e : ctx.exprList().expression()) {
+                        l.add(this.visit(e));
+                    }
+                }
+
+                Environment.global.response += l.get(0).toString();
+            } else if (method.equals("update")) {
+
+                Environment.global.webs.forEach((v, w) -> {
+                    if (w.id.equals(parentClass)) {
+                        w.update();
+                    }
+                });
             } else {
                 throw new Problem("Unknown method '" + method + "'", ctx, this.curClass);
             }
@@ -757,6 +778,9 @@ public class Visitor extends QBaseVisitor<Value> {
 
         if (Environment.global.allLibs.contains(text.toString().replace(".q.", ""))) {
             util.register(text.toString(), false);
+            if (text.toString().replace(".q.", "").equals("Console")) {
+                new QCONSOLELIBRARY().init();
+            }
             return Value.VOID;
         }
 
@@ -820,7 +844,17 @@ public class Visitor extends QBaseVisitor<Value> {
             throw new Problem("Variable '" + nameO + "' already exists", ctx, this.curClass, t);
         }
 
-        if (Environment.global.classes.containsKey(parentClass)) {
+        if (parentClass.equals("WebServer")) {
+            Value x = Value.NULL;
+            if (ctx.exprList() != null) {
+                x = this.visit(ctx.exprList().expression(0));
+            }
+            util.check("http", "http", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.p);
+            WebServer w = new WebServer(x.asDouble().intValue(), ctx.Identifier(1).getText());
+            w.init();
+
+            Environment.global.webs.put(w.id, w);
+        } else if (Environment.global.classes.containsKey(parentClass)) {
 
             QClass.QObject obj;
             try {
@@ -902,17 +936,8 @@ public class Visitor extends QBaseVisitor<Value> {
             } else {
                 throw new Problem("Incorrect layout, Window class accepts the following: Window(name:str, x-axis, y-axis);", ctx, this.curClass);
             }
-        } else if (ctx.Identifier(0).getText().equals("WebServer")) {
-            Value x = this.visit(ctx.exprList().expression(0));
-
-            util.check("http", "http", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.p);
-
-            core.libs.WebServer w = new WebServer(x.asDouble().intValue(), ctx.Identifier(1).getText());
-            w.init();
-
-            Environment.global.webs.add(w);
         } else {
-            throw new Problem("Class:Object not recognized: " + parentClass, ctx, this.curClass);
+            throw new Problem("Class:Object not recognized: " + parentClass + ".", ctx, this.curClass, new Tip("If the class is from a native Q library, try importing it at: 'q." + parentClass + "'."));
         }
 
         return Value.VOID;

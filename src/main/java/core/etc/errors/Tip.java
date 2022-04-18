@@ -11,7 +11,7 @@ public class Tip {
     }
 
     public String getTip() {
-        return this.tip;
+        return (Chalk.on(this.tip).yellow() + "\n");
     }
 
     @SuppressWarnings("unused")

@@ -120,12 +120,7 @@ public class util {
     }
 
     public static WebServer getWebByName(String name) {
-        for (WebServer w : Environment.global.webs) {
-            if (w.id.equals(name)) {
-                return w;
-            }
-        }
-        return null;
+        return Environment.global.webs.getOrDefault(name, null);
     }
 
     public static void register(String text, boolean formatted) {
@@ -134,6 +129,7 @@ public class util {
                 return;
             }
             Environment.global.allowedLibs.add(text);
+
         } else {
             String lib = text.replaceFirst("\\.q\\.", "");
             if (Environment.global.allowedLibs.contains(lib)) {
@@ -652,7 +648,7 @@ public class util {
         Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
             public void exec() {
-
+                System.out.println();
             }
 
             @Override

@@ -2,9 +2,11 @@ package core.libs;
 
 import com.sun.net.httpserver.HttpServer;
 import core.etc.Environment;
+import core.etc.errors.Problem;
 import core.libs.util.HTTP;
 import core.libs.util.QLibrary;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 
 public class WebServer extends QLibrary {
@@ -25,8 +27,20 @@ public class WebServer extends QLibrary {
             server.createContext("/", new HTTP());
             server.setExecutor(null);
             server.start();
-        } catch (Exception e) {
-            System.out.println("[ERROR] " + e.getMessage());
+        } catch (IOException e) {
+            throw new Problem(e.getMessage());
+        }
+    }
+
+    public void update() {
+        server.stop(0);
+        try {
+            server = HttpServer.create(new InetSocketAddress(port), 0);
+            server.createContext("/", new HTTP());
+            server.setExecutor(null);
+            server.start();
+        } catch (IOException e) {
+            throw new Problem(e.getMessage());
         }
     }
 
