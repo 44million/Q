@@ -76,7 +76,7 @@ public class util {
         try {
             Url = new URL(link);
         } catch (MalformedURLException e1) {
-            System.out.println("[FATAL] " + e1.getMessage());
+            throw new Problem(e1.getMessage());
         }
         HttpURLConnection Http = null;
         try {
@@ -86,11 +86,11 @@ public class util {
             System.out.println("[FATAL] " + e1.getMessage());
         }
         assert Http != null;
-        Map<String, List<String>> Header = Http.getHeaderFields();
+        Map<String, List<String>> headerMapMap = Http.getHeaderFields();
 
-        for (String header : Header.get(null)) {
+        for (String header : headerMapMap.get(null)) {
             if (header.contains(" 302 ") || header.contains(" 301 ")) {
-                link = Header.get("Location").get(0);
+                link = headerMapMap.get("Location").get(0);
                 try {
                     Url = new URL(link);
                 } catch (MalformedURLException e) {
@@ -101,7 +101,7 @@ public class util {
                 } catch (IOException e) {
                     System.out.println("[FATAL] " + e.getMessage());
                 }
-                Header = Http.getHeaderFields();
+                headerMapMap = Http.getHeaderFields();
             }
         }
         InputStream Stream = null;

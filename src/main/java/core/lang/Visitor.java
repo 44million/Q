@@ -29,6 +29,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.lang.String;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -591,6 +592,44 @@ public class Visitor extends QBaseVisitor<Value> {
             Value v = this.visit(ctx.expression());
 
             return new Value(System.getProperty(v.asString()));
+
+        } else if (method.equals("restart")) {
+
+            if (ctx.expression() == null) {
+                throw new Problem("'sys::restart' must take a :str object as a parameter", ctx, this.curClass);
+            }
+
+            Value v = this.visit(ctx.expression());
+
+            if (v.asString().equals("")) {
+                throw new Problem("'sys::restart' must take a :str object as a parameter", ctx, this.curClass);
+            }
+
+            String javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
+            File currentJar = new File("");
+            try {
+                currentJar = new File(Visitor.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+            } catch (URISyntaxException e) {
+                throw new Problem(e.getMessage(), ctx, this.curClass);
+            }
+
+            /* is it a jar file? */
+            if (!currentJar.getName().endsWith(".jar"))
+                throw new Problem("You must restart the application from a jar file", ctx, this.curClass);
+
+            /* Build command: java -jar application.jar */
+            final ArrayList<String> command = new ArrayList<String>();
+            command.add(javaBin);
+            command.add("-jar");
+            command.add(currentJar.getPath());
+
+            final ProcessBuilder builder = new ProcessBuilder(command);
+            try {
+                builder.start();
+            } catch (IOException e) {
+                throw new Problem(e.getMessage(), ctx, this.curClass);
+            }
+            System.exit(0);
 
         } else {
             throw new Problem("Sys function '" + ctx.Identifier().getText() + "' not found", ctx, this.curClass);

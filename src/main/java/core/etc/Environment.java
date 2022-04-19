@@ -38,7 +38,6 @@ public class Environment {
     public boolean hasMainExecuted = false;
 
     public Environment() {
-
     }
 
     public boolean getObj(String name) {

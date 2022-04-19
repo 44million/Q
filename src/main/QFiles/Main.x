@@ -27,8 +27,8 @@ class CLI
                 std::coutln();
             else if (x == "http"):
                 http::get("http://www.google.com");
-            else if (x == "console"):
-
+            else if (x == "restart"):
+                sys::restart("RESTARTCODE");
             else:
                 std::coutln("unknown command: " + x);
                 std::coutln();

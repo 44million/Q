@@ -13,9 +13,4 @@ public class Tip {
     public String getTip() {
         return (Chalk.on(this.tip).yellow() + "\n");
     }
-
-    @SuppressWarnings("unused")
-    public void printTip() {
-        System.out.println(Chalk.on(this.tip).yellow());
-    }
 }
