@@ -39,7 +39,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static core.interp.QParser.*;
 
-public class Visitor extends QBaseVisitor<Value> {
+public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     private static final RVal returnValue = new RVal();
     public final Map<String, Function> functions;
     public Scope scope;
@@ -112,19 +112,32 @@ public class Visitor extends QBaseVisitor<Value> {
 
         if (Environment.global.objs.containsKey(parentClass)) {
 
-            QClass.QObject obj = Environment.global.objs.get(parentClass);
-            Visitor v = obj.v;
+            QClass.QObject obj = Environment.global.objs.get(parentClass).clone();
+            Visitor newVisitor;
+            try {
+                newVisitor = (Visitor) obj.v.clone();
+            } catch (CloneNotSupportedException e) {
+                throw new Problem(e.getMessage());
+            }
 
             List<Value> vals = new ArrayList<>();
 
             if (ctx.exprList() != null) {
                 for (ExpressionContext ex : ctx.exprList().expression()) {
-                    vals.add(v.visit(ex));
+                    vals.add(newVisitor.visit(ex));
                 }
             }
 
+            // get object, assign visitor value to *old* visitor, make the visitor the new one,
+            // and call the function then set back the visitor (didnt change anything, just a waste of time)
             if (obj.funcs.containsKey(method + vals.size())) {
-                return obj.funcs.get(method + vals.size()).call(vals, new HashMap<>());
+                Function function = obj.funcs.get(method + vals.size()).clone();
+                Visitor oldVisitor = function.v;
+                
+                function.v = newVisitor;
+                Value va = function.clone().call(vals, new HashMap<>());
+                function.v = oldVisitor;
+                return va;
             } else {
                 throw new Problem(Environment.global.objs.get(parentClass).qc.name + " does not contain a definition for '" + method + "'", ctx, this.curClass);
             }
@@ -525,7 +538,7 @@ public class Visitor extends QBaseVisitor<Value> {
             if (ctx.expression() != null) {
                 val = this.visit(ctx.expression());
             } else {
-                val = new Value("NULL");
+                val = Value.NULL;
             }
 
             fw.append(val.toString());

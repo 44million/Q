@@ -1,55 +1,36 @@
 #import q.std;
-#import q.http;
-#import q.Console;
 
-class CLI
+class Obj
 
-    cn CLI():
+    var value;
 
-    end
-
-    fn init():
+    cn Obj():
 
     end
 
-    fn read():
-        new InputStream as xyz;
+    fn set(va):
+        self::value = va;
+    end
 
-        for (i in range(300)):
-            // better to use InputStream rather than std::cin because it is buffered
-            var x = xyz::input();
-
-            if (x == "quit"):
-                sys::quit(0);
-            else if (x == "help"):
-                std::coutln("quit - quit the program");
-                std::coutln("help - show this help");
-                std::coutln();
-            else if (x == "http"):
-                http::get("http://www.google.com");
-            else if (x == "restart"):
-                sys::restart("RESTARTCODE");
-            else:
-                std::coutln("unknown command: " + x);
-                std::coutln();
-
-            end
-        end
+    fn get():
+        return self::value;
     end
 
 end
 
-class Main
+class Main : Obj
+
 
     fn main(args):
 
-        new WebServer as w(8080);
-        w::fromFile("src/main/QFiles/index.html");
-        w::update();
+        new Obj as o();
+        o::set(10);
 
-        new CLI as cli();
-        cli::init();
-        cli::read();
+        new Obj as o2();
+        o2::set(20);
+
+        std::coutln(o::get());
+        std::coutln(o2::get());
 
     end
 

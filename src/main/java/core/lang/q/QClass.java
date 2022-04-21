@@ -48,11 +48,16 @@ public class QClass implements Cloneable {
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public QClass clone() {
+        try {
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return (QClass) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 
-    public static class QObject {
+    public static class QObject implements Cloneable {
 
         public static QObject NULL = new QObject();
 
@@ -75,6 +80,16 @@ public class QClass implements Cloneable {
 
         public void setParams(List<Value> n) {
             this.params = n;
+        }
+
+        @Override
+        public QObject clone() {
+            try {
+                // TODO: copy mutable state here, so the clone can't change the internals of the original
+                return (QObject) super.clone();
+            } catch (CloneNotSupportedException e) {
+                throw new AssertionError();
+            }
         }
     }
 }

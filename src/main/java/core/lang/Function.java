@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-public class Function {
+public class Function implements Cloneable{
 
     public List<TerminalNode> params;
     public boolean async;
@@ -136,6 +136,16 @@ public class Function {
 
     public void setAsync(boolean flag) {
         this.async = flag;
+    }
+
+    @Override
+    public Function clone() {
+        try {
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return (Function) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 
     public interface INativeFunction {

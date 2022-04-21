@@ -22,7 +22,7 @@ statement
  | fileWriteStatement ';'
  | objFunctionCall (';')?
  | objCreateStatement ';'
- | osExecStatement ';'
+ | sysFunctionCall ';'
  | anonymousFunction
  | hereStatement ';'
  | assignment ';'
@@ -90,7 +90,7 @@ objCreateStatement
  : 'new' Identifier 'as' Identifier ( '(' exprList? ')' )?
  ;
 
-osExecStatement
+sysFunctionCall
  : 'sys' Accessor Identifier '(' expression? ')'
  ;
 
