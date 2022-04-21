@@ -40,7 +40,7 @@ public class WebServer extends QLibrary {
             server.setExecutor(null);
             server.start();
         } catch (IOException e) {
-            throw new Problem(e.getMessage());
+            throw new Problem(e);
         }
     }
 

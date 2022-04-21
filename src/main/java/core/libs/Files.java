@@ -29,7 +29,7 @@ public class Files extends QLibrary {
         Path dbpath = Paths.get(q);
 
         if (!dbpath.toFile().exists()) {
-            System.out.println("[ERROR] Cannot find file '" + dbpath.toAbsolutePath() + "'");
+           throw new Problem("File or directory '" + q + "' does not exist.");
         }
 
         return new Value(dbpath.toAbsolutePath());

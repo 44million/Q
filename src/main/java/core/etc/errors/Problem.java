@@ -24,4 +24,8 @@ public class Problem extends RuntimeException {
         super("[ERROR] " + msg);
     }
 
+    public Problem(Exception e) {
+        super("[ERROR] " + e.getMessage());
+    }
+
 }
