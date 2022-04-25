@@ -787,7 +787,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         String link = o.asString();
 
-        link = link.replace("https://github.com/", "https://raw.githubusercontent.com/").replace("/blob", "");
+        link = link.
+                replace("https://github.com/", "https://raw.githubusercontent.com/")
+                .replace("/blob", "");
 
         String fileContents = util.getTextFromGithub(link);
 
@@ -904,7 +906,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
             obj = new QClass.QObject(nameO, qclass);
 
-            Visitor visitora = new Visitor(new Scope(this.scope, true), new HashMap<>());
+            Visitor visitora = new Visitor(Environment.global.scope, new HashMap<>());
 
             List<Value> list = new ArrayList<>();
             if (ctx.exprList() != null) {
@@ -918,8 +920,6 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
             // set the parameters, in case i want to redo the constructor later
             obj.setParams(list);
-
-            // create the class' scope
 
             // assign the object's visitor
             obj.v = visitora;
@@ -1012,13 +1012,15 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         String className = ctx.Identifier(0).getText();
 
-        Visitor v = new Visitor(new Scope(this.scope, true), new HashMap<>()/*, className*/);
-        v.parent = this;
+        Visitor v = new Visitor(Environment.global.scope, new HashMap<>());
+        v.parent = Environment.global.visitor;
         v.packageName = this.packageName;
 
+        /*
         if (ctx.atStatement() != null) {
             v.visit(ctx.atStatement());
         }
+        */
 
         v.visit(ctx.block());
 
@@ -1389,7 +1391,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         Value q = this.visit(ctx.expression());
         String id = ctx.Identifier().getText();
 
-        System.out.println("in varhere statement: " + this);
+        System.out.println("in varhere statement: " + this + " " + id + " " + q.toString());
 
         if (this.scope.parent().parent().vars.containsKey(id)) {
             this.scope.parent().parent().vars.replace(id, q);

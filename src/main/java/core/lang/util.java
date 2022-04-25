@@ -72,7 +72,7 @@ public class util {
     }
 
     public static String getTextFromGithub(String link) {
-        URL Url = null;
+        URL Url;
         try {
             Url = new URL(link);
         } catch (MalformedURLException e1) {
