@@ -29,8 +29,8 @@ class Main : Obj
         new Obj as o2();
         o2::set(20);
 
-        std::coutln(o::get());
-        std::coutln(o2::get());
+        std::coutln("o's value = " + o::get());
+        std::coutln("o2's value = " + o2::get());
 
     end
 

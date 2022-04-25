@@ -18,10 +18,9 @@ public class Main {
     public static String[] args;
     public static QFile MAINFILE;
 
-    @SuppressWarnings("all")
     public static void main(String @NotNull [] args) {
 
-        File input = null;
+        File input;
         {
             Environment.global.allLibs.add("puddle");
             Environment.global.allLibs.add("Console");
@@ -62,16 +61,17 @@ public class Main {
 
             } catch (Exception e) {
 
-                if (e == null || e.getMessage() == null) {
-                    e = new Exception("Unknown error");
+                Exception exception = e;
+                if (exception.getMessage() == null) {
+                    exception = new Exception("Unknown error");
                 }
 
-                String err = "\n\n[FATAL] " + e.getMessage();
-                if (e.getMessage().endsWith(".x") || (e.getMessage().endsWith(".l")) || e instanceof FileNotFoundException) {
+                String err = "\n\n[FATAL] " + exception.getMessage();
+                if (exception.getMessage().endsWith(".x") || (exception.getMessage().endsWith(".l")) || exception instanceof FileNotFoundException) {
                     err += " (File not found)";
                 }
 
-                if (e instanceof ArrayIndexOutOfBoundsException || e instanceof IndexOutOfBoundsException) {
+                if (exception instanceof IndexOutOfBoundsException) {
                     err += " (An array starts at index zero)";
                 }
 

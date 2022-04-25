@@ -46,7 +46,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     public boolean lib;
     public String curClass;
     public Visitor parent;
-    public String p = util.string();
+    public String packageName = util.string();
 
     public Visitor(Scope scope, Map<String, Function> functions) {
         this.scope = scope;
@@ -112,41 +112,28 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         if (Environment.global.objs.containsKey(parentClass)) {
 
-            QClass.QObject obj = Environment.global.objs.get(parentClass).clone();
-            Visitor newVisitor;
-            try {
-                newVisitor = (Visitor) obj.v.clone();
-            } catch (CloneNotSupportedException e) {
-                throw new Problem(e.getMessage());
-            }
+            QClass.QObject obj = Environment.global.objs.get(parentClass);
 
             List<Value> vals = new ArrayList<>();
 
             if (ctx.exprList() != null) {
                 for (ExpressionContext ex : ctx.exprList().expression()) {
-                    vals.add(newVisitor.visit(ex));
+                    vals.add(obj.v.visit(ex));
                 }
             }
 
             // get object, assign visitor value to *old* visitor, make the visitor the new one,
             // and call the function then set back the visitor (didnt change anything, just a waste of time)
             if (obj.funcs.containsKey(method + vals.size())) {
-                Function function = obj.funcs.get(method + vals.size()).clone();
-                Visitor oldVisitor = function.v;
-                
-                function.v = newVisitor;
-                Value va = function.clone().call(vals, new HashMap<>());
-                function.v = oldVisitor;
-                return va;
+                Function function = obj.funcs.get(method + vals.size());
+                return function.call(vals, new HashMap<>());
             } else {
                 throw new Problem(Environment.global.objs.get(parentClass).qc.name + " does not contain a definition for '" + method + "'", ctx, this.curClass);
             }
 
         } else if (Environment.global.natives.containsKey(method)) {
 
-            String p;
-
-            p = Objects.requireNonNullElse(this.parent, this).p;
+            String p = Objects.requireNonNullElse(this.parent, this).packageName;
 
             util.check(Environment.global.natives.get(method).parent(), parentClass, ctx, util.getOrDefault(false, this), this.curClass, p);
 
@@ -181,7 +168,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         } else if (parentClass.equals("Files")) {
 
-            util.check("Files", "Files", ctx, util.getOrDefault(false, this), this.curClass, this.p);
+            util.check("Files", "Files", ctx, util.getOrDefault(false, this), this.curClass, this.packageName);
 
             switch (method) {
                 case "absPath":
@@ -216,7 +203,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         } else if (parentClass.equals("http")) {
 
-            util.check("http", "http", ctx, util.getOrDefault(false, this), this.curClass, this.p);
+            util.check("http", "http", ctx, util.getOrDefault(false, this), this.curClass, this.packageName);
 
             switch (method) {
                 case "get" -> HTTP.get(ctx);
@@ -892,8 +879,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         String nameO = ctx.Identifier(1).getText();
 
         if (Environment.global.getObj(nameO) || this.scope.vars.containsKey(nameO)) {
-            Tip t = new Tip("Objects cannot be named the same as a variable or a class");
-            throw new Problem("Variable '" + nameO + "' already exists", ctx, this.curClass, t);
+            throw new Problem("Variable '" + nameO + "' already exists", ctx, this.curClass, new Tip("Objects cannot be named the same as a variable or a class"));
         }
 
         if (parentClass.equals("WebServer")) {
@@ -901,7 +887,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             if (ctx.exprList() != null) {
                 x = this.visit(ctx.exprList().expression(0));
             }
-            util.check("http", "http", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.p);
+            util.check("http", "http", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.packageName);
             WebServer w = new WebServer(x.asDouble().intValue(), ctx.Identifier(1).getText());
             w.init();
 
@@ -909,32 +895,41 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         } else if (Environment.global.classes.containsKey(parentClass)) {
 
             QClass.QObject obj;
-            try {
-                obj = new QClass.QObject(nameO, (QClass) Environment.global.classes.get(parentClass).clone());
-            } catch (Exception e) {
-                throw new Problem("Unable to clone '" + parentClass + "'", ctx, this.curClass);
-            }
+
+            QClass qclass = Environment.global.classes.get(parentClass).clone();
+
+            System.out.println(nameO + " --> " + Environment.global.classes.get(parentClass));
+            System.out.println(nameO + " --> " + qclass);
+            System.out.println("in objCreateStatement " + this);
+
+            obj = new QClass.QObject(nameO, qclass);
+
+            Visitor visitora = new Visitor(new Scope(this.scope, true), new HashMap<>());
 
             List<Value> list = new ArrayList<>();
             if (ctx.exprList() != null) {
                 for (ExpressionContext ex : ctx.exprList().expression()) {
-                    list.add(this.visit(ex));
+                    list.add(visitora.visit(ex));
                 }
             }
 
+            // execute the constructor
             Environment.global.consts.get(ctx.Identifier(0).getText()).call(list, this.functions);
 
+            // set the parameters, in case i want to redo the constructor later
             obj.setParams(list);
 
-            Scope sc = new Scope(this.scope, false);
+            // create the class' scope
 
-            obj.v = new Visitor(sc, new HashMap<>());
+            // assign the object's visitor
+            obj.v = visitora;
 
+            // add the object to the scope
             Environment.global.objs.put(nameO, obj);
 
         } else if (ctx.Identifier(0).getText().equals("File")) {
 
-            util.check("Files", "Files", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.p);
+            util.check("Files", "Files", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.packageName);
             String id = ctx.Identifier(0).getText();
 
             if (ctx.exprList().expression() == null) {
@@ -952,7 +947,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             Environment.global.files.put(id, file);
         } else if (ctx.Identifier(0).getText().equals("Window")) {
 
-            util.check("awt", "awt", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.p);
+            util.check("awt", "awt", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.packageName);
 
             List<Value> list = new ArrayList<>();
             if (ctx.exprList() != null) {
@@ -1015,11 +1010,11 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     @Override
     public Value visitClassStatement(QParser.ClassStatementContext ctx) {
 
-        String id = ctx.Identifier(0).getText();
+        String className = ctx.Identifier(0).getText();
 
-        Visitor v = new Visitor(new Scope(this.scope, true), new HashMap<>(), id);
-        v.parent = Environment.global.visitor;
-        v.p = this.p;
+        Visitor v = new Visitor(new Scope(this.scope, true), new HashMap<>()/*, className*/);
+        v.parent = this;
+        v.packageName = this.packageName;
 
         if (ctx.atStatement() != null) {
             v.visit(ctx.atStatement());
@@ -1027,9 +1022,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         v.visit(ctx.block());
 
-        QClass qClass = new QClass(id, v.functions, v.scope);
+        QClass qClass = new QClass(className, v.functions, v.scope);
         String base = "";
-        qClass.setV(v);
+        qClass.v = v;
 
         if (ctx.Identifier(1) != null) {
             base = ctx.Identifier(1).getText();
@@ -1041,7 +1036,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             qClass.setBase(QClass.OBJECT);
         }
 
-        Environment.global.classes.put(id, qClass);
+        Environment.global.classes.put(className, qClass);
 
         return Value.VOID;
 
@@ -1394,6 +1389,8 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         Value q = this.visit(ctx.expression());
         String id = ctx.Identifier().getText();
 
+        System.out.println("in varhere statement: " + this);
+
         if (this.scope.parent().parent().vars.containsKey(id)) {
             this.scope.parent().parent().vars.replace(id, q);
         } else {
@@ -1598,7 +1595,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     @Override
     public Value visitInputExpression(InputExpressionContext ctx) {
 
-        util.check("std", "std", ctx, util.getOrDefault(false, this), this.curClass, this.p);
+        util.check("std", "std", ctx, util.getOrDefault(false, this), this.curClass, this.packageName);
 
         TerminalNode inputString = ctx.String();
         try {
@@ -1624,7 +1621,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             text.append(".").append(o.getText());
         }
 
-        this.p = text.toString();
+        this.packageName = text.toString();
 
         String packageName = text.toString();
 

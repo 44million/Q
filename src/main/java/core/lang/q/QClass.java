@@ -43,10 +43,6 @@ public class QClass implements Cloneable {
         this.base = base;
     }
 
-    public void setV(Visitor v) {
-        this.v = v;
-    }
-
     @Override
     public QClass clone() {
         try {
