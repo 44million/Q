@@ -5,7 +5,7 @@ import core.lang.q.Value;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Scope {
+public class Scope implements Cloneable {
 
     public final Map<String, Value> vars;
     private final Scope parentScope;
@@ -72,4 +72,13 @@ public class Scope {
         }
     }
 
+    @Override
+    public Scope clone() {
+        try {
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return (Scope) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

@@ -59,6 +59,7 @@ public class Main {
                 Parser parser = new Parser(CharStreams.fromFileName(input.getAbsolutePath()));
                 parser.parse(false);
 
+                System.out.println("[MAIN VISITOR MEMORY] " + Environment.global.visitor.scope);
             } catch (Exception e) {
 
                 Exception exception = e;

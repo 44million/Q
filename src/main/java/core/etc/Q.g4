@@ -207,7 +207,6 @@ list
 
 objVar
  : Identifier Accessor Identifier
-
  ;
 
 indexes

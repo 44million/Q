@@ -538,14 +538,14 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     @Override
-    public Value visitOsExecStatement(QParser.OsExecStatementContext ctx) {
+    public Value visitSysFunctionCall(QParser.SysFunctionCallContext ctx) {
 
         String method = ctx.Identifier().getText();
 
         if (method.equals("exec") && ctx.expression() != null) {
             try {
                 OS.execS(this.visit(ctx.expression()).asString());
-            } catch (Exception e) {
+            } catch (IOException e) {
                 throw new Problem("Could not execute text: " + this.visit(ctx.expression()).asString() + " [" + e.getMessage() + "]", ctx, this.curClass);
             }
         } else if (method.equals("quit") && ctx.expression() != null) {
@@ -900,9 +900,8 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
             QClass qclass = Environment.global.classes.get(parentClass).clone();
 
-            System.out.println(nameO + " --> " + Environment.global.classes.get(parentClass));
+            System.out.println(Environment.global.classes.get(parentClass).name + " --> " + Environment.global.classes.get(parentClass));
             System.out.println(nameO + " --> " + qclass);
-            System.out.println("in objCreateStatement " + this);
 
             obj = new QClass.QObject(nameO, qclass);
 
@@ -1392,6 +1391,10 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         String id = ctx.Identifier().getText();
 
         System.out.println("in varhere statement: " + this + " " + id + " " + q.toString());
+
+        System.out.println("varhere: " + this.scope);
+        System.out.println("varhere parent: " + this.scope.parent());
+        System.out.println("varhere parent2: " + this.scope.parent().parent());
 
         if (this.scope.parent().parent().vars.containsKey(id)) {
             this.scope.parent().parent().vars.replace(id, q);

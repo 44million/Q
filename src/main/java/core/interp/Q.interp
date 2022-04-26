@@ -162,7 +162,7 @@ varHereStatement
 elseIfStat
 constructorStatement
 objCreateStatement
-osExecStatement
+sysFunctionCall
 fileWriteStatement
 elseStat
 functionDecl
