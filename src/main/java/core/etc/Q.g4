@@ -1,4 +1,3 @@
-grammar Q;
 
 parse
  : header? packageStatement? ( allImport ';' )*? block EOF
