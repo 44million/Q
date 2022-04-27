@@ -1,11 +1,11 @@
 package main;
 
-import core.etc.Environment;
-import core.etc.Parser;
-import core.etc.Scope;
-import core.lang.Visitor;
-import core.lang.q.QFile;
-import core.lang.util;
+import qlang.core.internal.Environment;
+import qlang.core.internal.Parser;
+import qlang.core.internal.Scope;
+import qlang.core.lang.Visitor;
+import qlang.core.lang.q.QFile;
+import qlang.core.lang.util;
 import org.antlr.v4.runtime.CharStreams;
 import org.jetbrains.annotations.NotNull;
 
@@ -59,7 +59,6 @@ public class Main {
                 Parser parser = new Parser(CharStreams.fromFileName(input.getAbsolutePath()));
                 parser.parse(false);
 
-                System.out.println("[MAIN VISITOR MEMORY] " + Environment.global.visitor.scope);
             } catch (Exception e) {
 
                 Exception exception = e;

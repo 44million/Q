@@ -32,6 +32,8 @@ class Main : Obj
         std::coutln("o's value = " + o::get());
         std::coutln("o2's value = " + o2::get());
 
+        std::cout(std::getClass());
+
     end
 
 end
