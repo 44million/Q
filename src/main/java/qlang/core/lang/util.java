@@ -1,6 +1,7 @@
 package qlang.core.lang;
 
 import qlang.core.internal.Environment;
+import qlang.core.internal.CompilerFileTree;
 import qlang.core.internal.Parser;
 import qlang.runtime.errors.Problem;
 import qlang.core.lang.q.Value;
@@ -769,6 +770,94 @@ public class util {
 
             @Override
             public void exec(List<Value> list) {
+
+            }
+
+            @Override
+            public Value ret(List<Value> list) {
+                return null;
+            }
+
+            @Override
+            public boolean args() {
+                return false;
+            }
+        });
+
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
+
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "compilerFileTree";
+            }
+
+            @Override
+            public Value ret() {
+                return new Value(new CompilerFileTree().tree(new File("src/main/java/qlang").toPath()).get());
+            }
+
+            @Override
+            public String parent() {
+                return "std";
+            }
+
+            @Override
+            public void exec(List<Value> list) {
+
+            }
+
+            @Override
+            public Value ret(List<Value> list) {
+                return null;
+            }
+
+            @Override
+            public boolean args() {
+                return false;
+            }
+
+        });
+
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "writeFile";
+            }
+
+            @Override
+            public Value ret() {
+                return null;
+            }
+
+            @Override
+            public String parent() {
+                return "Files";
+            }
+
+            @Override
+            public void exec(List<Value> list) {
+                String path = list.get(0).toString();
+
+                File file = new File(path);
+
+                try {
+                    FileWriter fw = new FileWriter(file);
+                    fw.write(list.get(1).toString());
+                    fw.close();
+                } catch (IOException e) {
+                    throw new Problem(e);
+                }
+
 
             }
 

@@ -1,0 +1,47 @@
+qlang 454557 bytes
+├─ core 434710 bytes
+│  ├─ internal 29003 bytes
+│  │  ├─ CompilerFileTree.java 2787 bytes
+│  │  ├─ Environment.java 2249 bytes
+│  │  ├─ FileTree.java 152 bytes
+│  │  ├─ NameSpace.java 322 bytes
+│  │  ├─ Parser.java 14774 bytes
+│  │  ├─ Q.g4 6508 bytes
+│  │  └─ Scope.java 2211 bytes
+│  ├─ interp 295216 bytes
+│  │  ├─ Q.interp 19157 bytes
+│  │  ├─ Q.tokens 1184 bytes
+│  │  ├─ QBaseListener.java 23735 bytes
+│  │  ├─ QBaseVisitor.java 17578 bytes
+│  │  ├─ QLexer.interp 20358 bytes
+│  │  ├─ QLexer.java 20765 bytes
+│  │  ├─ QLexer.tokens 1184 bytes
+│  │  ├─ QListener.java 26706 bytes
+│  │  ├─ QParser.java 148931 bytes
+│  │  └─ QVisitor.java 15618 bytes
+│  └─ lang 110491 bytes
+│     ├─ q 6546 bytes
+│     │  ├─ QClass.java 2632 bytes
+│     │  ├─ QFile.java 723 bytes
+│     │  └─ Value.java 3191 bytes
+│     ├─ Function.java 5652 bytes
+│     ├─ Visitor.java 64591 bytes
+│     └─ util.java 33702 bytes
+└─ runtime 19847 bytes
+   ├─ errors 1550 bytes
+   │  ├─ Problem.java 1107 bytes
+   │  ├─ RVal.java 135 bytes
+   │  └─ Tip.java 308 bytes
+   └─ libs 18297 bytes
+      ├─ AWT 1993 bytes
+      │  └─ AWT.java 1993 bytes
+      ├─ util 4406 bytes
+      │  ├─ HTTP.java 4119 bytes
+      │  └─ QLibrary.java 287 bytes
+      ├─ Files.java 2062 bytes
+      ├─ Math.java 3082 bytes
+      ├─ OS.java 1090 bytes
+      ├─ QCONSOLELIBRARY.java 1760 bytes
+      ├─ QRandom.java 729 bytes
+      ├─ Time.java 1785 bytes
+      └─ WebServer.java 1390 bytes

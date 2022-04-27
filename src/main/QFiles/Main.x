@@ -1,4 +1,5 @@
 #import q.std;
+#import q.Files;
 
 class Obj
 
@@ -23,16 +24,9 @@ class Main : Obj
 
     fn main(args):
 
-        new Obj as o();
-        o::set(10);
+        var fileTree = std::compilerFileTree();
 
-        new Obj as o2();
-        o2::set(20);
-
-        std::coutln("o's value = " + o::get());
-        std::coutln("o2's value = " + o2::get());
-
-        std::cout(std::getClass());
+        Files::writeFile("test.txt", fileTree);
 
     end
 
