@@ -1,6 +1,6 @@
 package qlang.core.internal;
 
-import qlang.core.lang.q.QClass;
+import qlang.core.lang.Q.QClass;
 
 import java.util.ArrayList;
 import java.util.List;

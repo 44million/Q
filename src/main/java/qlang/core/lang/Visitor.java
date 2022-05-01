@@ -10,8 +10,8 @@ import qlang.runtime.errors.Tip;
 import qlang.core.interp.QBaseVisitor;
 import qlang.core.interp.QLexer;
 import qlang.core.interp.QParser;
-import qlang.core.lang.q.QClass;
-import qlang.core.lang.q.Value;
+import qlang.core.lang.Q.QClass;
+import qlang.core.lang.Q.Value;
 import qlang.runtime.libs.AWT.AWT;
 import qlang.runtime.libs.OS;
 import qlang.runtime.libs.QCONSOLELIBRARY;
@@ -75,6 +75,25 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     public Value visitObjVarExpression(QParser.ObjVarExpressionContext ctx) {
         // obj::var
         return this.visit(ctx.objVar());
+    }
+
+    @Override
+    public Value visitFolderImportStatement(QParser.FolderImportStatementContext ctx) {
+
+        StringBuilder sb = new StringBuilder();
+
+        for (TerminalNode o : ctx.folderImport().Identifier()) {
+            sb.append("/").append(o.getText());
+        }
+
+        String path = sb.toString();
+
+        File folder = new File(path);
+
+        util.lpFolder(folder);
+
+        return Value.VOID;
+
     }
 
     @Override
@@ -1022,6 +1041,8 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         if (ctx.Identifier(1) != null && Environment.global.classes.containsKey(base)) {
             qClass.setBase(Environment.global.classes.get(base));
+        } else if (ctx.Identifier(1) != null && !Environment.global.classes.containsKey(base)) {
+            throw new Problem("Class: " + base + " not found.", ctx, this.curClass);
         } else {
             qClass.setBase(QClass.OBJECT);
         }

@@ -1,4 +1,4 @@
-// Generated from /Users/harryharbuck-marlowe/Downloads/Q/src/main/java/core/etc/Q.g4 by ANTLR 4.9.2
+// Generated from /Users/harryharbuck-marlowe/Downloads/Q/src/main/java/qlang/core/internal/Q.g4 by ANTLR 4.9.2
 package qlang.core.interp;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -172,6 +172,18 @@ public class QBaseListener implements QListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFolderImportStatement(QParser.FolderImportStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFolderImportStatement(QParser.FolderImportStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterObjFunctionCall(QParser.ObjFunctionCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -179,6 +191,18 @@ public class QBaseListener implements QListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitObjFunctionCall(QParser.ObjFunctionCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFolderImport(QParser.FolderImportContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFolderImport(QParser.FolderImportContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

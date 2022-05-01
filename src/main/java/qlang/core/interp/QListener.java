@@ -1,4 +1,4 @@
-// Generated from /Users/harryharbuck-marlowe/Downloads/Q/src/main/java/core/etc/Q.g4 by ANTLR 4.9.2
+// Generated from /Users/harryharbuck-marlowe/Downloads/Q/src/main/java/qlang/core/internal/Q.g4 by ANTLR 4.9.2
 package qlang.core.interp;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -154,6 +154,18 @@ public interface QListener extends ParseTreeListener {
 	 */
 	void exitImportAll(QParser.ImportAllContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code folderImportStatement}
+	 * labeled alternative in {@link QParser#allImport}.
+	 * @param ctx the parse tree
+	 */
+	void enterFolderImportStatement(QParser.FolderImportStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code folderImportStatement}
+	 * labeled alternative in {@link QParser#allImport}.
+	 * @param ctx the parse tree
+	 */
+	void exitFolderImportStatement(QParser.FolderImportStatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link QParser#objFunctionCall}.
 	 * @param ctx the parse tree
 	 */
@@ -163,6 +175,16 @@ public interface QListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitObjFunctionCall(QParser.ObjFunctionCallContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QParser#folderImport}.
+	 * @param ctx the parse tree
+	 */
+	void enterFolderImport(QParser.FolderImportContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QParser#folderImport}.
+	 * @param ctx the parse tree
+	 */
+	void exitFolderImport(QParser.FolderImportContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QParser#packageStatement}.
 	 * @param ctx the parse tree

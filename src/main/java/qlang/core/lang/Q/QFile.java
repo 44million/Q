@@ -1,4 +1,4 @@
-package qlang.core.lang.q;
+package qlang.core.lang.Q;
 
 import qlang.core.internal.Environment;
 import qlang.core.internal.Parser;

@@ -1,23 +1,24 @@
 package qlang.core.lang;
 
-import qlang.core.internal.Environment;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.jetbrains.annotations.NotNull;
 import qlang.core.internal.CompilerFileTree;
+import qlang.core.internal.Environment;
 import qlang.core.internal.Parser;
+import qlang.core.lang.Q.Value;
 import qlang.runtime.errors.Problem;
-import qlang.core.lang.q.Value;
 import qlang.runtime.libs.AWT.AWT;
 import qlang.runtime.libs.Math;
 import qlang.runtime.libs.Time;
 import qlang.runtime.libs.WebServer;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.ParserRuleContext;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.*;
 
 public class util {
@@ -27,6 +28,21 @@ public class util {
             return v.scope.parent().parent().parent().sore;
         } catch (Exception e) {
             return otherB;
+        }
+    }
+
+    public static void lpFolder(File folder) {
+        for (File fileEntry : Objects.requireNonNull(folder.listFiles())) {
+            if (fileEntry.isDirectory()) {
+                lpFolder(fileEntry);
+            } else {
+                try {
+                    String content = Files.readString(fileEntry.toPath(), StandardCharsets.US_ASCII);
+                    new Parser().fromText(content).parse();
+                } catch (IOException e) {
+                    throw new Problem(e);
+                }
+            }
         }
     }
 

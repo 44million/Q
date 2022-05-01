@@ -1,4 +1,4 @@
-// Generated from /Users/harryharbuck-marlowe/Downloads/Q/src/main/java/core/etc/Q.g4 by ANTLR 4.9.2
+// Generated from /Users/harryharbuck-marlowe/Downloads/Q/src/main/java/qlang/core/internal/Q.g4 by ANTLR 4.9.2
 package qlang.core.interp;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -97,11 +97,24 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitImportAll(QParser.ImportAllContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code folderImportStatement}
+	 * labeled alternative in {@link QParser#allImport}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFolderImportStatement(QParser.FolderImportStatementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link QParser#objFunctionCall}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitObjFunctionCall(QParser.ObjFunctionCallContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QParser#folderImport}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFolderImport(QParser.FolderImportContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QParser#packageStatement}.
 	 * @param ctx the parse tree

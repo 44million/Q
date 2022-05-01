@@ -48,10 +48,16 @@ allImport
  : importStatement              #fileSystemImportStatement
  | importFromGithubStatement    #githubImportStatement
  | importAllStatement           #importAll
+ | folderImport                 #folderImportStatement
  ;
 
 objFunctionCall
  : Identifier Accessor Identifier '(' exprList? ')'
+ ;
+
+folderImport
+ : '#' Import '['Identifier ( '.' Identifier )*? ']'
+ // #import [src.main.QFiles]
  ;
 
 packageStatement

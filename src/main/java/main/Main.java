@@ -4,7 +4,7 @@ import qlang.core.internal.Environment;
 import qlang.core.internal.Parser;
 import qlang.core.internal.Scope;
 import qlang.core.lang.Visitor;
-import qlang.core.lang.q.QFile;
+import qlang.core.lang.Q.QFile;
 import qlang.core.lang.util;
 import org.antlr.v4.runtime.CharStreams;
 import org.jetbrains.annotations.NotNull;

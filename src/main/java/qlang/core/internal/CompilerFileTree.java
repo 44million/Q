@@ -2,6 +2,8 @@ package qlang.core.internal;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +16,7 @@ public class CompilerFileTree implements FileTree {
         File file = new File(String.valueOf(path));
         if (!file.exists()) return Optional.empty();
         if (file.isFile()) {
-            return Optional.of(file.getName() + " " + file.length() + " bytes");
+            return Optional.of(nameOf(file) + " " + HRBC(file.length()));
         }
         if (file.isDirectory()) {
 
@@ -27,7 +29,7 @@ public class CompilerFileTree implements FileTree {
         StringBuilder directory = new StringBuilder();
         if (lastFolders.size() != 0)
             directory.append(!(lastFolders.get(lastFolders.size() - 1)) ? "├─ " : "└─ ");
-        directory.append(folder.getName()).append(" ").append(folderSize(folder));
+        directory.append("/").append(folder.getName()).append(" ").append(folderSize(folder));
 
         File[] files = folder.listFiles();
         assert files != null;
@@ -43,7 +45,7 @@ public class CompilerFileTree implements FileTree {
                 }
             }
             if (files[i].isFile()) {
-                directory.append(i + 1 == count ? "└" : "├").append("─ ").append(files[i].getName()).append(" ").append(files[i].length()).append(" bytes");
+                directory.append(i + 1 == count ? "└" : "├").append("─ ").append(nameOf(files[i])).append(" ").append(HRBC(files[i].length()));
             } else {
                 ArrayList<Boolean> list = new ArrayList<>(lastFolders);
                 list.add(i + 1 == count);
@@ -51,6 +53,15 @@ public class CompilerFileTree implements FileTree {
             }
         }
         return directory.toString();
+    }
+
+    private String nameOf(File file) {
+        if (file.getName().endsWith(".g4")) {
+            return (file.getName().substring(0, file.getName().length() - 3)) + "::LexFile";
+        } else if (file.getName().endsWith(".java")) {
+            return (file.getName().substring(0, file.getName().length() - 5)) + "::JavaFile";
+        }
+        return file.getName();
     }
 
     private long getFolderSize(File folder) {
@@ -69,8 +80,20 @@ public class CompilerFileTree implements FileTree {
         return size;
     }
 
+    public static String HRBC(long size) {
+        if (-1000 < size && size < 1000) {
+            return size + " B";
+        }
+        CharacterIterator ci = new StringCharacterIterator("kMGTPE");
+        while (size <= -999_950 || size >= 999_950) {
+            size /= 1000;
+            ci.next();
+        }
+        return String.format("%.1f %cB", size / 1000.0, ci.current());
+    }
+
     private String folderSize(File folder) {
-        return getFolderSize(folder) + " bytes";
+        return HRBC(getFolderSize(folder));
     }
 
     private File[] sortFiles(File[] folder) {

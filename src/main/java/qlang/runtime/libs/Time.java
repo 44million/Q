@@ -1,7 +1,7 @@
 package qlang.runtime.libs;
 
 import qlang.core.internal.Parser;
-import qlang.core.lang.q.Value;
+import qlang.core.lang.Q.Value;
 import qlang.runtime.libs.util.QLibrary;
 
 import java.io.IOException;

@@ -2,7 +2,7 @@ package qlang.runtime.libs;
 
 import qlang.runtime.errors.Problem;
 import qlang.core.interp.QParser;
-import qlang.core.lang.q.Value;
+import qlang.core.lang.Q.Value;
 import qlang.runtime.libs.util.QLibrary;
 
 import java.io.File;
