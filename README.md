@@ -26,6 +26,7 @@ end
 	 - [ ] protocol
 	 - [ ] pro
  - [x] Classes/Objects
+ - [ ] Finish Objects (Currently only works as Singletons for some reason)
 ```js
 
 #import q.std;
