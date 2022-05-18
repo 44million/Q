@@ -38,7 +38,7 @@ class Runner
 	
 	end
 
-	fn run(x, y):
+	fn mul(x, y):
 		std::cout(x * y);
 	end
 
@@ -46,8 +46,8 @@ class Runner
 		self::c = nv;
 	end
 	
-	fn get():
-		return self::c;
+	fn get(x):
+		return (self::c * x);
 	end
 
 end
@@ -57,8 +57,8 @@ class Main
 	fn main(args):
 		new Runner as r();
 		r::set(80);
-		r::run(20, 304);
-		std::cout(r::get());
+		r::mul(20, 304);
+		std::cout(r::get(-80));
 	end
 	
 end
