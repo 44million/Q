@@ -11,6 +11,18 @@ import java.util.Optional;
 
 public class CompilerFileTree implements FileTree {
 
+    public static String HRBC(long size) {
+        if (-1000 < size && size < 1000) {
+            return size + " B";
+        }
+        CharacterIterator ci = new StringCharacterIterator("kMGTPE");
+        while (size <= -999_950 || size >= 999_950) {
+            size /= 1000;
+            ci.next();
+        }
+        return String.format("%.1f %cB", size / 1000.0, ci.current());
+    }
+
     @Override
     public Optional<String> tree(Path path) {
         File file = new File(String.valueOf(path));
@@ -60,6 +72,10 @@ public class CompilerFileTree implements FileTree {
             return (file.getName().substring(0, file.getName().length() - 3)) + "::LexFile";
         } else if (file.getName().endsWith(".java")) {
             return (file.getName().substring(0, file.getName().length() - 5)) + "::JavaFile";
+        } else if (file.getName().endsWith(".tokens")) {
+            return (file.getName().substring(0, file.getName().length() - 7)) + "::TokenInputFile";
+        } else if (file.getName().endsWith(".interp")) {
+            return (file.getName().substring(0, file.getName().length() - 7)) + "::InterpreterFile";
         }
         return file.getName();
     }
@@ -78,18 +94,6 @@ public class CompilerFileTree implements FileTree {
             }
         }
         return size;
-    }
-
-    public static String HRBC(long size) {
-        if (-1000 < size && size < 1000) {
-            return size + " B";
-        }
-        CharacterIterator ci = new StringCharacterIterator("kMGTPE");
-        while (size <= -999_950 || size >= 999_950) {
-            size /= 1000;
-            ci.next();
-        }
-        return String.format("%.1f %cB", size / 1000.0, ci.current());
     }
 
     private String folderSize(File folder) {

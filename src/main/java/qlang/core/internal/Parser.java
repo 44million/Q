@@ -1,11 +1,11 @@
 package qlang.core.internal;
 
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.tree.ParseTree;
 import qlang.core.interp.QLexer;
 import qlang.core.interp.QParser;
 import qlang.core.lang.Visitor;
 import qlang.core.lang.util;
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.File;
 import java.io.IOException;

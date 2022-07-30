@@ -866,6 +866,14 @@ public class util {
 
                 File file = new File(path);
 
+                if (list.get(2).asBoolean().equals(true)) {
+                    try {
+                        file.createNewFile();
+                    } catch (IOException e) {
+                        throw new Problem(e);
+                    }
+                }
+
                 try {
                     FileWriter fw = new FileWriter(file);
                     fw.write(list.get(1).toString());
@@ -1240,6 +1248,51 @@ public class util {
             @Override
             public boolean args() {
                 return true;
+            }
+        });
+
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "replaceInStr";
+            }
+
+            @Override
+            public Value ret() {
+                return null;
+            }
+
+            @Override
+            public String parent() {
+                return "std";
+            }
+
+            @Override
+            public void exec(List<Value> list) {
+
+            }
+
+            @Override
+            public Value ret(List<Value> list) {
+
+                String s = list.get(0).asString();
+
+                String sAfterS = s.replace(list.get(1).asString(), list.get(2).asString());
+
+                System.out.println(sAfterS);
+
+                return new Value(sAfterS);
+
+            }
+
+            @Override
+            public boolean args() {
+                return false;
             }
         });
 

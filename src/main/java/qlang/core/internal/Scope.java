@@ -13,7 +13,7 @@ public class Scope implements Cloneable {
     public boolean lib;
     public boolean sore;
 
-    protected Scope() {
+    public Scope() {
         this(null, false);
     }
 

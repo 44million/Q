@@ -1,13 +1,13 @@
 package main;
 
+import org.antlr.v4.runtime.CharStreams;
+import org.jetbrains.annotations.NotNull;
 import qlang.core.internal.Environment;
 import qlang.core.internal.Parser;
 import qlang.core.internal.Scope;
-import qlang.core.lang.Visitor;
 import qlang.core.lang.Q.QFile;
+import qlang.core.lang.Visitor;
 import qlang.core.lang.util;
-import org.antlr.v4.runtime.CharStreams;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -71,8 +71,18 @@ public class Main {
                     err += " (File not found)";
                 }
 
+                if (exception.getMessage().contains("Cannot read field \"sore\"")) {
+                    err += " (Check to see that all libraries in use have been imported)";
+                }
+
                 if (exception instanceof IndexOutOfBoundsException) {
                     err += " (An array starts at index zero)";
+                }
+
+                if (exception.getMessage().contains("Could not read file")) {
+                    err = err.replaceFirst("\n", "");
+                    err = err.replaceFirst("\n", "");
+                    err += "\n{\n\tDoes it exist, and do you have access to it?\n}";
                 }
 
                 System.err.println(err);

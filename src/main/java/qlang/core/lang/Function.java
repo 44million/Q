@@ -1,10 +1,10 @@
 package qlang.core.lang;
 
-import qlang.core.internal.Scope;
-import qlang.runtime.errors.RVal;
-import qlang.core.lang.Q.Value;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import qlang.core.internal.Scope;
+import qlang.core.lang.Q.Value;
+import qlang.runtime.errors.RVal;
 
 import java.io.*;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-public class Function implements Cloneable{
+public class Function implements Cloneable {
 
     public List<TerminalNode> params;
     public boolean async;

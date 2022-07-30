@@ -1,22 +1,5 @@
 package qlang.core.lang;
 
-import qlang.core.internal.Environment;
-import qlang.core.internal.NameSpace;
-import qlang.core.internal.Parser;
-import qlang.core.internal.Scope;
-import qlang.runtime.errors.Problem;
-import qlang.runtime.errors.RVal;
-import qlang.runtime.errors.Tip;
-import qlang.core.interp.QBaseVisitor;
-import qlang.core.interp.QLexer;
-import qlang.core.interp.QParser;
-import qlang.core.lang.Q.QClass;
-import qlang.core.lang.Q.Value;
-import qlang.runtime.libs.AWT.AWT;
-import qlang.runtime.libs.OS;
-import qlang.runtime.libs.QCONSOLELIBRARY;
-import qlang.runtime.libs.WebServer;
-import qlang.runtime.libs.util.HTTP;
 import main.Main;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -24,11 +7,27 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.jetbrains.annotations.NotNull;
+import qlang.core.internal.Environment;
+import qlang.core.internal.NameSpace;
+import qlang.core.internal.Parser;
+import qlang.core.internal.Scope;
+import qlang.core.interp.QBaseVisitor;
+import qlang.core.interp.QLexer;
+import qlang.core.interp.QParser;
+import qlang.core.lang.Q.QClass;
+import qlang.core.lang.Q.Value;
+import qlang.runtime.errors.Problem;
+import qlang.runtime.errors.RVal;
+import qlang.runtime.errors.Tip;
+import qlang.runtime.libs.AWT.AWT;
+import qlang.runtime.libs.OS;
+import qlang.runtime.libs.QCONSOLELIBRARY;
+import qlang.runtime.libs.WebServer;
+import qlang.runtime.libs.util.HTTP;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.lang.String;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -906,7 +905,19 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             if (ctx.exprList() != null) {
                 x = this.visit(ctx.exprList().expression(0));
             }
-            util.check("http", "http", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.packageName);
+            try {
+                util.check("http", "http", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.packageName);
+            } catch (Exception e) {
+                if (e instanceof NullPointerException) {
+                    Scope sc = new Scope();
+
+                    while (sc != null) {
+                        util.check("http", "http", ctx, sc.sore, this.curClass, this.packageName);
+                        sc = sc.parent();
+                    }
+
+                }
+            }
             WebServer w = new WebServer(x.asDouble().intValue(), ctx.Identifier(1).getText());
             w.init();
 
