@@ -2,6 +2,26 @@
 #import q.http;
 #import q.Console;
 
+class FileTreeCreator
+
+    fn run():
+
+        var fileTree = std::compilerFileTree();
+
+        std::coutln("Enter a file location, or enter 'skip' to skip, and default to 'src/main/QFiles/CompilerFileTree.exyl'");
+        var loc = std::cin();
+
+        if (loc == "skip"):
+            loc = "src/main.QFiles/CompilerFileTree.exyl";
+        else:
+            std::cout(" ");
+        end
+
+        Files::writeFile(loc, fileTree);
+
+    end
+
+end
 
 class CLI
 
@@ -31,7 +51,6 @@ class CLI
             else:
                 std::coutln("unknown command: ''" + x + "' [Check that your spelling is correct, and that the command exists ('help')");
                 std::coutln();
-
             end
         end
     end
@@ -44,6 +63,9 @@ class Main
 
         var addy = 8080;
         var filename = "src/main/QFiles/index.html";
+
+        new FileTreeCreator as ftc();
+        ftc::run();
 
         new WebServer as w(addy);
         w::fromFile(filename);

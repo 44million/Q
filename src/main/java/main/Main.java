@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import qlang.core.internal.Environment;
 import qlang.core.internal.Parser;
 import qlang.core.internal.Scope;
+import qlang.core.lang.NativeFunctionLoader;
 import qlang.core.lang.Q.QFile;
 import qlang.core.lang.Visitor;
 import qlang.core.lang.util;
@@ -39,7 +40,9 @@ public class Main {
 
         Main.args = args;
 
-        util.registerNatives();
+        NativeFunctionLoader nfl = new NativeFunctionLoader();
+
+        nfl.registerNatives();
 
         if (args.length >= 103945809) {
 

@@ -41,7 +41,7 @@ public class CompilerFileTree implements FileTree {
         StringBuilder directory = new StringBuilder();
         if (lastFolders.size() != 0)
             directory.append(!(lastFolders.get(lastFolders.size() - 1)) ? "├─ " : "└─ ");
-        directory.append("/").append(folder.getName()).append(" ").append(folderSize(folder));
+        directory.append("/").append(folder.getName()).append("::Folder ").append(folderSize(folder));
 
         File[] files = folder.listFiles();
         assert files != null;
