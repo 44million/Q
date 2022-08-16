@@ -36,6 +36,10 @@ assignment
  : ( Const | Var ) Identifier ( indexes? '=' expression )?
  ;
 
+javajuice
+ : JavaJuice '{' * '}'
+ ;
+
 functionCall
  : Identifier '(' exprList? ')' #identifierFunctionCall
  | Println '(' expression? ')'  #printlnFunctionCall
@@ -230,6 +234,7 @@ Package  : 'namespace';
 Return   : 'return';
 For      : 'for';
 While    : 'while';
+JavaJuice: 'JavaJuice';
 To       : 'to';
 Do       : 'do';
 End      : 'end';

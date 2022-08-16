@@ -15,7 +15,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
 
 public class util {
 
@@ -86,41 +89,41 @@ public class util {
     }
 
     public static String getTextFromGithub(String link) {
-        URL Url;
+        URL url;
         try {
-            Url = new URL(link);
+            url = new URL(link);
         } catch (MalformedURLException e1) {
             throw new Problem(e1.getMessage());
         }
-        HttpURLConnection Http = null;
+        HttpURLConnection http = null;
         try {
-            assert Url != null;
-            Http = (HttpURLConnection) Url.openConnection();
+            assert url != null;
+            http = (HttpURLConnection) url.openConnection();
         } catch (IOException e1) {
             System.out.println("[FATAL] " + e1.getMessage());
         }
-        assert Http != null;
-        Map<String, List<String>> headerMapMap = Http.getHeaderFields();
+        assert http != null;
+        Map<String, List<String>> headerMapMap = http.getHeaderFields();
 
         for (String header : headerMapMap.get(null)) {
             if (header.contains(" 302 ") || header.contains(" 301 ")) {
                 link = headerMapMap.get("Location").get(0);
                 try {
-                    Url = new URL(link);
+                    url = new URL(link);
                 } catch (MalformedURLException e) {
                     System.out.println("[FATAL] " + e.getMessage());
                 }
                 try {
-                    Http = (HttpURLConnection) Url.openConnection();
+                    http = (HttpURLConnection) url.openConnection();
                 } catch (IOException e) {
                     System.out.println("[FATAL] " + e.getMessage());
                 }
-                headerMapMap = Http.getHeaderFields();
+                headerMapMap = http.getHeaderFields();
             }
         }
         InputStream Stream = null;
         try {
-            Stream = Http.getInputStream();
+            Stream = http.getInputStream();
         } catch (IOException e) {
             System.out.println("[FATAL] " + e.getMessage());
         }

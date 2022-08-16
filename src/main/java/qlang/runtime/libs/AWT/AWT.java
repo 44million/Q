@@ -60,15 +60,6 @@ public class AWT extends QLibrary {
         }
     }
 
-    public void addComponent(JComponent o) {
-        if (o == null) {
-            System.err.println("[FATAL] The component attached to: " + this.name + " is not a valid component.");
-            System.exit(0);
-        } else {
-            this.f.add(o);
-        }
-    }
-
     @Override
     public String getName() {
         return "q.awt";
