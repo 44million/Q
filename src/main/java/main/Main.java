@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 
+@SuppressWarnings("all")
 public class Main {
 
     public static String[] args;
@@ -66,7 +67,7 @@ public class Main {
 
                 Exception exception = e;
                 if (exception.getMessage() == null) {
-                    exception = new Exception("Unknown error");
+                    exception = new Exception("Git gud scrub");
                 }
 
                 String err = "\n\n[FATAL] " + exception.getMessage();

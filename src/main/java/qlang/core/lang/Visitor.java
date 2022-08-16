@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+@SuppressWarnings("all")
 public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     private static final RVal returnValue = new RVal();
     public final Map<String, Function> functions;
@@ -337,9 +338,11 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                     }
 
                     case "create":
-
-                        util.getWinByName(parentClass).create();
-
+                        try {
+                            util.getWinByName(parentClass).create();
+                        } catch (Exception e) {
+                            throw new Problem(e);
+                        }
                         break;
                     case "setLocation": {
 
@@ -351,6 +354,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                             }
                         }
 
+                        assert util.getWinByName(parentClass) != null;
                         util.getWinByName(parentClass).f.setLocation(v.get(0).asDouble().intValue(), v.get(1).asDouble().intValue());
 
                         break;
