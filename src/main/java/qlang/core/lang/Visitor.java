@@ -64,6 +64,33 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     @Override
+    public Value visitJavajuice(QParser.JavajuiceContext ctx) {
+        String jcode = "";
+
+        for (var x : ctx.String()) {
+            jcode += "\n" + x.toString();
+        }
+
+        jcode = jcode.replaceFirst("\"", "");
+        jcode = util.replaceLast(jcode, "\"", "");
+
+        System.out.println(jcode);
+
+        try {
+            File file = File.createTempFile("temp", ".java");
+            new FileWriter(file).write(jcode);
+
+            String dir = file.getAbsolutePath().replace(file.getName(), "");
+
+            System.out.println(util.execCmd("cd " + dir + " ; javac " + file.getName() + " ; java temp"));
+
+        } catch (IOException e) {
+            throw new Problem(e);
+        }
+        return new Value("JAVA");
+    }
+
+    @Override
     public Value visitAnonymousFunctionExpression(QParser.AnonymousFunctionExpressionContext ctx) {
         Scope s = new Scope(this.scope, true);
         Visitor v = new Visitor(s, this.functions);

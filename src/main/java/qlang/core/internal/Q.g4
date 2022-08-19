@@ -26,6 +26,7 @@ statement
  | anonymousFunction
  | hereStatement ';'
  | assignment ';'
+ | javajuice
  ;
 
 reAssignment
@@ -37,7 +38,7 @@ assignment
  ;
 
 javajuice
- : JavaJuice '{' * '}'
+ : JavaJuice '{' String*? '}'
  ;
 
 functionCall
@@ -234,7 +235,7 @@ Package  : 'namespace';
 Return   : 'return';
 For      : 'for';
 While    : 'while';
-JavaJuice: 'JavaJuice';
+JavaJuice: 'Java';
 To       : 'to';
 Do       : 'do';
 End      : 'end';
@@ -299,6 +300,12 @@ Comment
 
 Space
  : [ \t\r\n\u000C] -> skip
+ ;
+
+fragment JString
+ : (ESC | ~["\r\n\\])+
+       | (ESC | ~[\r\n\\])+
+       | ( . | ESC | ~[\r\n\\] | '\\n')*?
  ;
 
 fragment Int
