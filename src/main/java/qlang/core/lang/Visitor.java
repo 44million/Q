@@ -86,7 +86,10 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
             String dir = file.getAbsolutePath().replace(file.getName(), "");
 
-            String s = util.execCmd("cd " + dir);
+            System.out.println(dir);
+
+//            String home = util.execCmd("cd ~ ; cd.. ; cd.. ;");
+//            String s = util.execCmd("cd " + dir);
             String s2 = util.execCmd("javac Temp.java");
             String s3 = util.execCmd("java Temp");
             System.out.println(s3);
