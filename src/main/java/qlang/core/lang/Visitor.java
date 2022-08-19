@@ -69,20 +69,35 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         for (var x : ctx.String()) {
             jcode += "\n" + x.toString();
+            jcode = jcode.replaceFirst("\"", "");
+            jcode = util.replaceLast(jcode, "\"", "");
         }
 
-        jcode = jcode.replaceFirst("\"", "");
-        jcode = util.replaceLast(jcode, "\"", "");
-
-        System.out.println(jcode);
-
         try {
-            File file = File.createTempFile("temp", ".java");
-            new FileWriter(file).write(jcode);
+            File file = new File("Temp.java");
+
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+
+            FileWriter fw = new FileWriter(file);
+                fw.write(jcode);
+                fw.close();
 
             String dir = file.getAbsolutePath().replace(file.getName(), "");
 
-            System.out.println(util.execCmd("cd " + dir + " ; javac " + file.getName() + " ; java temp"));
+            String s = util.execCmd("cd " + dir);
+            String s2 = util.execCmd("javac Temp.java");
+            String s3 = util.execCmd("java Temp");
+            System.out.println(s3);
+
+            file.delete();
+
+            File filez = new File("Temp.class");
+
+                if (filez.exists()) {
+                    filez.delete();
+                }
 
         } catch (IOException e) {
             throw new Problem(e);

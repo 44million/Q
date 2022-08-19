@@ -235,7 +235,7 @@ public class util {
     }
 
     public static String replaceLast(String text, String regex, String replacement) {
-        return text.replaceFirst("(?s)"+regex+"(?!.*?"+regex+")", replacement);
+        return text.replaceFirst("(?s)" + regex + "(?!.*?" + regex + ")", replacement);
     }
 
     public static String execCmd(String cmd) {
