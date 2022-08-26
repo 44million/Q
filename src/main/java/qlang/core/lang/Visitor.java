@@ -76,13 +76,13 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         try {
             File file = new File("Temp.java");
 
-                if (!file.exists()) {
-                    file.createNewFile();
-                }
+            if (!file.exists()) {
+                file.createNewFile();
+            }
 
             FileWriter fw = new FileWriter(file);
-                fw.write(jcode);
-                fw.close();
+            fw.write(jcode);
+            fw.close();
 
             String dir = file.getAbsolutePath().replace(file.getName(), "");
 
@@ -98,9 +98,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
             File filez = new File("Temp.class");
 
-                if (filez.exists()) {
-                    filez.delete();
-                }
+            if (filez.exists()) {
+                filez.delete();
+            }
 
         } catch (IOException e) {
             throw new Problem(e);
