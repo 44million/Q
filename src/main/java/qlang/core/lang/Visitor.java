@@ -1730,7 +1730,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
                 file.delete();
 
-                File filez = new File("Temp.class");
+                File filez = new File(afterClass);
 
                 if (filez.exists()) {
                     filez.delete();

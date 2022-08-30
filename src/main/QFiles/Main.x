@@ -1,7 +1,6 @@
 #import q.std;
 
 native fn jfunc {
-    "import javax.swing.jframe;"
     "public class Temp {"
     "   public static void main(String[] args) {"
     "        System.out.println(900);"
