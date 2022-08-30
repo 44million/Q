@@ -34,6 +34,7 @@ public class Environment {
     public Map<String, Function.INativeFunction> natives = new HashMap<>();
     public Map<String, Function> consts = new HashMap<>();
     public Map<String, NameSpace> namespaces = new HashMap<>();
+    public Map<String, String> nativeJava = new HashMap<>();
 
     public boolean hasMainExecuted = false;
 

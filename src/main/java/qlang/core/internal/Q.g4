@@ -26,7 +26,7 @@ statement
  | anonymousFunction
  | hereStatement ';'
  | assignment ';'
- | javajuice
+ | nativeFunction
  ;
 
 reAssignment
@@ -35,10 +35,6 @@ reAssignment
 
 assignment
  : ( Const | Var ) Identifier ( indexes? '=' expression )?
- ;
-
-javajuice
- : JavaJuice '{' String*? '}'
  ;
 
 functionCall
@@ -114,7 +110,11 @@ elseStat
  ;
 
 functionDecl
- : ( Async | Native )*? Def Identifier '(' idList? ')' Colon block End
+ : ( Async )? Def Identifier '(' idList? ')' Colon block End
+ ;
+
+nativeFunction
+ : Native Def Identifier '{' String*? '}'
  ;
 
 forStatement

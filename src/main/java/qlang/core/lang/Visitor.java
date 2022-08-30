@@ -64,7 +64,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     @Override
-    public Value visitJavajuice(QParser.JavajuiceContext ctx) {
+    public Value visitNativeFunction(QParser.NativeFunctionContext ctx) {
         String jcode = "";
 
         for (var x : ctx.String()) {
@@ -73,38 +73,12 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             jcode = util.replaceLast(jcode, "\"", "");
         }
 
-        try {
-            File file = new File("Temp.java");
-
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-
-            FileWriter fw = new FileWriter(file);
-            fw.write(jcode);
-            fw.close();
-
-            String dir = file.getAbsolutePath().replace(file.getName(), "");
-
-            System.out.println(dir);
-
-//            String home = util.execCmd("cd ~ ; cd.. ; cd.. ;");
-//            String s = util.execCmd("cd " + dir);
-            String s2 = util.execCmd("javac Temp.java");
-            String s3 = util.execCmd("java Temp");
-            System.out.println(s3);
-
-            file.delete();
-
-            File filez = new File("Temp.class");
-
-            if (filez.exists()) {
-                filez.delete();
-            }
-
-        } catch (IOException e) {
-            throw new Problem(e);
+        if (Environment.global.getObj(ctx.Identifier().toString())) {
+            throw new Problem("Function '" + ctx.Identifier().toString() + "' already exists.", ctx);
+        } else {
+            Environment.global.nativeJava.put(ctx.Identifier().toString(), jcode);
         }
+
         return new Value("JAVA");
     }
 
@@ -193,7 +167,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 throw new Problem(Environment.global.objs.get(parentClass).qc.name + " does not contain a definition for '" + method + "'", ctx, this.curClass);
             }
 
-        } else if (Environment.global.natives.containsKey(method)) {
+        }  else if (Environment.global.natives.containsKey(method)) {
 
             String p = Objects.requireNonNullElse(this.parent, this).packageName;
 
@@ -561,17 +535,13 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         Function f;
 
-        if (ctx.Native(0) != null) {
-            System.out.printf("Native function '%s' defined, enter Java code:\n", id);
-            String jblock = new Scanner(System.in).next();
-            f = new Function(jblock);
-        } else {
+        {
             f = new Function(this.scope, params, block);
         }
 
         f.v = (this);
 
-        if (ctx.Async(0) != null) {
+        if (ctx.Async() != null) {
             f.setAsync(true);
         }
 
@@ -1726,10 +1696,52 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     public Value visitIdentifierFunctionCall(QParser.IdentifierFunctionCallContext ctx) {
         List<QParser.ExpressionContext> params = ctx.exprList() != null ? ctx.exprList().expression() : new ArrayList<>();
         String id = ctx.Identifier().getText() + params.size();
+        String id2 = ctx.Identifier().getText();
         Function function;
 
         if (Environment.global.visitor.functions.containsKey(id)) {
             function = Environment.global.visitor.functions.get(id);
+        } else if (Environment.global.nativeJava.containsKey(id2)) {
+
+            String jcode = Environment.global.nativeJava.get(id2);
+
+            try {
+                File file = new File("Temp.java");
+
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+
+                FileWriter fw = new FileWriter(file);
+                fw.write(jcode);
+                fw.close();
+
+                String dir = file.getAbsolutePath().replace(file.getName(), "");
+                String afterClass = util.replaceLast(file.getAbsolutePath(), ".java", ".class");
+
+                System.out.println(dir);
+
+//            String home = util.execCmd("cd ~ ; cd.. ; cd.. ;");
+//            String s = util.execCmd("cd " + dir);
+                String s2 = util.execCmd("javac " + file.getAbsolutePath());
+                System.out.println(s2);
+                String s3 = util.execCmd("java " + afterClass);
+                System.out.println(s3);
+
+                file.delete();
+
+                File filez = new File("Temp.class");
+
+                if (filez.exists()) {
+                    filez.delete();
+                }
+
+            } catch (IOException e) {
+                throw new Problem(e);
+            }
+
+            return new Value("902387");
+
         } else if ((function = this.functions.get(id)) != null) {
             function = this.functions.get(id);
         }
