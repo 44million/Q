@@ -1,6 +1,6 @@
 # QLang 2.0
 
-- better
+- gooder
 
 
 # TODO
