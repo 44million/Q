@@ -66,6 +66,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     @Override
     public Value visitNativeFunction(QParser.NativeFunctionContext ctx) {
         String jcode = "";
+        String className = ctx.Identifier(1).getText().toString();
 
         for (var x : ctx.String()) {
             jcode += "\n" + x.toString();
@@ -73,10 +74,11 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             jcode = util.replaceLast(jcode, "\"", "");
         }
 
-        if (Environment.global.getObj(ctx.Identifier().toString())) {
+        if (Environment.global.getObj(ctx.Identifier(0).toString())) {
             throw new Problem("Function '" + ctx.Identifier().toString() + "' already exists.", ctx);
         } else {
-            Environment.global.nativeJava.put(ctx.Identifier().toString(), jcode);
+            Environment.global.nativeJava.put(ctx.Identifier(0).toString(), jcode);
+            Environment.global.nativeNames.put(ctx.Identifier(0).toString(), className);
         }
 
         return new Value("JAVA");
@@ -1704,9 +1706,10 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         } else if (Environment.global.nativeJava.containsKey(id2)) {
 
             String jcode = Environment.global.nativeJava.get(id2);
+            String cname = Environment.global.nativeNames.get(id2);
 
             try {
-                File file = new File("Temp.java");
+                File file = new File(cname + ".java");
 
                 if (!file.exists()) {
                     file.createNewFile();

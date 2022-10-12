@@ -1,4 +1,4 @@
-// Generated from C:/Users/Bosque/Documents/GitHub/Q/src/main/java/qlang/core/internal\Q.g4 by ANTLR 4.9.2
+// Generated from /Users/harryharbuck-marlowe/Downloads/Q/src/main/java/qlang/core/internal/Q.g4 by ANTLR 4.9.2
 package qlang.core.interp;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 

@@ -114,7 +114,7 @@ functionDecl
  ;
 
 nativeFunction
- : Native Def Identifier '{' String*? '}'
+ : Native Def Identifier '{' '[' Identifier ']' String*? '}'
  ;
 
 forStatement
