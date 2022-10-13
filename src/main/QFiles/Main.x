@@ -1,8 +1,8 @@
 #import q.std;
 
 native fn jfunc {
-    [Temp]
-    "public class Temp {"
+    [Excellence]
+    "public class Excellence {"
     "   public static void main(String[] args) {"
     "        System.out.println(900);"
     "   }"
