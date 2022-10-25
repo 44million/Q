@@ -144,13 +144,14 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
     @Override
     public Value visitObjFunctionCallExpression(QParser.ObjFunctionCallExpressionContext ctx) {
-
+        // obj::function();
         String parentClass = ctx.Identifier(0).getText();
         String method = ctx.Identifier(1).getText();
 
         if (Environment.global.objs.containsKey(parentClass)) {
 
             QClass.QObject obj = Environment.global.objs.get(parentClass);
+            System.out.println(obj.name + " with " + method);
 
             List<Value> vals = new ArrayList<>();
 
@@ -163,13 +164,13 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             // get object, assign visitor value to *old* visitor, make the visitor the new one,
             // and call the function then set back the visitor (didnt change anything, just a waste of time)
             if (obj.funcs.containsKey(method + vals.size())) {
-                Function function = obj.funcs.get(method + vals.size());
+                Function function = obj.funcs.get(method + vals.size()).clone();
                 return function.call(vals, new HashMap<>());
             } else {
-                throw new Problem(Environment.global.objs.get(parentClass).qc.name + " does not contain a definition for '" + method + "'", ctx, this.curClass);
+                throw new Problem("'" + Environment.global.objs.get(parentClass).qc.name + "' does not contain a definition for '" + method + "'", ctx, this.curClass);
             }
 
-        }  else if (Environment.global.natives.containsKey(method)) {
+        } else if (Environment.global.natives.containsKey(method)) {
 
             String p = Objects.requireNonNullElse(this.parent, this).packageName;
 
@@ -918,7 +919,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         String nameO = ctx.Identifier(1).getText();
 
         if (Environment.global.getObj(nameO) || this.scope.vars.containsKey(nameO)) {
-            throw new Problem("Variable '" + nameO + "' already exists", ctx, this.curClass, new Tip("Objects cannot be named the same as a variable or a class"));
+            throw new Problem("Variable '" + nameO + "' already exists", ctx, this.curClass, new Tip("Objects cannot be named the same as a variable"));
         }
 
         if (parentClass.equals("WebServer")) {
@@ -947,9 +948,16 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
             QClass.QObject obj;
 
-            QClass qclass = Environment.global.classes.get(parentClass).clone();
+            QClass qclass = Environment.global.classes.get(parentClass);
+            Map<String, Function> newMap = new HashMap<>();
+            Environment.global.classes.get(parentClass).functions.forEach((key, value) -> {
+                newMap.put(key, value.clone());
+            });
+            qclass.functions = newMap;
+            qclass.scope = new Scope(this.scope, false);
+            qclass.v = new Visitor(Environment.global.scope, new HashMap<>());
 
-            obj = new QClass.QObject(nameO, qclass, qclass.node);
+            obj = new QClass.QObject(nameO, qclass.clone(), qclass.node);
 
             Visitor visitora = new Visitor(Environment.global.scope, new HashMap<>());
 
@@ -1486,7 +1494,6 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             String fin = switch (xyy) {
                 case ".q.Io" -> ".q.io";
                 case ".q.Http" -> ".q.http";
-                case ".q.Puddle" -> ".q.puddle";
                 case ".q.Awt" -> ".q.awt";
                 case ".q.Gtp" -> ".q.gtp";
                 case ".q.FileUtils" -> ".q.FileUtils";

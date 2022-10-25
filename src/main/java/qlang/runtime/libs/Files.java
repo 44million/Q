@@ -51,7 +51,7 @@ public class Files extends QLibrary {
                 err += " (File not found)";
             }
 
-            System.out.println("[FATAL] " + err);
+            System.err.println("[FATAL] " + err);
             System.exit(0);
         }
     }

@@ -7,3 +7,5 @@ gen/
 .antlr/
 *.pb
 *.comp
+.qmeta/
+*.g4

@@ -2,10 +2,9 @@
 
 - gooder
 
-
 # TODO
 
- - [x] Anonymous functions:
+- [x] Anonymous functions:
 
 ```js
 fn (): -> 
@@ -13,20 +12,22 @@ fn (): ->
 end
 ```
 
- - [ ] ~~Change `variables` to a Variable object, from a HashMap.~~ Would make execution time slower, plus there's no point
-- [x] Optimize code \[it went from ~12 second execution time, to 3\] 
+- [ ] ~~Change `variables` to a Variable object, from a HashMap.~~ Would make execution time slower, plus there's no
+  point
+- [x] Optimize code \[it went from ~12 second execution time, to 3\]
 
- - [x] Possibly change function identifier?
-	 - [ ] func \[**old**\]
-	 - [x] fn
-	 - [ ] val/void
-	 - [ ] def
-	 - [ ] method
-	 - [ ] mthd
-	 - [ ] protocol
-	 - [ ] pro
- - [x] Classes/Objects
- - [ ] Finish Objects (Currently only works as Singletons for some reason)
+- [x] Possibly change function identifier?
+    - [ ] func \[**old**\]
+    - [x] fn
+    - [ ] val/void
+    - [ ] def
+    - [ ] method
+    - [ ] mthd
+    - [ ] protocol
+    - [ ] pro
+- [x] Classes/Objects
+- [ ] Finish Objects (Currently only works as Singletons for some reason)
+
 ```js
 
 #import q.std;

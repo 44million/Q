@@ -433,7 +433,20 @@ public class NativeFunctionLoader {
 
             @Override
             public void exec(List<Value> list) {
-                System.out.print(list.get(0).toString());
+
+                String tp = list.get(0).toString();
+
+                char chars[] = tp.toCharArray();
+
+                for (int i = 0; i < chars.length; i++) {
+                    char c = chars[i];
+                    if (c == '\\') {
+                        if (chars[i++] == 'n') {
+                            System.out.println();
+                        }
+                    }
+                    System.out.print(c);
+                }
             }
 
             @Override

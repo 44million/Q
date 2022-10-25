@@ -1,21 +1,35 @@
 #import q.std;
 
-native fn jfunc {
-    [Excellence]
-    "public class Excellence {"
-    "   public static void main(String[] args) {"
-    "        System.out.println(900);"
-    "   }"
-    "}"
-}
+class Object
 
-async fn xyz(x):
-    std::coutln("Hello There");
+    var x;
+
+    cn Object():
+    end
+
+    fn set(x):
+        self::x = x;
+    end
+
+    fn get():
+        return self::x;
+    end
+
 end
 
-fn main(args):
+class Main : Object
 
-    xyz("X");
-    jfunc();
+    fn main(args):
+
+        new Object as obj1();
+            obj1::set(90);
+            std::coutln("obj1's value: " + obj1::get());
+        new Object as obj2();
+            obj2::set(91);
+            // wont work because when creating new class, 
+            // because the new class java file still references the same list of vars and such.
+            std::coutln("obj1's value: " + obj1::get());
+            std::coutln("obj2's value: " + obj2::get());
+    end
 
 end
