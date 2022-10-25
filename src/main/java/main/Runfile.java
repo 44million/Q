@@ -34,7 +34,6 @@ public class Runfile {
             Environment.global.allLibs.add("Files");
             Environment.global.allLibs.add("http");
             Environment.global.allLibs.add("awt");
-            Environment.global.allLibs.add("Audio");
             Environment.global.allLibs.add("io");
             Environment.global.allLibs.add("Environment");
             Environment.global.allLibs.add("FileUtils");

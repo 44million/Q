@@ -17,7 +17,7 @@ class UnitTest
 
     var i = 0;
 
-    fn runfunctiontests(x, y, z):
+    async fn runfunctiontests(x, y, z):
             std::coutln(x*y);
             std::coutln(y*z);
             std::coutln(x + " str concat");
@@ -84,7 +84,7 @@ class UnitTest
 
         end
 
-    fn runsystemtests(str, num1, num2):
+    async fn runsystemtests(str, num1, num2):
 
         if (num1 > num2):
             std::coutln("num1 is greater than num2");
@@ -106,9 +106,16 @@ class UnitTest
         std::coutln(str + 2);
         std::coutln((num1 + num2) + str);
 
+        try:
+            std::coutln(" ");
+        except:
+            <"default">
+            std::coutln("Error");
+        end
+
     end
 
-    fn exec():
+    async fn exec():
 
         runtests(1, 2, 3);
 
