@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/*
+    Built in Q files library, has a couple of built in functions and such. Needs a solid rewrite.
+ */
+
 public class Files extends QLibrary {
 
 

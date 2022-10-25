@@ -12,6 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/*
+    This is the classes file, this is what controls the classes and objects.
+ */
+
 public class QClass implements Cloneable {
 
     public static QClass OBJECT = new QClass();

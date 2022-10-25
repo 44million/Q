@@ -9,6 +9,11 @@ import qlang.runtime.libs.util.QLibrary;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
+/*
+    WebServer library, needs a rewrite, though it is functional,
+    and can load html/css/js files onto a localhost server.
+ */
+
 public class WebServer extends QLibrary {
 
     public int port;

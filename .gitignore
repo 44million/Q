@@ -9,3 +9,5 @@ gen/
 *.comp
 .qmeta/
 *.g4
+./UnitFolderTest
+*.untst

@@ -5,6 +5,10 @@ import qlang.runtime.libs.util.QLibrary;
 import javax.swing.*;
 import java.awt.*;
 
+/*
+    Windows library, needs rewrite.
+ */
+
 public class AWT extends QLibrary {
 
     private final int x;

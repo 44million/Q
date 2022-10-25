@@ -12,6 +12,12 @@ import qlang.runtime.libs.WebServer;
 import java.io.File;
 import java.util.*;
 
+/*
+
+    The environment that Q is currently running in, this contains everything important.
+
+ */
+
 public class Environment {
 
     public static Environment global = new Environment();

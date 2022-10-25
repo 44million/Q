@@ -2,6 +2,10 @@ package qlang.runtime.errors;
 
 import com.github.tomaslanger.chalk.Chalk;
 
+/*
+    This is a tip system I'm working on, similar to C#, it'll give suggestions when an error occurs
+ */
+
 public class Tip {
 
     private final String tip;

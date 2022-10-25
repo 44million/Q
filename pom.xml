@@ -124,7 +124,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.4.0</version>
                 <configuration>
-                    <mainClass>main.Main</mainClass>
+                    <mainClass>main.Runfile</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -132,7 +132,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>main.Main</mainClass>
+                            <mainClass>main.Runfile</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -170,7 +170,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>main.Main</mainClass>
+                    <mainClass>main.Runfile</mainClass>
                 </configuration>
             </plugin>
 
@@ -183,7 +183,7 @@
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
                             <mainClass>
-                                main.Main
+                                main.Runfile
                             </mainClass>
                         </manifest>
                     </archive>

@@ -1,4 +1,3 @@
-// None of this work. Go to line 653
 class Obj
 
     cn Obj()
@@ -900,4 +899,52 @@ class Main
 
     end
 
+end
+
+#import q.std;
+
+class Object
+
+    var x;
+
+    cn Object():
+    end
+
+    fn set(x):
+        self::x = x;
+    end
+
+    fn get():
+        return self::x;
+    end
+
+end
+
+class Main : Object
+
+    fn main(args):
+
+        new Object as obj1();
+            obj1::set(90);
+            std::coutln("obj1's value: " + obj1::get());
+        new Object as obj2();
+            obj2::set(91);
+            // wont work because when creating new class,
+            // because the new class java file still references the same list of vars and such.
+            std::coutln("obj1's value: " + obj1::get());
+            std::coutln("obj2's value: " + obj2::get());
+    end
+
+end
+
+#import q.std;
+#import q.http;
+
+class Main
+    fn main(args):
+        new WebServer as w(8080);
+        w::fromFile("src/main/QFiles/index.html");
+        std::coutln("Online!");
+        std::coutln("Please head over to localhost:8080");
+    end
 end

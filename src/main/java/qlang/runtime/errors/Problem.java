@@ -2,6 +2,11 @@ package qlang.runtime.errors;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+/*
+    This is akin to an Exception file, (thats what it is)
+    except this was written specifically for Q, essentially this is just boilerplate code.
+ */
+
 public class Problem extends RuntimeException {
 
     public Problem(ParserRuleContext ctx) {

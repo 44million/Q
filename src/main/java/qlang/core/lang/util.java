@@ -20,6 +20,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
+/*
+    Misc file, full of stuff I may or may not even need anymore
+ */
+
 public class util {
 
     public static boolean getOrDefault(boolean otherB, Visitor v) {

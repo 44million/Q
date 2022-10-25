@@ -5,6 +5,13 @@ import qlang.core.lang.Q.Value;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+
+    This is the scope file, this is what controls where the functions and variables are and everything,
+    essential to runtime.
+
+ */
+
 public class Scope implements Cloneable {
 
     public final Map<String, Value> vars;

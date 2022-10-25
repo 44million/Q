@@ -12,6 +12,10 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
+/*
+    Self-explanatory, this is the functions file, it is used to create functions in Q.
+ */
+
 public class Function implements Cloneable {
 
     public List<TerminalNode> params;

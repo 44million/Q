@@ -3,6 +3,10 @@ package qlang.runtime.libs;
 import qlang.core.internal.Parser;
 import qlang.runtime.libs.util.QLibrary;
 
+/*
+    Math library. Don't even know if this is functional anymore, I haven't updated it in a long time.
+ */
+
 public class Math extends QLibrary {
 
     @SuppressWarnings("all")

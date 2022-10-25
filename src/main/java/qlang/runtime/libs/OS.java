@@ -4,6 +4,10 @@ import qlang.runtime.libs.util.QLibrary;
 
 import java.io.IOException;
 
+/*
+    Python-like os library system.
+ */
+
 public class OS extends QLibrary {
 
     public String id;

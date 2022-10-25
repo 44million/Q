@@ -3,6 +3,10 @@ package qlang.runtime.libs;
 import qlang.core.internal.Parser;
 import qlang.runtime.libs.util.QLibrary;
 
+/*
+    Random file, don't know if this even works anymore.
+ */
+
 public class QRandom extends QLibrary {
 
     @SuppressWarnings("all")

@@ -13,7 +13,12 @@ import java.io.File;
 import java.util.HashMap;
 
 @SuppressWarnings("all")
-public class Main {
+
+/*
+    Main file, run this to execute the 'Main.x' file
+ */
+
+public class Runfile {
 
     public static String[] args;
     public static QFile mainFile;
@@ -36,7 +41,7 @@ public class Main {
             Environment.global.allLibs.add("std");
         }
 
-        Main.args = args;
+        Runfile.args = args;
 
         NativeFunctionLoader nfl = new NativeFunctionLoader();
 
@@ -54,7 +59,6 @@ public class Main {
             mainFile = new QFile(visitor, env, "src/main/QFiles/Main.x", new Parser());
 
             mainFile.execute();
-
 
         }
     }

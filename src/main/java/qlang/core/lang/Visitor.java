@@ -1,6 +1,6 @@
 package qlang.core.lang;
 
-import main.Main;
+import main.Runfile;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -151,7 +151,6 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         if (Environment.global.objs.containsKey(parentClass)) {
 
             QClass.QObject obj = Environment.global.objs.get(parentClass);
-            System.out.println(obj.name + " with " + method);
 
             List<Value> vals = new ArrayList<>();
 
@@ -723,7 +722,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
             List<Value> args = new ArrayList<>();
 
-            for (String s : Main.args) {
+            for (String s : Runfile.args) {
                 args.add(new Value(s));
             }
             vis.scope.varAssign(ctx.Identifier().getText(), new Value(args));

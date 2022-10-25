@@ -8,7 +8,10 @@ import qlang.core.lang.Visitor;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-@SuppressWarnings("all")
+/*
+    This is the base file loader for Q, this loads it in, and is what is created in Runtime.java
+ */
+
 public class QFile {
 
     private final Visitor v;

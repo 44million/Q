@@ -1,8 +1,10 @@
 package qlang.runtime.libs.util;
 
-public abstract class QLibrary {
+/*
+    this class is literally just for some polymorphism stuff i might do later on, with hashmaps.
+ */
 
-    // this class is literally just for some polymorphism stuff i might do later on, with hashmaps.
+public abstract class QLibrary {
 
     abstract public String getName();
 

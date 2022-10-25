@@ -4,6 +4,10 @@ import qlang.core.internal.Parser;
 import qlang.runtime.errors.Problem;
 import qlang.runtime.libs.util.QLibrary;
 
+/*
+    Ignore this file.
+ */
+
 public class QCONSOLELIBRARY extends QLibrary {
 
     @Override

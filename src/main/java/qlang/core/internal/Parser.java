@@ -13,6 +13,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+/*
+
+    Parser file, used to execute the file itself, this is what gets all of the visitors, and file paths
+    and other important lexing steps together
+
+ */
+
 public class Parser {
 
     public Visitor v;

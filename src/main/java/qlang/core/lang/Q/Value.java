@@ -3,6 +3,10 @@ package qlang.core.lang.Q;
 import java.io.File;
 import java.util.List;
 
+/*
+    This is the Value file, this holds the value of all variables, and is linked to antlr's lexing processes.
+ */
+
 @SuppressWarnings("all")
 public class Value implements Comparable<Value> {
 

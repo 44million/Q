@@ -16,6 +16,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/*
+
+    Native functions loader, is full of built in functions written in Java,
+    and ported over via a recognition system to Q.
+
+ */
+
 public class NativeFunctionLoader {
 
     public NativeFunctionLoader() {
