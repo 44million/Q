@@ -72,25 +72,24 @@ class Runner
 
   
 
-// Main function, all files are scanned for this, and it is automatically executed
+	// Main function, all files are scanned for this, and it is automatically executed
 
-fn main(args):
+	fn main(args):
 
-	// Create the object, called m in this instance
+		// Create the object, called m in this instance
 
-	new Main as m();
+		new Main as m();
 
-	// Set the value
+		// Set the value
 
-	m::set("Hello World");
+		m::set("Hello World");
 
-	// Print the value
+		// Print the value
 
-	std::coutln(m::get());
+		std::coutln(m::get());
 
-end
+	end
 
-  
 
 end
 
@@ -114,10 +113,8 @@ class Main
 
 	fn thisIsAFunction(argument1, argument2):
 
-  
 
 		std::coutln(argument1 * argument2);
-
   
 
 	end
