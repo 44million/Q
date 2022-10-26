@@ -33,4 +33,8 @@ public class Problem extends RuntimeException {
         super("[ERROR] " + e.getMessage());
     }
 
+    public Problem(Exception e, Tip t) {
+        super("[ERROR] " + e.getMessage() + " {" + "'\n\n\t" + t.getTip() + "\n}");
+    }
+
 }

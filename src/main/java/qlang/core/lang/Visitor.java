@@ -380,6 +380,38 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
                         break;
                     }
+                    case "addText": {
+
+                        try {
+
+                            if (util.getWinByName(parentClass) == null) {
+                                return Value.VOID;
+                            }
+
+                            List<Value> v = new ArrayList<>();
+
+                            if (ctx.exprList() != null) {
+                                for (QParser.ExpressionContext e : ctx.exprList().expression()) {
+                                    v.add(this.visit(e));
+                                }
+                            }
+
+                            if (v.size() > 1) {
+                                throw new Problem("Window::addText() only accepts 1 (one) arguments.", ctx);
+                            }
+
+                            JFrame x = util.getWinByName(parentClass).f;
+
+                            if (x == null) {
+                                throw new Problem("Could not find object '" + parentClass + "'", ctx);
+                            }
+
+                            x.add(new JTextArea(v.get(0).asString()));
+
+                        } catch (Exception e) {
+                            throw new Problem(e, new Tip("Try adding the text before you render the window!"));
+                        }
+                    }
                     default:
                         throw new Problem(parentClass + " does not contain a definition for '" + method + "'", ctx, this.curClass);
                 }
@@ -999,7 +1031,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             Environment.global.files.put(id, file);
         } else if (ctx.Identifier(0).getText().equals("Window")) {
 
-            util.check("awt", "awt", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.packageName);
+            util.check("awt", "awt", ctx, true, this.curClass, this.packageName);
 
             List<Value> list = new ArrayList<>();
             if (ctx.exprList() != null) {

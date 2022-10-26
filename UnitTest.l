@@ -77,8 +77,7 @@ class UnitTest {
             io::err("Goodbye, World.");
             io::errf("Goodbye, Cruel %s", "World.");
 
-            std::coutln(FileUtils::countChars("UnitTest.l"));
-
+            std::coutln(FileUtils::countChars("src/main/QFiles/archive.l"));
 
         end
 

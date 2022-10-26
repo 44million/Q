@@ -1,13 +1,10 @@
-#import q.std;
-#import q.http;
-#import UnitTest;
+#import q.awt;
 
 class Main {
+
     fn main(args):
-
-        new UnitTest as ut();
-        ut::runfunctiontests(2, 4, 5);
-        ut::runsystemtests("Hello, World", 15, 25);
-
+        new Window as w("Name", 500, 500);
+        w::render();
     end
+
 }

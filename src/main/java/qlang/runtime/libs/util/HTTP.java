@@ -4,6 +4,8 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import qlang.core.internal.Environment;
 import qlang.core.interp.QParser;
+import qlang.runtime.errors.Problem;
+import qlang.runtime.errors.Tip;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -29,7 +31,7 @@ public class HTTP implements HttpHandler {
             con.setDoOutput(true);
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new Problem(e, new Tip("Make sure the address is correct, and active."));
         }
     }
 
