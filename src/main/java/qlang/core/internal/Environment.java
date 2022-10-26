@@ -21,6 +21,7 @@ import java.util.*;
 public class Environment {
 
     public static Environment global = new Environment();
+    public static String[] args;
 
     public Map<String, Function> functions = Collections.emptyMap();
     public Scope scope = new Scope();

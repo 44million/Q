@@ -43,6 +43,21 @@ public class QFile {
     }
 
     public QFile execute() {
+
+        {
+            Environment.global.allLibs.add("Console");
+            Environment.global.allLibs.add("Time");
+            Environment.global.allLibs.add("Random");
+            Environment.global.allLibs.add("Math");
+            Environment.global.allLibs.add("Files");
+            Environment.global.allLibs.add("http");
+            Environment.global.allLibs.add("awt");
+            Environment.global.allLibs.add("io");
+            Environment.global.allLibs.add("Environment");
+            Environment.global.allLibs.add("FileUtils");
+            Environment.global.allLibs.add("std");
+        }
+
         try {
 
             Parser parser = new Parser(CharStreams.fromFileName(new File(this.fileName).getAbsolutePath()));

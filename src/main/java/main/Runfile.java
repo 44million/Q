@@ -1,18 +1,11 @@
 package main;
 
 import org.jetbrains.annotations.NotNull;
-import qlang.core.internal.Environment;
-import qlang.core.internal.Parser;
-import qlang.core.internal.Scope;
-import qlang.core.lang.NativeFunctionLoader;
-import qlang.core.lang.Q.QFile;
-import qlang.core.lang.Visitor;
-import qlang.core.lang.util;
+import qlang.core.internal.*;
+import qlang.core.lang.*;
+import qlang.core.lang.Q.*;
 
-import java.io.File;
 import java.util.HashMap;
-
-@SuppressWarnings("all")
 
 /*
     Main file, run this to execute the 'Main.x' file
@@ -20,45 +13,27 @@ import java.util.HashMap;
 
 public class Runfile {
 
-    public static String[] args;
     public static QFile mainFile;
 
     public static void main(String @NotNull [] args) {
 
-        File input;
-        {
-            Environment.global.allLibs.add("Console");
-            Environment.global.allLibs.add("Time");
-            Environment.global.allLibs.add("Random");
-            Environment.global.allLibs.add("Math");
-            Environment.global.allLibs.add("Files");
-            Environment.global.allLibs.add("http");
-            Environment.global.allLibs.add("awt");
-            Environment.global.allLibs.add("io");
-            Environment.global.allLibs.add("Environment");
-            Environment.global.allLibs.add("FileUtils");
-            Environment.global.allLibs.add("std");
-        }
-
-        Runfile.args = args;
+        Environment.args = args;
 
         NativeFunctionLoader nfl = new NativeFunctionLoader();
 
         nfl.registerNatives();
 
+        // Not in use right now, as it is currently non-functioning.
         if (args.length >= 103945809) {
-
-            util.animate(args);
-
+            util.useQCLI(args);
         } else {
 
-            Scope scope = new Scope(null, false);
-            Visitor visitor = new Visitor(scope, new HashMap<>());
+            Scope baseScope = new Scope(null, false);
+            Visitor globalScope = new Visitor(baseScope, new HashMap<>());
             Environment env = new Environment();
-            mainFile = new QFile(visitor, env, "src/main/QFiles/Main.x", new Parser());
 
+            mainFile = new QFile(globalScope, env, "src/main/QFiles/Main.x", new Parser());
             mainFile.execute();
-
         }
     }
 }

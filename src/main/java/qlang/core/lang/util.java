@@ -49,7 +49,7 @@ public class util {
         }
     }
 
-    public static void animate(String @NotNull [] args) {
+    public static void useQCLI(String @NotNull [] args) {
         int counter = 0;
         for (String cmd : args) {
 

@@ -29,7 +29,7 @@ public class NativeFunctionLoader {
 
     }
 
-    public void registerNatives() {
+    public NativeFunctionLoader registerNatives() {
 
         util.register("std", true);
         util.register("lang", true);
@@ -1137,6 +1137,6 @@ public class NativeFunctionLoader {
                 return true;
             }
         });
-
+        return this;
     }
 }
