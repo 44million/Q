@@ -12,7 +12,7 @@ public class Math extends QLibrary {
     @SuppressWarnings("all")
     public static final String qcode = """
                         
-            class Calculator
+            class Calculator {
                         
                 cn Calculator():
                 
@@ -109,7 +109,7 @@ public class Math extends QLibrary {
                     return x % y;
                 end
                         
-            end
+            }
                         
             """;
 

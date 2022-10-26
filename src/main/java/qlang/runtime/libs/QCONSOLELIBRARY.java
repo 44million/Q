@@ -20,22 +20,22 @@ public class QCONSOLELIBRARY extends QLibrary {
 
         String qcode = """
                                 
-                class InputStream
+                class InputStream {
                             
                     cn InputStream():
                     
                     end
                     
-                    fn input():
+                    fn cin():
                         
                         var x = std::cin();
                         return x;
                         
                     end
                             
-                end
+                }
                             
-                class OutputStream
+                class OutputStream {
                             
                     cn OutputStream():
                     
@@ -57,7 +57,7 @@ public class QCONSOLELIBRARY extends QLibrary {
                         std::QAVB8KI72J65919YLC();
                     end
                             
-                end
+                }
                             
                 """;
         Parser parser = new Parser().fromText(qcode);

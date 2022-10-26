@@ -1,17 +1,10 @@
 # Q Key:
 
-  
-  
-
 **OBJECTS**
-
-  
 
 - Objects are subsets of classes
 
 - Classes can be created using the following syntax:
-
-  
 
 ```js
 
@@ -67,11 +60,7 @@ end
 
 ```
 
-  
-
 - Once the Object class has been created, you can reference it in other classes as an object, like so:
-
-  
 
 ```js
 
@@ -107,15 +96,9 @@ end
 
 ```
 
-  
-
 **Functions**
 
-  
-
 - Functions can be declared like so:
-
-  
 
 ```js
 
@@ -145,11 +128,7 @@ end
 
 ```
 
-  
-
 - Functions can then be called, like so
-
-  
 
 ```js
 
@@ -187,15 +166,12 @@ end
 
 ```
 
-  
+- If the function is preceded by `async`, then it will run in a private Java Thread, meaning that multiple functions
+  will be executed at once instead of one at a time by order of parsing, the syntax would be like
+  so: `async fn thisIsAFunction(): end`
 
-- If the function is preceded by `async`, then it will run in a private Java Thread, meaning that multiple functions will be executed at once instead of one at a time by order of parsing, the syntax would be like so: `async fn thisIsAFunction(): end`
-
-  
 
 - If the function is preceded by 'native', then it will not work with Q code, only with native java code. Like so:
-
-  
 
 ```js
 
@@ -227,15 +203,10 @@ end
 
 ```
 
-  
-
 - Using the `native` keyword, java code can be executed inside of Q
 
-  
 
 - You can also write anonymous functions, like so:
-
-  
 
 ```js
 
@@ -259,15 +230,10 @@ end
 
 ```
 
-  
-
 **The Main Function**
 
-  
-
-- During the Lexing sequence of all files, Q will check for the Main function. No other function can look like it, as it will execute that, it looks like so:
-
-  
+- During the Lexing sequence of all files, Q will check for the Main function. No other function can look like it, as it
+  will execute that, it looks like so:
 
 ```js
 
@@ -293,20 +259,12 @@ end
 
 ```
 
-  
-
 - It must come with the 'args' parameter, as that is the arguments given to the JVM, it is an array type variable
-
-  
-  
 
 **Variables**
 
-  
-
-- Variables work similarly to javascript, no variable type notation is required, unless it is an array, or an Object. Like so:
-
-  
+- Variables work similarly to javascript, no variable type notation is required, unless it is an array, or an Object.
+  Like so:
 
 ```js
 
@@ -370,21 +328,15 @@ end
 
 ```
 
-  
-
-- Objects can be marked with `const` instead of `var`, meaning that the value cannot be changed. If you try to change It, it will fail, and exit the program.
-
-  
+- Objects can be marked with `const` instead of `var`, meaning that the value cannot be changed. If you try to change
+  It, it will fail, and exit the program.
 
 **Imports**
 
-  
-
-- importing a file will locate the file in question, and lex it, to load the code into the runner, meaning that only imported files can be referenced in code.
+- importing a file will locate the file in question, and lex it, to load the code into the runner, meaning that only
+  imported files can be referenced in code.
 
 - There are several different import methods, such as:
-
-  
 
 ```js
 
@@ -406,11 +358,7 @@ end
 
 ```
 
-  
-
 **Various loops and statements**
-
-  
 
 - If/then statement (without surrounding class):
 
@@ -468,15 +416,9 @@ end
 
 ```
 
-  
-
 **Math**
 
-  
-
 - here's the logic table:
-
-  
 
 ![enter image description here](https://media.discordapp.net/attachments/848634931897958410/1014363485074899004/Screen_Shot_2022-08-30_at_8.38.09_PM.png)
 

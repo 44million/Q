@@ -2,7 +2,7 @@
 #import q.http;
 #import UnitTest;
 
-class Main
+class Main {
     fn main(args):
 
         new UnitTest as ut();
@@ -10,4 +10,4 @@ class Main
         ut::runsystemtests("Hello, World", 15, 25);
 
     end
-end
+}

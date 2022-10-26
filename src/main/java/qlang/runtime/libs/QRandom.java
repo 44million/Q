@@ -12,7 +12,7 @@ public class QRandom extends QLibrary {
     @SuppressWarnings("all")
     private final String qcode
             = ("""      
-            class Random
+            class Random {
                         
                 cn Random():
                 
@@ -22,7 +22,7 @@ public class QRandom extends QLibrary {
                     return 3YCMPJ8W8VVTUA48TIHR8K332PYKTXOKVDFG(x);
                 end
                         
-            end
+            }
                         
             """);
 

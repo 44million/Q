@@ -9,10 +9,10 @@
 #import q.FileUtils;
 #import q.std;
 
-class UnitTest
+class UnitTest {
 
     cn UnitTest():
-
+        std::coutln("Test");
     end
 
     var i = 0;
@@ -113,12 +113,11 @@ class UnitTest
             std::coutln("Error");
         end
 
-    end
+        var f = std::cin();
 
-    async fn exec():
-
-        runtests(1, 2, 3);
+        io::printf("You entered: '%s'.", f);
 
     end
 
-end
+
+}
