@@ -15,8 +15,6 @@ class UnitTest {
         std::coutln("Test");
     end
 
-    var i = 0;
-
     async fn runfunctiontests(x, y, z):
             std::coutln(x*y);
             std::coutln(y*z);
@@ -52,7 +50,7 @@ class UnitTest {
             std::coutln(Math::toInt("15"));
 
             std::coutln(Files::countLines("UnitTest.l"));
-            //Files::writeFile("/UnitFolderTest/HelloWorld.untst", "Hello, World!");
+            Files::writeFile("UnitFolderTest/HelloWorld.untst", "Hello, World!", false);
             //std::coutln(Files::absPath("UnitTest.l"));
             std::coutln(Files::here());
             //Files::delete("UnitFolderTest/HelloWorld.untst");
@@ -60,7 +58,7 @@ class UnitTest {
             std::coutln(Files::size("UnitTest.l"));
             std::coutln(Files::exists("UnitTest.l"));
 
-            //http::get("discord.com");
+            http::get("discord.com");
             // Not going to test it here, but theres also
             /*
                 post, put, delete, head, options, trace
