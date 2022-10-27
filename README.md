@@ -16,47 +16,47 @@
 
 // Declare the class, and name
 
-class Main
+class Main {
 
   
 
-// Class variables
+	// Class variables
 
-var value;
-
-  
-
-// Mark the class as an object class
-
-cn Main():
-
-end
+	var value;
 
   
 
-// Function to set the value
+	// Mark the class as an object class
 
-fn set(newValue):
+	cn Main():
 
-	self::value = newValue;
-
-end
+	end
 
   
 
-// Function to get the value
+	// Function to set the value
 
-fn get():
+	fn set(newValue):
 
-	return self::value;
+		self::value = newValue;
 
-end
+	end
+
+  
+
+	// Function to get the value
+
+	fn get():
+
+		return self::value;
+
+	end
 
   
 
 // End the class block
 
-end
+}
 
 ```
 
@@ -68,7 +68,7 @@ end
 
   
 
-class Runner
+class Runner {
 
   
 
@@ -91,7 +91,7 @@ class Runner
 	end
 
 
-end
+}
 
 ```
 
@@ -105,7 +105,7 @@ end
 
   
 
-class Main
+class Main {
 
   
 
@@ -121,7 +121,7 @@ class Main
 
   
 
-end
+}
 
 ```
 
@@ -133,7 +133,7 @@ end
 
   
 
-class Main
+class Main {
 
   
 
@@ -149,7 +149,7 @@ class Main
 
   
 
-// Main function, will automatically be executed
+	// Main function, will automatically be executed
 
 	fn main(args):
 
@@ -159,7 +159,7 @@ class Main
 
   
 
-end
+}
 
 ```
 
@@ -176,27 +176,28 @@ end
 
   
 
-class Main
+class Main {
 
   
 
-native fn runMe {
+	native fn runMe {
 
   
 
-// java code here
+		// java code here
 
   
 
+	}
+
+  
+
+	fn main(args):
+
+		runMe();
+
+	end
 }
-
-  
-
-fn main(args):
-
-	runMe();
-
-end
 
 ```
 
@@ -211,7 +212,7 @@ end
 
   
 
-class Main
+class Main {
 
   
 
@@ -223,7 +224,7 @@ class Main
 
   
 
-end
+}
 
 ```
 
@@ -238,21 +239,19 @@ end
 
   
 
-class Main
+class Main {
 
   
 
-// Main Function
+	// Main Function
 
-fn main(args):
+	fn main(args):
 
-	std::coutln("Hello World");
+		std::coutln("Hello World");
 
-end
+	end
 
-  
-
-end
+}
 
 ```
 
@@ -269,7 +268,7 @@ end
 
   
 
-class Main
+class Main {
 
   
 
@@ -321,7 +320,7 @@ class Main
 
   
 
-end
+}
 
 ```
 
