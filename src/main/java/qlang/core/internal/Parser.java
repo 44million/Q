@@ -5,7 +5,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import qlang.core.interp.QLexer;
 import qlang.core.interp.QParser;
 import qlang.core.lang.Visitor;
-import qlang.core.lang.util;
+import qlang.core.lang.Util;
 
 import java.io.File;
 import java.io.IOException;
@@ -91,7 +91,7 @@ public class Parser {
             this.str = s;
         }
 
-        util.resolveImport("System");
+        Util.resolveImport("System");
 
         if (this.file != null) {
 
@@ -222,7 +222,7 @@ public class Parser {
     }
 
     public void parse() throws IOException {
-        util.resolveImport("System");
+        Util.resolveImport("System");
 
         if (this.file != null) {
 

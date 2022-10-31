@@ -24,7 +24,7 @@ import java.util.Random;
     Misc file, full of stuff I may or may not even need anymore
  */
 
-public class util {
+public class Util {
 
     public static boolean getOrDefault(boolean otherB, Visitor v) {
         try {
@@ -49,7 +49,8 @@ public class util {
         }
     }
 
-    public static void useQCLI(String @NotNull [] args) {
+    // enable Q CLI. With this enabled, then all the standard flags and commands will apply.
+    public static void eqcli(String @NotNull [] args) {
         int counter = 0;
         for (String cmd : args) {
 

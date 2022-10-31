@@ -31,9 +31,9 @@ public class NativeFunctionLoader {
 
     public NativeFunctionLoader registerNatives() {
 
-        util.register("std", true);
-        util.register("lang", true);
-        util.register("String", true);
+        Util.register("std", true);
+        Util.register("lang", true);
+        Util.register("String", true);
 
         Environment.global.defineNativeFunction(new Function.INativeFunction() {
             @Override
@@ -729,7 +729,7 @@ public class NativeFunctionLoader {
             @Override
             public Value ret(List<Value> list) {
                 try {
-                    util.FileUtil n = new util.FileUtil(list.get(0).toString());
+                    Util.FileUtil n = new Util.FileUtil(list.get(0).toString());
                     return new Value(n.getCharCount());
                 } catch (Exception e) {
                     System.out.println(e.getMessage());

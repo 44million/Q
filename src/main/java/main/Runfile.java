@@ -25,7 +25,7 @@ public class Runfile {
 
         // Not in use right now, as it is currently non-functioning.
         if (args.length >= 103945809) {
-            util.useQCLI(args);
+            Util.eqcli(args);
         } else {
 
             Scope baseScope = new Scope(null, false);

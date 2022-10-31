@@ -15,7 +15,7 @@ import java.util.Optional;
 
  */
 
-public class CompilerFileTree implements FileTree {
+public class CompilerFileTree {
 
     public static String HRBC(long size) {
         if (-1000 < size && size < 1000) {
@@ -29,7 +29,6 @@ public class CompilerFileTree implements FileTree {
         return String.format("%.1f %cB", size / 1000.0, ci.current());
     }
 
-    @Override
     public Optional<String> tree(Path path) {
         File file = new File(String.valueOf(path));
         if (!file.exists()) return Optional.empty();

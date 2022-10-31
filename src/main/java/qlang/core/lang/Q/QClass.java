@@ -5,7 +5,7 @@ import qlang.core.internal.Scope;
 import qlang.core.interp.QParser;
 import qlang.core.lang.Function;
 import qlang.core.lang.Visitor;
-import qlang.core.lang.util;
+import qlang.core.lang.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +36,7 @@ public class QClass implements Cloneable {
     }
 
     public QClass() {
-        this.name = util.string();
+        this.name = Util.string();
         this.functions = new HashMap<>();
         this.scope = Environment.global.scope;
         this.constArgs = new ArrayList<>();

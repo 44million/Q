@@ -43,7 +43,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     public boolean lib;
     public String curClass;
     public Visitor parent;
-    public String packageName = util.string();
+    public String packageName = Util.string();
 
     public Visitor(Scope scope, Map<String, Function> functions) {
         this.scope = scope;
@@ -70,7 +70,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         for (var x : ctx.String()) {
             jcode += "\n" + x.toString();
             jcode = jcode.replaceFirst("\"", "");
-            jcode = util.replaceLast(jcode, "\"", "");
+            jcode = Util.replaceLast(jcode, "\"", "");
         }
 
         if (Environment.global.getObj(ctx.Identifier(0).toString())) {
@@ -110,7 +110,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         File folder = new File(path);
 
-        util.lpFolder(folder);
+        Util.lpFolder(folder);
 
         return Value.VOID;
 
@@ -172,7 +172,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
             String p = Objects.requireNonNullElse(this.parent, this).packageName;
 
-            util.check(Environment.global.natives.get(method).parent(), parentClass, ctx, util.getOrDefault(false, this), this.curClass, p);
+            Util.check(Environment.global.natives.get(method).parent(), parentClass, ctx, Util.getOrDefault(false, this), this.curClass, p);
 
             List<Value> l = new ArrayList<>();
 
@@ -205,7 +205,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         } else if (parentClass.equals("Files")) {
 
-            util.check("Files", "Files", ctx, util.getOrDefault(false, this), this.curClass, this.packageName);
+            Util.check("Files", "Files", ctx, Util.getOrDefault(false, this), this.curClass, this.packageName);
 
             switch (method) {
                 case "absPath":
@@ -240,7 +240,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         } else if (parentClass.equals("http")) {
 
-            util.check("http", "http", ctx, util.getOrDefault(false, this), this.curClass, this.packageName);
+            Util.check("http", "http", ctx, Util.getOrDefault(false, this), this.curClass, this.packageName);
 
             switch (method) {
                 case "get" -> HTTP.get(ctx);
@@ -252,19 +252,19 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 case "trace" -> HTTP.trace(ctx);
             }
 
-        } else if (util.getWinByName(parentClass) != null) {
+        } else if (Util.getWinByName(parentClass) != null) {
 
             try {
 
                 switch (method) {
                     case "render":
 
-                        if (util.getWinByName(parentClass) == null) {
+                        if (Util.getWinByName(parentClass) == null) {
                             return Value.VOID;
                         } else {
-                            assert util.getWinByName(parentClass) != null;
-                            if (util.getWinByName(parentClass) != null) {
-                                util.getWinByName(parentClass).init();
+                            assert Util.getWinByName(parentClass) != null;
+                            if (Util.getWinByName(parentClass) != null) {
+                                Util.getWinByName(parentClass).init();
                             }
                         }
                         return Value.VOID;
@@ -282,17 +282,17 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
                         if (v.size() == 2) {
                             switch (compType) {
-                                case "button" -> util.getWinByName(parentClass).f.add(new JButton(v.get(1).toString()));
-                                case "label" -> util.getWinByName(parentClass).f.add(new JLabel(v.get(1).toString()));
-                                case "textfield" -> util.getWinByName(parentClass).f.add(new JTextField(v.get(1).toString()));
-                                case "textarea" -> util.getWinByName(parentClass).f.add(new JTextArea(v.get(1).toString()));
-                                case "checkbox" -> util.getWinByName(parentClass).f.add(new JCheckBox(v.get(1).toString()));
-                                case "combobox" -> util.getWinByName(parentClass).f.add(new JComboBox<>(v.get(1).toString().split(",")));
-                                case "list" -> util.getWinByName(parentClass).f.add(new JList<>(v.get(1).toString().split(",")));
-                                case "scrollpane" -> util.getWinByName(parentClass).f.add(new JScrollPane(new JList<>(v.get(1).toString().split(","))));
-                                case "textpane" -> util.getWinByName(parentClass).f.add(new JTextPane());
-                                case "tabbedpane" -> util.getWinByName(parentClass).f.add(new JTabbedPane());
-                                case "panel" -> util.getWinByName(parentClass).f.add(new JPanel());
+                                case "button" -> Util.getWinByName(parentClass).f.add(new JButton(v.get(1).toString()));
+                                case "label" -> Util.getWinByName(parentClass).f.add(new JLabel(v.get(1).toString()));
+                                case "textfield" -> Util.getWinByName(parentClass).f.add(new JTextField(v.get(1).toString()));
+                                case "textarea" -> Util.getWinByName(parentClass).f.add(new JTextArea(v.get(1).toString()));
+                                case "checkbox" -> Util.getWinByName(parentClass).f.add(new JCheckBox(v.get(1).toString()));
+                                case "combobox" -> Util.getWinByName(parentClass).f.add(new JComboBox<>(v.get(1).toString().split(",")));
+                                case "list" -> Util.getWinByName(parentClass).f.add(new JList<>(v.get(1).toString().split(",")));
+                                case "scrollpane" -> Util.getWinByName(parentClass).f.add(new JScrollPane(new JList<>(v.get(1).toString().split(","))));
+                                case "textpane" -> Util.getWinByName(parentClass).f.add(new JTextPane());
+                                case "tabbedpane" -> Util.getWinByName(parentClass).f.add(new JTabbedPane());
+                                case "panel" -> Util.getWinByName(parentClass).f.add(new JPanel());
                                 default -> throw new Problem("Unknown component type: " + compType, ctx, this.curClass);
                             }
                         } else {
@@ -313,14 +313,14 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
                         int comp = v.get(0).asDouble().intValue();
 
-                        assert util.getWinByName(parentClass) != null;
-                        return new Value(util.getWinByName(parentClass).f.getComponent(comp));
+                        assert Util.getWinByName(parentClass) != null;
+                        return new Value(Util.getWinByName(parentClass).f.getComponent(comp));
 
                     }
                     case "getComponentCount":
-                        return new Value(util.getWinByName(parentClass).f.getComponentCount());
+                        return new Value(Util.getWinByName(parentClass).f.getComponentCount());
                     case "setTitle":
-                        util.getWinByName(parentClass).f.setTitle(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
+                        Util.getWinByName(parentClass).f.setTitle(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
                         break;
                     case "setLayout": {
 
@@ -335,9 +335,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                         String layout = v.get(0).toString();
 
                         switch (layout) {
-                            case "grid" -> util.getWinByName(parentClass).f.setLayout(new GridLayout(v.get(1).asDouble().intValue(), v.get(2).asDouble().intValue()));
-                            case "flow" -> util.getWinByName(parentClass).f.setLayout(new FlowLayout());
-                            case "border" -> util.getWinByName(parentClass).f.setLayout(new BorderLayout());
+                            case "grid" -> Util.getWinByName(parentClass).f.setLayout(new GridLayout(v.get(1).asDouble().intValue(), v.get(2).asDouble().intValue()));
+                            case "flow" -> Util.getWinByName(parentClass).f.setLayout(new FlowLayout());
+                            case "border" -> Util.getWinByName(parentClass).f.setLayout(new BorderLayout());
                         }
 
                         break;
@@ -348,10 +348,10 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                         String operation = this.visit(ctx.exprList().expression(0)).toString();
 
                         switch (operation) {
-                            case "EXIT_ON_CLOSE" -> util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                            case "DISPOSE_ON_CLOSE" -> util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                            case "HIDE_ON_CLOSE" -> util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-                            case "DO_NOTHING_ON_CLOSE" -> util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                            case "EXIT_ON_CLOSE" -> Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            case "DISPOSE_ON_CLOSE" -> Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            case "HIDE_ON_CLOSE" -> Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                            case "DO_NOTHING_ON_CLOSE" -> Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                             default -> throw new Problem("Invalid close operation", ctx, this.curClass);
                         }
 
@@ -359,7 +359,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
                     case "create":
                         try {
-                            util.getWinByName(parentClass).create();
+                            Util.getWinByName(parentClass).create();
                         } catch (Exception e) {
                             throw new Problem(e);
                         }
@@ -374,8 +374,8 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                             }
                         }
 
-                        assert util.getWinByName(parentClass) != null;
-                        util.getWinByName(parentClass).f.setLocation(v.get(0).asDouble().intValue(), v.get(1).asDouble().intValue());
+                        assert Util.getWinByName(parentClass) != null;
+                        Util.getWinByName(parentClass).f.setLocation(v.get(0).asDouble().intValue(), v.get(1).asDouble().intValue());
 
                         break;
                     }
@@ -383,7 +383,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
                         try {
 
-                            if (util.getWinByName(parentClass) == null) {
+                            if (Util.getWinByName(parentClass) == null) {
                                 return Value.VOID;
                             }
 
@@ -399,7 +399,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                                 throw new Problem("Window::addText() only accepts 1 (one) arguments.", ctx);
                             }
 
-                            JFrame x = util.getWinByName(parentClass).f;
+                            JFrame x = Util.getWinByName(parentClass).f;
 
                             if (x == null) {
                                 throw new Problem("Could not find object '" + parentClass + "'", ctx);
@@ -418,10 +418,10 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 throw new Problem(e.getMessage(), ctx, this.curClass);
             }
 
-        } else if (util.getWebByName(parentClass) != null) {
+        } else if (Util.getWebByName(parentClass) != null) {
 
-            if (method.equals("kill") && util.getWebByName(parentClass) != null) {
-                util.getWebByName(parentClass).stop();
+            if (method.equals("kill") && Util.getWebByName(parentClass) != null) {
+                Util.getWebByName(parentClass).stop();
             } else if (method.equals("changeText")) {
 
                 List<Value> l = new ArrayList<>();
@@ -432,8 +432,8 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                     }
                 }
 
-                if (util.getWebByName(parentClass) != null) {
-                    util.getWebByName(parentClass).setText(l.get(0).toString());
+                if (Util.getWebByName(parentClass) != null) {
+                    Util.getWebByName(parentClass).setText(l.get(0).toString());
                     return Value.VOID;
                 }
 
@@ -709,7 +709,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     public Value visitRandomExpression(QParser.RandomExpressionContext ctx) {
 
         if (ctx.expression() == null) {
-            throw new Problem("System call 'sys.ran' requires a :str argument", ctx, this.curClass);
+            throw new Problem("System call 'sys::ran' requires a :str argument", ctx, this.curClass);
         }
 
         String s = this.visit(ctx.expression()).asString();
@@ -718,7 +718,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             case "int":
                 return new Value(new Random().nextInt());
             case "str":
-                return new Value(util.string());
+                return new Value(Util.string());
             case "bool":
                 int i = new Random().nextInt(2);
 
@@ -859,7 +859,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 replace("https://github.com/", "https://raw.githubusercontent.com/")
                 .replace("/blob", "");
 
-        String fileContents = util.getTextFromGithub(link);
+        String fileContents = Util.getTextFromGithub(link);
 
         Parser parser = new Parser().fromText(fileContents);
         try {
@@ -886,7 +886,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         }
 
         if (Environment.global.allLibs.contains(text.toString().replace(".q.", ""))) {
-            util.register(text.toString(), false);
+            Util.register(text.toString(), false);
             if (text.toString().replace(".q.", "").equals("Console")) {
                 new QCONSOLELIBRARY().init();
             }
@@ -958,13 +958,13 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 x = this.visit(ctx.exprList().expression(0));
             }
             try {
-                util.check("http", "http", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.packageName);
+                Util.check("http", "http", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.packageName);
             } catch (Exception e) {
                 if (e instanceof NullPointerException) {
                     Scope sc = new Scope();
 
                     while (sc != null) {
-                        util.check("http", "http", ctx, sc.sore, this.curClass, this.packageName);
+                        Util.check("http", "http", ctx, sc.sore, this.curClass, this.packageName);
                         sc = sc.parent();
                     }
 
@@ -1012,7 +1012,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         } else if (ctx.Identifier(0).getText().equals("File")) {
 
-            util.check("Files", "Files", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.packageName);
+            Util.check("Files", "Files", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.packageName);
             String id = ctx.Identifier(0).getText();
 
             if (ctx.exprList().expression() == null) {
@@ -1030,7 +1030,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             Environment.global.files.put(id, file);
         } else if (ctx.Identifier(0).getText().equals("Window")) {
 
-            util.check("awt", "awt", ctx, true, this.curClass, this.packageName);
+            Util.check("awt", "awt", ctx, true, this.curClass, this.packageName);
 
             List<Value> list = new ArrayList<>();
             if (ctx.exprList() != null) {
@@ -1531,7 +1531,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 default -> ".q." + g;
             };
 
-            util.register(fin, false);
+            Util.register(fin, false);
         }
 
         return Value.VOID;
@@ -1673,7 +1673,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     @Override
     public Value visitInputExpression(QParser.InputExpressionContext ctx) {
 
-        util.check("std", "std", ctx, util.getOrDefault(false, this), this.curClass, this.packageName);
+        Util.check("std", "std", ctx, Util.getOrDefault(false, this), this.curClass, this.packageName);
 
         TerminalNode inputString = ctx.String();
         try {
@@ -1757,15 +1757,15 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 fw.close();
 
                 String dir = file.getAbsolutePath().replace(file.getName(), "");
-                String afterClass = util.replaceLast(file.getAbsolutePath(), ".java", ".class");
+                String afterClass = Util.replaceLast(file.getAbsolutePath(), ".java", ".class");
 
                 System.out.println(dir);
 
 //            String home = util.execCmd("cd ~ ; cd.. ; cd.. ;");
 //            String s = util.execCmd("cd " + dir);
-                String s2 = util.execCmd("javac " + file.getAbsolutePath());
+                String s2 = Util.execCmd("javac " + file.getAbsolutePath());
                 System.out.println(s2);
-                String s3 = util.execCmd("java " + afterClass);
+                String s3 = Util.execCmd("java " + afterClass);
                 System.out.println(s3);
 
                 file.delete();

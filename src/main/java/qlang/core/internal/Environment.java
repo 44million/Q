@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.Token;
 import qlang.core.lang.Function;
 import qlang.core.lang.Q.QClass;
 import qlang.core.lang.Visitor;
-import qlang.core.lang.util;
+import qlang.core.lang.Util;
 import qlang.runtime.errors.Problem;
 import qlang.runtime.libs.AWT.AWT;
 import qlang.runtime.libs.WebServer;
@@ -26,7 +26,7 @@ public class Environment {
     public Map<String, Function> functions = Collections.emptyMap();
     public Scope scope = new Scope();
     public Visitor visitor = new Visitor(scope, functions);
-    public String response = util.string();
+    public String response = Util.string();
 
     public List<File> parsed = new ArrayList<>();
     public List<Token> lst = new ArrayList<>();
@@ -50,15 +50,15 @@ public class Environment {
     }
 
     public boolean getObj(String name) {
-        return util.getWebByName(name) != null || util.getWinByName(name) != null || this.files.containsKey(name) || this.objs.containsKey(name);
+        return Util.getWebByName(name) != null || Util.getWinByName(name) != null || this.files.containsKey(name) || this.objs.containsKey(name);
     }
 
     public void destroy(String name) {
 
-        if (util.getWebByName(name) != null) {
-            this.webs.remove(util.getWebByName(name));
-        } else if (util.getWinByName(name) != null) {
-            this.wins.remove(util.getWinByName(name));
+        if (Util.getWebByName(name) != null) {
+            this.webs.remove(Util.getWebByName(name));
+        } else if (Util.getWinByName(name) != null) {
+            this.wins.remove(Util.getWinByName(name));
         } else if (this.files.containsKey(name)) {
             this.files.remove(name);
         } else if (this.objs.containsKey(name)) {
