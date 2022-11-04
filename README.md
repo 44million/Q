@@ -6,7 +6,7 @@
 
 - Classes can be created using the following syntax:
 
-- Objects currently only work as singlets, ie only one instance of a class can exist at a time.
+- Objects currently only work as singlets (ie only one instance of a class can exist at a time.)
 
 ```js
 
