@@ -6,6 +6,8 @@
 
 - Classes can be created using the following syntax:
 
+- Objects currently only work as singlets, ie only one instance of a class can exist at a time.
+
 ```js
 
 // Import the standard input/output library
@@ -290,7 +292,7 @@ class Main {
 
 		// Array variable
 
-		var[] ary = {val1, val2, val3};
+		var ary = [1, 2, 3, 4, 5, 6];
 
 		// Variables can also be marked with the `const` keyword, meaning they cannot be changed
 
