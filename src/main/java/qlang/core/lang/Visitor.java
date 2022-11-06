@@ -1,5 +1,6 @@
 package qlang.core.lang;
 
+// imports
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -34,6 +35,16 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+/*
+ * 
+ * All of these methods follow a simple format, essentially the following:
+ * visit_____Expression(params)
+ * The _____ is always replaced with what the method does
+ * Typically, they are self explanatory, for instance 'visitSelfExpression' is what handles the 'self' keyword
+ * so on and so forth. simple stuff
+ * 
+ */
 
 @SuppressWarnings("all")
 public class Visitor extends QBaseVisitor<Value> implements Cloneable {
