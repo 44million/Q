@@ -9,7 +9,7 @@ Installation is simple, on *nix systems, use the following
 git clone http://github.com/qRX53/Q/ ; cd Q ; mvn install mvn compile ; mvn package; 
 ```
 
-Success! Now you have a copy of Q on your computer. Run the jarfile using 
+Success! Now you have a copy of Q on your computer. Now, rename it from 'Q.1.0-with-dependencies.jar` to `Q.jar` Run the jarfile using 
 ```
 java -jar Q.jar --run path/to/QFile.x
 ```
