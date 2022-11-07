@@ -84,7 +84,7 @@ public class Runfile {
 
                     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-                    while (!Objects.equals(input, ";")) {
+                    while (!Objects.equals(input, "\n")) {
                         try {
                             input = reader.readLine();
                             total.append(input);
