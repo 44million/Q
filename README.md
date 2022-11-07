@@ -2,7 +2,7 @@
 
 **Installation**
 
-###If you dont want to read any of the following, just copy/paste this into your terminal:
+## If you dont want to read any of the following, just copy/paste this into your terminal:
 
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ; brew install git ; brew install mvn ; clear ; ; git clone http://github.com/qRX53/Q/ ; cd Q ; mvn clean compile assembly:single ; brew install trash ; sudo trash ~/.q/Q.jar ; cd target ; ls ; mv Q-1.0-jar-with-dependencies.jar ~/ ; cd ; ls ; sudo mkdir -p .q ; sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar ; clear ; cd .q ; ls ; cd ; trash Q ; clear ; echo Success!
