@@ -5,6 +5,7 @@ import qlang.core.internal.*;
 import qlang.core.lang.*;
 import qlang.core.lang.Q.*;
 import qlang.runtime.errors.Problem;
+import qlang.runtime.libs.Files;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -62,18 +63,21 @@ public class Runfile {
                             --env (-e) | Print the environment
                             --runblind <file> (-rb <file>) | Run the file given with no security checks
                             --run <file> (-r <file>) | Run a file. Same as `q Main.x`
-                            --version (-v) | Returns Q version.
+                            --info (-i) | Returns Q version, host, build, dir, and more.
                             --killall (-ka) | Kills Q processes.
                             --terminal (-t) | Allows you to enter your code in the terminal directly, rather than a file.
                             --help (-h) | Returns this menu.
                             """);
                     System.exit(0);
-                } else if (args[0].equals("-v") || args[0].equals("--version")) {
+                } else if (args[0].equals("-") || args[0].equals("--info")) {
                     System.out.printf("""
                             Version: 1.0
                             Build: %s
                             Host: %s
-                            %n""", Environment.global, System.getProperty("user.dir"));
+                            QJar Directory: %s
+                            Running: %s
+                            Size: %s
+                            %n""", Environment.global, System.getProperty("user.dir"), System.getProperty("user.home") + "/.q/", false, Files.size(new File(System.getProperty("user.home") + "/.q/" + "Q.jar").getAbsolutePath()));
                     System.exit(0);
                 } else if (args[0].equals("--killall") || args[0].equals("-ka")) {
                     System.out.println("System permission: denied. Run `killall -9 java` to kill all processes.");
