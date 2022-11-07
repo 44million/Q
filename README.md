@@ -50,7 +50,7 @@ cd ; sudo ls ; nano .bash_profile ;
 ```
 Once done, paste exactly the following:
 ```
-alias q='java -jar /Users/harrymarlowe/.q/Q.jar'
+alias q='java -jar ~/.q/Q.jar'
 ```
 
 then save and quit (`option + x`, then `enter`)
