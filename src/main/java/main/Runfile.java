@@ -40,7 +40,7 @@ public class Runfile {
             String fpath = "src/main/QFiles/Main.x";
 
             if (args.length >= 1) {
-                if (args.length == 1) {
+                if (args.length == 1 && !args[0].startsWith("-")) {
                     fpath = args[0];
                 } else if (args[0].equals("--env") || args[0].equals("-e")) {
                     System.out.println(Environment.global);
