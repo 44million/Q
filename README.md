@@ -40,7 +40,7 @@ To install all three, run the following:
 To do everything at once, run the following:
 
 ```
-git clone http://github.com/qRX53/Q/ ; cd Q ; mvn clean compile assembly:single ; brew install trash ; sudo trash ~/.q/Q.jar ; cd target ; ls ; mv Q-1.0-jar-with-dependencies.jar ~/ ; cd ; ls ; sudo mkdir -p .q ; sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar ; clear ; cd .q ; ls ;
+git clone http://github.com/qRX53/Q/ ; cd Q ; mvn clean compile assembly:single ; brew install trash ; sudo trash ~/.q/Q.jar ; cd target ; ls ; mv Q-1.0-jar-with-dependencies.jar ~/ ; cd ; ls ; sudo mkdir -p .q ; sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar ; clear ; cd .q ; ls ; cd ; trash Q ; clear ; echo Success!
 ```
 
 Now everything is set up for the CLI, simply run the following, and follow the instructions exactly:
