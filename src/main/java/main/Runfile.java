@@ -69,15 +69,19 @@ public class Runfile {
                             --help (-h) | Returns this menu.
                             """);
                     System.exit(0);
-                } else if (args[0].equals("-") || args[0].equals("--info")) {
-                    System.out.printf("""
-                            Version: 1.0
-                            Build: %s
-                            Host: %s
-                            QJar Directory: %s
-                            Running: %s
-                            Size: %s
-                            %n""", Environment.global, System.getProperty("user.dir"), System.getProperty("user.home") + "/.q/", false, Files.size(new File(System.getProperty("user.home") + "/.q/" + "Q.jar").getAbsolutePath()));
+                } else if (args[0].equals("-i") || args[0].equals("--info")) {
+                    try {
+                        System.out.printf("""
+                                Version: 1.0
+                                Build: %s
+                                Host: %s
+                                QJar Directory: %s
+                                Running: %s
+                                Size: %s
+                                %n""", Environment.global, System.getProperty("user.dir"), System.getProperty("user.home") + "/.q/", false, (java.nio.file.Files.size(new File(System.getProperty("user.home") + "/.q/" + "Q.jar").toPath()) / 1000000000) + "gb");
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     System.exit(0);
                 } else if (args[0].equals("--killall") || args[0].equals("-ka")) {
                     System.out.println("System permission: denied. Run `killall -9 java` to kill all processes.");
