@@ -54,12 +54,16 @@ public class Runfile {
                     } catch (IOException e) {
                         throw new Problem(e);
                     }
-                } else if (args[0].equals("help") || args[0].equals("-h")) {
+                } else if (args[0].equals("--help") || args[0].equals("-h")) {
                     System.out.println("""
                             Flags:
-                            --env | Print the environment
-                            --runblind <file> | Run the file given with no security checks
-                            --run <file> | Run a file. Same as `q Main.x`
+                            --env (-e) | Print the environment
+                            --runblind <file> (-rb <file>) | Run the file given with no security checks
+                            --run <file> (-r <file>) | Run a file. Same as `q Main.x`
+                            --version (-v) | Returns Q version.
+                            --killall (-ka) | Kills Q processes.
+                            --terminal (-t) | Allows you to enter your code in the terminal directly, rather than a file.
+                            --help (-h) | Returns this menu.
                             """);
                 } else if (args[0].equals("-v") || args[0].equals("--version")) {
                     System.out.printf("""
