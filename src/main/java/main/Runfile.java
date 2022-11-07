@@ -44,6 +44,7 @@ public class Runfile {
                     fpath = args[0];
                 } else if (args[0].equals("--env") || args[0].equals("-e")) {
                     System.out.println(Environment.global);
+                    System.exit(0);
                 } else if (args[0].equals("--run") || args[0].equals("-r")) {
                     fpath = args[1];
                 } else if (args[0].equals("--runblind") || args[0].equals("-rb")) {
@@ -54,6 +55,7 @@ public class Runfile {
                     } catch (IOException e) {
                         throw new Problem(e);
                     }
+                    System.exit(0);
                 } else if (args[0].equals("--help") || args[0].equals("-h")) {
                     System.out.println("""
                             Flags:
@@ -65,12 +67,14 @@ public class Runfile {
                             --terminal (-t) | Allows you to enter your code in the terminal directly, rather than a file.
                             --help (-h) | Returns this menu.
                             """);
+                    System.exit(0);
                 } else if (args[0].equals("-v") || args[0].equals("--version")) {
                     System.out.printf("""
                             Version: 1.0
                             Build: %s
                             Host: %s
                             %n""", Environment.global, System.getProperty("user.dir"));
+                    System.exit(0);
                 } else if (args[0].equals("--killall") || args[0].equals("-ka")) {
                     System.out.println("System permission: denied. Run `killall -9 java` to kill all processes.");
                     System.exit(0);
