@@ -71,6 +71,11 @@ public class QFile {
             }
 
             String err = "\n\n[FATAL] " + exception.getMessage();
+
+            if (exception.getMessage().contains("/src/main/QFiles/Main.x")) {
+                err = "No Runfile specified. Please re-run Q with the command args '--run path/to/Q.x'.";
+            }
+
             if (exception.getMessage().endsWith(".x") || (exception.getMessage().endsWith(".l")) || exception instanceof FileNotFoundException) {
                 err += " (File not found)";
             }
@@ -91,8 +96,9 @@ public class QFile {
 
             System.err.println(err);
             // e.printStackTrace();
-
-            System.exit(-1);
+            if (err.contains("FATAL")) {
+                System.exit(-1);
+            }
         }
         return this;
     }

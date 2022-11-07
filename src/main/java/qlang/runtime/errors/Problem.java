@@ -3,7 +3,7 @@ package qlang.runtime.errors;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 /*
-    This is akin to an Exception file, (thats what it is)
+    This is akin to an Exception file, (thats actually exactly what it is)
     except this was written specifically for Q, essentially this is just boilerplate code.
  */
 

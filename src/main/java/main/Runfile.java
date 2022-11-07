@@ -31,8 +31,15 @@ public class Runfile {
             Scope baseScope = new Scope(null, false);
             Visitor globalScope = new Visitor(baseScope, new HashMap<>());
             Environment env = new Environment();
+            String fpath = "src/main/QFiles/Main.x";
 
-            mainFile = new QFile(globalScope, env, "src/main/QFiles/Main.x", new Parser());
+            if (args.length >= 2) {
+                if (args[0].equals("--run")) {
+                    fpath = args[1];
+                }
+            }
+
+            mainFile = new QFile(globalScope, env, fpath, new Parser());
             mainFile.execute();
         }
     }

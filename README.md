@@ -1,5 +1,77 @@
 # Q Key:
 
+**Installation**
+
+To download, please refer to the downloads section of the GitHub repository, otherwise build from the source with the following:
+
+Installation is simple, on *nix systems, use the following
+```
+git clone http://github.com/qRX53/Q/ ; cd Q ; mvn install mvn compile ; mvn package; 
+```
+
+Success! Now you have a copy of Q on your computer. Run the jarfile using 
+```
+java -jar Q.jar --run path/to/QFile.x
+```
+
+If you are seeing issues with not having `mvn` installed, ie (zsh: mvn not found) or similar, use the following:
+
+```
+brew install mvn ; clear ;
+```
+
+If you are seeing issues with not having `git` installed, run the following
+
+```
+brew install git ; clear ;
+```
+
+If you are seeing issues with not having `brew` installed, run the following
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ; clear
+```
+
+To install all three, run the following:
+
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ; brew install git ; brew install mvn ; clear ;
+```
+
+To do everything at once, run the following:
+
+```
+git clone http://github.com/qRX53/Q/ ; cd Q ; mvn clean compile assembly:single ; brew install trash ; sudo trash ~/.q/Q.jar ; cd target ; ls ; mv Q-1.0-jar-with-dependencies.jar ~/ ; cd ; ls ; sudo mkdir -p .q ; sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar ; clear ; cd .q ; ls ;
+```
+
+Now everything is set up for the CLI, simply run the following, and follow the instructions exactly:
+
+```
+cd ; sudo ls ; nano .bash_profile ;
+```
+Once done, paste exactly the following:
+```
+alias q='java -jar /Users/harrymarlowe/.q/Q.jar'
+```
+
+then save and quit (`option + x`, then `enter`)
+
+Now, enter this:
+```
+source .bash_profile
+```
+
+Done! From now on, you can run
+
+```
+q --run path/to/file.x
+```
+
+To run any Q file. To update it, simply paste the following.
+
+```
+git clone http://github.com/qRX53/Q/ ; cd Q ; mvn clean compile assembly:single ; brew install trash ; sudo trash ~/.q/Q.jar ; cd target ; ls ; mv Q-1.0-jar-with-dependencies.jar ~/ ; cd ; ls ; sudo mkdir -p .q ; sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar ; clear ; cd .q ; ls ; cd ; trash Q ; clear ; echo Success!
+```
+
 **OBJECTS**
 
 - Objects are subsets of classes
