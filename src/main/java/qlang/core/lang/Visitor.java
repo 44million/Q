@@ -290,7 +290,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                             }
                         }
 
-                        String name = v.get(0).toString();
+                        String name = v.get(0).asString();
 
                         if (Environment.global.jTextAreaMap.containsKey(name)) {
                             if (Util.getWinByName(parentClass) != null) {
