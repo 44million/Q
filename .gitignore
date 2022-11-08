@@ -11,3 +11,4 @@ gen/
 *.g4
 ./UnitFolderTest
 *.untst
+Discord.xml

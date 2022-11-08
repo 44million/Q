@@ -1053,7 +1053,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             Environment.global.files.put(id, file);
         } else if (ctx.Identifier(0).getText().equals("Window")) {
 
-            Util.check("awt", "awt", ctx, true, this.curClass, this.packageName);
+            Util.check("awt", "awt", ctx, this.curClass, this.packageName);
 
             List<Value> list = new ArrayList<>();
             if (ctx.exprList() != null) {

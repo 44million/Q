@@ -239,12 +239,24 @@ public class Util {
 
     // suppress warnings because this code is phenomenally bad
     @SuppressWarnings("all")
-    public static void check(String p, String t2, ParserRuleContext ctx, boolean sore, String c, String namespace) {
+    public static void check(String p, String t2, ParserRuleContext ctx, boolean namespaceImport, String c, String namespace) {
         if ((p.equals(".std") || p.equals("std")) && namespace.equals("standard")) {
             return;
         }
 
-        if (sore || Environment.global.allowedLibs.contains(p)) {
+        if (namespaceImport || Environment.global.allowedLibs.contains(p)) {
+            return;
+        } else {
+            throw new Problem("Cannot reference '" + t2 + "', as the package has not been imported. The library can be found at: 'q." + t2 + "'", ctx, c);
+        }
+    }
+
+    public static void check(String p, String t2, ParserRuleContext ctx, String c, String namespace) {
+        if ((p.equals(".std") || p.equals("std")) && namespace.equals("standard")) {
+            return;
+        }
+
+        if (Environment.global.allowedLibs.contains(p)) {
             return;
         } else {
             throw new Problem("Cannot reference '" + t2 + "', as the package has not been imported. The library can be found at: 'q." + t2 + "'", ctx, c);
