@@ -4,8 +4,8 @@ import qlang.core.internal.Environment;
 import qlang.core.internal.Scope;
 import qlang.core.interp.QParser;
 import qlang.core.lang.Function;
-import qlang.core.lang.Visitor;
 import qlang.core.lang.Util;
+import qlang.core.lang.Visitor;
 
 import java.util.ArrayList;
 import java.util.HashMap;

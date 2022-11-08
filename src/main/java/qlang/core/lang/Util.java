@@ -34,6 +34,7 @@ public class Util {
         }
         return result;
     }
+
     public static boolean getOrDefault(boolean otherB, Visitor v) {
         try {
             return v.scope.parent().parent().parent().sore;

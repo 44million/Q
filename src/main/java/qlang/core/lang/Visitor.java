@@ -1,6 +1,7 @@
 package qlang.core.lang;
 
 // imports
+
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -37,13 +38,13 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /*
- * 
+ *
  * All of these methods follow a simple format, essentially the following:
  * visit_____Expression(params)
  * The _____ is always replaced with what the method does
  * Typically, they are self explanatory, for instance 'visitSelfExpression' is what handles the 'self' keyword
  * so on and so forth. simple stuff
- * 
+ *
  */
 
 @SuppressWarnings("all")
@@ -295,12 +296,18 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                             switch (compType) {
                                 case "button" -> Util.getWinByName(parentClass).f.add(new JButton(v.get(1).toString()));
                                 case "label" -> Util.getWinByName(parentClass).f.add(new JLabel(v.get(1).toString()));
-                                case "textfield" -> Util.getWinByName(parentClass).f.add(new JTextField(v.get(1).toString()));
-                                case "textarea" -> Util.getWinByName(parentClass).f.add(new JTextArea(v.get(1).toString()));
-                                case "checkbox" -> Util.getWinByName(parentClass).f.add(new JCheckBox(v.get(1).toString()));
-                                case "combobox" -> Util.getWinByName(parentClass).f.add(new JComboBox<>(v.get(1).toString().split(",")));
-                                case "list" -> Util.getWinByName(parentClass).f.add(new JList<>(v.get(1).toString().split(",")));
-                                case "scrollpane" -> Util.getWinByName(parentClass).f.add(new JScrollPane(new JList<>(v.get(1).toString().split(","))));
+                                case "textfield" ->
+                                        Util.getWinByName(parentClass).f.add(new JTextField(v.get(1).toString()));
+                                case "textarea" ->
+                                        Util.getWinByName(parentClass).f.add(new JTextArea(v.get(1).toString()));
+                                case "checkbox" ->
+                                        Util.getWinByName(parentClass).f.add(new JCheckBox(v.get(1).toString()));
+                                case "combobox" ->
+                                        Util.getWinByName(parentClass).f.add(new JComboBox<>(v.get(1).toString().split(",")));
+                                case "list" ->
+                                        Util.getWinByName(parentClass).f.add(new JList<>(v.get(1).toString().split(",")));
+                                case "scrollpane" ->
+                                        Util.getWinByName(parentClass).f.add(new JScrollPane(new JList<>(v.get(1).toString().split(","))));
                                 case "textpane" -> Util.getWinByName(parentClass).f.add(new JTextPane());
                                 case "tabbedpane" -> Util.getWinByName(parentClass).f.add(new JTabbedPane());
                                 case "panel" -> Util.getWinByName(parentClass).f.add(new JPanel());
@@ -346,7 +353,8 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                         String layout = v.get(0).toString();
 
                         switch (layout) {
-                            case "grid" -> Util.getWinByName(parentClass).f.setLayout(new GridLayout(v.get(1).asDouble().intValue(), v.get(2).asDouble().intValue()));
+                            case "grid" ->
+                                    Util.getWinByName(parentClass).f.setLayout(new GridLayout(v.get(1).asDouble().intValue(), v.get(2).asDouble().intValue()));
                             case "flow" -> Util.getWinByName(parentClass).f.setLayout(new FlowLayout());
                             case "border" -> Util.getWinByName(parentClass).f.setLayout(new BorderLayout());
                         }
@@ -359,10 +367,14 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                         String operation = this.visit(ctx.exprList().expression(0)).toString();
 
                         switch (operation) {
-                            case "EXIT_ON_CLOSE" -> Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                            case "DISPOSE_ON_CLOSE" -> Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                            case "HIDE_ON_CLOSE" -> Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-                            case "DO_NOTHING_ON_CLOSE" -> Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                            case "EXIT_ON_CLOSE" ->
+                                    Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            case "DISPOSE_ON_CLOSE" ->
+                                    Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            case "HIDE_ON_CLOSE" ->
+                                    Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                            case "DO_NOTHING_ON_CLOSE" ->
+                                    Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                             default -> throw new Problem("Invalid close operation", ctx, this.curClass);
                         }
 

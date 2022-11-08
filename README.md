@@ -4,20 +4,27 @@
 
 # If you dont want to read any of the following, just copy/paste this into your terminal:
 
-**This will take a while, and will require sudo access, as well as a solid internet connection. Compile time may take a few minutes. You may or may not have to log in to github. It does require minimal user input; this includes confirming certain actions, and entering your password multiple times. This will install 7 total helper tools: `brew`, `git`, `mvn`, `node`, `wipeclean` `cloc` and `trash`. This will not properly execute if you aren't in your home folder**
+**This will take a while, and will require sudo access, as well as a solid internet connection. Compile time may take a
+few minutes. You may or may not have to log in to github. It does require minimal user input; this includes confirming
+certain actions, and entering your password multiple times. This will install 7 total helper tools: `brew`, `git`, `mvn`
+, `node`, `wipeclean` `cloc` and `trash`. This will not properly execute if you aren't in your home folder**
 
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ; brew install git ; brew install mvn ; brew install node ; brew install npm ; npm install wipeclean -g ; git clone http://github.com/qRX53/Q/ ; brew install cloc ; cloc Q ; cd Q ; mvn clean compile assembly:single ; brew install trash ; sudo trash ~/.q/Q.jar ; cd target ; ls ; mv Q-1.0-jar-with-dependencies.jar ~/ ; cd ; ls ; sudo mkdir -p .q ; sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar ; cd .q ; ls ; cd ; trash Q ; wipeclean ; echo Success!
 ```
 
-To download, please refer to the downloads section of the GitHub repository, otherwise build from the source with the following:
+To download, please refer to the downloads section of the GitHub repository, otherwise build from the source with the
+following:
 
 Installation is simple, on *nix systems, use the following
+
 ```
 git clone http://github.com/qRX53/Q/ ; cd Q ; mvn install mvn compile ; mvn package; 
 ```
 
-Success! Now you have a copy of Q on your computer. Now, rename it from 'Q.1.0-with-dependencies.jar` to `Q.jar` Run the jarfile using 
+Success! Now you have a copy of Q on your computer. Now, rename it from 'Q.1.0-with-dependencies.jar` to `Q.jar` Run the
+jarfile using
+
 ```
 java -jar Q.jar --run path/to/QFile.x
 ```
@@ -35,6 +42,7 @@ brew install git ; clear ;
 ```
 
 If you are seeing issues with not having `brew` installed, run the following
+
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ; clear
 ```
@@ -56,7 +64,9 @@ Now everything is set up for the CLI, simply run the following, and follow the i
 ```
 cd ; sudo ls ; nano .bash_profile ;
 ```
+
 Once done, paste exactly the following:
+
 ```
 alias q='java -jar ~/.q/Q.jar'
 ```
@@ -64,6 +74,7 @@ alias q='java -jar ~/.q/Q.jar'
 then save and quit (`option + x`, then `enter`)
 
 Now, enter this:
+
 ```
 source .bash_profile
 ```

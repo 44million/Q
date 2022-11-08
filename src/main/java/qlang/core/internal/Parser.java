@@ -4,8 +4,8 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import qlang.core.interp.QLexer;
 import qlang.core.interp.QParser;
-import qlang.core.lang.Visitor;
 import qlang.core.lang.Util;
+import qlang.core.lang.Visitor;
 
 import java.io.File;
 import java.io.IOException;

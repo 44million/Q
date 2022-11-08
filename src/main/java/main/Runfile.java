@@ -1,16 +1,17 @@
 package main;
 
-import com.google.common.collect.Lists;
 import org.jetbrains.annotations.NotNull;
-import qlang.core.internal.*;
-import qlang.core.lang.*;
-import qlang.core.lang.Q.*;
+import qlang.core.internal.Environment;
+import qlang.core.internal.Parser;
+import qlang.core.internal.Scope;
+import qlang.core.lang.NativeFunctionLoader;
+import qlang.core.lang.Q.QFile;
+import qlang.core.lang.Util;
+import qlang.core.lang.Visitor;
 import qlang.runtime.errors.Problem;
-import qlang.runtime.libs.Files;
 
 import java.io.*;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -118,7 +119,8 @@ public class Runfile {
                     int percent = 0;
                     String cmd = "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\" ; brew install git ; brew install mvn ; brew install node ; brew install npm ; npm install wipeclean -g ; git clone http://github.com/qRX53/Q/ ; brew install cloc ; cloc Q ; cd Q ; mvn clean compile assembly:single ; brew install trash ; sudo trash ~/.q/Q.jar ; cd target ; ls ; mv Q-1.0-jar-with-dependencies.jar ~/ ; cd ; ls ; sudo mkdir -p .q ; sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar ; cd .q ; ls ; cd ; trash Q ; wipeclean ; echo Success!";
 
-                    String cmds[] = cmd.split(" ; ");
+                    String[] cmds = cmd.split(" ; ");
+
                     for (String x : cmds) {
                         try {
                             String result;
