@@ -1087,6 +1087,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
             JTextArea jta = new JTextArea();
             jta.setText(list.get(0).asString());
+            System.out.println("OBJMADE AS " + ctx.Identifier(1).getText() + " FROM " + ctx.Identifier(0).getText());
             Environment.global.jTextAreaMap.put(ctx.Identifier(1).getText(), jta);
 
         } else {
