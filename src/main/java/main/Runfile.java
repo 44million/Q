@@ -113,6 +113,9 @@ public class Runfile {
                             Installation status: \u2705
                             """);
                     System.exit(0);
+                } else if (args[0].startsWith("-")) {
+                    System.out.println("Flag not recognized '" + args[0] + "'. Run q --help for more.");
+                    System.exit(0);
                 }
             } else {
                 System.out.println("Q version 1.0: \u2705");
