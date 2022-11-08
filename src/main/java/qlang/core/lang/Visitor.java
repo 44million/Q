@@ -290,31 +290,12 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                             }
                         }
 
-                        String compType = v.get(0).toString();
+                        String name = v.get(0).toString();
 
-                        if (v.size() == 2) {
-                            switch (compType) {
-                                case "button" -> Util.getWinByName(parentClass).f.add(new JButton(v.get(1).toString()));
-                                case "label" -> Util.getWinByName(parentClass).f.add(new JLabel(v.get(1).toString()));
-                                case "textfield" ->
-                                        Util.getWinByName(parentClass).f.add(new JTextField(v.get(1).toString()));
-                                case "textarea" ->
-                                        Util.getWinByName(parentClass).f.add(new JTextArea(v.get(1).toString()));
-                                case "checkbox" ->
-                                        Util.getWinByName(parentClass).f.add(new JCheckBox(v.get(1).toString()));
-                                case "combobox" ->
-                                        Util.getWinByName(parentClass).f.add(new JComboBox<>(v.get(1).toString().split(",")));
-                                case "list" ->
-                                        Util.getWinByName(parentClass).f.add(new JList<>(v.get(1).toString().split(",")));
-                                case "scrollpane" ->
-                                        Util.getWinByName(parentClass).f.add(new JScrollPane(new JList<>(v.get(1).toString().split(","))));
-                                case "textpane" -> Util.getWinByName(parentClass).f.add(new JTextPane());
-                                case "tabbedpane" -> Util.getWinByName(parentClass).f.add(new JTabbedPane());
-                                case "panel" -> Util.getWinByName(parentClass).f.add(new JPanel());
-                                default -> throw new Problem("Unknown component type: " + compType, ctx, this.curClass);
+                        if (Environment.global.jTextAreaMap.containsKey(name)) {
+                            if (Util.getWinByName(parentClass) != null) {
+                                Util.getWinByName(parentClass).f.add(Environment.global.jTextAreaMap.get(name));
                             }
-                        } else {
-                            throw new Problem("Invalid number of arguments for '" + method + "'", ctx, this.curClass);
                         }
 
                         break;
@@ -1089,6 +1070,25 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             } else {
                 throw new Problem("Incorrect layout, Window class accepts the following: Window(name:str, x-axis, y-axis);", ctx, this.curClass);
             }
+        } else if (ctx.Identifier(0).getText().equals("QTextArea")) {
+            // new QTextArea as qta("Hello, World!");
+            Util.check("awt", "awt", ctx, this.curClass, this.packageName);
+
+            List<Value> list = new ArrayList<>();
+            if (ctx.exprList() != null) {
+                for (QParser.ExpressionContext ex : ctx.exprList().expression()) {
+                    list.add(this.visit(ex));
+                }
+            }
+
+            if (list.size() < 1) {
+                throw new Problem("QTextArea objects require one argument: text", ctx);
+            }
+
+            JTextArea jta = new JTextArea();
+            jta.setText(list.get(0).asString());
+            Environment.global.jTextAreaMap.put(ctx.Identifier(1).getText(), jta);
+
         } else {
             throw new Problem("Class:Object not recognized: " + parentClass + ".", ctx, this.curClass, new Tip("If the class is from a native Q library, try importing it at: 'q." + parentClass + "'."));
         }

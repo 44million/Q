@@ -9,6 +9,7 @@ import qlang.runtime.errors.Problem;
 import qlang.runtime.libs.AWT.AWT;
 import qlang.runtime.libs.WebServer;
 
+import javax.swing.*;
 import java.io.File;
 import java.util.*;
 
@@ -43,6 +44,7 @@ public class Environment {
     public Map<String, NameSpace> namespaces = new HashMap<>();
     public Map<String, String> nativeJava = new HashMap<>();
     public Map<String, String> nativeNames = new HashMap<>();
+    public Map<String, JTextArea> jTextAreaMap = new HashMap<>();
 
     public boolean hasMainExecuted = false;
 
