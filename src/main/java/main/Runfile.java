@@ -67,6 +67,7 @@ public class Runfile {
                             --killall (-ka) | Kills Q processes.
                             --terminal (-t) | Allows you to enter your code in the terminal directly, rather than a file.
                             --help (-h) | Returns this menu.
+                            --version (-v) | Get the Q version. Good for checking installation status.
                             """);
                     System.exit(0);
                 } else if (args[0].equals("-i") || args[0].equals("--info")) {
@@ -106,6 +107,11 @@ public class Runfile {
                     } catch (IOException e) {
                         throw new Problem(e);
                     }
+                } else if (args[0].equals("-v") || args[0].equals("--version")) {
+                    System.out.println("""
+                            Version: 1.0
+                            Installation status: \u2705
+                            """);
                 }
             }
 

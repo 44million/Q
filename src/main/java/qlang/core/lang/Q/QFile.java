@@ -98,6 +98,8 @@ public class QFile {
             // e.printStackTrace();
             if (err.contains("FATAL")) {
                 System.exit(-1);
+            } else {
+                return this;
             }
         }
         return this;
