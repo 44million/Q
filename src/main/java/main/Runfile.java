@@ -79,7 +79,7 @@ public class Runfile {
                                 QJar Directory: %s
                                 Running: %s
                                 Size: %s
-                                %n""", Environment.global, System.getProperty("user.dir"), System.getProperty("user.home") + "/.q/", false, (java.nio.file.Files.size(new File(System.getProperty("user.home") + "/.q/" + "Q.jar").toPath()) / 1000000000) + "gb");
+                                %n""", Environment.global, System.getProperty("user.dir"), System.getProperty("user.home") + "/.q/", false, (java.nio.file.Files.size(new File(System.getProperty("user.home") + "/.q/" + "Q.jar").toPath()) / 1000000) + "mb");
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -112,7 +112,10 @@ public class Runfile {
                             Version: 1.0
                             Installation status: \u2705
                             """);
+                    System.exit(0);
                 }
+            } else {
+                System.out.println("Q version 1.0: \u2705");
             }
 
             mainFile = new QFile(globalScope, env, fpath, new Parser());
