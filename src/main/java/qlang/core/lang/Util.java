@@ -15,10 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 /*
     Misc file, full of stuff I may or may not even need anymore
@@ -26,6 +23,17 @@ import java.util.Random;
 
 public class Util {
 
+
+    public static String execute(String cmd) {
+        String result = null;
+        try (InputStream inputStream = Runtime.getRuntime().exec(cmd).getInputStream();
+             Scanner s = new Scanner(inputStream).useDelimiter("\\A")) {
+            result = s.hasNext() ? s.next() : null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
     public static boolean getOrDefault(boolean otherB, Visitor v) {
         try {
             return v.scope.parent().parent().parent().sore;

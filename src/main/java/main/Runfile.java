@@ -117,38 +117,9 @@ public class Runfile {
                 } else if (args[0].equals("--update") || args[0].equals("-u")) {
                     Runtime rt = Runtime.getRuntime();
                     String[] commands = {"/bin/zsh", "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\" ; brew install git ; brew install mvn ; brew install node ; brew install npm ; npm install wipeclean -g ; git clone http://github.com/qRX53/Q/ ; brew install cloc ; cloc Q ; cd Q ; mvn clean compile assembly:single ; brew install trash ; sudo trash ~/.q/Q.jar ; cd target ; ls ; mv Q-1.0-jar-with-dependencies.jar ~/ ; cd ; ls ; sudo mkdir -p .q ; sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar ; cd .q ; ls ; cd ; trash Q ; wipeclean ; echo Success!"};
-                    Process proc = null;
-                    try {
-                        proc = rt.exec(commands);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
 
-                    BufferedReader stdInput = new BufferedReader(new
-                            InputStreamReader(proc.getInputStream()));
+                    Util.execute(commands[1]);
 
-                    BufferedReader stdError = new BufferedReader(new
-                            InputStreamReader(proc.getErrorStream()));
-
-                    String s;
-                    while (true) {
-                        try {
-                            if ((s = stdInput.readLine()) == null) break;
-                        } catch (IOException e) {
-                            throw new Problem(e);
-                        }
-                        System.out.println(s);
-                    }
-
-                    System.err.println("Here is the standard error of the command (if any):\n");
-                    while (true) {
-                        try {
-                            if ((s = stdError.readLine()) == null) break;
-                        } catch (IOException e) {
-                            throw new Problem(e);
-                        }
-                        System.err.println(s);
-                    }
                 } else if (args[0].startsWith("-")) {
                     System.out.println("Flag not recognized '" + args[0] + "'. Run q --help for more.");
                     System.exit(0);
