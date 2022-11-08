@@ -8,13 +8,11 @@ import qlang.core.lang.Q.*;
 import qlang.runtime.errors.Problem;
 import qlang.runtime.libs.Files;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Scanner;
 
 /*
     Main file, run this to execute the 'Main.x' file
@@ -123,9 +121,14 @@ public class Runfile {
                     String cmds[] = cmd.split(" ; ");
                     for (String x : cmds) {
                         try {
-                            Process p = Runtime.getRuntime().exec(x);
-                            p.waitFor();
 
+                            String result;
+                            Process p = Runtime.getRuntime().exec(x);
+                            InputStream inputStream = p.getInputStream();
+                            Scanner s = new Scanner(inputStream).useDelimiter("\\A");
+                            result = s.hasNext() ? s.next() : null;
+                            p.waitFor();
+                            System.out.println(result);
                             if (!(percent >= 100)) {
                                 percent += 5;
                             }
