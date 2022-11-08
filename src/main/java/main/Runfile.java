@@ -117,6 +117,7 @@ public class Runfile {
             } else {
                 System.out.println("Q version 1.0: \u2705");
                 System.out.println("\n\nTo run a file, execute: `q <file>.x`, or enter `q --help` for assistance.");
+                System.exit(0);
             }
 
             mainFile = new QFile(globalScope, env, fpath, new Parser());
