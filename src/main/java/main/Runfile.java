@@ -121,7 +121,6 @@ public class Runfile {
                     String cmds[] = cmd.split(" ; ");
                     for (String x : cmds) {
                         try {
-
                             String result;
                             Process p = Runtime.getRuntime().exec(x);
                             InputStream inputStream = p.getInputStream();
@@ -132,6 +131,12 @@ public class Runfile {
                             if (!(percent >= 100)) {
                                 percent += 5;
                             }
+
+                            if (percent == 60) {
+                                System.out.println("Updating... 60% complete. Please allow extra time.");
+                                continue;
+                            }
+
                             System.out.println("Updating... " + percent + "% done.");
                         } catch (Exception e) {
                             throw new Problem(e);
