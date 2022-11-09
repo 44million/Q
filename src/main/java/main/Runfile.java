@@ -123,8 +123,7 @@ public class Runfile {
                             """);
                     System.exit(0);
                 } else if (args[0].equals("--interact") || args[0].equals("-in")) {
-		    System.out.println("Interactive entered. 'h' for help, 
-'q' to quit");	
+		    System.out.println("Interactive entered. 'h' for help, 'q' to quit");
                     String input = "";
 
                     while (true) {
