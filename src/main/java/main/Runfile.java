@@ -129,7 +129,7 @@ public class Runfile {
                     while (true) {
                         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
                         try {
-                            System.out.println(">> ");
+                            System.out.print("\n>> ");
                             input = reader.readLine();
                             System.out.println();
 
