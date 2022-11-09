@@ -1,9 +1,15 @@
 package main;
 
+import com.github.tomaslanger.chalk.Chalk;
 import org.jetbrains.annotations.NotNull;
+import qlang.core.internal.CompilerFileTree;
 import qlang.core.internal.Environment;
 import qlang.core.internal.Parser;
 import qlang.core.internal.Scope;
+import qlang.core.interp.QBaseListener;
+import qlang.core.interp.QBaseVisitor;
+import qlang.core.interp.QLexer;
+import qlang.core.interp.QParser;
 import qlang.core.lang.NativeFunctionLoader;
 import qlang.core.lang.Q.QFile;
 import qlang.core.lang.Util;
@@ -115,6 +121,80 @@ public class Runfile {
                             Installation status: \u2705
                             """);
                     System.exit(0);
+                } else if (args[0].equals("--interact") || args[0].equals("-in")) {
+
+                    String input = "";
+
+                    while (true) {
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                        try {
+                            System.out.println(">> ");
+                            input = reader.readLine();
+                            System.out.println();
+
+                            if (input.equals("q") || input.equals("quit")) {
+                                break;
+                            } else if (input.equals("env")) {
+                                System.out.println("Env: " + Environment.global);
+                            } else if (input.equals("h")) {
+                                System.out.println("Q Help Menu:\n");
+                                System.out.println("""
+                                        q/quit: quit q interactive
+                                        env: Q Environment
+                                        diag: Sys Diag
+                                        sinfo: System Info
+                                        filetree: FileTree
+                                        sysloc: System location
+                                        github: Github Repo return value
+                                        uscript: update script permanent
+                                        readme: GH README permalink
+                                        """);
+                            } else if (input.equals("diag")) {
+                                System.out.println(Environment.global.hasMainExecuted + " < Has Main Executed?");
+                                System.out.println(Environment.global.allLibs + " < All Libraries");
+                                System.out.println(Environment.global.allowedLibs + " < Allowed Libs");
+                                System.out.println(Environment.global.lst + " < Lst");
+                                System.out.println(Environment.global.objs + " < Objs");
+                                System.out.println(Environment.global.natives + " < Natives");
+                                System.out.println(Environment.global.response + " < Resp");
+                                System.out.println(Environment.global.classes + " < Classes");
+                                System.out.println(Environment.global.consts + " < Consts");
+                                System.out.println(Environment.global.files + " < Files");
+                                System.out.println(Environment.global.functions + " < Funcs");
+                                System.out.println(Environment.global.jTextAreaMap + " < JTAMap");
+                                System.out.println(Environment.global.namespaces + " < Namespaces");
+                                System.out.println(Environment.global.nativeJava + " < NativeJava");
+                                System.out.println(Environment.global.nativeNames + " < NativeNames");
+                                System.out.println(Environment.global.parsed + " < Parsed");
+                                System.out.println(Environment.global.scope + " < Global Scope");
+                                System.out.println(Environment.global.visitor + " < Global Visitor");
+                                System.out.println(Environment.global.webs + " < Webs");
+                                System.out.println(Environment.global.wins + " < Wins");
+                                System.out.println(Environment.global + " < Global value");
+                            } else if (input.equals("sinfo")) {
+                                System.out.println(QBaseListener.class + " < QBLClass");
+                                System.out.println(QBaseVisitor.class + " < QBVClass");
+                                System.out.println(QLexer.class + " < QLClass");
+                                System.out.println(QParser.class + " < QPClass");
+                            } else if (input.equals("filetree")) {
+                                System.out.println(new CompilerFileTree().tree(new File("src/main/java/").toPath()).get());
+                            } else if (input.equals("sysloc")) {
+                                System.out.println(System.getProperty("user.home") + "/.q/");
+                            } else if (input.equals("github")) {
+                                System.out.println("https://github.com/QRX53/Q");
+                            } else if (input.equals("uscript")) {
+                                System.out.println(Chalk.on("cd ; /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\" ; brew install git ; brew install mvn ; brew install node ; brew install npm ; npm install wipeclean -g ; git clone http://github.com/qRX53/Q/ ; brew install cloc ; cloc Q ; cd Q ; mvn clean compile assembly:single ; brew install trash ; sudo trash ~/.q/Q.jar ; cd target ; ls ; mv Q-1.0-jar-with-dependencies.jar ~/ ; cd ; ls ; sudo mkdir -p .q ; sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar ; cd .q ; ls ; cd ; trash Q ; wipeclean ; echo Success!").bgMagenta());
+                            } else if (input.equals("readme")) {
+                                System.out.println(Chalk.on("https://github.com/QRX53/Q#readme").bgYellow());
+                            } else if (input.equals("")){
+                                System.out.println();
+                            }
+
+                        } catch (IOException e) {
+                            throw new Problem(e);
+                        }
+                    }
+
                 } else if (args[0].equals("--update") || args[0].equals("-u")) {
                     int percent = 0;
                     String cmd = "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\" ; brew install git ; brew install mvn ; brew install node ; brew install npm ; npm install wipeclean -g ; git clone http://github.com/qRX53/Q/ ; brew install cloc ; cloc Q ; cd Q ; mvn clean compile assembly:single ; brew install trash ; sudo trash ~/.q/Q.jar ; cd target ; ls ; mv Q-1.0-jar-with-dependencies.jar ~/ ; cd ; ls ; sudo mkdir -p .q ; sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar ; cd .q ; ls ; cd ; trash Q ; wipeclean ; echo Success!";
