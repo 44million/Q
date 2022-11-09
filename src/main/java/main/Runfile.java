@@ -134,7 +134,7 @@ public class Runfile {
                             System.out.println();
 
                             if (input.equals("q") || input.equals("quit")) {
-                                break;
+                                System.exit(0);
                             } else if (input.equals("env")) {
                                 System.out.println("Env: " + Environment.global);
                             } else if (input.equals("h")) {
