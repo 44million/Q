@@ -123,76 +123,83 @@ public class Runfile {
                             """);
                     System.exit(0);
                 } else if (args[0].equals("--interact") || args[0].equals("-in")) {
-		    System.out.println("Interactive entered. 'h' for help, 'q' to quit");
-                    String input = "";
-
+                    System.out.println("Interactive entered. 'h' for help, 'q' to quit");
                     while (true) {
                         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
                         try {
                             System.out.print("\n>> ");
-                            input = reader.readLine();
+                            String total = reader.readLine();
                             System.out.println();
 
-                            if (input.equals("q") || input.equals("quit")) {
-                                System.exit(0);
-                            } else if (input.equals("env")) {
-                                System.out.println("Env: " + Environment.global);
-                            } else if (input.equals("h")) {
-                                System.out.println("Q Help Menu:\n");
-                                System.out.println("""
-                                        q/quit: quit q interactive
-                                        env: Q Environment
-                                        diag: Sys Diag
-                                        sinfo: System Info
-                                        filetree: FileTree
-                                        sysloc: System location
-                                        github: Github Repo return value
-                                        uscript: update script permanent
-                                        readme: GH README permalink
-                                        """);
-                            } else if (input.equals("diag")) {
-                                System.out.println(Environment.global.hasMainExecuted + " < Has Main Executed?");
-                                System.out.println(Environment.global.allLibs + " < All Libraries");
-                                System.out.println(Environment.global.allowedLibs + " < Allowed Libs");
-                                System.out.println(Environment.global.lst + " < Lst");
-                                System.out.println(Environment.global.objs + " < Objs");
-                                System.out.println(Environment.global.natives + " < Natives");
-                                System.out.println(Environment.global.response + " < Resp");
-                                System.out.println(Environment.global.classes + " < Classes");
-                                System.out.println(Environment.global.consts + " < Consts");
-                                System.out.println(Environment.global.files + " < Files");
-                                System.out.println(Environment.global.functions + " < Funcs");
-                                System.out.println(Environment.global.jTextAreaMap + " < JTAMap");
-                                System.out.println(Environment.global.namespaces + " < Namespaces");
-                                System.out.println(Environment.global.nativeJava + " < NativeJava");
-                                System.out.println(Environment.global.nativeNames + " < NativeNames");
-                                System.out.println(Environment.global.parsed + " < Parsed");
-                                System.out.println(Environment.global.scope + " < Global Scope");
-                                System.out.println(Environment.global.visitor + " < Global Visitor");
-                                System.out.println(Environment.global.webs + " < Webs");
-                                System.out.println(Environment.global.wins + " < Wins");
-                                System.out.println(Environment.global + " < Global value");
-                            } else if (input.equals("sinfo")) {
-                                System.out.println(QBaseListener.class + " < QBLClass");
-                                System.out.println(QBaseVisitor.class + " < QBVClass");
-                                System.out.println(QLexer.class + " < QLClass");
-                                System.out.println(QParser.class + " < QPClass");
-                            } else if (input.equals("filetree")) {
-                                System.out.println(new CompilerFileTree().tree(new File("src/main/java/").toPath()).get());
-                            } else if (input.equals("sysloc")) {
-                                System.out.println(System.getProperty("user.home") + "/.q/");
-                            } else if (input.equals("github")) {
-                                System.out.println("https://github.com/QRX53/Q");
-                            } else if (input.equals("uscript")) {
-                                System.out.println(Chalk.on("cd ; /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\" ; brew install git ; brew install mvn ; brew install node ; brew install npm ; npm install wipeclean -g ; git clone http://github.com/qRX53/Q/ ; brew install cloc ; cloc Q ; cd Q ; mvn clean compile assembly:single ; brew install trash ; sudo trash ~/.q/Q.jar ; cd target ; ls ; mv Q-1.0-jar-with-dependencies.jar ~/ ; cd ; ls ; sudo mkdir -p .q ; sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar ; cd .q ; ls ; cd ; trash Q ; wipeclean ; echo Success!").bgMagenta());
-                            } else if (input.equals("readme")) {
-                                System.out.println(Chalk.on("https://github.com/QRX53/Q#readme").bgYellow());
-                            } else if (input.equals("")){
-                                System.out.println();
+                            String ary[] = new String[1];
+
+                            if (total.contains(" ")) {
+                                ary = total.split(" ");
+                            } else {
+                                ary[0] = total;
                             }
 
+                            for (String input : ary) {
+
+                                switch (input) {
+                                    case "q", "quit" -> System.exit(0);
+                                    case "env" -> System.out.println("Env: " + Environment.global);
+                                    case "h" -> {
+                                        System.out.println("Q Help Menu:\n");
+                                        System.out.println("""
+                                                q/quit: quit q interactive
+                                                env: Q Environment
+                                                diag: Sys Diag
+                                                sinfo: System Info
+                                                sysloc: System location
+                                                github: Github Repo return value
+                                                uscript: update script permanent
+                                                readme: GH README permalink
+                                                """);
+                                    }
+                                    case "diag" -> {
+                                        System.out.println(Environment.global.hasMainExecuted + " < Has Main Executed?");
+                                        System.out.println(Environment.global.allLibs + " < All Libraries");
+                                        System.out.println(Environment.global.allowedLibs + " < Allowed Libs");
+                                        System.out.println(Environment.global.lst + " < Lst");
+                                        System.out.println(Environment.global.objs + " < Objs");
+                                        System.out.println(Environment.global.natives + " < Natives");
+                                        System.out.println(Environment.global.response + " < Resp");
+                                        System.out.println(Environment.global.classes + " < Classes");
+                                        System.out.println(Environment.global.consts + " < Consts");
+                                        System.out.println(Environment.global.files + " < Files");
+                                        System.out.println(Environment.global.functions + " < Funcs");
+                                        System.out.println(Environment.global.jTextAreaMap + " < JTAMap");
+                                        System.out.println(Environment.global.namespaces + " < Namespaces");
+                                        System.out.println(Environment.global.nativeJava + " < NativeJava");
+                                        System.out.println(Environment.global.nativeNames + " < NativeNames");
+                                        System.out.println(Environment.global.parsed + " < Parsed");
+                                        System.out.println(Environment.global.scope + " < Global Scope");
+                                        System.out.println(Environment.global.visitor + " < Global Visitor");
+                                        System.out.println(Environment.global.webs + " < Webs");
+                                        System.out.println(Environment.global.wins + " < Wins");
+                                        System.out.println(Environment.global + " < Global value");
+                                    }
+                                    case "sinfo" -> {
+                                        System.out.println(QBaseListener.class + " < QBLClass");
+                                        System.out.println(QBaseVisitor.class + " < QBVClass");
+                                        System.out.println(QLexer.class + " < QLClass");
+                                        System.out.println(QParser.class + " < QPClass");
+                                    }
+                                    case "filetree" ->
+                                            System.out.println(new CompilerFileTree().tree(new File("src/main/java/").toPath()).get());
+                                    case "sysloc" -> System.out.println(System.getProperty("user.home") + "/.q/");
+                                    case "github" -> System.out.println("https://github.com/QRX53/Q");
+                                    case "uscript" ->
+                                            System.out.println(Chalk.on("cd ; /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\" ; brew install git ; brew install mvn ; brew install node ; brew install npm ; npm install wipeclean -g ; git clone http://github.com/qRX53/Q/ ; brew install cloc ; cloc Q ; cd Q ; mvn clean compile assembly:single ; brew install trash ; sudo trash ~/.q/Q.jar ; cd target ; ls ; mv Q-1.0-jar-with-dependencies.jar ~/ ; cd ; ls ; sudo mkdir -p .q ; sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar ; cd .q ; ls ; cd ; trash Q ; wipeclean ; echo Success!").bgMagenta());
+                                    case "readme" ->
+                                            System.out.println(Chalk.on("https://github.com/QRX53/Q#readme").bgYellow());
+                                    case "" -> System.out.println();
+                                }
+
+                            }
                         } catch (IOException e) {
-                            throw new Problem(e);
+                            throw new RuntimeException(e);
                         }
                     }
 

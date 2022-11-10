@@ -14,9 +14,7 @@ import java.io.File;
 import java.util.*;
 
 /*
-
     The environment that Q is currently running in, this contains everything important.
-
  */
 
 public class Environment {
