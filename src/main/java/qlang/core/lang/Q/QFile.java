@@ -76,7 +76,7 @@ public class QFile {
                 err = "No Runfile specified. Please re-run Q with the command args '--run path/to/<file>.q'.";
             }
 
-            if (exception.getMessage().endsWith(".q") || (exception.getMessage().endsWith(".l")) || exception instanceof FileNotFoundException) {
+            if (exception.getMessage().endsWith(".q") || (exception.getMessage().endsWith(".u")) || exception instanceof FileNotFoundException) {
                 err += " (File not found)";
             }
 

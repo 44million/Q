@@ -219,7 +219,7 @@ public class Util {
 
     public static void resolveImport(String imp) {
 
-        File file = new File(System.getProperty("user.dir") + "/" + imp + ".l");
+        File file = new File(System.getProperty("user.dir") + "/" + imp + ".u");
 
         for (File f : Environment.global.parsed) {
             if (f.getPath().equals(file.getPath())) {
@@ -238,7 +238,7 @@ public class Util {
                 return;
             }
 
-            throw new Problem("Could not parse " + imp + ".l (the file may not exist or be in the wrong format)");
+            throw new Problem("Could not parse " + imp + ".u (the file may not exist or be in the wrong format)");
         }
 
     }

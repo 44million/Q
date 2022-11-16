@@ -901,7 +901,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             Path currentRelativePath = Paths.get("");
             String currentPath = currentRelativePath.toAbsolutePath().toString();
 
-            File file = new File(currentPath + "/" + path + ".l");
+            File file = new File(currentPath + "/" + path + ".u");
             if (f.getPath().equals(file.getPath())) {
                 return null;
             }
@@ -911,11 +911,11 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         Path currentRelativePath = Paths.get("");
         String currentPath = currentRelativePath.toAbsolutePath().toString();
 
-        File file = new File(currentPath + "/" + path + ".l");
+        File file = new File(currentPath + "/" + path + ".u");
         Environment.global.parsed.add(file);
 
         try {
-            lexer = new QLexer(CharStreams.fromFileName(currentPath + "/" + path + ".l"));
+            lexer = new QLexer(CharStreams.fromFileName(currentPath + "/" + path + ".u"));
         } catch (IOException e) {
             throw new Problem("Library or File not found: " + path, ctx, this.curClass);
         }
