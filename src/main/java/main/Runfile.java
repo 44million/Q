@@ -195,7 +195,7 @@ public class Runfile {
                                     case "readme" ->
                                             System.out.println(Chalk.on("https://github.com/QRX53/Q#readme").bgYellow());
                                     case "" -> System.out.println();
-                                    case "cls" -> Util.clearConsole();
+                                    case "cls" -> System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                                     default -> System.out.println(Chalk.on("[ERROR] Unknown input field '" + input + "'.").bgRed());
                                 }
 
