@@ -22,7 +22,7 @@ import java.util.Objects;
 import java.util.Scanner;
 
 /*
-    Main file, run this to execute the 'Main.x' file
+    Main file, run this to execute the 'Main.q' file
  */
 
 public class Runfile {
@@ -45,7 +45,7 @@ public class Runfile {
             Scope baseScope = new Scope(null, false);
             Visitor globalScope = new Visitor(baseScope, new HashMap<>());
             Environment env = new Environment();
-            String fpath = "src/main/QFiles/Main.x";
+            String fpath = "src/main/QFiles/Main.q";
 
             if (args.length >= 1) {
                 if (args.length == 1 && !args[0].startsWith("-")) {
@@ -69,7 +69,7 @@ public class Runfile {
                             Flags:
                             --env (-e) | Print the environment
                             --runblind <file> (-rb <file>) | Run the file given with no security checks
-                            --run <file> (-r <file>) | Run a file. Same as `q Main.x`
+                            --run <file> (-r <file>) | Run a file. Same as `q <file>.q`
                             --info (-i) | Returns Q version, host, build, dir, and more.
                             --killall (-ka) | Kills Q processes.
                             --terminal (-t) | Allows you to enter your code in the terminal directly, rather than a file.
@@ -431,7 +431,7 @@ public class Runfile {
                 }
             } else {
                 System.out.println("Q version 1.0: \u2705");
-                System.out.println("\n\nTo run a file, execute: `q <file>.x`, or enter `q --help` for assistance.");
+                System.out.println("\n\nTo run a file, execute: `q <file>.q`, or enter `q --help` for assistance.");
                 System.exit(0);
             }
 

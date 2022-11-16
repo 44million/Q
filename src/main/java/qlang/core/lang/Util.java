@@ -84,9 +84,9 @@ public class Util {
                     File input = new File(args[++counter]);
                     try {
 
-                        if (!new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")).exists()) {
+                        if (!new File(input.getAbsolutePath().replaceAll("\\.q", ".comp")).exists()) {
                             try {
-                                new File(input.getAbsolutePath().replaceAll("\\.x", ".comp")).createNewFile();
+                                new File(input.getAbsolutePath().replaceAll("\\.q", ".comp")).createNewFile();
                             } catch (Exception e) {
                                 System.out.println(e.getMessage());
                             }
@@ -98,7 +98,7 @@ public class Util {
                     } catch (Exception e) {
 
                         String err = "[FATAL] " + e.getMessage();
-                        if (e.getMessage().startsWith("src\\main\\Q\\") || e.getMessage().startsWith("C:") || e.getMessage().endsWith(".x")) {
+                        if (e.getMessage().startsWith("src\\main\\Q\\") || e.getMessage().startsWith("C:") || e.getMessage().endsWith(".q")) {
                             err += " (File not found)";
                         }
 

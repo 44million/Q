@@ -26,7 +26,7 @@ Success! Now you have a copy of Q on your computer. Now, rename it from 'Q.1.0-w
 jarfile using
 
 ```
-java -jar Q.jar --run path/to/QFile.x
+java -jar Q.jar --run path/to/QFile.q
 ```
 
 If you are seeing issues with not having `mvn` installed, ie (zsh: mvn not found) or similar, use the following:
@@ -82,7 +82,7 @@ source .bash_profile
 Done! From now on, you can run
 
 ```
-q --run path/to/file.x
+q --run path/to/file.q
 ```
 
 To run any Q file. To update it, simply paste the following.
