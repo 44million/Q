@@ -372,6 +372,8 @@ public class Runfile {
                                                     echo -e "Run 'q -v' to verify installation"
                                                     # simple as.
                                                     """);
+                                        } else {
+                                            System.out.println(Chalk.on("This command requires a flag.\nTry `uscript -p`").bgRed());
                                         }
                                     }
                                     case "readme" -> {
