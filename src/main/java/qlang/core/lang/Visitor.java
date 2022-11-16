@@ -889,7 +889,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             text.append(".").append(o.getText());
         }
 
-        if (Environment.global.allLibs.contains(text.toString().replace(".q.", ""))) {
+        if (ctx.LT() != null) {
             Util.register(text.toString(), false);
             if (text.toString().replace(".q.", "").equals("Console")) {
                 new QCONSOLELIBRARY().init();
