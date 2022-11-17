@@ -188,14 +188,7 @@ public class Runfile {
                                     }
                                     case "filetree" ->
                                             System.out.println(new CompilerFileTree().tree(new File("src/main/java/").toPath()).get());
-                                    case "sysloc" -> {
-                                        if (ary[i++].equals("-abs") || ary[i++].equals("--absolute")) {
-                                            File qfolder = new File("~/.q");
-                                            System.out.println(qfolder.getAbsolutePath());
-                                        } else {
-                                            System.out.println(System.getProperty("user.home") + "/.q/");
-                                        }
-                                    }
+                                    case "sysloc" -> System.out.println(System.getProperty("user.home") + "/.q/");
                                     case "github" -> {
                                         if (ary[i++].equals("-p") || ary[i++].equals("--public")) {
                                             System.out.println("https://github.com/QRX53/Q-public");
