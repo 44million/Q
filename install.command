@@ -17,7 +17,7 @@ sleep 7 ;
 
 # install brew, just in case user doesnt have it already
 # shellcheck disable=SC2164
-cd ; /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ;
+cd ; /bin/bash -c "$(curl -fsSL -s https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ;
 # install git, just in case user doesnt have it already
 brew install git ;
 # install mvn, just in case user doesnt have it already
@@ -33,15 +33,15 @@ brew install figlet ;
 # clone the repo into a new folder
 git clone http://github.com/qRX53/Q/ QLANGUPDATEFOLDERTEMP ; cd QLANGUPDATEFOLDERTEMP ;
 # assemble the jarfile (with dependencies)
-mvn clean compile assembly:single ;
+mvn clean compile assembly:single -q ;
 # install trash, just in case user doesnt have it already
 brew install trash ; 
 # move the old Q jarfile into the trash.
 sudo trash ~/.q/Q.jar ;
 # change into the target folder, and then move the new jarfile into the home dir
-cd target ; ls ; mv Q-1.0-jar-with-dependencies.jar ~/ ;
+cd target || exit ; ls ; mv Q-1.0-jar-with-dependencies.jar ~/ ;
 # cd to the home dir, make the .q folder if there isnt one already
-cd ; ls ; sudo mkdir -p .q ;
+cd || exit ; ls ; sudo mkdir -p .q ;
 # move the new jarfile into the .q folder, and rename it.
 sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar ;
 # move the cloned repo to the trash
