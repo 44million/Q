@@ -140,8 +140,10 @@ public class Runfile {
                             }
 
                             for (int i = 0; i < ary.length; i++) {
-
+                                int nint = i++;
+                                String next = ary[nint];
                                 switch (ary[i]) {
+
                                     case "q", "quit" -> System.exit(0);
                                     case "env" -> System.out.println("Env: " + Environment.global);
                                     case "h" -> {
@@ -190,14 +192,14 @@ public class Runfile {
                                             System.out.println(new CompilerFileTree().tree(new File("src/main/java/").toPath()).get());
                                     case "sysloc" -> System.out.println(System.getProperty("user.home") + "/.q/");
                                     case "github" -> {
-                                        if (ary[i++].equals("-p") || ary[i++].equals("--public")) {
+                                        if (next.equals("-p") || next.equals("--public")) {
                                             System.out.println("https://github.com/QRX53/Q-public");
                                         } else {
                                             System.out.println("https://github.com/QRX53/Q");
                                         }
                                     }
                                     case "uscript" -> {
-                                        if (ary[i++].equals("--makefile") || ary[i++].equals("-m")) {
+                                        if (next.equals("--makefile") || next.equals("-m")) {
                                             File newf = new File("install.sh");
                                             if (!newf.exists()) {
                                                 newf.createNewFile();
@@ -285,7 +287,7 @@ public class Runfile {
                                                     """);
                                             fw.close();
 
-                                        } else if (ary[i++].equals("-p") || ary[i++].equals("--print")) {
+                                        } else if (next.equals("-p") || next.equals("--print")) {
                                             System.out.println("""
                                                     #!/bin/bash
                                                                                                         
@@ -370,7 +372,7 @@ public class Runfile {
                                         }
                                     }
                                     case "readme" -> {
-                                        if (ary[i++].equals("-p") || ary[i++].equals("--public")) {
+                                        if (next.equals("-p") || next.equals("--public")) {
                                             System.out.println(Chalk.on("https://github.com/QRX53/q-public#this-is-the-public-version-of-the-language-so-that-i-dont-have-to-sign-in-on-github-every-time-because-the-personal-access-token-thing-is-stupid-this-wont-be-updated-as-often-only-when-i-need-a-public-copy").bgYellow());
                                         } else {
                                             System.out.println(Chalk.on("https://github.com/QRX53/Q#readme").bgYellow());
