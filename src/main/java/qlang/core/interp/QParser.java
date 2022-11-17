@@ -26,7 +26,7 @@ public class QParser extends Parser {
 		LT=49, Add=50, Subtract=51, Multiply=52, Divide=53, Modulus=54, OBrace=55, 
 		CBrace=56, OBracket=57, CBracket=58, OParen=59, CParen=60, SColon=61, 
 		Assign=62, Comma=63, QMark=64, Colon=65, Bool=66, Number=67, Identifier=68, 
-		String=69, Comment=70, Space=71, RT=72;
+		String=69, Comment=70, Space=71;
 	public static final int
 		RULE_parse = 0, RULE_block = 1, RULE_statement = 2, RULE_reAssignment = 3, 
 		RULE_assignment = 4, RULE_functionCall = 5, RULE_allImport = 6, RULE_objFunctionCall = 7, 
@@ -79,7 +79,7 @@ public class QParser extends Parser {
 			"Pow", "Excl", "GT", "LT", "Add", "Subtract", "Multiply", "Divide", "Modulus", 
 			"OBrace", "CBrace", "OBracket", "CBracket", "OParen", "CParen", "SColon", 
 			"Assign", "Comma", "QMark", "Colon", "Bool", "Number", "Identifier", 
-			"String", "Comment", "Space", "RT"
+			"String", "Comment", "Space"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -2372,7 +2372,7 @@ public class QParser extends Parser {
 			return getToken(QParser.Identifier, i);
 		}
 		public TerminalNode LT() { return getToken(QParser.LT, 0); }
-		public TerminalNode RT() { return getToken(QParser.RT, 0); }
+		public TerminalNode GT() { return getToken(QParser.GT, 0); }
 		public ImportStatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -2445,7 +2445,7 @@ public class QParser extends Parser {
 				setState(389);
 				match(Identifier);
 				setState(390);
-				match(RT);
+				match(GT);
 				}
 				break;
 			}
@@ -4320,7 +4320,7 @@ public class QParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001H\u0245\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001G\u0245\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
@@ -4585,7 +4585,7 @@ public class QParser extends Parser {
 		"\u0188\u0001\u0000\u0000\u0000\u017f\u017d\u0001\u0000\u0000\u0000\u0180"+
 		"\u0181\u0005\u0001\u0000\u0000\u0181\u0182\u0005\u0011\u0000\u0000\u0182"+
 		"\u0183\u00051\u0000\u0000\u0183\u0184\u0005D\u0000\u0000\u0184\u0185\u0005"+
-		"\u0002\u0000\u0000\u0185\u0186\u0005D\u0000\u0000\u0186\u0188\u0005H\u0000"+
+		"\u0002\u0000\u0000\u0185\u0186\u0005D\u0000\u0000\u0186\u0188\u00050\u0000"+
 		"\u0000\u0187\u0176\u0001\u0000\u0000\u0000\u0187\u0180\u0001\u0000\u0000"+
 		"\u0000\u01883\u0001\u0000\u0000\u0000\u0189\u018a\u0005\u0015\u0000\u0000"+
 		"\u018a\u018c\u0005;\u0000\u0000\u018b\u018d\u0003F#\u0000\u018c\u018b"+
