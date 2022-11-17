@@ -140,7 +140,10 @@ public class Runfile {
                             }
 
                             for (int i = 0; i < ary.length; i++) {
-                                int nint = i++;
+                                // ????????
+                                // work please
+                                int nint = i;
+                                nint++;
                                 String next;
                                 try {
                                     next = ary[nint];
