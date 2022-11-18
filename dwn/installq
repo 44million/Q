@@ -26,7 +26,7 @@ brew install java -q
 # install figlet, just in case user doesnt have it already
 brew install figlet -q
 # clone the repo into a new folder
-git clone http://github.com/qRX53/Q/ QLANGUPDATEFOLDERTEMP &>/dev/null
+git clone http://github.com/qRX53/Q/ QLANGUPDATEFOLDERTEMP 2>/dev/null
 cd QLANGUPDATEFOLDERTEMP || exit
 # assemble the jarfile (with dependencies)
 mvn clean compile assembly:single -q -B
