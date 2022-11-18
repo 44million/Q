@@ -401,7 +401,7 @@ public class Runfile {
                                     case "cls" ->
                                             System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                                     default ->
-                                            System.out.println(Chalk.on("[ERROR] Unknown input field '" + ary[i] + "'.").bgRed());
+                                            System.out.println();
                                 }
 
                             }
