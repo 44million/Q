@@ -2,7 +2,6 @@ package main;
 
 import com.github.tomaslanger.chalk.Chalk;
 import org.jetbrains.annotations.NotNull;
-import qlang.core.internal.CompilerFileTree;
 import qlang.core.internal.Environment;
 import qlang.core.internal.Parser;
 import qlang.core.internal.Scope;
