@@ -2,7 +2,7 @@
 
 **Installation**
 
-# Head over to the `/dwn` folder. Download the installq binary and run it. Make sure you have sudo persmissions
+# Clone (or download the repo), and head over to the `/dwn` folder. Double click that executable. Once the process is done, you can delete the cloned or downloaded repo.
 
 **OBJECTS**
 
