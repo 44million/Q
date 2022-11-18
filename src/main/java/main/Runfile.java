@@ -177,6 +177,7 @@ public class Runfile {
                                                 q/quit: quit q interactive
                                                 env: Q Environment
                                                 diag: Sys Diag
+                                                filetree [-m <file>, --makefile <file>] [-p, --print]: Generate Q compiler file tree.
                                                 sinfo [-j, --java] [-q, --q]: System Info
                                                 sysloc: System location
                                                 github [-p, --public]: Github Repo return value
@@ -219,7 +220,7 @@ public class Runfile {
                                                             + "");
                                         } else if (next.equals("-q") || next.equals("--q")) {
                                             System.out.println(
-                                                            "\nQ Version: " + Environment.global.qversion
+                                                    "\nQ Version: " + Environment.global.qversion
                                                             + "\nQ System Location: " + System.getProperty("user.home") + "/.q/"
                                                             + "\nQ Shell version: " + Environment.global.shver
                                                             + "\nInstallation status: perfect :)\n"
@@ -237,8 +238,123 @@ public class Runfile {
                                                             + "");
                                         }
                                     }
-                                    case "filetree" ->
-                                            System.out.println(new CompilerFileTree().tree(new File("src/main/java/").toPath()).get());
+                                    case "filetree" -> {
+                                        if (next.equals("-p") || next.equals("--print")) {
+                                            System.out.println("""
+                                                    /qlang::Folder 611.1 kB
+                                                    ├─ /core::Folder 584.1 kB
+                                                    │  ├─ /internal::Folder 37.4 kB
+                                                    │  │  ├─ CompilerFileTree::JavaFile 4.0 kB
+                                                    │  │  ├─ Environment::JavaFile 2.7 kB
+                                                    │  │  ├─ NameSpace::JavaFile 381 B
+                                                    │  │  ├─ Parser::JavaFile 14.9 kB
+                                                    │  │  ├─ Q::LexFile 7.0 kB
+                                                    │  │  └─ Scope::JavaFile 2.3 kB
+                                                    │  ├─ /interp::Folder 412.8 kB
+                                                    │  │  ├─ Q::InterpreterFile 20.4 kB
+                                                    │  │  ├─ Q::TokenInputFile 1.2 kB
+                                                    │  │  ├─ QBaseListener::JavaFile 28.7 kB
+                                                    │  │  ├─ QBaseVisitor::JavaFile 21.1 kB
+                                                    │  │  ├─ QLexer::InterpreterFile 21.5 kB
+                                                    │  │  ├─ QLexer::JavaFile 43.7 kB
+                                                    │  │  ├─ QLexer::TokenInputFile 1.2 kB
+                                                    │  │  ├─ QListener::JavaFile 31.3 kB
+                                                    │  │  ├─ QParser::JavaFile 225.4 kB
+                                                    │  │  ├─ QVisitor::JavaFile 18.2 kB
+                                                    │  │  └─ README.md 103 B
+                                                    │  ├─ /lang::Folder 127.7 kB
+                                                    │  │  ├─ /Q::Folder 9.2 kB
+                                                    │  │  │  ├─ QClass::JavaFile 2.7 kB
+                                                    │  │  │  ├─ QFile::JavaFile 3.2 kB
+                                                    │  │  │  └─ Value::JavaFile 3.3 kB
+                                                    │  │  ├─ Function::JavaFile 5.7 kB
+                                                    │  │  ├─ NativeFunctionLoader::JavaFile 27.8 kB
+                                                    │  │  ├─ Util::JavaFile 15.7 kB
+                                                    │  │  └─ Visitor::JavaFile 69.3 kB
+                                                    ├─ /runtime::Folder 20.8 kB
+                                                    │  ├─ /errors::Folder 2.0 kB
+                                                    │  │  ├─ Problem::JavaFile 1.4 kB
+                                                    │  │  ├─ RVal::JavaFile 160 B
+                                                    │  │  └─ Tip::JavaFile 416 B
+                                                    │  └─ /libs::Folder 18.8 kB
+                                                    │     ├─ /AWT::Folder 1.8 kB
+                                                    │     │  └─ AWT::JavaFile 1.8 kB
+                                                    │     ├─ /util::Folder 4.6 kB
+                                                    │     │  ├─ HTTP::JavaFile 4.3 kB
+                                                    │     │  └─ QLibrary::JavaFile 291 B
+                                                    │     ├─ Files::JavaFile 2.2 kB
+                                                    │     ├─ Math::JavaFile 3.2 kB
+                                                    │     ├─ OS::JavaFile 1.1 kB
+                                                    │     ├─ QRandom::JavaFile 793 B
+                                                    │     ├─ Qio::JavaFile 1.8 kB
+                                                    │     ├─ Time::JavaFile 1.9 kB
+                                                    │     └─ WebServer::JavaFile 1.5 kB
+                                                    """);
+                                        } else if (next.equals("-m") || next.equals("--makefile")) {
+                                            if (nextnext.equals(null)) {
+                                                System.out.println(Chalk.on("Cannot run `filetree -m <file>` without file name.").bgRed());
+                                            } else {
+                                                File f = new File(nextnext);
+                                                try {
+                                                    if (!f.exists()) {
+                                                        f.createNewFile();
+                                                    }
+                                                    FileWriter fw = new FileWriter(f);
+                                                    fw.write("/qlang::Folder 611.1 kB\n" +
+                                                            "├─ /core::Folder 584.1 kB\n" +
+                                                            "│  ├─ /internal::Folder 37.4 kB\n" +
+                                                            "│  │  ├─ CompilerFileTree::JavaFile 4.0 kB\n" +
+                                                            "│  │  ├─ Environment::JavaFile 2.7 kB\n" +
+                                                            "│  │  ├─ NameSpace::JavaFile 381 B\n" +
+                                                            "│  │  ├─ Parser::JavaFile 14.9 kB\n" +
+                                                            "│  │  ├─ Q::LexFile 7.0 kB\n" +
+                                                            "│  │  └─ Scope::JavaFile 2.3 kB\n" +
+                                                            "│  ├─ /interp::Folder 412.8 kB\n" +
+                                                            "│  │  ├─ Q::InterpreterFile 20.4 kB\n" +
+                                                            "│  │  ├─ Q::TokenInputFile 1.2 kB\n" +
+                                                            "│  │  ├─ QBaseListener::JavaFile 28.7 kB\n" +
+                                                            "│  │  ├─ QBaseVisitor::JavaFile 21.1 kB\n" +
+                                                            "│  │  ├─ QLexer::InterpreterFile 21.5 kB\n" +
+                                                            "│  │  ├─ QLexer::JavaFile 43.7 kB\n" +
+                                                            "│  │  ├─ QLexer::TokenInputFile 1.2 kB\n" +
+                                                            "│  │  ├─ QListener::JavaFile 31.3 kB\n" +
+                                                            "│  │  ├─ QParser::JavaFile 225.4 kB\n" +
+                                                            "│  │  ├─ QVisitor::JavaFile 18.2 kB\n" +
+                                                            "│  │  └─ README.md 103 B\n" +
+                                                            "│  ├─ /lang::Folder 127.7 kB\n" +
+                                                            "│  │  ├─ /Q::Folder 9.2 kB\n" +
+                                                            "│  │  │  ├─ QClass::JavaFile 2.7 kB\n" +
+                                                            "│  │  │  ├─ QFile::JavaFile 3.2 kB\n" +
+                                                            "│  │  │  └─ Value::JavaFile 3.3 kB\n" +
+                                                            "│  │  ├─ Function::JavaFile 5.7 kB\n" +
+                                                            "│  │  ├─ NativeFunctionLoader::JavaFile 27.8 kB\n" +
+                                                            "│  │  ├─ Util::JavaFile 15.7 kB\n" +
+                                                            "│  │  └─ Visitor::JavaFile 69.3 kB\n" +
+                                                            "├─ /runtime::Folder 20.8 kB\n" +
+                                                            "│  ├─ /errors::Folder 2.0 kB\n" +
+                                                            "│  │  ├─ Problem::JavaFile 1.4 kB\n" +
+                                                            "│  │  ├─ RVal::JavaFile 160 B\n" +
+                                                            "│  │  └─ Tip::JavaFile 416 B\n" +
+                                                            "│  └─ /libs::Folder 18.8 kB\n" +
+                                                            "│     ├─ /AWT::Folder 1.8 kB\n" +
+                                                            "│     │  └─ AWT::JavaFile 1.8 kB\n" +
+                                                            "│     ├─ /util::Folder 4.6 kB\n" +
+                                                            "│     │  ├─ HTTP::JavaFile 4.3 kB\n" +
+                                                            "│     │  └─ QLibrary::JavaFile 291 B\n" +
+                                                            "│     ├─ Files::JavaFile 2.2 kB\n" +
+                                                            "│     ├─ Math::JavaFile 3.2 kB\n" +
+                                                            "│     ├─ OS::JavaFile 1.1 kB\n" +
+                                                            "│     ├─ QRandom::JavaFile 793 B\n" +
+                                                            "│     ├─ Qio::JavaFile 1.8 kB\n" +
+                                                            "│     ├─ Time::JavaFile 1.9 kB\n" +
+                                                            "│     └─ WebServer::JavaFile 1.5 kB");
+                                                    fw.close();
+                                                } catch (Exception e) {
+                                                    throw new Problem(e);
+                                                }
+                                            }
+                                        }
+                                    }
                                     case "sysloc" -> System.out.println(System.getProperty("user.home") + "/.q/");
                                     case "github" -> {
                                         if (next.equals("-p") || next.equals("--public")) {

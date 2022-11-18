@@ -22,7 +22,7 @@ import qlang.runtime.errors.RVal;
 import qlang.runtime.errors.Tip;
 import qlang.runtime.libs.AWT.AWT;
 import qlang.runtime.libs.OS;
-import qlang.runtime.libs.QCONSOLELIBRARY;
+import qlang.runtime.libs.Qio;
 import qlang.runtime.libs.WebServer;
 import qlang.runtime.libs.util.HTTP;
 
@@ -892,7 +892,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         if (ctx.LT() != null) {
             Util.register(text.toString(), false);
             if (text.toString().replace(".q.", "").equals("Console")) {
-                new QCONSOLELIBRARY().init();
+                new Qio().init();
             }
             return Value.VOID;
         }
