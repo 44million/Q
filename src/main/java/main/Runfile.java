@@ -82,6 +82,7 @@ public class Runfile {
                             --help (-h) | Returns this menu.
                             --version (-v) | Get the Q version. Good for checking installation status.
                             --interact (-in) | interact with the Q CLI
+                            \t\tThe [interact] screen has more advanced flag options.
                             """);
                     System.exit(0);
                 } else if (args[0].equals("-i") || args[0].equals("--info")) {
