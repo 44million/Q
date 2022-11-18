@@ -6,10 +6,6 @@ import qlang.core.internal.CompilerFileTree;
 import qlang.core.internal.Environment;
 import qlang.core.internal.Parser;
 import qlang.core.internal.Scope;
-import qlang.core.interp.QBaseListener;
-import qlang.core.interp.QBaseVisitor;
-import qlang.core.interp.QLexer;
-import qlang.core.interp.QParser;
 import qlang.core.lang.NativeFunctionLoader;
 import qlang.core.lang.Q.QFile;
 import qlang.core.lang.Util;
@@ -177,7 +173,7 @@ public class Runfile {
                                                 q/quit: quit q interactive
                                                 env: Q Environment
                                                 diag: Sys Diag
-                                                sinfo: System Info
+                                                sinfo [-j, --java] [-q, --q]: System Info
                                                 sysloc: System location
                                                 github [-p, --public]: Github Repo return value
                                                 uscript [-m, --makefile] [-p, --print]: update script permanent
@@ -209,10 +205,33 @@ public class Runfile {
                                         System.out.println(Environment.global + " < Global value");
                                     }
                                     case "sinfo" -> {
-                                        System.out.println(QBaseListener.class + " < QBLClass");
-                                        System.out.println(QBaseVisitor.class + " < QBVClass");
-                                        System.out.println(QLexer.class + " < QLClass");
-                                        System.out.println(QParser.class + " < QPClass");
+                                        if (next.equals("-j") || next.equals("--java")) {
+                                            System.out.println(
+                                                    "ANTLR Version: 4.10.1" +
+                                                            "\nQ build version: "
+                                                            + Runfile.class.hashCode()
+                                                            + "Java version: " + System.getProperty("java.version")
+                                                            + "\nJRuntime: " + System.getProperty("java.runtime.version") + "\n"
+                                                            + "");
+                                        } else if (next.equals("-q") || next.equals("--q")) {
+                                            System.out.println(
+                                                            "\nQ Version: " + Environment.global.qversion
+                                                            + "Q System Location: " + System.getProperty("user.home") + "/.q/"
+                                                            + "Q Shell version: " + Environment.global.shver
+                                                            + "Installation status: perfect :)\n"
+                                                            + "");
+                                        } else {
+                                            System.out.println(
+                                                    "ANTLR Version: 4.10.1\nQ build version: "
+                                                            + Runfile.class.hashCode()
+                                                            + "\nQ Version: " + Environment.global.qversion
+                                                            + "Q System Location: " + System.getProperty("user.home") + "/.q/"
+                                                            + "Q Shell version: " + Environment.global.shver
+                                                            + "Installation status: perfect :)\n"
+                                                            + "Java version: " + System.getProperty("java.version")
+                                                            + "\nJRuntime: " + System.getProperty("java.runtime.version") + "\n"
+                                                            + "");
+                                        }
                                     }
                                     case "filetree" ->
                                             System.out.println(new CompilerFileTree().tree(new File("src/main/java/").toPath()).get());
@@ -226,7 +245,7 @@ public class Runfile {
                                     }
                                     case "uscript" -> {
                                         if (next.equals("--makefile") || next.equals("-m")) {
-                                            File newf = null;
+                                            File newf;
                                             if (!nextnext.equals("")) {
                                                 newf = new File(nextnext);
                                             } else {
@@ -237,169 +256,13 @@ public class Runfile {
                                             }
 
                                             FileWriter fw = new FileWriter(newf);
-                                            fw.write("""
-                                                    #!/bin/bash
-                                                                                                        
-                                                    # define silly colors for figlet
-                                                    GREEN='\\033[0;32m'
-                                                    NC='\\033[0m'
-                                                                                                        
-                                                    # set color to green
-                                                    echo -e \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n${GREEN}\"
-                                                                                                        
-                                                    echo -e \"Beginning install process. This will take a while, and will require sudo access. Please allow up to 5 minutes\"
-                                                                                                        
-                                                    # leave green coloration.
-                                                    echo -e \"${NC}\"
-                                                                                                        
-                                                    sleep 35 ;
-                                                                                                        
-                                                    # install brew, just in case user doesnt have it already
-                                                    # shellcheck disable=SC2164
-                                                    cd ; /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\" ;
-                                                    # install git, just in case user doesnt have it already
-                                                    brew install git ;
-                                                    # install mvn, just in case user doesnt have it already
-                                                    brew install mvn ;
-                                                    # install node, just in case user doesnt have it already
-                                                    brew install node ;
-                                                    # install npm, just in case user doesnt have it already
-                                                    brew install npm ;
-                                                    # install java, just in case user doesnt have it already
-                                                    brew install java;
-                                                    # install figlet, just in case user doesnt have it already
-                                                    brew install figlet ;
-                                                    # install wipeclean, just in case user doesnt have it already
-                                                    npm install wipeclean -g ;
-                                                    # clone the repo into a new folder
-                                                    git clone http://github.com/qRX53/Q/ QLANGUPDATEFOLDERTEMP;
-                                                    # install cloc, just in case user doesnt have it already
-                                                    brew install cloc ;\s
-                                                    # use the cloc command to verify that it's the correct repo, and then cd into the directory
-                                                    cloc QLANGUPDATEFOLDERTEMP ; cd QLANGUPDATEFOLDERTEMP ;
-                                                    # assemble the jarfile (with dependencies)
-                                                    mvn clean compile assembly:single ;
-                                                    # install trash, just in case user doesnt have it already
-                                                    brew install trash ;\s
-                                                    # move the old Q jarfile into the trash.
-                                                    sudo trash ~/.q/Q.jar ;
-                                                    # change into the target folder, and then move the new jarfile into the home dir
-                                                    cd target ; ls ; mv Q-1.0-jar-with-dependencies.jar ~/ ;
-                                                    # cd to the home dir, make the .q folder if there isnt one already
-                                                    cd ; ls ; sudo mkdir -p .q ;
-                                                    # move the new jarfile into the .q folder, and rename it.
-                                                    sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar ;
-                                                    # cd to the .q fodler
-                                                    cd .q ;
-                                                    # nonessential
-                                                    ls ; cd ;
-                                                    # move the cloned repo to the trash
-                                                    trash QLANGUPDATEFOLDERTEMP ;
-                                                    # neat little cls animation
-                                                    wipeclean ;
-                                                                                                        
-                                                    # add the q cli command to the zshrc file
-                                                    echo \"alias q='java -jar ~/.q/Q.jar'\" > ~/.zshrc
-                                                                                                        
-                                                    # same for bashrc file, in case user uses bash instead of zsh
-                                                    echo \"alias q='java -jar ~/.q/Q.jar'\" > ~/.bashrc
-                                                                                                        
-                                                    # set color to green
-                                                    echo -e \"${GREEN}\"
-                                                                                                        
-                                                    # create ansi 'success' text
-                                                    figlet \"Success!\"
-                                                                                                        
-                                                    # leave green coloration.
-                                                    echo -e \"${NC}\"
-                                                                                                        
-                                                    echo -e \"Run 'q -v' to verify installation\"
-                                                    # simple as.
-                                                    """);
+                                            fw.write(Util.updateScript);
                                             fw.close();
 
                                         } else if (next.equals("-p") || next.equals("--print")) {
-                                            System.out.println("""
-                                                    #!/bin/bash
-                                                                                                        
-                                                    # define silly colors for figlet
-                                                    GREEN='\\033[0;32m'
-                                                    NC='\\033[0m'
-                                                                                                        
-                                                    # set color to green
-                                                    echo -e \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n${GREEN}\"
-                                                                                                        
-                                                    echo -e \"Beginning install process. This will take a while, and will require sudo access. Please allow up to 5 minutes\"
-                                                                                                        
-                                                    # leave green coloration.
-                                                    echo -e \"${NC}\"
-                                                                                                        
-                                                    sleep 35 ;
-                                                                                                        
-                                                    # install brew, just in case user doesnt have it already
-                                                    # shellcheck disable=SC2164
-                                                    cd ; /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\" ;
-                                                    # install git, just in case user doesnt have it already
-                                                    brew install git ;
-                                                    # install mvn, just in case user doesnt have it already
-                                                    brew install mvn ;
-                                                    # install node, just in case user doesnt have it already
-                                                    brew install node ;
-                                                    # install npm, just in case user doesnt have it already
-                                                    brew install npm ;
-                                                    # install java, just in case user doesnt have it already
-                                                    brew install java;
-                                                    # install figlet, just in case user doesnt have it already
-                                                    brew install figlet ;
-                                                    # install wipeclean, just in case user doesnt have it already
-                                                    npm install wipeclean -g ;
-                                                    # clone the repo into a new folder
-                                                    git clone http://github.com/qRX53/Q/ QLANGUPDATEFOLDERTEMP;
-                                                    # install cloc, just in case user doesnt have it already
-                                                    brew install cloc ;\s
-                                                    # use the cloc command to verify that it's the correct repo, and then cd into the directory
-                                                    cloc QLANGUPDATEFOLDERTEMP ; cd QLANGUPDATEFOLDERTEMP ;
-                                                    # assemble the jarfile (with dependencies)
-                                                    mvn clean compile assembly:single ;
-                                                    # install trash, just in case user doesnt have it already
-                                                    brew install trash ;\s
-                                                    # move the old Q jarfile into the trash.
-                                                    sudo trash ~/.q/Q.jar ;
-                                                    # change into the target folder, and then move the new jarfile into the home dir
-                                                    cd target ; ls ; mv Q-1.0-jar-with-dependencies.jar ~/ ;
-                                                    # cd to the home dir, make the .q folder if there isnt one already
-                                                    cd ; ls ; sudo mkdir -p .q ;
-                                                    # move the new jarfile into the .q folder, and rename it.
-                                                    sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar ;
-                                                    # cd to the .q fodler
-                                                    cd .q ;
-                                                    # nonessential
-                                                    ls ; cd ;
-                                                    # move the cloned repo to the trash
-                                                    trash QLANGUPDATEFOLDERTEMP ;
-                                                    # neat little cls animation
-                                                    wipeclean ;
-                                                                                                        
-                                                    # add the q cli command to the zshrc file
-                                                    echo \"alias q='java -jar ~/.q/Q.jar'\" > ~/.zshrc
-                                                                                                        
-                                                    # same for bashrc file, in case user uses bash instead of zsh
-                                                    echo \"alias q='java -jar ~/.q/Q.jar'\" > ~/.bashrc
-                                                                                                        
-                                                    # set color to green
-                                                    echo -e \"${GREEN}\"
-                                                                                                        
-                                                    # create ansi 'success' text
-                                                    figlet \"Success!\"
-                                                                                                        
-                                                    # leave green coloration.
-                                                    echo -e \"${NC}\"
-                                                                                                        
-                                                    echo -e \"Run 'q -v' to verify installation\"
-                                                    # simple as.
-                                                    """);
+                                            System.out.println(Util.updateScript);
                                         } else {
-                                            System.out.println(Chalk.on("This command requires a flag.\nTry `uscript -p`").bgRed());
+                                            System.out.println(Chalk.on("'uscript' Usage:\nuscript [-p] [--print] [-m someFile] [--makefile someFile]\n").bgRed());
                                         }
                                     }
                                     case "readme" -> {
@@ -409,11 +272,11 @@ public class Runfile {
                                             System.out.println(Chalk.on("https://github.com/QRX53/Q#readme").bgYellow());
                                         }
                                     }
-                                    case "" -> System.out.println();
                                     case "cls" ->
                                             System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-                                    default ->
-                                            System.out.println();
+                                    default -> {
+                                        continue;
+                                    }
                                 }
 
                             }
@@ -460,7 +323,7 @@ public class Runfile {
                     System.exit(0);
                 }
             } else {
-                System.out.println("Q version 1.0: \u2705");
+                System.out.printf("Q version %s: \u2705\n", Environment.global.qversion);
                 System.out.println("\n\nTo run a file, execute: `q <file>.q`, or enter `q --help` for assistance.");
                 System.exit(0);
             }

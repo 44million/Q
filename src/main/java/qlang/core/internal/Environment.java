@@ -27,6 +27,7 @@ public class Environment {
     public Visitor visitor = new Visitor(scope, functions);
     public String response = Util.string();
     public double shver = 1.0;
+    public double qversion = 2.1;
 
     public List<File> parsed = new ArrayList<>();
     public List<Token> lst = new ArrayList<>();
