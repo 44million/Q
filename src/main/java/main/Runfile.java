@@ -88,13 +88,13 @@ public class Runfile {
                 } else if (args[0].equals("-i") || args[0].equals("--info")) {
                     try {
                         System.out.printf("""
-                                Version: 1.0
+                                Version: %s
                                 Build: %s
                                 Host: %s
                                 QJar Directory: %s
                                 Running: %s
                                 Size: %s
-                                %n""", Environment.global, System.getProperty("user.dir"), System.getProperty("user.home") + "/.q/", false, (java.nio.file.Files.size(new File(System.getProperty("user.home") + "/.q/" + "Q.jar").toPath()) / 1000000) + "mb");
+                                %n""", Environment.global.qversion, Environment.global, System.getProperty("user.dir"), System.getProperty("user.home") + "/.q/", false, (java.nio.file.Files.size(new File(System.getProperty("user.home") + "/.q/" + "Q.jar").toPath()) / 1000000) + "mb");
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -124,13 +124,17 @@ public class Runfile {
                         //throw new Problem(e);
                     }
                 } else if (args[0].equals("-v") || args[0].equals("--version")) {
-                    System.out.println("""
-                            Version: 1.0
-                            Installation status: \u2705
-                            """);
+                    System.out.printf("""
+                            Version: %s
+                            Installation status: \u2705\n
+                            """, Environment.global.qversion);
                     System.exit(0);
                 } else if (args[0].equals("--interact") || args[0].equals("-in")) {
-                    System.out.println("Q build: " + Runfile.class.hashCode() + "\nShell version: " + Environment.global.shver + "\n`h` or `help` for help page, `q` or `quit` to exit the interactive shell\n");
+                    System.out.println("Q build: "
+                            + Runfile.class.hashCode()
+                            + "\nShell version: "
+                            + Environment.global.shver
+                            + "\n`h` or `help` for help page, `q` or `quit` to exit the interactive shell\n");
                     while (true) {
                         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
                         try {
@@ -208,7 +212,7 @@ public class Runfile {
                                         if (next.equals("-j") || next.equals("--java")) {
                                             System.out.println(
                                                     "ANTLR Version: 4.10.1" +
-                                                            "\nQ build version: "
+                                                            "\nQ build: "
                                                             + Runfile.class.hashCode()
                                                             + "Java version: " + System.getProperty("java.version")
                                                             + "\nJRuntime: " + System.getProperty("java.runtime.version") + "\n"
