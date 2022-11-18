@@ -32,9 +32,6 @@ public class Runfile {
 
         nfl.registerNatives();
 
-        // Not in use right now, as it is currently non-functioning.
-
-
         Scope baseScope = new Scope(null, false);
         Visitor globalScope = new Visitor(baseScope, new HashMap<>());
         Environment env = new Environment();
@@ -176,7 +173,7 @@ public class Runfile {
                                             env: Q Environment
                                             diag: Sys Diag
                                             filetree [-m <file>, --makefile <file>] [-p, --print]: Generate Q compiler file tree.
-                                            sinfo [-j, --java] [-q, --q]: System Info
+                                            sinfo [-j, --java]? [-q, --q]?: System Info
                                             sysloc: System location
                                             github [-p, --public]: Github Repo return value
                                             uscript [-m, --makefile] [-p, --print]: update script permanent
@@ -395,7 +392,7 @@ public class Runfile {
                                     }
                                 }
                                 case "cls" ->
-                                        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+                                        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                                 default -> {
                                     continue;
                                 }
