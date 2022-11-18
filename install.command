@@ -39,9 +39,9 @@ brew install trash ;
 # move the old Q jarfile into the trash.
 sudo trash ~/.q/Q.jar ;
 # change into the target folder, and then move the new jarfile into the home dir
-cd target || exit ; ls ; mv Q-1.0-jar-with-dependencies.jar ~/ ;
+cd target || exit ; mv Q-1.0-jar-with-dependencies.jar ~/ ;
 # cd to the home dir, make the .q folder if there isnt one already
-cd || exit ; ls ; sudo mkdir -p .q ;
+cd || exit ; sudo mkdir -p .q ;
 # move the new jarfile into the .q folder, and rename it.
 sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar ;
 # move the cloned repo to the trash

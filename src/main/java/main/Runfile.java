@@ -54,7 +54,7 @@ public class Runfile {
                     System.out.println(Environment.global);
                     System.exit(0);
                 } else if (args[0].equals("--run") || args[0].equals("-r")) {
-                    if (args.length == 0) {
+                    if (args.length == 1) {
                         System.out.println(Chalk.on("No QFile provided! Try this, `q --run <file>.q`").bgBlue());
                         System.exit(0);
                     } else {
@@ -62,7 +62,7 @@ public class Runfile {
                     }
                 } else if (args[0].equals("--runblind") || args[0].equals("-rb")) {
 
-                    if (args.length == 0) {
+                    if (args.length == 1) {
                         System.out.println(Chalk.on("No QFile provided! Try this, `q --run <file>.q`").bgBlue());
                         System.exit(0);
                     }
@@ -233,18 +233,18 @@ public class Runfile {
                                                     NC='\\033[0m'
                                                                                                         
                                                     # set color to green
-                                                    echo -e "\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n${GREEN}"
+                                                    echo -e \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n${GREEN}\"
                                                                                                         
-                                                    echo -e "Beginning install process. This will take a while, and will require sudo access. Please allow up to 5 minutes"
+                                                    echo -e \"Beginning install process. This will take a while, and will require sudo access. Please allow up to 5 minutes\"
                                                                                                         
                                                     # leave green coloration.
-                                                    echo -e "${NC}"
+                                                    echo -e \"${NC}\"
                                                                                                         
                                                     sleep 35 ;
                                                                                                         
                                                     # install brew, just in case user doesnt have it already
                                                     # shellcheck disable=SC2164
-                                                    cd ; /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ;
+                                                    cd ; /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\" ;
                                                     # install git, just in case user doesnt have it already
                                                     brew install git ;
                                                     # install mvn, just in case user doesnt have it already
@@ -287,21 +287,21 @@ public class Runfile {
                                                     wipeclean ;
                                                                                                         
                                                     # add the q cli command to the zshrc file
-                                                    echo "alias q='java -jar ~/.q/Q.jar'" > ~/.zshrc
+                                                    echo \"alias q='java -jar ~/.q/Q.jar'\" > ~/.zshrc
                                                                                                         
                                                     # same for bashrc file, in case user uses bash instead of zsh
-                                                    echo "alias q='java -jar ~/.q/Q.jar'" > ~/.bashrc
+                                                    echo \"alias q='java -jar ~/.q/Q.jar'\" > ~/.bashrc
                                                                                                         
                                                     # set color to green
-                                                    echo -e "${GREEN}"
+                                                    echo -e \"${GREEN}\"
                                                                                                         
                                                     # create ansi 'success' text
-                                                    figlet "Success!"
+                                                    figlet \"Success!\"
                                                                                                         
                                                     # leave green coloration.
-                                                    echo -e "${NC}"
+                                                    echo -e \"${NC}\"
                                                                                                         
-                                                    echo -e "Run 'q -v' to verify installation"
+                                                    echo -e \"Run 'q -v' to verify installation\"
                                                     # simple as.
                                                     """);
                                             fw.close();
@@ -315,18 +315,18 @@ public class Runfile {
                                                     NC='\\033[0m'
                                                                                                         
                                                     # set color to green
-                                                    echo -e "\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n${GREEN}"
+                                                    echo -e \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n${GREEN}\"
                                                                                                         
-                                                    echo -e "Beginning install process. This will take a while, and will require sudo access. Please allow up to 5 minutes"
+                                                    echo -e \"Beginning install process. This will take a while, and will require sudo access. Please allow up to 5 minutes\"
                                                                                                         
                                                     # leave green coloration.
-                                                    echo -e "${NC}"
+                                                    echo -e \"${NC}\"
                                                                                                         
                                                     sleep 35 ;
                                                                                                         
                                                     # install brew, just in case user doesnt have it already
                                                     # shellcheck disable=SC2164
-                                                    cd ; /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ;
+                                                    cd ; /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\" ;
                                                     # install git, just in case user doesnt have it already
                                                     brew install git ;
                                                     # install mvn, just in case user doesnt have it already
@@ -369,21 +369,21 @@ public class Runfile {
                                                     wipeclean ;
                                                                                                         
                                                     # add the q cli command to the zshrc file
-                                                    echo "alias q='java -jar ~/.q/Q.jar'" > ~/.zshrc
+                                                    echo \"alias q='java -jar ~/.q/Q.jar'\" > ~/.zshrc
                                                                                                         
                                                     # same for bashrc file, in case user uses bash instead of zsh
-                                                    echo "alias q='java -jar ~/.q/Q.jar'" > ~/.bashrc
+                                                    echo \"alias q='java -jar ~/.q/Q.jar'\" > ~/.bashrc
                                                                                                         
                                                     # set color to green
-                                                    echo -e "${GREEN}"
+                                                    echo -e \"${GREEN}\"
                                                                                                         
                                                     # create ansi 'success' text
-                                                    figlet "Success!"
+                                                    figlet \"Success!\"
                                                                                                         
                                                     # leave green coloration.
-                                                    echo -e "${NC}"
+                                                    echo -e \"${NC}\"
                                                                                                         
-                                                    echo -e "Run 'q -v' to verify installation"
+                                                    echo -e \"Run 'q -v' to verify installation\"
                                                     # simple as.
                                                     """);
                                         } else {
