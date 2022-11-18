@@ -134,7 +134,7 @@ public class Runfile {
                             """);
                     System.exit(0);
                 } else if (args[0].equals("--interact") || args[0].equals("-in")) {
-                    System.out.println("Interactive entered. 'h' for help, 'q' to quit");
+                    System.out.println("Q build: " + Runfile.class.hashCode() + "\nShell version: " + Environment.global.shver + "\n`h` or `help` for help page, `q` or `quit` to exit the interactive shell\n");
                     while (true) {
                         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
                         try {
@@ -173,9 +173,10 @@ public class Runfile {
                                                 diag: Sys Diag
                                                 sinfo: System Info
                                                 sysloc: System location
-                                                github: Github Repo return value
-                                                uscript: update script permanent
-                                                readme: GH README permalink
+                                                github [-p, --public]: Github Repo return value
+                                                uscript [-m, --makefile] [-p, --print]: update script permanent
+                                                readme [-p, --public]: GH README permalink
+                                                cls: Clear console
                                                 """);
                                     }
                                     case "diag" -> {

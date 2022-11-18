@@ -49,12 +49,12 @@ trash QLANGUPDATEFOLDERTEMP ;
 # clear the console
 clear ;
 
-if ! grep -q "${ALIASQ}" "$~/.zshrc"; then
-	echo "alias q='java -jar ~/.q/Q.jar'" >> ~/.zshrc
+if ! sudo grep -q "${ALIASQ}" "$~/.zshrc"; then
+	sudo echo "alias q='java -jar ~/.q/Q.jar'" >> ~/.zshrc
 fi
 
-if ! grep -q "${ALIASQ}" "$~/.bashrc"; then
-	echo "alias q='java -jar ~/.q/Q.jar'" >> ~/.bashrc
+if ! sudo grep -q "${ALIASQ}" "$~/.bashrc"; then
+	sudo echo "alias q='java -jar ~/.q/Q.jar'" >> ~/.bashrc
 fi
 
 clear ;
