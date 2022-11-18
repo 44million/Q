@@ -343,12 +343,12 @@ public class Util {
                             ALIASQ='alias q'
                             clear ;
                             # set color to green
-                            echo -e "\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n${GREEN}"
+                            echo "\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n${GREEN}"
                                         
-                            echo -e "Beginning install process. This will take a while, and will require sudo access. Please allow up to 5 minutes"
+                            echo "Beginning install process. This will take a while, and will require sudo access. Please allow up to 5 minutes"
                                         
                             # leave green coloration.
-                            echo -e "${NC}"
+                            echo "${NC}"
                                         
                             sleep 7 ;
                                         
@@ -397,15 +397,15 @@ public class Util {
                             clear ;
                                         
                             # set color to green
-                            echo -e "${GREEN}"
+                            echo "${GREEN}"
                                         
                             # create ansi 'success' text
                             figlet "Success!"
                                         
                             # leave green coloration.
-                            echo -e "${NC}"
+                            echo "${NC}"
                                         
-                            echo -e "Run 'q -v' to verify installation"
+                            echo "Run 'q -v' to verify installation"
                             # simple as.
                                         
                                 
