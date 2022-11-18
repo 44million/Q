@@ -1,24 +1,16 @@
 #!/bin/bash
 
 # define silly colors for figlet
-GREEN='\033[0;32m'
-NC='\033[0m'
 ALIASQ='alias q'
 clear
-# set color to green
-echo -e "\n\n\n\n\n\n\n\n\n\n${GREEN}"
 
 echo "Beginning install process. This will take a while, and will require sudo access. Please allow up to 5 minutes"
-
-# leave green coloration.
-echo "${NC}"
 
 sleep 7
 
 # install brew, just in case user doesnt have it already
 # shellcheck disable=SC2164
-cd
-/bin/bash -c "$(curl -fsSL -s https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+cd /bin/bash -c "$(curl -fsSL -s https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 # install git, just in case user doesnt have it already
 brew install -q git
 # install mvn, just in case user doesnt have it already
@@ -35,7 +27,7 @@ brew install figlet -q
 git clone http://github.com/qRX53/Q/ QLANGUPDATEFOLDERTEMP &>/dev/null
 cd QLANGUPDATEFOLDERTEMP || exit
 # assemble the jarfile (with dependencies)
-mvn clean compile assembly:single -q
+mvn clean compile assembly:single -q -B
 # install trash, just in case user doesnt have it already
 brew install trash -q
 # move the old Q jarfile into the trash.
