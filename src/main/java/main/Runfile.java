@@ -163,7 +163,7 @@ public class Runfile {
                                     next = "";
                                 }
                                 try {
-                                    nextnext = ary[nint++];
+                                    nextnext = ary[nint + 1];
                                 } catch (Exception e) {
                                     nextnext = "";
                                 }
@@ -214,24 +214,24 @@ public class Runfile {
                                                     "ANTLR Version: 4.10.1" +
                                                             "\nQ build: "
                                                             + Runfile.class.hashCode()
-                                                            + "Java version: " + System.getProperty("java.version")
+                                                            + "\nJava version: " + System.getProperty("java.version")
                                                             + "\nJRuntime: " + System.getProperty("java.runtime.version") + "\n"
                                                             + "");
                                         } else if (next.equals("-q") || next.equals("--q")) {
                                             System.out.println(
                                                             "\nQ Version: " + Environment.global.qversion
-                                                            + "Q System Location: " + System.getProperty("user.home") + "/.q/"
-                                                            + "Q Shell version: " + Environment.global.shver
-                                                            + "Installation status: perfect :)\n"
+                                                            + "\nQ System Location: " + System.getProperty("user.home") + "/.q/"
+                                                            + "\nQ Shell version: " + Environment.global.shver
+                                                            + "\nInstallation status: perfect :)\n"
                                                             + "");
                                         } else {
                                             System.out.println(
                                                     "ANTLR Version: 4.10.1\nQ build version: "
                                                             + Runfile.class.hashCode()
                                                             + "\nQ Version: " + Environment.global.qversion
-                                                            + "Q System Location: " + System.getProperty("user.home") + "/.q/"
-                                                            + "Q Shell version: " + Environment.global.shver
-                                                            + "Installation status: perfect :)\n"
+                                                            + "\nQ System Location: " + System.getProperty("user.home") + "/.q/"
+                                                            + "\nQ Shell version: " + Environment.global.shver
+                                                            + "\nInstallation status: perfect :)\n"
                                                             + "Java version: " + System.getProperty("java.version")
                                                             + "\nJRuntime: " + System.getProperty("java.runtime.version") + "\n"
                                                             + "");
@@ -250,7 +250,7 @@ public class Runfile {
                                     case "uscript" -> {
                                         if (next.equals("--makefile") || next.equals("-m")) {
                                             File newf;
-                                            
+
                                             if (!nextnext.equals("")) {
                                                 newf = new File(nextnext);
                                             } else {
@@ -264,7 +264,7 @@ public class Runfile {
                                             FileWriter fw = new FileWriter(newf);
                                             fw.write(Util.updateScript);
                                             fw.close();
-
+                                            System.out.println(Chalk.on("Successfully written to [" + newf.getName() + "].\nPlease remember you will have to run `chmod a+x " + newf.getName() + "` in order to execute").bgYellow());
                                         } else if (next.equals("-p") || next.equals("--print")) {
                                             System.out.println(Util.updateScript);
                                         } else {
