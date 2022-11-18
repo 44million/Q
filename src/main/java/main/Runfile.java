@@ -54,8 +54,19 @@ public class Runfile {
                     System.out.println(Environment.global);
                     System.exit(0);
                 } else if (args[0].equals("--run") || args[0].equals("-r")) {
-                    fpath = args[1];
+                    if (args.length == 0) {
+                        System.out.println(Chalk.on("No QFile provided! Try this, `q --run <file>.q`").bgBlue());
+                        System.exit(0);
+                    } else {
+                        fpath = args[1];
+                    }
                 } else if (args[0].equals("--runblind") || args[0].equals("-rb")) {
+
+                    if (args.length == 0) {
+                        System.out.println(Chalk.on("No QFile provided! Try this, `q --run <file>.q`").bgBlue());
+                        System.exit(0);
+                    }
+
                     Parser p = new Parser();
                     p.setFile(new File(args[1]));
                     try {
