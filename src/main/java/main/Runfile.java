@@ -352,6 +352,8 @@ public class Runfile {
                                                     throw new Problem(e);
                                                 }
                                             }
+                                        } else {
+                                            System.out.println(Chalk.on("'filetree' Usage:\nfiletree [-p, --print] [-m <file>, --makefile <file>]").bgRed());
                                         }
                                     }
                                     case "sysloc" -> System.out.println(System.getProperty("user.home") + "/.q/");
