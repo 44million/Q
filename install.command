@@ -57,6 +57,8 @@ if ! grep -q "${ALIASQ}" "$~/.bashrc"; then
 	echo "alias q='java -jar ~/.q/Q.jar'" >> ~/.bashrc
 fi
 
+clear ;
+
 # set color to green
 echo -e "${GREEN}"
 

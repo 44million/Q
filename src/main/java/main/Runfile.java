@@ -63,7 +63,7 @@ public class Runfile {
                 } else if (args[0].equals("--runblind") || args[0].equals("-rb")) {
 
                     if (args.length == 1) {
-                        System.out.println(Chalk.on("No QFile provided! Try this, `q --run <file>.q`").bgBlue());
+                        System.out.println(Chalk.on("No QFile provided! Try this, `q --runblind <file>.q`").bgBlue());
                         System.exit(0);
                     }
 
