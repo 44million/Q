@@ -8,9 +8,11 @@ echo "Beginning install process. This will take a while, and will require sudo a
 
 sleep 7
 
+cd || exit
+
 # install brew, just in case user doesnt have it already
 # shellcheck disable=SC2164
-cd /bin/bash -c "$(curl -fsSL -s https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 # install git, just in case user doesnt have it already
 brew install -q git
 # install mvn, just in case user doesnt have it already
