@@ -17,10 +17,6 @@ cd || exit
 brew install -q git
 # install mvn, just in case user doesnt have it already
 brew install mvn -q
-# install node, just in case user doesnt have it already
-brew install node -q
-# install npm, just in case user doesnt have it already
-brew install npm -q
 # install java, just in case user doesnt have it already
 brew install java -q
 # install figlet, just in case user doesnt have it already
