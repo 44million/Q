@@ -156,10 +156,16 @@ public class Runfile {
                                 int nint = i;
                                 nint++;
                                 String next;
+                                String nextnext;
                                 try {
                                     next = ary[nint];
                                 } catch (Exception e) {
                                     next = "";
+                                }
+                                try {
+                                    nextnext = ary[nint++];
+                                } catch (Exception e) {
+                                    nextnext = "";
                                 }
                                 switch (ary[i]) {
 
@@ -220,7 +226,12 @@ public class Runfile {
                                     }
                                     case "uscript" -> {
                                         if (next.equals("--makefile") || next.equals("-m")) {
-                                            File newf = new File("install.sh");
+                                            File newf = null;
+                                            if (!nextnext.equals("")) {
+                                                newf = new File(nextnext);
+                                            } else {
+                                                newf = new File("install.sh");
+                                            }
                                             if (!newf.exists()) {
                                                 newf.createNewFile();
                                             }
