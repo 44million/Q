@@ -250,11 +250,13 @@ public class Runfile {
                                     case "uscript" -> {
                                         if (next.equals("--makefile") || next.equals("-m")) {
                                             File newf;
+                                            
                                             if (!nextnext.equals("")) {
                                                 newf = new File(nextnext);
                                             } else {
                                                 newf = new File("install.sh");
                                             }
+
                                             if (!newf.exists()) {
                                                 newf.createNewFile();
                                             }
