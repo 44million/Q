@@ -12,6 +12,9 @@ import qlang.core.lang.Visitor;
 import qlang.runtime.errors.Problem;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Scanner;
@@ -80,6 +83,48 @@ public class Runfile {
                         \t\tThe [interact] screen has more advanced flag options.
                         """);
                 System.exit(0);
+            } else if (args[0].equals("--executable") || args[0].equals("-ex")) {
+
+                String path = "";
+
+                try {
+                    path = args[1];
+
+                    String content = Files.readString(Path.of(path), Charset.defaultCharset());
+
+                    File f = new File("~/.q/gf");
+
+                    if (!f.exists()) {
+                        f.mkdir();
+                    }
+
+                    File realFile = new File(f.getAbsolutePath() + "/out.txt");
+
+                    FileWriter fw = new FileWriter(realFile);
+                    fw.write(content);
+                    fw.close();
+
+                    File output = new File("qout");
+                    if (!output.exists()) {
+                        output.createNewFile();
+                    }
+                    FileWriter f2 = new FileWriter(output);
+                    f2.write(
+                            """
+                            #!/bin/bash
+                            
+                            q --run ~/.q/gf/out.txt
+                            """);
+                    f2.close();
+
+                    Runtime.getRuntime().exec("chmod a+x qout");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println(Chalk.on("[ERROR] Cannot generate executable without input file.").bgRed());
+                    System.exit(-1);
+                }
+
             } else if (args[0].equals("-i") || args[0].equals("--info")) {
                 try {
                     System.out.printf("""
