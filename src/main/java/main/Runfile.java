@@ -95,7 +95,10 @@ public class Runfile {
                     File f = new File("~/.q/gf");
 
                     if (!f.exists()) {
-                        f.mkdir();
+                        var x = f.mkdir();
+                        if (!x) {
+                            throw new Problem("Could not create directory ~/.q/gf/");
+                        }
                     }
 
                     File realFile = new File(f.getAbsolutePath() + "/out.txt");
