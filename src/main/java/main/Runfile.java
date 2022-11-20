@@ -95,7 +95,7 @@ public class Runfile {
                     File f = new File("~/.q/gf");
 
                     if (!f.exists()) {
-                        var x = f.mkdir();
+                        var x = f.mkdirs();
                         if (!x) {
                             throw new Problem("Could not create directory ~/.q/gf/");
                         }
