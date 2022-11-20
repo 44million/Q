@@ -92,7 +92,7 @@ public class Runfile {
 
                     String content = Files.readString(Path.of(path), Charset.defaultCharset());
 
-                    File f = new File("~/.q/gf");
+                    File f = new File(System.getProperty("user.home") + "/.q/gf");
 
                     if (!f.exists()) {
                         var x = f.mkdirs();
@@ -114,7 +114,7 @@ public class Runfile {
                     FileWriter f2 = new FileWriter(output);
                     f2.write(
                             """
-                            #!/bin/bash
+                            #!/bin/zsh
                             
                             q --run ~/.q/gf/out.txt
                             """);
