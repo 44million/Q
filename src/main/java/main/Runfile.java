@@ -92,18 +92,13 @@ public class Runfile {
 
                     String content = Files.readString(Path.of(path), Charset.defaultCharset());
 
-                    File f = new File(System.getProperty("user.home") + "/.q/gf");
+                    File f = new File(System.getProperty("user.home") + "/.q/out.txt");
 
                     if (!f.exists()) {
-                        var x = f.mkdirs();
-                        if (!x) {
-                            throw new Problem("Could not create directory ~/.q/gf/");
-                        }
+                        f.createNewFile();
                     }
 
-                    File realFile = new File(f.getAbsolutePath() + "/out.txt");
-
-                    FileWriter fw = new FileWriter(realFile);
+                    FileWriter fw = new FileWriter(f);
                     fw.write(content);
                     fw.close();
 
