@@ -29,6 +29,7 @@ import qlang.runtime.libs.util.HTTP;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -72,6 +73,48 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     public Value visitSelfExpression(QParser.SelfExpressionContext ctx) {
         String id = ctx.varHereStatement().Identifier().getText();
         return this.scope.parent().parent().vars.getOrDefault(id, Value.NULL);
+    }
+
+    @Override
+    public Value visitJavaMethodReference(QParser.JavaMethodReferenceContext ctx) {
+
+        StringBuilder sb = new StringBuilder();
+
+        for (var x : ctx.Identifier()) {
+            sb.append(".").append(x.getText());
+        }
+
+        String className = sb.toString().replaceFirst(".", "");
+
+        List<String> strings = new ArrayList<>();
+        if (ctx.String() != null) {
+            for (var x : ctx.String()) {
+                strings.add(x.getText());
+            }
+        }
+
+        List<Object> objs = new ArrayList<>();
+        if (ctx.Identifier2() != null) {
+            for (var x : ctx.Identifier2()) {
+                objs.add(x.getText());
+            }
+        }
+
+        try {
+            Class<?> cls = Class.forName(className);
+            Method m = cls.getMethod(ctx.Identifier().get(ctx.Identifier().size() - 1).getText());
+            if (objs.size() > 0) {
+                m.invoke(objs.toArray());
+            } else if (strings.size() > 0) {
+                m.invoke(strings.toArray());
+            } else {
+                m.invoke(null);
+            }
+        } catch (Exception e) {
+            throw new Problem(ctx, e);
+        }
+
+        return visitChildren(ctx);
     }
 
     @Override
