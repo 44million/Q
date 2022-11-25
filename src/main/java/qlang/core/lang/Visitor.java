@@ -77,7 +77,6 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
     @Override
     public Value visitJavaMethodReference(QParser.JavaMethodReferenceContext ctx) {
-
         StringBuilder sb = new StringBuilder();
 
         for (var x : ctx.Identifier()) {
@@ -101,8 +100,11 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         }
 
         try {
+
             Class<?> cls = Class.forName(className);
-            Method m = cls.getMethod(ctx.Identifier().get(ctx.Identifier().size() - 1).getText());
+            Method m = cls.getDeclaredMethod("method name");
+            // m.invoke(objectToInvokeOn, params);
+
             if (objs.size() > 0) {
                 m.invoke(objs.toArray());
             } else if (strings.size() > 0) {
@@ -1802,18 +1804,18 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     public Value visitIdentifierFunctionCall(QParser.IdentifierFunctionCallContext ctx) {
         List<QParser.ExpressionContext> params = ctx.exprList() != null ? ctx.exprList().expression() : new ArrayList<>();
         String id = ctx.Identifier().getText() + params.size();
-        String id2 = ctx.Identifier().getText();
+        String idWithoutParamsSize = ctx.Identifier().getText();
         Function function;
 
         if (Environment.global.visitor.functions.containsKey(id)) {
             function = Environment.global.visitor.functions.get(id);
-        } else if (Environment.global.nativeJava.containsKey(id2)) {
+        } else if (Environment.global.nativeJava.containsKey(idWithoutParamsSize)) {
 
-            String jcode = Environment.global.nativeJava.get(id2);
-            String cname = Environment.global.nativeNames.get(id2);
+            String jcode = Environment.global.nativeJava.get(idWithoutParamsSize);
+            String className = Environment.global.nativeNames.get(idWithoutParamsSize);
 
             try {
-                File file = new File(cname + ".java");
+                File file = new File(className + ".java");
 
                 if (!file.exists()) {
                     file.createNewFile();
@@ -1823,17 +1825,28 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 fw.write(jcode);
                 fw.close();
 
-                String dir = file.getAbsolutePath().replace(file.getName(), "");
                 String afterClass = Util.replaceLast(file.getAbsolutePath(), ".java", ".class");
 
-                System.out.println(dir);
+                Runtime rt = Runtime.getRuntime();
+                String[] commands = {"javac " + file.getAbsolutePath(), "java " + afterClass};
+                Process proc = rt.exec(commands);
 
-//            String home = util.execCmd("cd ~ ; cd.. ; cd.. ;");
-//            String s = util.execCmd("cd " + dir);
-                String s2 = Util.execCmd("javac " + file.getAbsolutePath());
-                System.out.println(s2);
-                String s3 = Util.execCmd("java " + afterClass);
-                System.out.println(s3);
+                BufferedReader stdInput = new BufferedReader(new
+                        InputStreamReader(proc.getInputStream()));
+
+                BufferedReader stdError = new BufferedReader(new
+                        InputStreamReader(proc.getErrorStream()));
+
+                // Read the output from the command
+                String s = null;
+                while ((s = stdInput.readLine()) != null) {
+                    System.out.println(s);
+                }
+
+                while ((s = stdError.readLine()) != null) {
+                    System.err.println(s);
+                }
+
 
                 file.delete();
 
@@ -1847,7 +1860,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 throw new Problem(e);
             }
 
-            return new Value("902387");
+            return new Value(true);
 
         } else if ((function = this.functions.get(id)) != null) {
             function = this.functions.get(id);
