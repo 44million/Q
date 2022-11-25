@@ -1820,20 +1820,20 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             String className = Environment.global.nativeNames.get(idWithoutParamsSize);
 
             try {
-                File file = new File(className + ".java");
+                File createdFile = new File(className + ".java");
 
-                if (!file.exists()) {
-                    file.createNewFile();
+                if (!createdFile.exists()) {
+                    createdFile.createNewFile();
                 }
 
-                FileWriter fw = new FileWriter(file);
+                FileWriter fw = new FileWriter(createdFile);
                 fw.write(jcode);
                 fw.close();
 
-                String afterClass = Util.replaceLast(file.getAbsolutePath(), ".java", ".class");
+                String afterClass = Util.replaceLast(createdFile.getAbsolutePath(), ".java", ".class");
 
                 Runtime rt = Runtime.getRuntime();
-                String[] commands = {"javac " + file.getAbsolutePath(), "java " + afterClass};
+                String[] commands = {"javac " + createdFile.getAbsolutePath() + " ; java " + afterClass};
                 Process proc = rt.exec(commands);
 
                 BufferedReader stdInput = new BufferedReader(new
@@ -1853,7 +1853,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 }
 
 
-                file.delete();
+                createdFile.delete();
 
                 File filez = new File(afterClass);
 
