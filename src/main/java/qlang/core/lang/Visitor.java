@@ -1830,7 +1830,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 fw.write(jcode);
                 fw.close();
 
-                String afterClass = Util.replaceLast(createdFile.getAbsolutePath(), ".java", ".class");
+                String afterClass = Util.replaceLast(createdFile.getName(), ".java", ".class");
 
                 Runtime rt = Runtime.getRuntime();
                 String[] commands = {"javac " + createdFile.getName() + " ; java " + afterClass};
