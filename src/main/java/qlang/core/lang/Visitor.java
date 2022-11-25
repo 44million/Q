@@ -122,6 +122,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     @Override
     public Value visitNativeFunction(QParser.NativeFunctionContext ctx) {
         String jcode = "";
+        if (ctx.Identifier(1) == null) {
+            throw new Problem("Native function must include class name under creation; ie: \"native fn f() {\n\t[ClassName]\n\tcode...\n}\"");
+        }
         String className = ctx.Identifier(1).getText().toString();
 
         for (var x : ctx.String()) {
