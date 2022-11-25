@@ -19,14 +19,14 @@ public class QLexer extends Lexer {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, Println=14, Async=15, Var=16, Import=17, 
-		Print=18, Input=19, Assert=20, Def=21, If=22, Else=23, Package=24, Return=25, 
-		For=26, While=27, JavaJuice=28, To=29, Do=30, End=31, In=32, Null=33, 
-		Try=34, Class=35, Const=36, Self=37, Native=38, Or=39, Accessor=40, And=41, 
-		Equals=42, NEquals=43, GTEquals=44, LTEquals=45, Pow=46, Excl=47, GT=48, 
-		LT=49, Add=50, Subtract=51, Multiply=52, Divide=53, Modulus=54, OBrace=55, 
-		CBrace=56, OBracket=57, CBracket=58, OParen=59, CParen=60, SColon=61, 
-		Assign=62, Comma=63, QMark=64, Colon=65, Bool=66, Number=67, Identifier=68, 
-		Identifier2=69, String=70, Comment=71, Space=72;
+		Print=18, Input=19, Assert=20, Function=21, If=22, Else=23, Package=24, 
+		Return=25, For=26, While=27, JavaJuice=28, To=29, Do=30, End=31, In=32, 
+		Null=33, Try=34, Class=35, Const=36, Self=37, Native=38, Or=39, Accessor=40, 
+		And=41, Equals=42, NEquals=43, GTEquals=44, LTEquals=45, Pow=46, Excl=47, 
+		GT=48, LT=49, Add=50, Subtract=51, Multiply=52, Divide=53, Modulus=54, 
+		OBrace=55, CBrace=56, OBracket=57, CBracket=58, OParen=59, CParen=60, 
+		SColon=61, Assign=62, Comma=63, QMark=64, Colon=65, Bool=66, Number=67, 
+		Identifier=68, Identifier2=69, String=70, Comment=71, Space=72;
 	public static String[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
 	};
@@ -39,7 +39,7 @@ public class QLexer extends Lexer {
 		return new String[] {
 			"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "T__8", 
 			"T__9", "T__10", "T__11", "T__12", "Println", "Async", "Var", "Import", 
-			"Print", "Input", "Assert", "Def", "If", "Else", "Package", "Return", 
+			"Print", "Input", "Assert", "Function", "If", "Else", "Package", "Return", 
 			"For", "While", "JavaJuice", "To", "Do", "End", "In", "Null", "Try", 
 			"Class", "Const", "Self", "Native", "Or", "Accessor", "And", "Equals", 
 			"NEquals", "GTEquals", "LTEquals", "Pow", "Excl", "GT", "LT", "Add", 
@@ -69,7 +69,7 @@ public class QLexer extends Lexer {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, "Println", "Async", "Var", "Import", "Print", "Input", "Assert", 
-			"Def", "If", "Else", "Package", "Return", "For", "While", "JavaJuice", 
+			"Function", "If", "Else", "Package", "Return", "For", "While", "JavaJuice", 
 			"To", "Do", "End", "In", "Null", "Try", "Class", "Const", "Self", "Native", 
 			"Or", "Accessor", "And", "Equals", "NEquals", "GTEquals", "LTEquals", 
 			"Pow", "Excl", "GT", "LT", "Add", "Subtract", "Multiply", "Divide", "Modulus", 

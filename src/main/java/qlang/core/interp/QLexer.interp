@@ -95,7 +95,7 @@ Import
 Print
 Input
 Assert
-Def
+Function
 If
 Else
 Package
@@ -169,7 +169,7 @@ Import
 Print
 Input
 Assert
-Def
+Function
 If
 Else
 Package
