@@ -364,32 +364,14 @@ public class Util {
     }
 
     public static String execCmd(String cmd) {
-        final String[] result = {null};
-        final Process p;
-        try {
-            p = Runtime.getRuntime().exec(cmd);
+        String result = null;
+        try (InputStream inputStream = Runtime.getRuntime().exec(cmd).getInputStream();
+             Scanner s = new Scanner(inputStream).useDelimiter("\\A")) {
+            result = s.hasNext() ? s.next() : null;
         } catch (IOException e) {
-            throw new Problem(e);
+            e.printStackTrace();
         }
-
-        new Thread(() -> {
-            BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line;
-
-            try {
-                while ((line = input.readLine()) != null)
-                    result[0] += line;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
-
-        try {
-            p.waitFor();
-        } catch (InterruptedException e) {
-            throw new Problem(e);
-        }
-        return result[0];
+        return result;
     }
 
     public static class FileUtil {

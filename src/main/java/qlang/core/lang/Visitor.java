@@ -1832,26 +1832,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
                 String afterClass = Util.replaceLast(createdFile.getName(), ".java", ".class");
 
-                Runtime rt = Runtime.getRuntime();
-                String[] commands = {"javac " + createdFile.getName() + " ; java " + className};
-                Process proc = rt.exec(commands);
-
-                BufferedReader stdInput = new BufferedReader(new
-                        InputStreamReader(proc.getInputStream()));
-
-                BufferedReader stdError = new BufferedReader(new
-                        InputStreamReader(proc.getErrorStream()));
-
-                // Read the output from the command
-                String s = null;
-                while ((s = stdInput.readLine()) != null) {
-                    System.out.println(s);
-                }
-
-                while ((s = stdError.readLine()) != null) {
-                    System.err.println(s);
-                }
-
+                String s2 = Util.execCmd(String.format("javac %s.java", className));
+                String s3 = Util.execCmd("java Temp");
+                System.out.println(s3);
 
                 createdFile.delete();
 
