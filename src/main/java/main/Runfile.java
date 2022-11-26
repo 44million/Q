@@ -3,6 +3,7 @@ package main;
 import com.github.tomaslanger.chalk.Chalk;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 import qlang.core.internal.Environment;
 import qlang.core.internal.Parser;
 import qlang.core.internal.QYaml;
@@ -47,13 +48,13 @@ public class Runfile {
             if (args.length == 1 && !args[0].startsWith("-")) {
                 if (new File(args[0]).isDirectory()) {
                     File yamlfile = new File(args[0] + "/q.yaml");
-                    Yaml yaml = new Yaml();
-                    InputStream inputStream;
                     try {
-                        inputStream = yamlfile.toURL().openStream();
+                        InputStream inputStream = new FileInputStream(yamlfile);
+                        Yaml yaml = new Yaml(new Constructor(QYaml.class));
+
                         QYaml qy = yaml.load(inputStream);
                         fpath = qy.getHomedir();
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         throw new Problem(e);
                     }
                 } else {
