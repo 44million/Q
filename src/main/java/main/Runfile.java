@@ -199,7 +199,7 @@ public class Runfile {
                                 end
                                                         
                             }
-                            """, projectName));
+                            """, projectName.replaceFirst("/", "")));
                     pro.close();
                 } catch (IOException e) {
                     throw new Problem(e);
