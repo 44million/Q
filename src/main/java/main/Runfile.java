@@ -114,6 +114,7 @@ public class Runfile {
                     try {
                         project.createNewFile();
                     } catch (IOException e) {
+                        e.printStackTrace();
                         throw new Problem(e);
                     }
                 }
