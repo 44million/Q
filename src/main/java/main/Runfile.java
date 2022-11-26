@@ -42,7 +42,11 @@ public class Runfile {
 
         if (args.length >= 1) {
             if (args.length == 1 && !args[0].startsWith("-")) {
-                fpath = args[0];
+                if (new File(args[1]).isDirectory()) {
+                    fpath = args[1] + "/src/main.q";
+                } else {
+                    fpath = args[1];
+                }
             } else if (args[0].equals("--env") || args[0].equals("-e")) {
                 System.out.println(Environment.global);
                 System.exit(0);
@@ -142,7 +146,7 @@ public class Runfile {
                     throw new RuntimeException(e);
                 }
 
-                System.out.println(Chalk.on("Created project " + projectName + " in").bgBlue());
+                System.out.println(Chalk.on("Created project " + projectName + " successfully").bgBlue());
                 System.exit(0);
 
             } else if (args[0].equals("--executable") || args[0].equals("-ex")) {
