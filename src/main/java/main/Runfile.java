@@ -182,7 +182,7 @@ public class Runfile {
 
                             throw new Problem(String.format("""
                                     \n
-                                    [FATAL] [ERROR] Invalid value for --type. Valid values are:
+                                    [FATAL] Invalid value for --type. Valid values are:
                                     console
                                     awt
                                     single-file
@@ -190,6 +190,7 @@ public class Runfile {
                                     
                                     See '%s'
                                          %s Invalid expression for --type.
+                                         Try like this: 'q --create project -t console'
                                     """, Arrays.toString(args), errStrSquiggle.toString()));
                         }
                     }
