@@ -91,10 +91,10 @@ public class Runfile {
                     String str = String.format("""
                             Information about: %s
                                 This project was written by: %s
-                                Project size is %smb
+                                Project size is %smb (%skb)
                                 Project version is %s
                                 The main file for this project is: %s
-                            """, qy.getName(), qy.getAuthor(), "" + ((yamlfile.length() / 1024) / 1024), qy.getVersion(), qy.getHomedir());
+                            """, qy.getName(), qy.getAuthor(), "" + ((yamlfile.length() / 1024) / 1024), (yamlfile.length() / 1024), qy.getVersion(), qy.getHomedir());
 
                     System.out.println(Chalk.on(str).bgBlue());
                     System.exit(-1);
