@@ -83,6 +83,59 @@ public class Runfile {
                         \t\tThe [interact] screen has more advanced flag options.
                         """);
                 System.exit(0);
+            } else if (args[0].equals("--create") || args[0].equals("-c")) {
+                if (args.length == 1) {
+                    System.out.println(Chalk.on("[ERROR] `q --create <projectName>` requires field <projectName>").bgRed());
+                    System.exit(-1);
+                }
+
+                String projectName = args[1];
+
+                String yaml =
+                        String.format("""
+                                ---
+                                name: "%s"
+                                type: "%s"
+                                version: "0.0.1"
+                                author: "%s"
+                                ---
+                                """, projectName, "console", System.getProperty("user.name"));
+
+                File homedir = new File("/" + projectName + "/src");
+
+                if (!homedir.exists()) {
+                    homedir.mkdirs();
+                }
+
+                File project = new File(homedir.getPath() + "/" + "main.q");
+
+                if (!project.exists()) {
+                    try {
+                        project.createNewFile();
+                    } catch (IOException e) {
+                        throw new Problem(e);
+                    }
+                }
+
+                File yamlfile = new File("/" + projectName + "/" + "q.yaml");
+
+                if (!yamlfile.exists()) {
+                    try {
+                        yamlfile.createNewFile();
+                    } catch (Exception e) {
+                        throw new Problem(e);
+                    }
+                }
+
+                FileWriter fw;
+                try {
+                    fw = new FileWriter(yamlfile);
+                    fw.write(yaml);
+                    fw.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
             } else if (args[0].equals("--executable") || args[0].equals("-ex")) {
 
                 String path = "";
@@ -109,10 +162,10 @@ public class Runfile {
                     FileWriter f2 = new FileWriter(output);
                     f2.write(
                             """
-                            #!/bin/zsh
-                            
-                            q --run ~/.q/gf/out.txt
-                            """);
+                                    #!/bin/zsh
+                                                                
+                                    q --run ~/.q/gf/out.txt
+                                    """);
                     f2.close();
 
                     Runtime.getRuntime().exec("chmod a+x qout");

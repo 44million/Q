@@ -29,7 +29,7 @@ mvn clean compile assembly:single -q -B
 # install trash, just in case user doesnt have it already
 brew install trash -q
 # move the old Q jarfile into the trash.
-trash ~/.q/Q.jar
+sudo trash ~/.q/Q.jar
 # change into the target folder, and then move the new jarfile into the home dir
 cd target || exit
 mv Q-1.0-jar-with-dependencies.jar ~/
