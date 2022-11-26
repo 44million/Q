@@ -59,6 +59,50 @@ public class Runfile {
             } else if (args[0].equals("--env") || args[0].equals("-e")) {
                 System.out.println(Environment.global);
                 System.exit(0);
+            } else if (args[0].equals("--projectinfo") || args[0].equals("-pi")) {
+                if (args.length == 1) {
+                    System.err.println("[FATAL] No project provided for `--projectinfo` argument");
+                    System.exit(-1);
+                }
+
+                File projectFolder = new File(args[1]);
+                if (!projectFolder.exists()) {
+                    System.err.println("[FATAL] Project folder does not exist: " + projectFolder.getAbsolutePath());
+                    System.exit(-1);
+                }
+                if (!projectFolder.isDirectory()) {
+                    System.err.println("[FATAL] Project folder is not a directory: " + projectFolder.getAbsolutePath());
+                    System.exit(-1);
+                }
+
+                File yamlfile = new File(projectFolder.getPath() + File.separator + "q.yaml");
+
+                if (!yamlfile.exists()) {
+                    System.err.println("[FATAL] Project yaml info file does not exist: " + yamlfile.getAbsolutePath());
+                    System.exit(-1);
+                }
+
+                try {
+                    InputStream inputStream = new FileInputStream(yamlfile);
+                    Yaml yaml = new Yaml(new Constructor(QYaml.class));
+
+                    QYaml qy = yaml.load(inputStream);
+
+                    String str = String.format("""
+                            Information about: %s
+                                This project was written by: %s
+                                Project size is %skb
+                                Project version is %s
+                                The main file for this project is: %s
+                            """, qy.getName(), qy.getAuthor(), "" + (yamlfile.length() * 1000), qy.getVersion(), qy.getHomedir());
+
+                    System.out.println(Chalk.on(str).bgBlue());
+                    System.exit(-1);
+
+                } catch (Exception e) {
+                    throw new Problem(e);
+                }
+
             } else if (args[0].equals("--run") || args[0].equals("-r")) {
                 if (args.length == 1) {
                     System.out.println(Chalk.on("No QFile provided! Try this, `q --run <file>.q`").bgBlue());
@@ -168,16 +212,16 @@ public class Runfile {
                     FileWriter writer = new FileWriter(printer);
                     writer.write("""
                             #import <q.std>;
-                            
+                                                        
                             class Printer {
-                            
+                                                        
                                 cn Printer():
                                 end
                                 
                                 fn print(str):
                                     std::coutln(str);
                                 end
-                            
+                                                        
                             }
                             """);
                     writer.close();
