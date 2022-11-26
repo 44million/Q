@@ -2,6 +2,9 @@ package qlang.core.internal;
 
 public class QYaml {
 
+    public QYaml() {
+    }
+
     private String name;
     private String type;
     private String version;
