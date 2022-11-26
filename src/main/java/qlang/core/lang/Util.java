@@ -128,7 +128,8 @@ public class Util {
              Scanner s = new Scanner(inputStream).useDelimiter("\\A")) {
             result = s.hasNext() ? s.next() : null;
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            throw new Problem(e);
         }
         return result;
     }
@@ -371,7 +372,8 @@ public class Util {
              Scanner s = new Scanner(inputStream).useDelimiter("\\A")) {
             result = s.hasNext() ? s.next() : null;
         } catch (IOException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
+            throw new Problem(e);
         }
         return result;
     }
@@ -385,7 +387,8 @@ public class Util {
                     try {
                         Files.copy(source, destination);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        //e.printStackTrace();
+                        throw new Problem(e);
                     }
                 });
     }

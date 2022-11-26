@@ -147,7 +147,7 @@ public class Runfile {
                     try {
                         project.createNewFile();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        // e.printStackTrace();
                         throw new Problem(e);
                     }
                 }
@@ -255,15 +255,16 @@ public class Runfile {
                         input = reader.readLine();
                         total.append(input);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        //e.printStackTrace();
+                        throw new Problem(e);
                     }
                 }
                 Parser par = new Parser().fromText(total.toString());
                 try {
                     par.parse();
                 } catch (IOException e) {
-                    e.printStackTrace();
-                    //throw new Problem(e);
+                    //e.printStackTrace();
+                    throw new Problem(e);
                 }
             } else if (args[0].equals("-v") || args[0].equals("--version")) {
                 System.out.printf("""

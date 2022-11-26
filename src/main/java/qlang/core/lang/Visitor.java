@@ -967,7 +967,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         try {
             lexer = new QLexer(CharStreams.fromFileName(currentPath + "/" + path + ".u"));
         } catch (IOException e) {
-            throw new Problem("Library or File not found: " + path, ctx, this.curClass);
+            throw new Problem("Library or File not found: " + path, ctx, this.curClass, new Tip("If you are using a Q project creator, you must also import the name of the project, like: project.src.objs.File!"));
         }
 
         QParser parser = new QParser(new CommonTokenStream(lexer));
