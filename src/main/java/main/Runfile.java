@@ -15,6 +15,7 @@ import qlang.core.lang.Visitor;
 import qlang.runtime.errors.Problem;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Scanner;
@@ -162,6 +163,28 @@ public class Runfile {
                 String projectName = args[1];
                 // maybe add more to do with this later, awt projects and such
                 String ptype = "console";
+                String author = System.getProperty("user.name");
+
+                if (args.length > 2) {
+                    if ((args[2].equals("--private") || args[2].equals("-p")) || args[3].equals("--private") || args[3].equals("-p")) {
+                        author = "Anonymous";
+                    } if (args[2].equals("--type") || args[2].equals("-t")) {
+                        try {
+                            ptype = args[3];
+                        } catch (Exception e) {
+                            throw new Problem(String.format("""
+                                    [FATAL] [ERROR] Invalid value for --type. Valid values are:
+                                    console
+                                    awt
+                                    single-file
+                                    crate
+                                    
+                                    See '%s'
+                                        ^^^^^ Invalid expression for --type.
+                                    """, Arrays.toString(args)));
+                        }
+                    }
+                }
 
                 String yaml =
                         String.format("""
@@ -174,7 +197,7 @@ public class Runfile {
                                 # please note, if you change this:
                                 # do NOT put a / in front of '%s' because it will cause problems with the unix file system.
                                 homedir: "%s"
-                                """, projectName, ptype, System.getProperty("user.name"), projectName, projectName + "/src/main.q");
+                                """, projectName, ptype, author, projectName, projectName + "/src/main.q");
 
                 File homedir = new File(projectName + "/src");
 
