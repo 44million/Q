@@ -108,7 +108,7 @@ public class Runfile {
                     homedir.mkdirs();
                 }
 
-                File project = new File(homedir.getPath() + "main.q");
+                File project = new File("/" + projectName + "/src/main.q");
 
                 if (!project.exists()) {
                     try {
