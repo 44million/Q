@@ -26,6 +26,7 @@ public class Environment {
     public Scope scope = new Scope();
     public Visitor visitor = new Visitor(scope, functions);
     public String response = Util.string();
+    public boolean verbose = false;
     public double shver = 1.0;
     public double qversion = 2.1;
 

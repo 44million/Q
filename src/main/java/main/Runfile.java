@@ -190,47 +190,41 @@ public class Runfile {
                     throw new RuntimeException(e);
                 }
 
-                System.out.println(Chalk.on("Created project " + projectName + " successfully").bgBlue());
+                System.out.println(Chalk.on("Created project '" + projectName + "' successfully").bgBlue());
                 System.exit(0);
 
             } else if (args[0].equals("--executable") || args[0].equals("-ex")) {
 
-                String path = "";
+                if (args[1].equals("") || args.length == 1) {
+                    System.out.println(Chalk.on("[ERROR] `q --executable <executable>` requires field <executable>").bgRed());
+                    System.exit(-1);
+                }
+
+                File exe = new File(args[1]);
+                if (!exe.exists()) {
+                    throw new Problem("File '" + args[1] + "' does not exist");
+                }
+
+                if (!exe.isDirectory()) {
+                    System.err.println("[FATAL] Cannot generate executable from file, only a verified Q project.\nTry `q --create project`");
+                    System.exit(-1);
+                }
+
+                System.out.println(Chalk.on("Generating executable '" + args[1] + "'"));
 
                 try {
-                    path = args[1];
-
-                    String content = Files.readString(Path.of(path), Charset.defaultCharset());
-
-                    File f = new File(System.getProperty("user.home") + "/.q/out.txt");
-
-                    if (!f.exists()) {
-                        f.createNewFile();
+                    Util.copyDirectory(exe.getPath(), System.getProperty("user.home") + "/.q/");
+                    File executable = new File(exe.getName() + ".sh");
+                    if (!executable.exists()) {
+                        executable.createNewFile();
                     }
 
-                    FileWriter fw = new FileWriter(f);
-                    fw.write(content);
+                    FileWriter fw = new FileWriter(executable);
+                    fw.write("#!/bin/zsh\n\nq " + exe.getName() + "/src/main.q");
                     fw.close();
-
-                    File output = new File("qout");
-                    if (!output.exists()) {
-                        output.createNewFile();
-                    }
-                    FileWriter f2 = new FileWriter(output);
-                    f2.write(
-                            """
-                                    #!/bin/zsh
-                                                                
-                                    q --run ~/.q/gf/out.txt
-                                    """);
-                    f2.close();
-
-                    Runtime.getRuntime().exec("chmod a+x qout");
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    System.out.println(Chalk.on("[ERROR] Cannot generate executable without input file.").bgRed());
-                    System.exit(-1);
+                    executable.setExecutable(true);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
 
             } else if (args[0].equals("-i") || args[0].equals("--info")) {
