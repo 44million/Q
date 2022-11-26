@@ -91,7 +91,7 @@ public class Runfile {
                     String str = String.format("""
                             Information about: %s
                                 This project was written by: %s
-                                Project size is %skb
+                                Project size is %smb
                                 Project version is %s
                                 The main file for this project is: %s
                             """, qy.getName(), qy.getAuthor(), "" + ((yamlfile.length() / 1024) / 1024), qy.getVersion(), qy.getHomedir());
