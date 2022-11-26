@@ -51,7 +51,11 @@ public class Runfile {
                     System.out.println(Chalk.on("No QFile provided! Try this, `q --run <file>.q`").bgBlue());
                     System.exit(0);
                 } else {
-                    fpath = args[1];
+                    if (new File(args[1]).isDirectory()) {
+                        fpath = args[1] + "/src/main.q";
+                    } else {
+                        fpath = args[1];
+                    }
                 }
             } else if (args[0].equals("--runblind") || args[0].equals("-rb")) {
 
@@ -137,6 +141,9 @@ public class Runfile {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+
+                System.out.println(Chalk.on("Created project " + projectName + " in").bgBlue());
+                System.exit(0);
 
             } else if (args[0].equals("--executable") || args[0].equals("-ex")) {
 
