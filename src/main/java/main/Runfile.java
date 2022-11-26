@@ -128,8 +128,10 @@ public class Runfile {
                                 type: "%s"
                                 version: "0.0.1"
                                 author: "%s"
+                                # please note, if you change this:
+                                # do NOT put a / in front of '%s' because it will cause problems with the unix file system.
                                 homedir: "%s"
-                                """, projectName, "console", System.getProperty("user.name"), "/" + projectName + "/src/main.q");
+                                """, projectName, "console", System.getProperty("user.name"), projectName, projectName + "/src/main.q");
 
                 File homedir = new File(projectName + "/src");
 
