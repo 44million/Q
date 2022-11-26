@@ -2,14 +2,13 @@ package qlang.core.internal;
 
 public class QYaml {
 
-    public QYaml() {
-    }
-
     private String name;
     private String type;
     private String version;
     private String author;
     private String homedir;
+    public QYaml() {
+    }
 
     public String getName() {
         return name;

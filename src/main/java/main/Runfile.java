@@ -15,9 +15,6 @@ import qlang.core.lang.Visitor;
 import qlang.runtime.errors.Problem;
 
 import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Scanner;
