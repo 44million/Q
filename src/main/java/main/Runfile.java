@@ -172,6 +172,14 @@ public class Runfile {
                         try {
                             ptype = args[3];
                         } catch (Exception e) {
+
+                            StringBuilder errStrSquiggle = new StringBuilder();
+                            long size = Arrays.toString(args).toCharArray().length;
+
+                            for (int i = 0; i < args.length; i++) {
+                                errStrSquiggle.append("^");
+                            }
+
                             throw new Problem(String.format("""
                                     [FATAL] [ERROR] Invalid value for --type. Valid values are:
                                     console
@@ -180,8 +188,8 @@ public class Runfile {
                                     crate
                                     
                                     See '%s'
-                                        ^^^^^ Invalid expression for --type.
-                                    """, Arrays.toString(args)));
+                                        %s Invalid expression for --type.
+                                    """, Arrays.toString(args), errStrSquiggle.toString()));
                         }
                     }
                 }
