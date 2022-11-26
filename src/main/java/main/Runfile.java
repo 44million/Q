@@ -98,8 +98,9 @@ public class Runfile {
                                 type: "%s"
                                 version: "0.0.1"
                                 author: "%s"
+                                homedir: "%s"
                                 ---
-                                """, projectName, "console", System.getProperty("user.name"));
+                                """, projectName, "console", System.getProperty("user.name"), "/" + projectName + "/src/main.q");
 
                 File homedir = new File("/" + projectName + "/src");
 
