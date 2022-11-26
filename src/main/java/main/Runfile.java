@@ -166,7 +166,7 @@ public class Runfile {
                 String author = System.getProperty("user.name");
 
                 if (args.length > 2) {
-                    if ((args[2].equals("--private") || args[2].equals("-p")) || args[3].equals("--private") || args[3].equals("-p")) {
+                    if ((args[2].equals("--private") || args[2].equals("-p"))) {
                         author = "Anonymous";
                     } if (args[2].equals("--type") || args[2].equals("-t")) {
                         try {
