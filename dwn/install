@@ -64,5 +64,5 @@ figlet "Success!"
 # leave green coloration.
 echo "${NC}"
 
-echo "Run 'q -v' to verify installation"
+echo "Run 'q -v' to verify installation, or 'q -c <projectName>' to crete a new project!"
 # simple as.

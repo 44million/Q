@@ -149,20 +149,57 @@ public class Runfile {
                     }
                 }
 
+                File printer = new File(projectName + "/src/objs/Printer.u");
+
+                if (!new File(projectName + "/src/objs/").exists()) {
+                    new File(projectName + "/src/objs/").mkdirs();
+                }
+
+                if (!printer.exists()) {
+                    try {
+                        printer.createNewFile();
+                    } catch (IOException e) {
+                        // e.printStackTrace();
+                        throw new Problem(e);
+                    }
+                }
+
+                try {
+                    FileWriter writer = new FileWriter(printer);
+                    writer.write("""
+                            #import <q.std>;
+                            
+                            class Printer {
+                            
+                                cn Problem():
+                                end
+                                
+                                fn print(str):
+                                    std::coutln(str);
+                                end
+                            
+                            }
+                            """);
+                    writer.close();
+                } catch (Exception e) {
+                    throw new Problem(e);
+                }
+
                 try {
                     FileWriter pro = new FileWriter(project);
-                    pro.write("""
-                            #import <q.std>;
+                    pro.write(String.format("""
+                            #import %s.objs.Printer;
                                                         
                             // This file was automatically created by the q --create flag.
                             class Main {
                                                         
                                 fn main(args):
-                                    std::coutln("Hello, World!");
+                                    new Printer as p();
+                                    p::print("Hello, World!");
                                 end
                                                         
                             }
-                            """);
+                            """, projectName));
                     pro.close();
                 } catch (IOException e) {
                     throw new Problem(e);
