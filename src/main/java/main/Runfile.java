@@ -2,8 +2,10 @@ package main;
 
 import com.github.tomaslanger.chalk.Chalk;
 import org.jetbrains.annotations.NotNull;
+import org.yaml.snakeyaml.Yaml;
 import qlang.core.internal.Environment;
 import qlang.core.internal.Parser;
+import qlang.core.internal.QYaml;
 import qlang.core.internal.Scope;
 import qlang.core.lang.NativeFunctionLoader;
 import qlang.core.lang.Q.QFile;
@@ -16,6 +18,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -42,8 +45,17 @@ public class Runfile {
 
         if (args.length >= 1) {
             if (args.length == 1 && !args[0].startsWith("-")) {
-                if (new File(args[1]).isDirectory()) {
-                    fpath = args[1] + "/src/main.q";
+                if (new File(args[0]).isDirectory()) {
+                    File yamlfile = new File(args[1] + "/q.yaml");
+                    Yaml yaml = new Yaml();
+                    InputStream inputStream;
+                    try {
+                        inputStream = yamlfile.toURL().openStream();
+                        QYaml qy = yaml.load(inputStream);
+                        fpath = qy.getHomedir();
+                    } catch (IOException e) {
+                        throw new Problem(e);
+                    }
                 } else {
                     fpath = args[1];
                 }
@@ -56,7 +68,16 @@ public class Runfile {
                     System.exit(0);
                 } else {
                     if (new File(args[1]).isDirectory()) {
-                        fpath = args[1] + "/src/main.q";
+                        File yamlfile = new File(args[1] + "/q.yaml");
+                        Yaml yaml = new Yaml();
+                        InputStream inputStream;
+                        try {
+                            inputStream = yamlfile.toURL().openStream();
+                            QYaml qy = yaml.load(inputStream);
+                            fpath = qy.getHomedir();
+                        } catch (IOException e) {
+                            throw new Problem(e);
+                        }
                     } else {
                         fpath = args[1];
                     }
@@ -102,6 +123,7 @@ public class Runfile {
                 String yaml =
                         String.format("""
                                 ---
+                                # This file was automatically created by the q --create flag.
                                 name: "%s"
                                 type: "%s"
                                 version: "0.0.1"
@@ -125,6 +147,25 @@ public class Runfile {
                         e.printStackTrace();
                         throw new Problem(e);
                     }
+                }
+
+                try {
+                    FileWriter pro = new FileWriter(project);
+                    pro.write("""
+                            #import <q.std>;
+                            
+                            // This file was automatically created by the q --create flag.
+                            class Main {
+                            
+                                fn main(args):
+                                    std::coutln("Hello, World!");
+                                end
+                            
+                            }
+                            """);
+                    pro.close();
+                } catch (IOException e) {
+                    throw new Problem(e);
                 }
 
                 File yamlfile = new File(projectName + "/" + "q.yaml");
