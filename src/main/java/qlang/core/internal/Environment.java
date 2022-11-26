@@ -3,6 +3,7 @@ package qlang.core.internal;
 import org.antlr.v4.runtime.Token;
 import qlang.core.lang.Function;
 import qlang.core.lang.Q.QClass;
+import qlang.core.lang.Q.QModule;
 import qlang.core.lang.Util;
 import qlang.core.lang.Visitor;
 import qlang.runtime.errors.Problem;
@@ -38,8 +39,10 @@ public class Environment {
     public List<String> allLibs = new ArrayList<>();
 
     public Map<String, QClass> classes = new HashMap<>();
+    public Map<String, QModule> modules = new HashMap<>();
     public Map<String, QClass.QObject> objs = new HashMap<>();
     public Map<String, File> files = new HashMap<>();
+    public Map<String, Object> modValues = new HashMap<>();
     public Map<String, Function.INativeFunction> natives = new HashMap<>();
     public Map<String, Function> consts = new HashMap<>();
     public Map<String, NameSpace> namespaces = new HashMap<>();

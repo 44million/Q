@@ -16,6 +16,7 @@ import qlang.core.interp.QBaseVisitor;
 import qlang.core.interp.QLexer;
 import qlang.core.interp.QParser;
 import qlang.core.lang.Q.QClass;
+import qlang.core.lang.Q.QModule;
 import qlang.core.lang.Q.Value;
 import qlang.runtime.errors.Problem;
 import qlang.runtime.errors.RVal;
@@ -143,6 +144,71 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         }
 
         return new Value("JAVA");
+    }
+
+    @Override
+    public Value visitModule(QParser.ModuleContext ctx) {
+
+        String modname = ctx.Identifier().getText().toString();
+        boolean pub = true;
+
+        if (ctx.Public() == null || ctx.Private() != null) {
+            pub = false;
+        }
+
+        QModule qmod = new QModule();
+        qmod.name = modname;
+        qmod.isPublic = pub;
+
+        Map<String, String> nameAndRegex = new HashMap<>();
+
+        if (ctx.modStatement() != null) {
+            for (var x : ctx.modStatement().Identifier2()) {
+                for (var y : ctx.modStatement().Anything()) {
+                    nameAndRegex.put(x.getText().toString(), y.getText().toString());
+                }
+            }
+        }
+
+        qmod.nameAndRegex = nameAndRegex;
+        Environment.global.modules.put(qmod.name, qmod);
+        return new Value(true);
+    }
+
+    @Override
+    public Value visitModuleReference(QParser.ModuleReferenceContext ctx) {
+
+        // STRING str -> "Hello";
+        // String.STRING str -> "Hello";
+
+        String id0 = ctx.Identifier(0).getText().toString();
+
+        if (Environment.global.modules.containsKey(id0)) {
+            String name = ctx.Identifier(2).getText().toString();
+            String type = ctx.Identifier(1).getText().toString();
+            String toMatch = ctx.Anything().getText().toString();
+
+            QModule qmod = Environment.global.modules.get(id0);
+            if (qmod.matches(name, toMatch)) {
+                Environment.global.modValues.put(name, toMatch);
+            } else {
+                throw new Problem("[FATAL] Module '" + name + "'s definition of '" + id0 + "' does not match '" + toMatch + "'");
+            }
+        } else {
+            Environment.global.modules.forEach((s, q) -> {
+                q.nameAndRegex.forEach((name, regex) -> {
+                    if (name.equals(id0)) {
+                        String toMatch = ctx.Anything().getText().toString();
+                        if (q.matches(name, toMatch)) {
+                            Environment.global.modValues.put(name, toMatch);
+                        } else {
+                            throw new Problem("[FATAL] Module '" + name + "'s definition of '" + id0 + "' does not match '" + toMatch + "'");
+                        }
+                    }
+                });
+            });
+        }
+        return new Value(true);
     }
 
     @Override
