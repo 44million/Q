@@ -94,7 +94,7 @@ public class Runfile {
                                 Project size is %skb
                                 Project version is %s
                                 The main file for this project is: %s
-                            """, qy.getName(), qy.getAuthor(), "" + (yamlfile.length() * 1000), qy.getVersion(), qy.getHomedir());
+                            """, qy.getName(), qy.getAuthor(), "" + ((yamlfile.length() / 1024) / 1024), qy.getVersion(), qy.getHomedir());
 
                     System.out.println(Chalk.on(str).bgBlue());
                     System.exit(-1);
