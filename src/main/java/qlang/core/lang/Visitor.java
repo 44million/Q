@@ -1781,6 +1781,10 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         String id = ctx.Identifier().getText();
         Value val = scope.exists(id);
 
+        if (Environment.global.modValues.containsKey(id)) {
+            val = new Value(Environment.global.modValues.get(id));
+        }
+
         if (ctx.indexes() != null) {
             List<QParser.ExpressionContext> exps = ctx.indexes().expression();
             val = resolveIndexes(val, exps);
