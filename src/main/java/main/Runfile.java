@@ -176,7 +176,7 @@ public class Runfile {
                             StringBuilder errStrSquiggle = new StringBuilder();
                             long size = Arrays.toString(args).toCharArray().length;
 
-                            for (int i = 0; i < args.length; i++) {
+                            for (long i = 0; i < size; i++) {
                                 errStrSquiggle.append("^");
                             }
 
