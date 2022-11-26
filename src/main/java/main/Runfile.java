@@ -119,6 +119,8 @@ public class Runfile {
                 }
 
                 String projectName = args[1];
+                // maybe add more to do with this later, awt projects and such
+                String ptype = "console";
 
                 String yaml =
                         String.format("""
@@ -131,7 +133,7 @@ public class Runfile {
                                 # please note, if you change this:
                                 # do NOT put a / in front of '%s' because it will cause problems with the unix file system.
                                 homedir: "%s"
-                                """, projectName, "console", System.getProperty("user.name"), projectName, projectName + "/src/main.q");
+                                """, projectName, ptype, System.getProperty("user.name"), projectName, projectName + "/src/main.q");
 
                 File homedir = new File(projectName + "/src");
 
