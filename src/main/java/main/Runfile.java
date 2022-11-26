@@ -46,7 +46,7 @@ public class Runfile {
         if (args.length >= 1) {
             if (args.length == 1 && !args[0].startsWith("-")) {
                 if (new File(args[0]).isDirectory()) {
-                    File yamlfile = new File(args[1] + "/q.yaml");
+                    File yamlfile = new File(args[0] + "/q.yaml");
                     Yaml yaml = new Yaml();
                     InputStream inputStream;
                     try {
