@@ -19,7 +19,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -58,7 +57,7 @@ public class Runfile {
                         throw new Problem(e);
                     }
                 } else {
-                    fpath = args[1];
+                    fpath = args[0];
                 }
             } else if (args[0].equals("--env") || args[0].equals("-e")) {
                 System.out.println(Environment.global);
@@ -70,13 +69,13 @@ public class Runfile {
                 } else {
                     if (new File(args[1]).isDirectory()) {
                         File yamlfile = new File(args[1] + "/q.yaml");
-                        Yaml yaml = new Yaml();
-                        InputStream inputStream;
                         try {
-                            inputStream = yamlfile.toURL().openStream();
+                            InputStream inputStream = new FileInputStream(yamlfile);
+                            Yaml yaml = new Yaml(new Constructor(QYaml.class));
+
                             QYaml qy = yaml.load(inputStream);
                             fpath = qy.getHomedir();
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             throw new Problem(e);
                         }
                     } else {
@@ -153,14 +152,14 @@ public class Runfile {
                     FileWriter pro = new FileWriter(project);
                     pro.write("""
                             #import <q.std>;
-                            
+                                                        
                             // This file was automatically created by the q --create flag.
                             class Main {
-                            
+                                                        
                                 fn main(args):
                                     std::coutln("Hello, World!");
                                 end
-                            
+                                                        
                             }
                             """);
                     pro.close();

@@ -95,7 +95,7 @@ public class QFile {
             }
 
             System.err.println(err);
-            // e.printStackTrace();
+            e.printStackTrace();
             if (err.contains("FATAL")) {
                 System.exit(-1);
             } else {
