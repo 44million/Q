@@ -171,7 +171,7 @@ public class Runfile {
                             
                             class Printer {
                             
-                                cn Problem():
+                                cn Printer():
                                 end
                                 
                                 fn print(str):
