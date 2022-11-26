@@ -188,7 +188,7 @@ public class Runfile {
                 try {
                     FileWriter pro = new FileWriter(project);
                     pro.write(String.format("""
-                            #import %s.objs.Printer;
+                            #import %s.src.objs.Printer;
                                                         
                             // This file was automatically created by the q --create flag.
                             class Main {
