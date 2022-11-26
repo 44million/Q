@@ -102,13 +102,13 @@ public class Runfile {
                                 ---
                                 """, projectName, "console", System.getProperty("user.name"), "/" + projectName + "/src/main.q");
 
-                File homedir = new File("/" + projectName + "/src");
+                File homedir = new File(projectName + "/src");
 
                 if (!homedir.exists()) {
                     homedir.mkdirs();
                 }
 
-                File project = new File("/" + projectName + "/src/main.q");
+                File project = new File(projectName + "/src/main.q");
 
                 if (!project.exists()) {
                     try {
@@ -119,7 +119,7 @@ public class Runfile {
                     }
                 }
 
-                File yamlfile = new File("/" + projectName + "/" + "q.yaml");
+                File yamlfile = new File(projectName + "/" + "q.yaml");
 
                 if (!yamlfile.exists()) {
                     try {
