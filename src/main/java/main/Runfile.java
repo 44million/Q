@@ -181,6 +181,7 @@ public class Runfile {
                             }
 
                             throw new Problem(String.format("""
+                                    \n
                                     [FATAL] [ERROR] Invalid value for --type. Valid values are:
                                     console
                                     awt
@@ -188,7 +189,7 @@ public class Runfile {
                                     crate
                                     
                                     See '%s'
-                                        %s Invalid expression for --type.
+                                         %s Invalid expression for --type.
                                     """, Arrays.toString(args), errStrSquiggle.toString()));
                         }
                     }
