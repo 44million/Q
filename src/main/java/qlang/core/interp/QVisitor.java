@@ -290,6 +290,12 @@ public interface QVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitJavaMethodReference(QParser.JavaMethodReferenceContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link QParser#stdmodFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStdmodFunction(QParser.StdmodFunctionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link QParser#classStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

@@ -476,6 +476,16 @@ public interface QListener extends ParseTreeListener {
 	 */
 	void exitJavaMethodReference(QParser.JavaMethodReferenceContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link QParser#stdmodFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterStdmodFunction(QParser.StdmodFunctionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QParser#stdmodFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitStdmodFunction(QParser.StdmodFunctionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link QParser#classStatement}.
 	 * @param ctx the parse tree
 	 */

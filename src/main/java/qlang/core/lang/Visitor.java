@@ -211,6 +211,34 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         return new Value(true);
     }
 
+    // stdmod -> (str)::print();
+    // stdmod -> (num1, num2)::add(print);
+
+    @Override
+    public Value visitStdmodFunction(QParser.StdmodFunctionContext ctx) {
+
+        List<String> names = new ArrayList<String>();
+
+        for (var x : ctx.Identifier()) {
+            names.add(x.getText().toString());
+        }
+
+        for (String s : names) {
+            if (!Environment.global.modValues.containsKey(s)) {
+                throw new Problem("[ERROR] There is not a definition for " + s);
+            }
+        }
+        String function = ctx.Identifier2(0).toString();
+        System.out.println(function);
+
+        if (function.equals("print")) {
+            for (String s : names) {
+                System.out.println(Environment.global.modValues.get(s));
+            }
+        }
+        return new Value(true);
+    }
+
     @Override
     public Value visitAnonymousFunctionExpression(QParser.AnonymousFunctionExpressionContext ctx) {
         Scope s = new Scope(this.scope, true);
