@@ -58,7 +58,14 @@ public class Runfile {
                     fpath = args[0];
                 }
             } else if (args[0].equals("--env") || args[0].equals("-e")) {
-                System.out.println(Environment.global);
+                StringBuilder b = new StringBuilder();
+                Scanner scanner = new Scanner(System.in);
+                while (!Objects.equals(scanner.next(), "--q")) {
+                    System.out.println(">> ");
+                    b.append(scanner.nextLine()).append("\n");
+                }
+                scanner.close();
+                Parser.execBlock(b.toString());
                 System.exit(0);
             } else if (args[0].equals("--projectinfo") || args[0].equals("-pi")) {
                 if (args.length == 1) {
