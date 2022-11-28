@@ -170,11 +170,11 @@ public class Runfile {
                 String projectName = args[1];
                 // maybe add more to do with this later, awt projects and such
                 String ptype = "console";
-                String author = System.getProperty("user.name");
+                String author = "Anonymous";
 
                 if (args.length > 2) {
-                    if ((args[2].equals("--private") || args[2].equals("-p"))) {
-                        author = "Anonymous";
+                    if ((args[2].equals("--sign") || args[2].equals("-s"))) {
+                        author = System.getProperty("user.name");
                     } if (args[2].equals("--type") || args[2].equals("-t")) {
                         try {
                             ptype = args[3];
@@ -210,6 +210,7 @@ public class Runfile {
                                 name: "%s"
                                 type: "%s"
                                 version: "0.0.1"
+                                # If you would like this to be automatically filled, use the `--sign (-s)` flag
                                 author: "%s"
                                 # please note, if you change this:
                                 # do NOT put a / in front of '%s' because it will cause problems with the unix file system.
