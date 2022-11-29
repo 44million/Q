@@ -105,7 +105,7 @@ public class Runfile {
                             """, qy.getName(), qy.getAuthor(), "" + ((projectFolder.length() / 1024) / 1024), (projectFolder.length() / 1024), qy.getVersion(), qy.getHomedir());
 
                     System.out.println(Chalk.on(str).bgBlue());
-                    System.exit(-1);
+                    System.exit(0);
 
                 } catch (Exception e) {
                     throw new Problem(e);

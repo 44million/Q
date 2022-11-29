@@ -202,7 +202,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                         if (q.matches(name, toMatch)) {
                             Environment.global.modValues.put(name, toMatch);
                         } else {
-                            throw new Problem("[FATAL] Module '" + name + "'s definition of '" + id0 + "' does not match '" + toMatch + "'");
+                            throw new Problem("Module '" + name + "'s definition of '" + id0 + "' does not match '" + toMatch + "'");
                         }
                     }
                 });
