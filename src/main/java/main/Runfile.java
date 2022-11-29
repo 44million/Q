@@ -21,7 +21,7 @@ import java.util.Objects;
 import java.util.Scanner;
 
 /*
-    Main file, run this to execute the 'Main.q' file
+    Main file. Contains the CLI tool for Q.
  */
 
 public class Runfile {
@@ -102,7 +102,7 @@ public class Runfile {
                                 Project size is %smb (%skb)
                                 Project version is %s
                                 The main file for this project is: %s
-                            """, qy.getName(), qy.getAuthor(), "" + ((yamlfile.length() / 1024) / 1024), (yamlfile.length() / 1024), qy.getVersion(), qy.getHomedir());
+                            """, qy.getName(), qy.getAuthor(), "" + ((projectFolder.length() / 1024) / 1024), (projectFolder.length() / 1024), qy.getVersion(), qy.getHomedir());
 
                     System.out.println(Chalk.on(str).bgBlue());
                     System.exit(-1);
@@ -171,19 +171,22 @@ public class Runfile {
                 // maybe add more to do with this later, awt projects and such
                 String ptype = "console";
                 String author = "Anonymous";
+                String ppath = "/main.q";
 
                 if (args.length > 2) {
-                    if ((args[2].equals("--sign") || args[2].equals("-s"))) {
+                    for (int i = 0; i < args.length; i++) {
+                    if ((args[i].equals("--sign") || args[i].equals("-s"))) {
                         author = System.getProperty("user.name");
-                    } if (args[2].equals("--type") || args[2].equals("-t")) {
+                    } else if (args[i].equals("--type") || args[i].equals("-t")) {
                         try {
-                            ptype = args[3];
+                            int ix = i;
+                            ptype = args[ix++];
                         } catch (Exception e) {
 
                             StringBuilder errStrSquiggle = new StringBuilder();
                             long size = Arrays.toString(args).toCharArray().length;
 
-                            for (long i = 0; i < size; i++) {
+                            for (long xe = 0; xe < size; xe++) {
                                 errStrSquiggle.append("^");
                             }
 
@@ -200,20 +203,29 @@ public class Runfile {
                                          Try like this: 'q --create project -t console'
                                     """, Arrays.toString(args), errStrSquiggle.toString()));
                         }
+                    } else if (args[i].equals("--mainfile") || args[i].equals("-mf")) {
+                        
+                        try {
+                        int ix = i;
+                        ppath = args[ix++];
+                        } catch (Exception e) {
+                            System.out.println(Chalk.on("[ERROR] No `mainfile` attribute specified for `q --create <project> --mainfile <FILE>`").bgRed());
+                        }
                     }
                 }
+            }
 
                 String yaml =
                         String.format("""
                                 ---
                                 # This file was automatically created by the q --create flag.
+                                # Changing these values may impact the way that Q runs the project
+                                # DO NOT change the value names, as this will break q's project system.
                                 name: "%s"
                                 type: "%s"
                                 version: "0.0.1"
                                 # If you would like this to be automatically filled, use the `--sign (-s)` flag
                                 author: "%s"
-                                # please note, if you change this:
-                                # do NOT put a / in front of '%s' because it will cause problems with the unix file system.
                                 homedir: "%s"
                                 """, projectName, ptype, author, projectName, projectName + "/src/main.q");
 
@@ -223,7 +235,7 @@ public class Runfile {
                     homedir.mkdirs();
                 }
 
-                File project = new File(projectName + "/src/main.q");
+                File project = new File(projectName + "/src" + ppath);
 
                 if (!project.exists()) {
                     try {

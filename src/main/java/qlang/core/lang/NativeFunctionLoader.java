@@ -30,7 +30,8 @@ public class NativeFunctionLoader {
     }
 
     public NativeFunctionLoader registerNatives() {
-
+        // register libraries, the text is the name of the library, and then boolean is whether or not it's formatted
+        // unformatted livraries look like `.q.std` as opposed to formatted, which is just `std` or `q.std`.
         Util.register("std", true);
         Util.register("lang", true);
         Util.register("String", true);
