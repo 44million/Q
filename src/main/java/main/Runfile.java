@@ -148,10 +148,14 @@ public class Runfile {
                 System.exit(0);
             } else if (args[0].equals("--help") || args[0].equals("-h")) {
                 System.out.println("""
+                        Format:
+                        --FLAGNAME <ADDITIONAL OPTIONS IF ANY> (-FLAGSHORTHAND <ADDITIONAL OPTIONS IF ANY>) | DESCRIPTION OF FLAG.
                         Flags:
                         --env (-e) | Print the environment
+                        --create (-c) (--sign, -c) (--type <type>, -t <type>) | Creates a new Q project
                         --runblind <file> (-rb <file>) | Run the file given with no security checks
                         --run <file> (-r <file>) | Run a file. Same as `q <file>.q`
+                        --projectinfo (-pi <projectfolder>) <projectfolder> | Print information from a project Qyaml file.
                         --info (-i) | Returns Q version, host, build, dir, and more.
                         --killall (-ka) | Kills Q processes.
                         --terminal (-t) | Allows you to enter your code in the terminal directly, rather than a file.
@@ -226,7 +230,7 @@ public class Runfile {
                                 version: "0.0.1"
                                 # If you would like this to be automatically filled, use the `--sign (-s)` flag
                                 author: "%s"
-                                homedir: "%s"
+                                mainfile: "%s"
                                 """, projectName, ptype, author, projectName, projectName + "/src/main.q");
 
                 File homedir = new File(projectName + "/src");
@@ -333,7 +337,7 @@ public class Runfile {
 
                 File exe = new File(args[1]);
                 if (!exe.exists()) {
-                    throw new Problem("File '" + args[1] + "' does not exist");
+                    throw new Problem("Folder '" + args[1] + "' does not exist");
                 }
 
                 if (!exe.isDirectory()) {
@@ -351,7 +355,15 @@ public class Runfile {
                     }
 
                     FileWriter fw = new FileWriter(executable);
-                    fw.write("#!/bin/zsh\n\nq " + exe.getName() + "/src/main.q");
+
+                    String ex = String.format(
+                        """
+                        #!/bin/zsh
+                            
+                        java -jar %s/%s
+                        """, exe.getAbsolutePath(), "main.q");
+
+                    fw.write("#!/bin/zsh\n\njava -jar ~/.q/Q.jar --run " + exe.getAbsolutePath() + "/src/main.q");
                     fw.close();
                     executable.setExecutable(true);
                 } catch (IOException e) {
@@ -515,6 +527,8 @@ public class Runfile {
                                 case "filetree" -> {
                                     if (next.equals("-p") || next.equals("--print")) {
                                         System.out.println("""
+                                                <OUTDATED>:
+                                                
                                                 /qlang::Folder 611.1 kB
                                                 ├─ /core::Folder 584.1 kB
                                                 │  ├─ /internal::Folder 37.4 kB
