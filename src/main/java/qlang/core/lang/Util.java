@@ -388,7 +388,7 @@ public class Util {
                         Files.copy(source, destination);
                     } catch (IOException e) {
                         //e.printStackTrace();
-                        throw new Problem(e);
+                        throw new Problem(e.getMessage());
                     }
                 });
     }
