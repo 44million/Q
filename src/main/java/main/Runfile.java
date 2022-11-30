@@ -367,7 +367,7 @@ public class Runfile {
                     fw.close();
                     executable.setExecutable(true);
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    throw new Problem(e.getMessage());
                 }
 
             } else if (args[0].equals("-i") || args[0].equals("--info")) {
