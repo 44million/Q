@@ -230,8 +230,8 @@ public class Runfile {
                                 version: "0.0.1"
                                 # If you would like this to be automatically filled, use the `--sign (-s)` flag
                                 author: "%s"
-                                mainfile: "%s"
-                                """, projectName, ptype, author, projectName, projectName + "/src/main.q");
+                                homedir: "%s"
+                                """, projectName, ptype, author, projectName + "/src/main.q");
 
                 File homedir = new File(projectName + "/src");
 
