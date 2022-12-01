@@ -606,6 +606,42 @@ public class NativeFunctionLoader {
         });
 
         Environment.global.defineNativeFunction(new Function.INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "here";
+            }
+
+            @Override
+            public Value ret() {
+                return new Value(System.getProperty("user.dir"));
+            }
+
+            @Override
+            public String parent() {
+                return "Files";
+            }
+
+            @Override
+            public void exec(List<Value> list) {
+
+            }
+
+            @Override
+            public Value ret(List<Value> list) {
+                return null;
+            }
+
+            @Override
+            public boolean args() {
+                return false;
+            }
+        });
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
 
             @Override
             public void exec() {

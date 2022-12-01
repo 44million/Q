@@ -49,7 +49,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  */
 
-@SuppressWarnings("all")
 public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     private static final RVal returnValue = new RVal();
     public final Map<String, Function> functions;
@@ -164,7 +163,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         if (ctx.modStatement() != null) {
             for (var x : ctx.modStatement().Identifier2()) {
-                for (var y : ctx.modStatement().Anything()) {
+                for (var y : ctx.modStatement().String()) {
                     nameAndRegex.put(x.getText().toString(), y.getText().toString());
                 }
             }
@@ -186,7 +185,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         if (Environment.global.modules.containsKey(id0)) {
             String name = ctx.Identifier(2).getText().toString();
             String type = ctx.Identifier(1).getText().toString();
-            String toMatch = ctx.Anything().getText().toString();
+            String toMatch = ctx.String().getText().toString();
 
             QModule qmod = Environment.global.modules.get(id0);
             if (qmod.matches(name, toMatch)) {
@@ -198,7 +197,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             Environment.global.modules.forEach((s, q) -> {
                 q.nameAndRegex.forEach((name, regex) -> {
                     if (name.equals(id0)) {
-                        String toMatch = ctx.Anything().getText().toString();
+                        String toMatch = ctx.String().getText().toString();
                         if (q.matches(name, toMatch)) {
                             Environment.global.modValues.put(name, toMatch);
                         } else {
@@ -364,14 +363,6 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             Util.check("Files", "Files", ctx, Util.getOrDefault(false, this), this.curClass, this.packageName);
 
             switch (method) {
-                case "absPath":
-
-                    return qlang.runtime.libs.Files.absPath(ctx);
-
-                case "here":
-
-                    return new Value(System.getProperty("user.dir"));
-
                 case "delete":
 
                     qlang.runtime.libs.Files.delete(ctx);
