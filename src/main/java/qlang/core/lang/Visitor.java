@@ -708,9 +708,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         if (ctx.Public() != null) {
             Environment.global.functions.put(id, f);
+        } else {
+            this.functions.put(id, f);
         }
-
-        this.functions.put(id, f);
         return Value.VOID;
     }
 
@@ -1953,8 +1953,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             }
 
             return function.call(args, this.functions);
+        } else {
+            throw new Problem(ctx);
         }
-        throw new Problem(ctx);
     }
 
     @Override
