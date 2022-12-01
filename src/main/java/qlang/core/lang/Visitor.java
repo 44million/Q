@@ -703,7 +703,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         String id = ctx.Identifier().getText() + params.size();
 
 
-        if (this.functions.get(id).exists() || Environment.global.functions.containsKey(id)) {
+        if (this.functions.containsKey(id) || Environment.global.functions.containsKey(id)) {
             throw new Problem("Function: '" + ctx.Identifier().getText() + "' already exists.", ctx, this.curClass);
         }
 
@@ -711,7 +711,6 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         Function f = new Function(this.scope, params, block);
 
         f.v = (this);
-
         if (ctx.Async() != null) {
             f.setAsync(true);
         }
