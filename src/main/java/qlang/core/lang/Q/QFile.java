@@ -7,6 +7,7 @@ import qlang.core.lang.Visitor;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 
 /*
     This is the base file loader for Q, this loads it in, and is what is created in Runtime.java
@@ -67,7 +68,7 @@ public class QFile {
 
             Exception exception = e;
             if (exception.getMessage() == null) {
-                exception = new Exception("Git gud scrub");
+                exception = new Exception("An unknown error occurred, here is the java source problems: " + Arrays.toString(e.getStackTrace()));
             }
 
             String err = "\n\n[FATAL] " + exception.getMessage();
