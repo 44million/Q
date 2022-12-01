@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 public class Problem extends RuntimeException {
 
     public Problem(ParserRuleContext ctx) {
-        this("[ERROR " + ctx.start.getLine() + ":" + ctx.start.getCharPositionInLine() + "] Problematic expression '" + ctx.getText() + "'", ctx);
+        this("Problematic expression '" + ctx.getText() + "'.\nThis typically means the parser, or lexer had a problem understanding what you wrote.", ctx);
     }
 
     public Problem(ParserRuleContext ctx, Exception e) {

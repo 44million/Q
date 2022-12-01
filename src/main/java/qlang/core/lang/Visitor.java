@@ -702,28 +702,22 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         ParseTree block = ctx.block();
         String id = ctx.Identifier().getText() + params.size();
 
-        try {
-            if (this.functions.get(id).exists()) {
-                throw new Problem("Function: '" + id + "' already exists.", ctx, this.curClass);
-            }
-        } catch (Exception e) {
-            String s = e.getMessage();
-            if (e.getMessage().contains("Function.exists()")) {
-                s = "";
-            }
-            System.err.print(s);
+
+        if (this.functions.get(id).exists() || Environment.global.functions.containsKey(id)) {
+            throw new Problem("Function: '" + ctx.Identifier().getText() + "' already exists.", ctx, this.curClass);
         }
 
-        Function f;
 
-        {
-            f = new Function(this.scope, params, block);
-        }
+        Function f = new Function(this.scope, params, block);
 
         f.v = (this);
 
         if (ctx.Async() != null) {
             f.setAsync(true);
+        }
+
+        if (ctx.Public() != null) {
+            Environment.global.functions.put(id, f);
         }
 
         this.functions.put(id, f);
@@ -1948,8 +1942,10 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
             return new Value(true);
 
-        } else if ((function = this.functions.get(id)) != null) {
+        } else if (this.functions.get(id) != null) {
             function = this.functions.get(id);
+        } else {
+            function = null;
         }
 
         if (function != null) {

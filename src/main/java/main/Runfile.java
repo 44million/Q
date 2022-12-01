@@ -330,7 +330,7 @@ public class Runfile {
 
             } else if (args[0].equals("--executable") || args[0].equals("-ex")) {
 
-                if (args[1].equals("") || args.length == 1) {
+                if (args.length <= 1) {
                     System.out.println(Chalk.on("[ERROR] `q --executable <executable>` requires field <executable>").bgRed());
                     System.exit(-1);
                 }
