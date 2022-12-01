@@ -7,6 +7,7 @@ public class QYaml {
     private String version;
     private String author;
     private String homedir;
+
     public QYaml() {
     }
 

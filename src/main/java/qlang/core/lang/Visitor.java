@@ -1954,7 +1954,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
             return function.call(args, this.functions);
         } else {
-            throw new Problem(ctx);
+            throw new Problem("The function '" + idWithoutParamsSize + "' is not defined in the current scope.");
         }
     }
 

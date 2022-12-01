@@ -179,45 +179,45 @@ public class Runfile {
 
                 if (args.length > 2) {
                     for (int i = 0; i < args.length; i++) {
-                    if ((args[i].equals("--sign") || args[i].equals("-s"))) {
-                        author = System.getProperty("user.name");
-                    } else if (args[i].equals("--type") || args[i].equals("-t")) {
-                        try {
-                            int ix = i;
-                            ptype = args[ix++];
-                        } catch (Exception e) {
+                        if ((args[i].equals("--sign") || args[i].equals("-s"))) {
+                            author = System.getProperty("user.name");
+                        } else if (args[i].equals("--type") || args[i].equals("-t")) {
+                            try {
+                                int ix = i;
+                                ptype = args[ix++];
+                            } catch (Exception e) {
 
-                            StringBuilder errStrSquiggle = new StringBuilder();
-                            long size = Arrays.toString(args).toCharArray().length;
+                                StringBuilder errStrSquiggle = new StringBuilder();
+                                long size = Arrays.toString(args).toCharArray().length;
 
-                            for (long xe = 0; xe < size; xe++) {
-                                errStrSquiggle.append("^");
+                                for (long xe = 0; xe < size; xe++) {
+                                    errStrSquiggle.append("^");
+                                }
+
+                                throw new Problem(String.format("""
+                                        \n
+                                        [FATAL] Invalid value for --type. Valid values are:
+                                        console
+                                        awt
+                                        single-file
+                                        crate
+                                                                            
+                                        See '%s'
+                                             %s Invalid expression for --type.
+                                             Try like this: 'q --create project -t console'
+                                        """, Arrays.toString(args), errStrSquiggle.toString()));
                             }
+                        } else if (args[i].equals("--mainfile") || args[i].equals("-mf")) {
 
-                            throw new Problem(String.format("""
-                                    \n
-                                    [FATAL] Invalid value for --type. Valid values are:
-                                    console
-                                    awt
-                                    single-file
-                                    crate
-                                    
-                                    See '%s'
-                                         %s Invalid expression for --type.
-                                         Try like this: 'q --create project -t console'
-                                    """, Arrays.toString(args), errStrSquiggle.toString()));
-                        }
-                    } else if (args[i].equals("--mainfile") || args[i].equals("-mf")) {
-                        
-                        try {
-                        int ix = i;
-                        ppath = args[ix++];
-                        } catch (Exception e) {
-                            System.out.println(Chalk.on("[ERROR] No `mainfile` attribute specified for `q --create <project> --mainfile <FILE>`").bgRed());
+                            try {
+                                int ix = i;
+                                ppath = args[ix++];
+                            } catch (Exception e) {
+                                System.out.println(Chalk.on("[ERROR] No `mainfile` attribute specified for `q --create <project> --mainfile <FILE>`").bgRed());
+                            }
                         }
                     }
                 }
-            }
 
                 String yaml =
                         String.format("""
@@ -357,11 +357,11 @@ public class Runfile {
                     FileWriter fw = new FileWriter(executable);
 
                     String ex = String.format(
-                        """
-                        #!/bin/zsh
-                            
-                        java -jar %s/%s
-                        """, exe.getAbsolutePath(), "main.q");
+                            """
+                                    #!/bin/zsh
+                                        
+                                    java -jar %s/%s
+                                    """, exe.getAbsolutePath(), "main.q");
 
                     fw.write("#!/bin/zsh\n\njava -jar ~/.q/Q.jar --run " + exe.getAbsolutePath() + "/src/main.q");
                     fw.close();
@@ -528,7 +528,7 @@ public class Runfile {
                                     if (next.equals("-p") || next.equals("--print")) {
                                         System.out.println("""
                                                 <OUTDATED>:
-                                                
+                                                                                                
                                                 /qlang::Folder 611.1 kB
                                                 ├─ /core::Folder 584.1 kB
                                                 │  ├─ /internal::Folder 37.4 kB
