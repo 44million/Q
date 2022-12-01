@@ -98,6 +98,7 @@ public class QFile {
             if (Environment.global.verbose) {
                 e.printStackTrace();
             }
+            e.printStackTrace();
             if (err.contains("FATAL")) {
                 System.exit(-1);
             } else {
