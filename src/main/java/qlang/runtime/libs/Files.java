@@ -13,31 +13,10 @@ import java.nio.file.Paths;
 
 /*
     Built in Q files library, has a couple of built in functions and such. Needs a solid rewrite.
- */
+*/
 
 public class Files extends QLibrary {
 
-
-    public static Value absPath(QParser.ObjFunctionCallExpressionContext ctx) {
-
-        if (ctx.exprList().expression(0) == null) {
-            throw new Problem("Function 'files::absPath(:str)' accepts one argument, the file, or directory in question.");
-        }
-
-        String q = ctx
-                .exprList()
-                .expression(0)
-                .getText()
-                .replace("\"", "");
-
-        Path dbpath = Paths.get(q);
-
-        if (!dbpath.toFile().exists()) {
-            throw new Problem("File or directory '" + q + "' does not exist.");
-        }
-
-        return new Value(dbpath.toAbsolutePath());
-    }
 
     public static void delete(QParser.ObjFunctionCallExpressionContext ctx) {
         if (ctx.exprList().expression(0) == null) {
