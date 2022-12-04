@@ -469,7 +469,8 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                         String layout = v.get(0).toString();
 
                         switch (layout) {
-                            case "grid" -> Util.getWinByName(parentClass).f.setLayout(new GridLayout(v.get(1).asDouble().intValue(), v.get(2).asDouble().intValue()));
+                            case "grid" ->
+                                    Util.getWinByName(parentClass).f.setLayout(new GridLayout(v.get(1).asDouble().intValue(), v.get(2).asDouble().intValue()));
                             case "flow" -> Util.getWinByName(parentClass).f.setLayout(new FlowLayout());
                             case "border" -> Util.getWinByName(parentClass).f.setLayout(new BorderLayout());
                         }
@@ -482,10 +483,14 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                         String operation = this.visit(ctx.exprList().expression(0)).toString();
 
                         switch (operation) {
-                            case "EXIT_ON_CLOSE" -> Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                            case "DISPOSE_ON_CLOSE" -> Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                            case "HIDE_ON_CLOSE" -> Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-                            case "DO_NOTHING_ON_CLOSE" -> Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                            case "EXIT_ON_CLOSE" ->
+                                    Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            case "DISPOSE_ON_CLOSE" ->
+                                    Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            case "HIDE_ON_CLOSE" ->
+                                    Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                            case "DO_NOTHING_ON_CLOSE" ->
+                                    Util.getWinByName(parentClass).f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                             default -> throw new Problem("Invalid close operation", ctx, this.curClass);
                         }
 
@@ -688,11 +693,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         ParseTree block = ctx.block();
         String id = ctx.Identifier().getText() + params.size();
 
-
         if (this.functions.containsKey(id) || Environment.global.functions.containsKey(id)) {
-            throw new Problem("Function: '" + ctx.Identifier().getText() + "' already exists.", ctx, this.curClass);
+            throw new Problem("Function: '" + ctx.Identifier().getText() + "' already exists in the current context.", ctx, this.curClass);
         }
-
 
         Function f = new Function(this.scope, params, block);
 
@@ -702,6 +705,8 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         }
 
         if (ctx.Public() != null) {
+            f = new Function(Environment.global.scope, params, block);
+            f.v = Environment.global.visitor;
             Environment.global.functions.put(id, f);
         } else {
             this.functions.put(id, f);
@@ -986,7 +991,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 replace("https://github.com/", "https://raw.githubusercontent.com/")
                 .replace("/blob", "");
 
-        String fileContents = Util.getTextFromGithub(link);
+        String fileContents = Util.getTextFromLink(link);
 
         Parser parser = new Parser().fromText(fileContents);
         try {

@@ -1,6 +1,5 @@
 package qlang.core.lang;
 
-import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.jetbrains.annotations.NotNull;
 import qlang.core.internal.Environment;
@@ -25,19 +24,88 @@ import java.util.*;
 
 public class Util {
 
-    public static void clearConsole() {
-        try {
-            final String os = System.getProperty("os.name");
-
-            if (os.contains("Windows")) {
-                Runtime.getRuntime().exec("cls");
-            } else {
-                Runtime.getRuntime().exec("clear");
-            }
-        } catch (final Exception e) {
-            throw new Problem(e);
-        }
-    }
+    public static String updateScript =
+            """
+                    #!/bin/bash
+                                        
+                    # define silly colors for figlet
+                    GREEN='\\033[0;32m'
+                    NC='\\033[0m'
+                    ALIASQ='alias q'
+                    clear
+                    # set color to green
+                    echo -e "\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n${GREEN}"
+                                        
+                    echo "Beginning install process. This will take a while, and will require sudo access. Please allow up to 5 minutes"
+                                        
+                    # leave green coloration.
+                    echo "${NC}"
+                                        
+                    sleep 7
+                                        
+                    # install brew, just in case user doesnt have it already
+                    # shellcheck disable=SC2164
+                    cd
+                    /bin/bash -c "$(curl -fsSL -s https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+                    # install git, just in case user doesnt have it already
+                    brew install -q git
+                    # install mvn, just in case user doesnt have it already
+                    brew install mvn -q
+                    # install node, just in case user doesnt have it already
+                    brew install node -q
+                    # install npm, just in case user doesnt have it already
+                    brew install npm -q
+                    # install java, just in case user doesnt have it already
+                    brew install java -q
+                    # install figlet, just in case user doesnt have it already
+                    brew install figlet -q
+                    # clone the repo into a new folder
+                    git clone http://github.com/qRX53/Q/ QLANGUPDATEFOLDERTEMP &>/dev/null
+                    cd QLANGUPDATEFOLDERTEMP || exit
+                    # assemble the jarfile (with dependencies)
+                    mvn clean compile assembly:single -q
+                    # install trash, just in case user doesnt have it already
+                    brew install trash -q
+                    # move the old Q jarfile into the trash.
+                    sudo trash ~/.q/Q.jar
+                    # change into the target folder, and then move the new jarfile into the home dir
+                    cd target || exit
+                    mv Q-1.0-jar-with-dependencies.jar ~/
+                    # cd to the home dir, make the .q folder if there isnt one already
+                    cd || exit
+                    sudo mkdir -p .q
+                    # move the new jarfile into the .q folder, and rename it.
+                    sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar
+                    # move the cloned repo to the trash
+                    trash QLANGUPDATEFOLDERTEMP
+                    # clear the console
+                    clear
+                                        
+                    if ! sudo grep -q "${ALIASQ}" "$~/.zshrc"; then
+                      # shellcheck disable=SC2024
+                      sudo echo "alias q='java -jar ~/.q/Q.jar'" >>~/.zshrc
+                    fi
+                                        
+                    if ! sudo grep -q "${ALIASQ}" "$~/.bashrc"; then
+                      # shellcheck disable=SC2024
+                      sudo echo "alias q='java -jar ~/.q/Q.jar'" >>~/.bashrc
+                    fi
+                                        
+                    clear
+                                        
+                    # set color to green
+                    echo "${GREEN}"
+                                        
+                    # create ansi 'success' text
+                    figlet "Success!"
+                                        
+                    # leave green coloration.
+                    echo "${NC}"
+                                        
+                    echo "Run 'q -v' to verify installation"
+                    # simple as.
+                                        
+                    """;
 
     public static void execute(String cmd) {
         String result = null;
@@ -73,51 +141,7 @@ public class Util {
         }
     }
 
-    // enable Q CLI. With this enabled, then all the standard flags and commands will apply.
-    public static void eqcli(String @NotNull [] args) {
-        int counter = 0;
-        for (String cmd : args) {
-
-            switch (cmd) {
-                case "--setpath", "-p" -> {
-                    File input = new File(args[++counter]);
-                    try {
-
-                        if (!new File(input.getAbsolutePath().replaceAll("\\.q", ".comp")).exists()) {
-                            try {
-                                new File(input.getAbsolutePath().replaceAll("\\.q", ".comp")).createNewFile();
-                            } catch (Exception e) {
-                                System.out.println(e.getMessage());
-                            }
-                        }
-
-                        Parser parser = new Parser(CharStreams.fromFileName(input.getAbsolutePath()));
-                        Environment.global.lst.addAll(parser.parse(false));
-
-                    } catch (Exception e) {
-
-                        String err = "[FATAL] " + e.getMessage();
-                        if (e.getMessage().startsWith("src\\main\\Q\\") || e.getMessage().startsWith("C:") || e.getMessage().endsWith(".q")) {
-                            err += " (File not found)";
-                        }
-
-                        System.out.println(err);
-                        System.exit(0);
-                    }
-                }
-                case "--help", "-h" -> System.out.println("""
-                        Help Menu
-                        ---------
-                        cmd: [--setpath/-p] Sets the path to the file to execute.
-                        cmd: [--help/-h] Sends this help menu
-                        cmd: [--fromtext/-t] Executes the given text as if it were a file
-                        """);
-                case "" -> counter++;
-            }
-        }
-    }
-
-    public static String getTextFromGithub(String link) {
+    public static String getTextFromLink(String link) {
         URL url;
         try {
             url = new URL(link);
@@ -129,7 +153,7 @@ public class Util {
             assert url != null;
             http = (HttpURLConnection) url.openConnection();
         } catch (IOException e1) {
-            System.out.println("[FATAL] " + e1.getMessage());
+            throw new Problem(e1);
         }
         assert http != null;
         Map<String, List<String>> headerMapMap = http.getHeaderFields();
@@ -140,12 +164,12 @@ public class Util {
                 try {
                     url = new URL(link);
                 } catch (MalformedURLException e) {
-                    System.out.println("[FATAL] " + e.getMessage());
+                    throw new Problem(e);
                 }
                 try {
                     http = (HttpURLConnection) url.openConnection();
                 } catch (IOException e) {
-                    System.out.println("[FATAL] " + e.getMessage());
+                    throw new Problem(e);
                 }
                 headerMapMap = http.getHeaderFields();
             }
@@ -154,13 +178,13 @@ public class Util {
         try {
             Stream = http.getInputStream();
         } catch (IOException e) {
-            System.out.println("[FATAL] " + e.getMessage());
+            throw new Problem(e);
         }
         String Response = null;
         try {
             Response = getStringFromStream(Stream);
         } catch (IOException e) {
-            System.out.println("[FATAL] " + e.getMessage());
+            throw new Problem(e);
         }
         return Response;
     }
@@ -330,88 +354,5 @@ public class Util {
             return charCount;
         }
     }
-
-    public static String updateScript =
-            """
-                    #!/bin/bash
-                                        
-                    # define silly colors for figlet
-                    GREEN='\\033[0;32m'
-                    NC='\\033[0m'
-                    ALIASQ='alias q'
-                    clear
-                    # set color to green
-                    echo -e "\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n${GREEN}"
-                                        
-                    echo "Beginning install process. This will take a while, and will require sudo access. Please allow up to 5 minutes"
-                                        
-                    # leave green coloration.
-                    echo "${NC}"
-                                        
-                    sleep 7
-                                        
-                    # install brew, just in case user doesnt have it already
-                    # shellcheck disable=SC2164
-                    cd
-                    /bin/bash -c "$(curl -fsSL -s https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-                    # install git, just in case user doesnt have it already
-                    brew install -q git
-                    # install mvn, just in case user doesnt have it already
-                    brew install mvn -q
-                    # install node, just in case user doesnt have it already
-                    brew install node -q
-                    # install npm, just in case user doesnt have it already
-                    brew install npm -q
-                    # install java, just in case user doesnt have it already
-                    brew install java -q
-                    # install figlet, just in case user doesnt have it already
-                    brew install figlet -q
-                    # clone the repo into a new folder
-                    git clone http://github.com/qRX53/Q/ QLANGUPDATEFOLDERTEMP &>/dev/null
-                    cd QLANGUPDATEFOLDERTEMP || exit
-                    # assemble the jarfile (with dependencies)
-                    mvn clean compile assembly:single -q
-                    # install trash, just in case user doesnt have it already
-                    brew install trash -q
-                    # move the old Q jarfile into the trash.
-                    sudo trash ~/.q/Q.jar
-                    # change into the target folder, and then move the new jarfile into the home dir
-                    cd target || exit
-                    mv Q-1.0-jar-with-dependencies.jar ~/
-                    # cd to the home dir, make the .q folder if there isnt one already
-                    cd || exit
-                    sudo mkdir -p .q
-                    # move the new jarfile into the .q folder, and rename it.
-                    sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar
-                    # move the cloned repo to the trash
-                    trash QLANGUPDATEFOLDERTEMP
-                    # clear the console
-                    clear
-                                        
-                    if ! sudo grep -q "${ALIASQ}" "$~/.zshrc"; then
-                      # shellcheck disable=SC2024
-                      sudo echo "alias q='java -jar ~/.q/Q.jar'" >>~/.zshrc
-                    fi
-                                        
-                    if ! sudo grep -q "${ALIASQ}" "$~/.bashrc"; then
-                      # shellcheck disable=SC2024
-                      sudo echo "alias q='java -jar ~/.q/Q.jar'" >>~/.bashrc
-                    fi
-                                        
-                    clear
-                                        
-                    # set color to green
-                    echo "${GREEN}"
-                                        
-                    # create ansi 'success' text
-                    figlet "Success!"
-                                        
-                    # leave green coloration.
-                    echo "${NC}"
-                                        
-                    echo "Run 'q -v' to verify installation"
-                    # simple as.
-                                        
-                    """;
 
 }
