@@ -27,6 +27,7 @@ public class Environment {
     public static String[] args;
 
     public Map<String, Function> functions = new HashMap<String, Function>();
+    public Map<String, Function> globalFns = new HashMap<>();
     public Scope scope = new Scope();
     public Visitor visitor = new Visitor(scope, functions);
     public String response = Util.string();

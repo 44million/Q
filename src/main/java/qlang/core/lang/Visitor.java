@@ -693,7 +693,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         ParseTree block = ctx.block();
         String id = ctx.Identifier().getText() + params.size();
 
-        if (this.functions.containsKey(id) || Environment.global.functions.containsKey(id)) {
+        if (this.functions.containsKey(id) || Environment.global.globalFns.containsKey(id)) {
             throw new Problem("Function: '" + ctx.Identifier().getText() + "' already exists in the current context.", ctx, this.curClass);
         }
 
@@ -707,7 +707,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         if (ctx.Public() != null) {
             f = new Function(Environment.global.scope, params, block);
             f.v = Environment.global.visitor;
-            Environment.global.functions.put(id, f);
+            Environment.global.globalFns.put(id, f);
         } else {
             this.functions.put(id, f);
         }
@@ -905,7 +905,6 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         boolean print = true;
         int num = 0;
         boolean before = true;
-        boolean after = false;
 
         String ops = """
                 \t\t<"default">
@@ -937,15 +936,12 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 }
 
                 before = true;
-                after = false;
             } else if (v.toString().equals("printafter")) {
                 if (!print) {
                     throw new Problem("Cannot attach tag '" + v + "' to try-except, as the 'suppress' tag has already been attached", ctx, this.curClass);
                 }
-                after = true;
                 before = false;
             } else if (v.toString().equals("default")) {
-                after = false;
                 before = true;
             } else {
                 throw new Problem("Tag '" + v + "' is not a valid tag.", ctx, this.curClass);
@@ -997,7 +993,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         try {
             parser.parse(false);
         } catch (Exception e) {
-            throw new Problem(e.getMessage(), ctx, this.curClass, new Tip("GitHub takes some time to update the 'https://raw.githubusercontent.com/' domain, so allow up to an hour for the file to be downloaded.\n"));
+            throw new Problem(e.getMessage(), ctx, this.curClass, new Tip("GitHub takes some time to update the 'https://raw.githubusercontent.com/' domain, so allow up to an hour for the file to be updated and ready for lexing.\n"));
         }
 
         return Value.VOID;
@@ -1896,6 +1892,8 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         if (Environment.global.visitor.functions.containsKey(id)) {
             function = Environment.global.visitor.functions.get(id);
+        } else if (Environment.global.globalFns.containsKey(id)) {
+            function = Environment.global.globalFns.get(id);
         } else if (Environment.global.nativeJava.containsKey(idWithoutParamsSize)) {
 
             String jcode = Environment.global.nativeJava.get(idWithoutParamsSize);
