@@ -1000,7 +1000,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     @Override
-    public Value visitImportStatement(QParser.ImportStatementContext ctx) {
+    public Value visitImportStatement(QParser.ImportStatementContext ctx) { 
 
         StringBuilder path = new StringBuilder();
         StringBuilder text = new StringBuilder();
@@ -1014,10 +1014,21 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         }
 
         if (ctx.LT() != null) {
-            Util.register(text.toString(), false);
-            if (text.toString().replace(".q.", "").equals("Console")) {
-                new Qio().init();
+            
+            if (new File(System.getProperty("user.home") + "/.q/" + text.toString() + ".u").exists()) {
+                Parser p = new Parser(new File(System.getProperty("user.home") + "/.q/" + text.toString() + ".u"));
+                try {
+                    p.parse();
+                } catch (IOException e) {
+                    throw new Problem(e);
+                }
+            } else {
+                Util.register(text.toString(), false);
+                if (text.toString().replace(".q.", "").equals("Console")) {
+                    new Qio().init();
+                }
             }
+
             return Value.VOID;
         }
 
