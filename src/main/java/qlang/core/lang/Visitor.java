@@ -1035,7 +1035,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 fpath = qy.getHomedir();
                 System.out.println(fpath);
             } catch (Exception e) {
-                throw new Problem(e.getMessage(), ctx, this.curClass);
+                throw new Problem("The specified QFile or QYaml file does not exist!", ctx, this.curClass);
             }
 
             try {
