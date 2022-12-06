@@ -33,7 +33,7 @@ public class Environment {
     public Scope scope = new Scope();
     public Visitor visitor = new Visitor(scope, functions);
     public String response = Util.string();
-    public boolean verbose = true;
+    public boolean verbose = false;
     public double shver = 1.0;
     public String qversion = "2.1.6";
     public Parser parser = new Parser();

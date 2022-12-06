@@ -1033,7 +1033,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
                 QYaml qy = yaml.load(inputStream);
                 fpath = qy.getHomedir();
-                fpath = s + "/" + fpath;
+                fpath = s + fpath;
             } catch (Exception e) {
                 throw new Problem(e);
             }
