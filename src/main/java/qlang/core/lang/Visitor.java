@@ -1014,7 +1014,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         }
 
         if (ctx.LT() != null) {
-            
+            System.out.println(System.getProperty("user.home") + "/.q/" + text.toString() + ".u");
             if (new File(System.getProperty("user.home") + "/.q/" + text.toString() + ".u").exists()) {
                 Parser p = new Parser(new File(System.getProperty("user.home") + "/.q/" + text.toString() + ".u"));
                 try {
