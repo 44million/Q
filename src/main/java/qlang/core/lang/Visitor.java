@@ -8,10 +8,9 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.jetbrains.annotations.NotNull;
-import qlang.core.internal.Environment;
-import qlang.core.internal.NameSpace;
-import qlang.core.internal.Parser;
-import qlang.core.internal.Scope;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
+import qlang.core.internal.*;
 import qlang.core.interp.QBaseVisitor;
 import qlang.core.interp.QLexer;
 import qlang.core.interp.QParser;
@@ -1011,6 +1010,40 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         for (TerminalNode o : ctx.Identifier()) {
             text.append(".").append(o.getText());
+        }
+
+        if (ctx.From() != null) {
+            String s = this.visit(ctx.String()).asString();
+
+            File pfolder = new File(s);
+            if (!pfolder.exists()) {
+                throw new Problem("Project '" + s + "' does not exist.");
+            }
+            
+            if (!pfolder.isDirectory()) {
+                throw new Problem("Project '" + s +"' is not a project, it is a file.");
+            }
+
+            String fpath;
+
+            File yamlfile = new File(pfolder.getPath() + "/q.yaml");
+            try {
+                InputStream inputStream = new FileInputStream(yamlfile);
+                Yaml yaml = new Yaml(new Constructor(QYaml.class));
+
+                QYaml qy = yaml.load(inputStream);
+                fpath = qy.getHomedir();
+            } catch (Exception e) {
+                throw new Problem(e);
+            }
+
+            try {
+                Parser p = new Parser(new File(fpath));
+                p.parse();
+            } catch (IOException e) {
+                throw new Problem(e);
+            }
+
         }
 
         if (ctx.LT() != null) {
