@@ -1035,7 +1035,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 fpath = qy.getHomedir();
                 System.out.println(fpath);
             } catch (Exception e) {
-                throw new Problem(e);
+                throw new Problem("No clue");
             }
 
             try {
