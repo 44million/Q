@@ -23,18 +23,21 @@ import java.util.Map;
 
 public class Environment {
 
+    // static and available to use to anyone
     public static Environment global = new Environment();
     public static String[] args;
 
+    // General language things
     public Map<String, Function> functions = new HashMap<String, Function>();
     public Map<String, Function> globalFns = new HashMap<>();
     public Scope scope = new Scope();
     public Visitor visitor = new Visitor(scope, functions);
     public String response = Util.string();
-    public boolean verbose = true;
+    public boolean verbose = false;
     public double shver = 1.0;
     public double qversion = 2.1;
 
+    // Lists<>
     public List<File> parsed = new ArrayList<>();
     public List<Token> lst = new ArrayList<>();
     public List<AWT> wins = new ArrayList<>();
@@ -42,6 +45,7 @@ public class Environment {
     public List<String> allowedLibs = new ArrayList<>();
     public List<String> allLibs = new ArrayList<>();
 
+    // Maps<>
     public Map<String, QClass> classes = new HashMap<>();
     public Map<String, QModule> modules = new HashMap<>();
     public Map<String, QClass.QObject> objs = new HashMap<>();
