@@ -1013,7 +1013,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         }
 
         if (ctx.Load() != null) {
-            String s = this.visit(ctx.String()).toString().replace("\"", "");
+            String s = ctx.String().getText().toString().replace("\"", "");
             System.out.println(s);
 
             File pfolder = new File(s);
