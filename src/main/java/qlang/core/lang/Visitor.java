@@ -1017,11 +1017,11 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
             File pfolder = new File(s);
             if (!pfolder.exists()) {
-                throw new Problem("Project '" + s + "' does not exist.");
+                throw new Problem("Project '" + s + "' does not exist.", ctx, this.curClass);
             }
             
             if (!pfolder.isDirectory()) {
-                throw new Problem("Project '" + s +"' is not a project, it is a file.");
+                throw new Problem("Project '" + s +"' is not a project, it is a file.", ctx, this.curClass);
             }
 
             String fpath;
@@ -1035,14 +1035,14 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 fpath = qy.getHomedir();
                 System.out.println(fpath);
             } catch (Exception e) {
-                throw new Problem("No clue");
+                throw new Problem(e.getMessage(), ctx, this.curClass);
             }
 
             try {
                 Parser p = new Parser(new File(fpath));
                 p.parse();
             } catch (IOException e) {
-                throw new Problem(e);
+                throw new Problem(e.getMessage(), ctx, this.curClass);
             }
 
         }
