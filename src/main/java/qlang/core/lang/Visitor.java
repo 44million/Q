@@ -1014,7 +1014,6 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         if (ctx.Load() != null) {
             String s = ctx.String().getText().toString().replace("\"", "");
-            System.out.println(s);
 
             File pfolder = new File(s);
             if (!pfolder.exists()) {
@@ -1034,6 +1033,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
                 QYaml qy = yaml.load(inputStream);
                 fpath = qy.getHomedir();
+                fpath = s + "/" + fpath;
             } catch (Exception e) {
                 throw new Problem(e);
             }
@@ -1045,8 +1045,6 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 throw new Problem(e);
             }
 
-        } else {
-            System.out.println("aint");
         }
 
         if (ctx.LT() != null) {
