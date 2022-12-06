@@ -35,7 +35,8 @@ public class Environment {
     public String response = Util.string();
     public boolean verbose = false;
     public double shver = 1.0;
-    public double qversion = 2.1;
+    public String qversion = "2.1.6";
+    public Parser parser = new Parser();
 
     // Lists<>
     public List<File> parsed = new ArrayList<>();

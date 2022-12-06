@@ -1014,6 +1014,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         if (ctx.From() != null) {
             String s = this.visit(ctx.String()).asString();
+            System.out.println(s);
 
             File pfolder = new File(s);
             if (!pfolder.exists()) {

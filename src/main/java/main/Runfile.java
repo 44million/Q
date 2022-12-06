@@ -740,7 +740,7 @@ public class Runfile {
             System.exit(0);
         }
 
-        mainFile = new QFile(globalScope, env, fpath, new Parser());
+        mainFile = new QFile(globalScope, env, fpath, Environment.global.parser);
         mainFile.execute();
 
     }
