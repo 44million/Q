@@ -1012,7 +1012,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             text.append(".").append(o.getText());
         }
 
-        if (ctx.From() != null) {
+        if (ctx.Load() != null) {
             String s = this.visit(ctx.String()).asString();
             System.out.println(s);
 

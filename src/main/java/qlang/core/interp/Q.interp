@@ -19,7 +19,7 @@ null
 'async'
 'var'
 'import'
-'crate'
+'load'
 null
 null
 'assert'
@@ -100,7 +100,7 @@ Println
 Async
 Var
 Import
-From
+Load
 Print
 Input
 Assert

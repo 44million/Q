@@ -19,7 +19,7 @@ public class QParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, Println=16, 
-		Async=17, Var=18, Import=19, From=20, Print=21, Input=22, Assert=23, Function=24, 
+		Async=17, Var=18, Import=19, Load=20, Print=21, Input=22, Assert=23, Function=24, 
 		If=25, Else=26, Package=27, Return=28, For=29, While=30, JavaJuice=31, 
 		To=32, Do=33, End=34, In=35, Null=36, Try=37, Class=38, Const=39, Self=40, 
 		Native=41, Module=42, Private=43, Public=44, Or=45, Accessor=46, And=47, 
@@ -64,7 +64,7 @@ public class QParser extends Parser {
 			null, "'#'", "'.'", "'@'", "'header'", "'cn'", "'new'", "'as'", "'sys'", 
 			"'->'", "'i3v8wm08wxpudwty0'", "'range'", "'except'", "'main'", "'stdmod'", 
 			"'3YCMPJ8W8VVTUA48TIHR8K332PYKTXOKVDFG'", null, "'async'", "'var'", "'import'", 
-			"'crate'", null, null, "'assert'", "'fn'", "'if'", "'else'", "'namespace'", 
+			"'load'", null, null, "'assert'", "'fn'", "'if'", "'else'", "'namespace'", 
 			"'return'", "'for'", "'while'", "'Java'", "'to'", "'do'", "'end'", "'in'", 
 			"'null'", "'try'", "'class'", "'const'", "'self'", "'native'", "'mod'", 
 			"'private'", "'pub'", "'||'", "'::'", "'&&'", "'=='", "'!='", "'>='", 
@@ -77,7 +77,7 @@ public class QParser extends Parser {
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, "Println", "Async", "Var", "Import", "From", 
+			null, null, null, null, "Println", "Async", "Var", "Import", "Load", 
 			"Print", "Input", "Assert", "Function", "If", "Else", "Package", "Return", 
 			"For", "While", "JavaJuice", "To", "Do", "End", "In", "Null", "Try", 
 			"Class", "Const", "Self", "Native", "Module", "Private", "Public", "Or", 
@@ -2692,7 +2692,7 @@ public class QParser extends Parser {
 		}
 		public TerminalNode LT() { return getToken(QParser.LT, 0); }
 		public TerminalNode GT() { return getToken(QParser.GT, 0); }
-		public TerminalNode From() { return getToken(QParser.From, 0); }
+		public TerminalNode Load() { return getToken(QParser.Load, 0); }
 		public TerminalNode String() { return getToken(QParser.String, 0); }
 		public ImportStatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2775,7 +2775,7 @@ public class QParser extends Parser {
 				setState(443);
 				match(T__0);
 				setState(444);
-				match(From);
+				match(Load);
 				setState(445);
 				match(String);
 				}
