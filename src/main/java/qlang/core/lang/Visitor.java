@@ -53,7 +53,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     public final Map<String, Function> functions;
     public Scope scope;
     public boolean lib;
-    public String curClass = "Default";
+    public String curClass = "Unnamed";
     public Visitor parent;
     public String packageName = Util.string();
 
