@@ -270,16 +270,9 @@ public class Runfile {
                     writer.write("""
                             #import <q.std>;
                                                         
-                            class Printer {
-                                                        
-                                cn Printer():
-                                end
-                                
-                                fn print(str):
-                                    std::coutln(str);
-                                end
-                                                        
-                            }
+                            pub async fn print(str):
+                                std::coutln(str);
+                            end
                             """);
                     writer.close();
                 } catch (Exception e) {
@@ -295,8 +288,7 @@ public class Runfile {
                             class Main {
                                                         
                                 fn main(args):
-                                    new Printer as p();
-                                    p::print("Hello, World!");
+                                    print("Hello, World!");
                                 end
                                                         
                             }
