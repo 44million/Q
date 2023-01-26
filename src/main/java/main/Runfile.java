@@ -313,9 +313,6 @@ public class Runfile {
                     fw = new FileWriter(yamlfile);
                     fw.write(yaml);
                     fw.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
 
                 System.out.println(Chalk.on("Created project '" + projectName + "' successfully"));
                 System.exit(0);
