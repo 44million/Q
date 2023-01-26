@@ -117,7 +117,7 @@ class Main {
 
 	// Function declaration, can be preceded by 'async' or 'native'
 
-	fn thisIsAFunction(argument1, argument2):
+	pub async fn thisIsAFunction(argument1, argument2):
 
 
 		std::coutln(argument1 * argument2);
@@ -143,7 +143,7 @@ class Main {
 
   
 
-	fn thisIsAFunction(argument1, argument2):
+	pub async fn thisIsAFunction(argument1, argument2):
 
   
 
