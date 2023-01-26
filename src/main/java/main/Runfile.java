@@ -317,7 +317,7 @@ public class Runfile {
                     throw new RuntimeException(e);
                 }
 
-                System.out.println(Chalk.on("Created project '" + projectName + "' successfully").bgBlue());
+                System.out.println(Chalk.on("Created project '" + projectName + "' successfully"));
                 System.exit(0);
 
             } else if (args[0].equals("--executable") || args[0].equals("-ex")) {
@@ -350,7 +350,7 @@ public class Runfile {
 
                     String ex = String.format(
                             """
-                                    #!/bin/zsh
+                                    #!/bin/bash
                                         
                                     java -jar %s/%s
                                     """, exe.getAbsolutePath(), "main.q");
