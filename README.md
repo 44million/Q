@@ -2,7 +2,7 @@
 
 **Installation**
 
-# Clone (or download the repo), and head over to the `/dwn` folder. Double click that executable. Once the process is done, you can delete the cloned or downloaded repo.
+Install scripts can be found in /dwn. Installation is supported on macOS and Linux, Windows will have to figure it out themselves.
 
 **OBJECTS**
 
