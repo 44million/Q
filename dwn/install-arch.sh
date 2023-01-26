@@ -58,5 +58,5 @@ figlet "Success!"
 # leave green coloration.
 echo "${NC}"
 
-echo "Restart your shell to fully recognize installation, and then run 'q -v' to verify installation, or 'q -c <projectName>' to crete a new project!"
+echo "Restart your shell to fully recognize installation, and then run 'q -h' to get started"
 # simple as.
