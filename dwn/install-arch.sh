@@ -44,9 +44,7 @@ fi
 
 if ! sudo grep -q "${ALIASQ}" "$~/.config/fish/config.fish"; then
   # shellcheck disable=SC2024
-  sudo echo "function q" >>~/.config/fish/config.fish
-  sudo echo "	java -jar ~/.q/Q.jar" >>~/.config/fish/config.fish
-  sudo echo "end" >>~/.config/fish/config.fish
+  sudo echo "alias q='java -jar ~/.q/Q.jar '" >>~/.config/fish/config.fish
 fi  
 
 clear
@@ -60,6 +58,5 @@ figlet "Success!"
 # leave green coloration.
 echo "${NC}"
 
-echo "Run 'q -v' to verify installation, or 'q -c <projectName>' to crete a new project!"
+echo "Restart your shell to fully recognize installation, and then run 'q -v' to verify installation, or 'q -c <projectName>' to crete a new project!"
 # simple as.
-
