@@ -111,7 +111,12 @@ public class Runfile {
                     throw new Problem(e);
                 }
 
-            } else if (args[0].equals("--run") || args[0].equals("-r")) {
+            } else if (args[0].equals("--releasenotes") || args[0].equals("-rn")) {
+		
+		System.out.println(Environment.global.releaseNotes);
+		System.exit(0);
+
+	    } else if (args[0].equals("--run") || args[0].equals("-r")) {
                 if (args.length == 1) {
                     System.out.println(Chalk.on("No QFile provided! Try this, `q --run <file>.q`").bgBlue());
                     System.exit(0);
