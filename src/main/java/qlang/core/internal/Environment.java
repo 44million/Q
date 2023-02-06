@@ -35,8 +35,7 @@ public class Environment {
     public String response = Util.string();
     public boolean verbose = false;
     public double shver = 1.0;
-    public String qversion = "2.1.8";
-    public String releaseNotes = ("Release: " + this.qversion + "\nShell Build: " + shver + "\n\nRelease Notes: \"This release fixed several bugs regarding Q project creation.\"");
+    public String qversion = "2.1.7";
     public Parser parser = new Parser();
 
     // Lists<>
