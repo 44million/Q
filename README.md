@@ -2,7 +2,8 @@
 
 **Installation**
 
-Install scripts can be found in /dwn. Installation is supported on macOS and Linux, Windows will have to figure it out themselves.
+Install scripts can be found in /dwn. Installation is supported on macOS and Linux, Windows will have to figure it out
+themselves.
 
 **OBJECTS**
 

@@ -112,11 +112,11 @@ public class Runfile {
                 }
 
             } else if (args[0].equals("--releasenotes") || args[0].equals("-rn")) {
-		
-		System.out.println(Environment.global.releaseNotes);
-		System.exit(0);
 
-	    } else if (args[0].equals("--run") || args[0].equals("-r")) {
+                System.out.println(Environment.global.releaseNotes);
+                System.exit(0);
+
+            } else if (args[0].equals("--run") || args[0].equals("-r")) {
                 if (args.length == 1) {
                     System.out.println(Chalk.on("No QFile provided! Try this, `q --run <file>.q`").bgBlue());
                     System.exit(0);
@@ -155,6 +155,7 @@ public class Runfile {
                 System.out.println("""
                         Format:
                         --FLAGNAME <ADDITIONAL OPTIONS IF ANY> (-FLAGSHORTHAND <ADDITIONAL OPTIONS IF ANY>) | DESCRIPTION OF FLAG.
+                        
                         Flags:
                         --env (-e) | Print the environment
                         --create (-c) (--sign, -c) (--type <type>, -t <type>) | Creates a new Q project
@@ -167,6 +168,7 @@ public class Runfile {
                         --help (-h) | Returns this menu.
                         --version (-v) | Get the Q version. Good for checking installation status.
                         --interact (-in) | interact with the Q CLI
+                        --releasenotes (-rn) | Returns the release notes for the current Q version.
                         \t\tThe [interact] screen has more advanced flag options.
                         """);
                 System.exit(0);

@@ -993,7 +993,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     @Override
-    public Value visitImportStatement(QParser.ImportStatementContext ctx) { 
+    public Value visitImportStatement(QParser.ImportStatementContext ctx) {
 
         StringBuilder path = new StringBuilder();
         StringBuilder text = new StringBuilder();
@@ -1013,9 +1013,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             if (!pfolder.exists()) {
                 throw new Problem("Project '" + s + "' does not exist.", ctx, this.curClass);
             }
-            
+
             if (!pfolder.isDirectory()) {
-                throw new Problem("Project '" + s +"' is not a project, it is a file.", ctx, this.curClass);
+                throw new Problem("Project '" + s + "' is not a project, it is a file.", ctx, this.curClass);
             }
 
             String fpath;
