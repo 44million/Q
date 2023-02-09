@@ -4,8 +4,8 @@ import com.github.tomaslanger.chalk.Chalk;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import qlang.core.internal.Environment;
 import qlang.core.internal.Parser;
+import qlang.core.internal.Environment;
 import qlang.core.internal.QYaml;
 import qlang.core.internal.Scope;
 import qlang.core.lang.NativeFunctionLoader;
@@ -110,6 +110,11 @@ public class Runfile {
                 } catch (Exception e) {
                     throw new Problem(e);
                 }
+
+            } else if (args[0].equals("--releasenotesdetailed") || args[0].equals("-rnd")) {
+
+                System.out.println(Environment.global.releaseNotesDetailed);
+                System.exit(0);
 
             } else if (args[0].equals("--releasenotes") || args[0].equals("-rn")) {
 

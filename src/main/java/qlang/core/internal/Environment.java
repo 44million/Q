@@ -34,11 +34,12 @@ public class Environment {
     public Visitor visitor = new Visitor(scope, functions);
     public String response = Util.string();
     public boolean verbose = false;
-    public String shver = "1.2.1";
-    public String qversion = "2.1.8";
+    public String shver = "1.2.2";
+    public String qversion = "2.1.9";
     public String releaseNotes = "Q Version: "
-            + this.qversion + "\nShell Build: "
-            + this.shver + "\nRelease Notes: This Q version (" + this.qversion + ") fixed several issues with Q project creation, as well as adding more options to the Q help menu.";
+            + this.qversion + "\n\nShell Build: "
+            + this.shver + "\n\nRelease Notes: Q version (" + this.qversion + ") fixes several issues with Q project creation, as well as adding more options to the Q help menu.";
+    public String releaseNotesDetailed = this.releaseNotes + "\n\nDetailed Release Notes: Q version (" + this.qversion + ") added `-rn` and `-rnd` to the Q CLI. Changed Shell Build, and QCLI versions in the Env file.";
     public Parser parser = new Parser();
 
     // Lists<>
