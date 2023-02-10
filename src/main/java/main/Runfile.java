@@ -740,7 +740,7 @@ public class Runfile {
             }
         } else {
             System.out.printf("Q version %s: \u2705\n", Environment.global.qversion);
-            System.out.println("\n\nTo run a file, execute: `q <file>.q`, or enter `q --help` for assistance.");
+            System.out.println("\n\nTo get started run `q --help`, or `q --run <file>.q`");
             System.exit(0);
         }
 
