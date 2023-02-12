@@ -174,6 +174,7 @@ public class Runfile {
                         --version (-v) | Get the Q version. Good for checking installation status.
                         --interact (-in) | interact with the Q CLI
                         --releasenotes (-rn) | Returns the release notes for the current Q version.
+			--releasenotesdetailed (-rnd) | Returns the detailed version of the current Q versions release notes, as well as the output of the command above
                         \t\tThe [interact] screen has more advanced flag options.
                         """);
                 System.exit(0);
