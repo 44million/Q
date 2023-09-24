@@ -17,7 +17,7 @@ themselves.
 
 // Import the standard input/output library
 
-#import q.std;
+#import <q.std>;
 
   
 
@@ -71,7 +71,7 @@ class Main {
 
 ```js
 
-#import q.std;
+#import <q.std>;
 
   
 
@@ -108,7 +108,7 @@ class Runner {
 
 ```js
 
-#import q.std;
+#import <q.std>;
 
   
 
@@ -136,7 +136,7 @@ class Main {
 
 ```js
 
-#import q.std;
+#import <q.std>;
 
   
 
@@ -179,7 +179,7 @@ class Main {
 
 ```js
 
-#import q.std;
+#import <q.std>;
 
   
 
@@ -215,7 +215,7 @@ class Main {
 
 ```js
 
-#import q.std;
+#import <q.std>;
 
   
 
@@ -242,7 +242,7 @@ class Main {
 
 ```js
 
-#import q.std;
+#import <q.std>;
 
   
 
@@ -271,7 +271,7 @@ class Main {
 
 ```js
 
-#import q.std;
+#import <q.std>;
 
   
 
@@ -349,7 +349,7 @@ class Main {
 
 // importing anything that is built into the system must start with 'q.' then the file name
 
-#import q.NativeFile
+#import <q.NativeFile>
 
 // import from a link
 
