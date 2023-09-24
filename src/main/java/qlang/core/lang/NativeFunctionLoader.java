@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 /*
 
@@ -465,6 +466,48 @@ public class NativeFunctionLoader {
             @Override
             public boolean args() {
                 return true;
+            }
+        });
+
+        Environment.global.defineNativeFunction(new Function.INativeFunction() {
+            @Override
+            public void exec() {
+
+            }
+
+            @Override
+            public String name() {
+                return "rndInt";
+            }
+
+            @Override
+            public Value ret() {
+                return new Value(new Random().nextInt());
+            }
+
+            @Override
+            public String parent() {
+                return "Random";
+            }
+
+            @Override
+            public void exec(List<Value> list) {
+
+            }
+
+            @Override
+            public Value ret(List<Value> list) {
+                int min = Integer.parseInt(list.get(0).asString());
+                int max = Integer.parseInt(list.get(1).asString());
+
+                Random r = new Random();
+                int result = r.nextInt(max - min) + min;
+                return new Value(result);
+            }
+
+            @Override
+            public boolean args() {
+                return false;
             }
         });
 
