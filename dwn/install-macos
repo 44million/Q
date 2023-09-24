@@ -39,11 +39,13 @@ install_q() {
     if [ "$(uname)" == "Darwin" ]; then
       # macOS uses curl by default, so check if it's available
       if ! command -v curl &>/dev/null; then
-        echo "[ERROR] Neither wget nor curl is installed. Install one of them and rerun the script."
+        echo "[ERROR] Neither wget nor curl is installed. Install one of 
+them and rerun the script."
         return 1
       fi
     else
-      echo "[ERROR] wget is not installed. Install it and rerun the script."
+      echo "[ERROR] wget is not installed. Install it and rerun the 
+script."
       return 1
     fi
   fi
@@ -104,7 +106,7 @@ update_q() {
 # Main script logic
 
 if [ "$EUID" -ne 0 ]
-  then echo "Please run as root."
+  then echo "[ERROR] Please run as root."
   exit
 fi
 
