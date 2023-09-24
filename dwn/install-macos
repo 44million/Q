@@ -1,68 +1,138 @@
 #!/bin/bash
 
-# define silly colors for figlet
-ALIASQ='alias q'
-clear
+# Define colors
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
 
-echo "Beginning install process. This will take a while, and will require sudo access. Please allow up to 5 minutes"
+# Default installation directory
+INSTALL_DIR="$HOME/.q"
 
-sleep 7
+# Q Jar URL
+Q_JAR_URL="http://github.com/qRX53/Q/releases/latest/download/Q.jar"
 
-cd || exit
-
-# install brew, just in case user doesnt have it already
-# shellcheck disable=SC2164
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-# install git, just in case user doesnt have it already
-brew install -q git
-# install mvn, just in case user doesnt have it already
-brew install mvn -q
-# install java, just in case user doesnt have it already
-brew install java -q
-# install figlet, just in case user doesnt have it already
-brew install figlet -q
-# clone the repo into a new folder
-git clone http://github.com/qRX53/Q/ QLANGUPDATEFOLDERTEMP 2>/dev/null
-cd QLANGUPDATEFOLDERTEMP || exit
-# assemble the jarfile (with dependencies)
-mvn clean compile assembly:single -q -B
-# install trash, just in case user doesnt have it already
-brew install trash -q
-# move the old Q jarfile into the trash.
-sudo trash ~/.q/Q.jar
-# change into the target folder, and then move the new jarfile into the home dir
-cd target || exit
-mv Q-1.0-jar-with-dependencies.jar ~/
-# cd to the home dir, make the .q folder if there isnt one already
-cd || exit
-sudo mkdir -p .q
-# move the new jarfile into the .q folder, and rename it.
-sudo mv Q-1.0-jar-with-dependencies.jar ~/.q/Q.jar
-# move the cloned repo to the trash
-trash QLANGUPDATEFOLDERTEMP
-# clear the console
-clear
-
-if ! sudo grep -q "${ALIASQ}" "$~/.zshrc"; then
-  # shellcheck disable=SC2024
-  sudo echo "alias q='java -jar ~/.q/Q.jar'" >>~/.zshrc
+# Check if the script is running with --info, -i, or -I flag
+if [[ "$1" == "--info" || "$1" == "-i" || "$1" == "-I" ]]; then
+  INFO_FLAG=true
+  ERROR_FLAG=false
+else
+  INFO_FLAG=false
+  ERROR_FLAG=false
 fi
 
-if ! sudo grep -q "${ALIASQ}" "$~/.bashrc"; then
-  # shellcheck disable=SC2024
-  sudo echo "alias q='java -jar ~/.q/Q.jar'" >>~/.bashrc
+# Function to display info
+display_info() {
+  if [ "$INFO_FLAG" = true ]; then
+    echo "[INFO] Installing Q software..."
+    echo "[INFO] Installation directory: $INSTALL_DIR"
+    echo "[INFO] Downloading Q Jar from: $Q_JAR_URL"
+  fi
+}
+
+# Function to install Q
+install_q() {
+  # Create installation directory
+  mkdir -p "$INSTALL_DIR"
+
+  # Check if wget is installed and install it if not
+  if ! command -v wget &>/dev/null; then
+    if [ "$(uname)" == "Darwin" ]; then
+      # macOS uses curl by default, so check if it's available
+      if ! command -v curl &>/dev/null; then
+        echo "[ERROR] Neither wget nor curl is installed. Install one of them and rerun the script."
+        return 1
+      fi
+    else
+      echo "[ERROR] wget is not installed. Install it and rerun the script."
+      return 1
+    fi
+  fi
+
+  # Download Q Jar and place it in the installation directory
+  if [ "$(uname)" == "Darwin" ]; then
+    # macOS uses curl for downloading
+    if curl -sL "$Q_JAR_URL" -o "$INSTALL_DIR/Q.jar"; then
+      return 0 # Download successful
+    else
+      return 1 # Download failed
+    fi
+  else
+    # Linux uses wget for downloading
+    if wget -q "$Q_JAR_URL" -O "$INSTALL_DIR/Q.jar"; then
+      return 0 # Download successful
+    else
+      return 1 # Download failed
+    fi
+  fi
+}
+
+# Function to add alias to shell configuration
+add_alias_to_shell() {
+  SHELL_NAME=$(basename "$SHELL")
+  SHELL_CONFIG="$HOME/.${SHELL_NAME}rc" # Detect the current shell and its
+
+  case "$SHELL_NAME" in
+    "bash" | "zsh")
+      # Check if the alias already exists in the shell config
+      if ! grep -q "alias qin='bash $INSTALL_DIR/qin'" "$SHELL_CONFIG";
+then
+        echo "alias qin='bash $INSTALL_DIR/qin'" >> "$SHELL_CONFIG"
+        source "$SHELL_CONFIG" # Reload shell configuration
+      fi
+      ;;
+    "fish")
+      # Check if the alias already exists in the Fish config file
+      FISH_CONFIG="$HOME/.config/fish/config.fish"
+      if ! grep -q "alias qin='bash $INSTALL_DIR/qin'" "$FISH_CONFIG";
+then
+        echo "alias qin='bash $INSTALL_DIR/qin'" >> "$FISH_CONFIG"
+        fish -c "source $FISH_CONFIG" # Reload Fish shell configuration
+      fi
+      ;;
+  esac
+}
+
+# Function to update Q
+update_q() {
+  if [ -f "$INSTALL_DIR/Q.jar" ]; then
+    rm "$INSTALL_DIR/Q.jar" # Remove the old Q Jar
+  fi
+
+  install_q # Reinstall Q
+}
+
+# Main script logic
+
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root."
+  exit
 fi
 
-clear
+if [ "$1" == "--update" -o "$1" == "-u" ]; then
+  display_info
+  if update_q; then
+    echo -e "${GREEN}[INFO] Q software updated successfully.${NC}"
+  else
+    ERROR_FLAG=true
+  fi
+else
+  display_info
+  if install_q; then
+    # Add execute permissions to the Q.jar file
+    chmod +x "$INSTALL_DIR/Q.jar"
 
-# set color to green
-echo "${GREEN}"
+    add_alias_to_shell
+    echo -e "${GREEN}[INFO] Q software installed successfully.${NC}"
+  else
+    ERROR_FLAG=true
+  fi
+fi
 
-# create ansi 'success' text
-figlet "Success!"
-
-# leave green coloration.
-echo "${NC}"
-
-echo "Run 'q -v' to verify installation, or 'q -c <projectName>' to crete a new project!"
-# simple as.
+# Print usage instructions if the info flag is not set
+if [ "$INFO_FLAG" = false ]; then
+  if [ "$ERROR_FLAG" = true ]; then
+    if [[ "$1" == "--info" || "$1" == "-i" || "$1" == "-I" ]]; then
+      echo -e "${RED}[ERROR] Unable to download Q software.${NC}"
+    fi
+  fi
+fi
