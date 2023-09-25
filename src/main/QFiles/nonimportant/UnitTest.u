@@ -1,13 +1,13 @@
-#import q.Console;
-#import q.Time;
-#import q.Random;
-#import q.Math;
-#import q.Files;
-#import q.http;
-#import q.awt;
-#import q.io;
-#import q.FileUtils;
-#import q.std;
+#import <q.Console>;
+#import <q.Time>;
+#import <q.Random>;
+#import <q.Math>;
+#import <q.Files>;
+#import <q.http>;
+#import <q.awt>;
+#import <q.io>;
+#import <q.FileUtils>;
+#import <q.std>;
 
 class UnitTest {
 
