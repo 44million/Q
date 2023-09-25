@@ -4,8 +4,8 @@ import com.github.tomaslanger.chalk.Chalk;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import qlang.core.internal.Parser;
 import qlang.core.internal.Environment;
+import qlang.core.internal.Parser;
 import qlang.core.internal.QYaml;
 import qlang.core.internal.Scope;
 import qlang.core.lang.NativeFunctionLoader;
@@ -91,18 +91,7 @@ public class Runfile {
                 }
 
                 try {
-                    InputStream inputStream = new FileInputStream(yamlfile);
-                    Yaml yaml = new Yaml(new Constructor(QYaml.class));
-
-                    QYaml qy = yaml.load(inputStream);
-
-                    String str = String.format("""
-                            Information about: %s
-                                This project was written by: %s
-                                Project size is %smb (%skb)
-                                Project version is %s
-                                The main file for this project is: %s
-                            """, qy.getName(), qy.getAuthor(), "" + ((projectFolder.length() / 1024) / 1024), (projectFolder.length() / 1024), qy.getVersion(), qy.getHomedir());
+                    String str = getYamlInfo(yamlfile, projectFolder);
 
                     System.out.println(Chalk.on(str).bgBlue());
                     System.exit(0);
@@ -158,25 +147,25 @@ public class Runfile {
                 System.exit(0);
             } else if (args[0].equals("--help") || args[0].equals("-h")) {
                 System.out.println("""
-                        Format:
-                        --FLAGNAME <ADDITIONAL OPTIONS IF ANY> (-FLAGSHORTHAND <ADDITIONAL OPTIONS IF ANY>) | DESCRIPTION OF FLAG.
-                        
-                        Flags:
-                        --env (-e) | Print the environment
-                        --create (-c) (--sign, -c) (--type <type>, -t <type>) | Creates a new Q project
-                        --runblind <file> (-rb <file>) | Run the file given with no security checks
-                        --run <file> (-r <file>) | Run a file. Same as `q <file>.q`
-                        --projectinfo (-pi <projectfolder>) <projectfolder> | Print information from a project Qyaml file.
-                        --info (-i) | Returns Q version, host, build, dir, and more.
-                        --killall (-ka) | Kills Q processes.
-                        --terminal (-t) | Allows you to enter your code in the terminal directly, rather than a file.
-                        --help (-h) | Returns this menu.
-                        --version (-v) | Get the Q version. Good for checking installation status.
-                        --interact (-in) | interact with the Q CLI
-                        --releasenotes (-rn) | Returns the release notes for the current Q version.
-			--releasenotesdetailed (-rnd) | Returns the detailed version of the current Q versions release notes, as well as the output of the command above
-                        \t\tThe [interact] screen has more advanced flag options.
-                        """);
+                                             Format:
+                                             --FLAGNAME <ADDITIONAL OPTIONS IF ANY> (-FLAGSHORTHAND <ADDITIONAL OPTIONS IF ANY>) | DESCRIPTION OF FLAG.
+                                             
+                                             Flags:
+                                             --env (-e) | Print the environment
+                                             --create (-c) (--sign, -c) (--type <type>, -t <type>) | Creates a new Q project
+                                             --runblind <file> (-rb <file>) | Run the file given with no security checks
+                                             --run <file> (-r <file>) | Run a file. Same as `q <file>.q`
+                                             --projectinfo (-pi <projectfolder>) <projectfolder> | Print information from a project Qyaml file.
+                                             --info (-i) | Returns Q version, host, build, dir, and more.
+                                             --killall (-ka) | Kills Q processes.
+                                             --terminal (-t) | Allows you to enter your code in the terminal directly, rather than a file.
+                                             --help (-h) | Returns this menu.
+                                             --version (-v) | Get the Q version. Good for checking installation status.
+                                             --interact (-in) | interact with the Q CLI
+                                             --releasenotes (-rn) | Returns the release notes for the current Q version.
+                        --releasenotesdetailed (-rnd) | Returns the detailed version of the current Q versions release notes, as well as the output of the command above
+                                             \t\tThe [interact] screen has more advanced flag options.
+                                             """);
                 System.exit(0);
             } else if (args[0].equals("--create") || args[0].equals("-c")) {
                 if (args.length == 1) {
@@ -361,13 +350,6 @@ public class Runfile {
 
                     FileWriter fw = new FileWriter(executable);
 
-                    String ex = String.format(
-                            """
-                                    #!/bin/bash
-                                        
-                                    java -jar %s/%s
-                                    """, exe.getAbsolutePath(), "main.q");
-
                     fw.write("#!/bin/zsh\n\njava -jar ~/.q/Q.jar --run " + exe.getAbsolutePath() + "/src/main.q");
                     fw.close();
                     executable.setExecutable(true);
@@ -417,7 +399,8 @@ public class Runfile {
             } else if (args[0].equals("-v") || args[0].equals("--version")) {
                 System.out.printf("""
                         Version: %s
-                        Installation status: \u2705\n
+                        Installation status: ✅
+                                                
                         """, Environment.global.qversion);
                 System.exit(0);
             } else if (args[0].equals("--interact") || args[0].equals("-in")) {
@@ -507,15 +490,13 @@ public class Runfile {
                                                         "\nQ build: "
                                                         + Runfile.class.hashCode()
                                                         + "\nJava version: " + System.getProperty("java.version")
-                                                        + "\nJRuntime: " + System.getProperty("java.runtime.version") + "\n"
-                                                        + "");
+                                                        + "\nJRuntime: " + System.getProperty("java.runtime.version") + "\n");
                                     } else if (next.equals("-q") || next.equals("--q")) {
                                         System.out.println(
                                                 "\nQ Version: " + Environment.global.qversion
                                                         + "\nQ System Location: " + System.getProperty("user.home") + "/.q/"
                                                         + "\nQ Shell version: " + Environment.global.shver
-                                                        + "\nInstallation status: perfect :)\n"
-                                                        + "");
+                                                        + "\nInstallation status: perfect :)\n");
                                     } else {
                                         System.out.println(
                                                 "ANTLR Version: 4.10.1\nQ build version: "
@@ -525,8 +506,7 @@ public class Runfile {
                                                         + "\nQ Shell version: " + Environment.global.shver
                                                         + "\nInstallation status: perfect :)\n"
                                                         + "Java version: " + System.getProperty("java.version")
-                                                        + "\nJRuntime: " + System.getProperty("java.runtime.version") + "\n"
-                                                        + "");
+                                                        + "\nJRuntime: " + System.getProperty("java.runtime.version") + "\n");
                                     }
                                 }
                                 case "filetree" -> {
@@ -748,5 +728,22 @@ public class Runfile {
         mainFile = new QFile(globalScope, env, fpath, Environment.global.parser);
         mainFile.execute();
 
+    }
+
+    private static String getYamlInfo(File yamlfile, File projectFolder) throws FileNotFoundException {
+        InputStream inputStream = new FileInputStream(yamlfile);
+        Yaml yaml = new Yaml(new Constructor(QYaml.class));
+
+        QYaml qy = yaml.load(inputStream);
+
+        String str = String.format("""
+                Information about: %s
+                    This project was written by: %s
+                    Project size is %smb (%skb)
+                    Project version is %s
+                    The main file for this project is: %s
+                    This is a %s project.
+                """, qy.getName(), qy.getAuthor(), "" + ((projectFolder.length() / 1024) / 1024), (projectFolder.length() / 1024), qy.getVersion(), qy.getHomedir(), qy.getType());
+        return str;
     }
 }

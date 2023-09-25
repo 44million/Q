@@ -1,6 +1,5 @@
 package qlang.runtime.libs;
 
-import qlang.core.internal.Parser;
 import qlang.runtime.libs.util.QLibrary;
 
 /*

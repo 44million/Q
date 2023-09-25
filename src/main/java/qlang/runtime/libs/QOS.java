@@ -8,12 +8,12 @@ import java.io.IOException;
     Python-like os library system.
  */
 
-public class OS extends QLibrary {
+public class QOS extends QLibrary {
 
     public String id;
     public String cmd;
 
-    public OS(String id, String cmd) {
+    public QOS(String id, String cmd) {
         this.id = id;
         this.cmd = cmd;
     }

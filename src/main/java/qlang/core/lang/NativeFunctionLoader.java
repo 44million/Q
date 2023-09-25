@@ -6,8 +6,8 @@ import qlang.core.internal.Environment;
 import qlang.core.internal.Parser;
 import qlang.core.lang.Q.Value;
 import qlang.runtime.errors.Problem;
-import qlang.runtime.libs.Math;
-import qlang.runtime.libs.Time;
+import qlang.runtime.libs.QMath;
+import qlang.runtime.libs.QTime;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -49,7 +49,7 @@ public class NativeFunctionLoader {
 
             @Override
             public Value ret() {
-                return new Time().cur();
+                return new QTime().cur();
             }
 
             @Override
@@ -86,7 +86,7 @@ public class NativeFunctionLoader {
 
             @Override
             public Value ret() {
-                return new Time().date();
+                return new QTime().date();
             }
 
             @Override
@@ -241,7 +241,7 @@ public class NativeFunctionLoader {
 
             @Override
             public Value ret() {
-                return new Time().instant();
+                return new QTime().instant();
             }
 
             @Override
@@ -882,7 +882,7 @@ public class NativeFunctionLoader {
 
             @Override
             public Value ret() {
-                return new Value(Math.qcode);
+                return new Value(QMath.qcode);
             }
 
             @Override

@@ -13,7 +13,7 @@ import java.io.IOException;
     Built in Q files library, has a couple of built in functions and such. Needs a solid rewrite.
 */
 
-public class Files extends QLibrary {
+public class QFiles extends QLibrary {
 
 
     public static void delete(QParser.ObjFunctionCallExpressionContext ctx) {

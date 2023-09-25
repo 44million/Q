@@ -2,6 +2,7 @@ package qlang.core.internal;
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.jetbrains.annotations.NotNull;
 import qlang.core.interp.QLexer;
 import qlang.core.interp.QParser;
 import qlang.core.lang.Util;
@@ -296,18 +297,7 @@ public class Parser {
                     System.exit(-1);
                 }
             });
-            QParser parser = new QParser(new CommonTokenStream(lexer));
-            parser.removeErrorListeners();
-
-            parser.addErrorListener(new BaseErrorListener() {
-                @Override
-                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
-                    System.err.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character '" + offendingSymbol + "'");
-                    System.exit(-1);
-                }
-            });
-            parser.setBuildParseTree(true);
-            ParseTree tree = parser.parse();
+            ParseTree tree = getTree(lexer);
 
             Environment.global.visitor.visit(tree);
         } else if (this.non != null) {
@@ -324,23 +314,46 @@ public class Parser {
                     System.exit(-1);
                 }
             });
-            QParser parser = new QParser(new CommonTokenStream(lexer));
-            parser.removeErrorListeners();
-
-            parser.addErrorListener(new BaseErrorListener() {
-                @Override
-                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
-                    System.err.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character '" + offendingSymbol + "'");
-                    System.exit(-1);
-                }
-            });
-            parser.setBuildParseTree(true);
-            ParseTree tree = parser.parse();
+            ParseTree tree = getParseTree(lexer);
 
             Environment.global.visitor.visit(tree);
 
         }
 
+    }
+
+    @NotNull
+    private static ParseTree getTree(QLexer lexer) {
+        QParser parser = new QParser(new CommonTokenStream(lexer));
+        parser.removeErrorListeners();
+
+        parser.addErrorListener(new BaseErrorListener() {
+            @Override
+            public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                System.err.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character '" + offendingSymbol + "'");
+                System.exit(-1);
+            }
+        });
+        parser.setBuildParseTree(true);
+        ParseTree tree = parser.parse();
+        return tree;
+    }
+
+    @NotNull
+    private static ParseTree getParseTree(QLexer lexer) {
+        QParser parser = new QParser(new CommonTokenStream(lexer));
+        parser.removeErrorListeners();
+
+        parser.addErrorListener(new BaseErrorListener() {
+            @Override
+            public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                System.err.println("[FATAL " + line + ":" + charPositionInLine + "] Unexpected character '" + offendingSymbol + "'");
+                System.exit(-1);
+            }
+        });
+        parser.setBuildParseTree(true);
+        ParseTree tree = parser.parse();
+        return tree;
     }
 
     public Parser fromText(String text) {

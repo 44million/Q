@@ -7,8 +7,8 @@ import qlang.core.lang.Q.QModule;
 import qlang.core.lang.Util;
 import qlang.core.lang.Visitor;
 import qlang.runtime.errors.Problem;
-import qlang.runtime.libs.AWT.AWT;
-import qlang.runtime.libs.WebServer;
+import qlang.runtime.libs.AWT.QWinKit;
+import qlang.runtime.libs.QWebServer;
 
 import javax.swing.*;
 import java.io.File;
@@ -45,8 +45,8 @@ public class Environment {
     // Lists<>
     public List<File> parsed = new ArrayList<>();
     public List<Token> lst = new ArrayList<>();
-    public List<AWT> wins = new ArrayList<>();
-    public Map<String, WebServer> webs = new HashMap<>();
+    public List<QWinKit> wins = new ArrayList<>();
+    public Map<String, QWebServer> webs = new HashMap<>();
     public List<String> allowedLibs = new ArrayList<>();
     public List<String> allLibs = new ArrayList<>();
 

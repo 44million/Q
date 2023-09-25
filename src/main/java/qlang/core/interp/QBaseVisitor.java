@@ -1,4 +1,3 @@
-// Generated from /Users/harrymarlowe/Documents/GitHub/Q/src/main/java/qlang/core/internal/Q.g4 by ANTLR 4.10.1
 package qlang.core.interp;
 
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;

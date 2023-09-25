@@ -9,7 +9,7 @@ import java.awt.*;
     Windows library, needs rewrite.
  */
 
-public class AWT extends QLibrary {
+public class QWinKit extends QLibrary {
 
     private final int x;
     private final int y;
@@ -20,13 +20,13 @@ public class AWT extends QLibrary {
     private int height;
     private boolean has4;
 
-    public AWT(String name, int x, int y) {
+    public QWinKit(String name, int x, int y) {
         this.x = x;
         this.y = y;
         this.name = name;
     }
 
-    public AWT(String name, int x, int y, int w, int h) {
+    public QWinKit(String name, int x, int y, int w, int h) {
         this.x = x;
         this.y = y;
         this.name = name;

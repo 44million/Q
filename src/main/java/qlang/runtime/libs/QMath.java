@@ -7,7 +7,7 @@ import qlang.runtime.libs.util.QLibrary;
     Math library. Don't even know if this is functional anymore, I haven't updated it in a long time.
  */
 
-public class Math extends QLibrary {
+public class QMath extends QLibrary {
 
     @SuppressWarnings("all")
     public static final String qcode = """

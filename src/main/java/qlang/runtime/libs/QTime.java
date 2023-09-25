@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
     Time library, tbh idk if this ever worked. Gonna delete this and replace it in NativeFunctionLoader.java
  */
 
-public class Time extends QLibrary {
+public class QTime extends QLibrary {
 
     private final String qcode = String.format(
             """

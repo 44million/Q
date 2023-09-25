@@ -5,8 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import qlang.core.internal.Environment;
 import qlang.core.internal.Parser;
 import qlang.runtime.errors.Problem;
-import qlang.runtime.libs.AWT.AWT;
-import qlang.runtime.libs.WebServer;
+import qlang.runtime.libs.AWT.QWinKit;
+import qlang.runtime.libs.QWebServer;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -189,7 +189,7 @@ public class Util {
         return Response;
     }
 
-    public static WebServer getWebByName(String name) {
+    public static QWebServer getWebByName(String name) {
         return Environment.global.webs.getOrDefault(name, null);
     }
 
@@ -266,9 +266,9 @@ public class Util {
 
     }
 
-    public static AWT getWinByName(String name) {
+    public static QWinKit getWinByName(String name) {
 
-        for (AWT xc : Environment.global.wins) {
+        for (QWinKit xc : Environment.global.wins) {
             if (xc.realName.equals(name)) {
                 return xc;
             }

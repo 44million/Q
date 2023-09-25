@@ -8,7 +8,7 @@ import qlang.runtime.libs.util.QLibrary;
     Ignore this file.
  */
 
-public class Qio extends QLibrary {
+public class QIO extends QLibrary {
 
     @Override
     public String getName() {

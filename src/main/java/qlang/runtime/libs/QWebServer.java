@@ -3,7 +3,7 @@ package qlang.runtime.libs;
 import com.sun.net.httpserver.HttpServer;
 import qlang.core.internal.Environment;
 import qlang.runtime.errors.Problem;
-import qlang.runtime.libs.util.HTTP;
+import qlang.runtime.libs.util.QHTTPx;
 import qlang.runtime.libs.util.QLibrary;
 
 import java.io.IOException;
@@ -14,13 +14,13 @@ import java.net.InetSocketAddress;
     and can load html/css/js files onto a localhost server.
  */
 
-public class WebServer extends QLibrary {
+public class QWebServer extends QLibrary {
 
     public int port;
     public String id;
     private HttpServer server;
 
-    public WebServer(int port, String id) {
+    public QWebServer(int port, String id) {
         this.port = port;
         this.id = id;
     }
@@ -29,7 +29,7 @@ public class WebServer extends QLibrary {
     public void init() {
         try {
             server = HttpServer.create(new InetSocketAddress(port), 0);
-            server.createContext("/", new HTTP());
+            server.createContext("/", new QHTTPx());
             server.setExecutor(null);
             server.start();
         } catch (IOException e) {
@@ -41,7 +41,7 @@ public class WebServer extends QLibrary {
         server.stop(0);
         try {
             server = HttpServer.create(new InetSocketAddress(port), 0);
-            server.createContext("/", new HTTP());
+            server.createContext("/", new QHTTPx());
             server.setExecutor(null);
             server.start();
         } catch (IOException e) {

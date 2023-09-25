@@ -20,11 +20,12 @@ import qlang.core.lang.Q.Value;
 import qlang.runtime.errors.Problem;
 import qlang.runtime.errors.RVal;
 import qlang.runtime.errors.Tip;
-import qlang.runtime.libs.AWT.AWT;
-import qlang.runtime.libs.OS;
-import qlang.runtime.libs.Qio;
-import qlang.runtime.libs.WebServer;
-import qlang.runtime.libs.util.HTTP;
+import qlang.runtime.libs.AWT.QWinKit;
+import qlang.runtime.libs.QFiles;
+import qlang.runtime.libs.QOS;
+import qlang.runtime.libs.QIO;
+import qlang.runtime.libs.QWebServer;
+import qlang.runtime.libs.util.QHTTPx;
 
 import javax.swing.*;
 import java.awt.*;
@@ -358,7 +359,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             switch (method) {
                 case "delete":
 
-                    qlang.runtime.libs.Files.delete(ctx);
+                    QFiles.delete(ctx);
 
                 case "canRead":
 
@@ -366,7 +367,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
                 case "size":
 
-                    return qlang.runtime.libs.Files.size(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
+                    return QFiles.size(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
 
                 case "exists":
 
@@ -383,13 +384,13 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             Util.check("http", "http", ctx, Util.getOrDefault(false, this), this.curClass, this.packageName);
 
             switch (method) {
-                case "get" -> HTTP.get(ctx);
-                case "post" -> HTTP.post(ctx);
-                case "put" -> HTTP.put(ctx);
-                case "delete" -> HTTP.delete(ctx);
-                case "head" -> HTTP.head(ctx);
-                case "options" -> HTTP.options(ctx);
-                case "trace" -> HTTP.trace(ctx);
+                case "get" -> QHTTPx.get(ctx);
+                case "post" -> QHTTPx.post(ctx);
+                case "put" -> QHTTPx.put(ctx);
+                case "delete" -> QHTTPx.delete(ctx);
+                case "head" -> QHTTPx.head(ctx);
+                case "options" -> QHTTPx.options(ctx);
+                case "trace" -> QHTTPx.trace(ctx);
             }
 
         } else if (Util.getWinByName(parentClass) != null) {
@@ -737,7 +738,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         if (method.equals("exec") && ctx.expression() != null) {
             try {
-                OS.execS(this.visit(ctx.expression()).asString());
+                QOS.execS(this.visit(ctx.expression()).asString());
             } catch (IOException e) {
                 throw new Problem("Could not execute text: " + this.visit(ctx.expression()).asString() + " [" + e.getMessage() + "]", ctx, this.curClass);
             }
@@ -1053,7 +1054,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             } else {
                 Util.register(text.toString(), false);
                 if (text.toString().replace(".q.", "").equals("Console")) {
-                    new Qio().init();
+                    new QIO().init();
                 }
             }
 
@@ -1137,7 +1138,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
                 }
             }
-            WebServer w = new WebServer(x.asDouble().intValue(), ctx.Identifier(1).getText());
+            QWebServer w = new QWebServer(x.asDouble().intValue(), ctx.Identifier(1).getText());
             w.init();
 
             Environment.global.webs.put(w.id, w);
@@ -1216,7 +1217,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 int height = this.visit(ctx.exprList().expression(4)).asDouble().intValue();
                 String name = this.visit(ctx.exprList().expression(0)).toString();
 
-                AWT window = new AWT(name, x, y, width, height);
+                QWinKit window = new QWinKit(name, x, y, width, height);
                 window.setName(ctx.Identifier(1).getText());
                 Environment.global.wins.add(window);
 
@@ -1226,7 +1227,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 int y = this.visit(ctx.exprList().expression(2)).asDouble().intValue();
                 String name = this.visit(ctx.exprList().expression(0)).toString();
 
-                AWT window = new AWT(name, x, y);
+                QWinKit window = new QWinKit(name, x, y);
                 window.setName(ctx.Identifier(1).getText());
                 Environment.global.wins.add(window);
 

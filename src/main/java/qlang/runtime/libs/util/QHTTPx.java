@@ -16,7 +16,7 @@ import java.net.URL;
     http library, needs rewrite
  */
 
-public class HTTP implements HttpHandler {
+public class QHTTPx implements HttpHandler {
 
     public static void get(QParser.ObjFunctionCallExpressionContext ctx) {
         String link = ctx.exprList().expression(0)
