@@ -1,0 +1,10 @@
+---
+# This file was automatically created by the q --create flag.
+# Changing these values may impact the way that Q runs the project
+# DO NOT change the value names, as this will break q's project system
+name: "tic"
+type: "console"
+version: "0.0.1"
+# If you would like this to be automatically filled, use the `--sign (-s)` flag
+author: "qrx53"
+homedir: "tic/src/main.q"
