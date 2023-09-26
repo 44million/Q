@@ -32,7 +32,11 @@ secretNumber);
     end
 }
 
-// Create an instance of NumberGuessingGame and play the game
-var game = NumberGuessingGame();
-game.playGame();
+class Main {
+
+    pub fn main(args):
+        new NumberGuessingGame as ngm();
+        ngm::playGame();
+    end
+}
 
