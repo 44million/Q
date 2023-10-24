@@ -12,7 +12,7 @@ INSTALL_DIR="$HOME/.q"
 Q_JAR_URL="http://github.com/qRX53/Q/releases/latest/download/Q.jar"
 
 # Check if the script is running with --info, -i, or -I flag
-if [[ "$1" == "--info" || "$1" == "-i" || "$1" == "-I" ]]; then
+if [[ "$1" == "--info" || "$1" == "-i" || "$1" == "-I" || "$2" == "--info" || "$2" == "-i" || "$2" == "-I" ]]; then
   INFO_FLAG=true
   ERROR_FLAG=false
 else
@@ -23,6 +23,7 @@ fi
 # Function to display info
 display_info() {
   if [ "$INFO_FLAG" = true ]; then
+    echo "[INFO] Check your installation script before running to ensure proper install locations."
     echo "[INFO] Installing Q software..."
     echo "[INFO] Installation directory: $INSTALL_DIR"
     echo "[INFO] Downloading Q Jar from: $Q_JAR_URL"
@@ -53,14 +54,14 @@ script."
   # Download Q Jar and place it in the installation directory
   if [ "$(uname)" == "Darwin" ]; then
     # macOS uses curl for downloading
-    if curl -sL "$Q_JAR_URL" -o "$INSTALL_DIR/Q.jar"; then
+    if curl -sL --progress-bar "$Q_JAR_URL" -o "$INSTALL_DIR/Q.jar"; then
       return 0 # Download successful
     else
       return 1 # Download failed
     fi
   else
     # Linux uses wget for downloading
-    if wget -q "$Q_JAR_URL" -O "$INSTALL_DIR/Q.jar"; then
+    if wget -q --show-progress --progress=dot "$Q_JAR_URL" -O "$INSTALL_DIR/Q.jar"; then
       return 0 # Download successful
     else
       return 1 # Download failed
@@ -110,6 +111,7 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
+# shellcheck disable=SC2166
 if [ "$1" == "--update" -o "$1" == "-u" ]; then
   display_info
   if update_q; then

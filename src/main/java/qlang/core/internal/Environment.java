@@ -34,8 +34,8 @@ public class Environment {
     public Visitor visitor = new Visitor(scope, functions);
     public String response = Util.string();
     public boolean verbose = false;
-    public String shver = "1.2.3";
-    public String qversion = "2.1.9";
+    public String shver = "1.2.4";
+    public String qversion = "2.4.1";
     public String releaseNotes = "Q Version: "
             + this.qversion + "\n\nShell Build: "
             + this.shver + "\n\nRelease Notes: Q version (" + this.qversion + ") fixes several issues with Q project creation, as well as adding more options to the Q help menu.";
