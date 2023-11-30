@@ -1,3 +1,5 @@
+![Maven Build](https://github.com/QRX53/Q/actions/workflows/maven.yml/badge.svg)
+
 ## Installation
 
 Build scripts can be found at `/dwn`, the universal script supports most major linux distros, and macOS. Windows script may or may not work, I don't have a windows machine, so no way to test it.
