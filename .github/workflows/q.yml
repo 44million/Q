@@ -22,4 +22,4 @@ jobs:
           export PATH=$PATH:$HOME/.q
 
       - name: Verify Q installation In Correct Dir
-        run: ls /root/.q/
+        run: sudo ls /root/.q/
