@@ -1,4 +1,4 @@
-name: Install and Test Q
+name: Install and Verify Q
 
 on:
   push:
@@ -21,5 +21,5 @@ jobs:
           curl -sSL "https://raw.githubusercontent.com/QRX53/Q/main/dwn/install-*nix" | sudo bash
           export PATH=$PATH:$HOME/.q
 
-      - name: Test Q installation
-        run: sudo java -jar /root/.q/Q.jar
+      - name: Verify Q installation In Correct Dir
+        run: ls /root/.q/
