@@ -129,7 +129,7 @@ else
     chmod +x "$INSTALL_DIR/Q.jar"
 
     add_alias_to_shell
-    echo -e "${GREEN}[INFO] Q software installed successfully.${NC}"
+    echo -e "${GREEN}[INFO] Q software installed successfully to $INSTALL_DIR${NC}"
   else
     ERROR_FLAG=true
   fi
