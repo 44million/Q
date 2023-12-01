@@ -5,7 +5,7 @@
 Build scripts can be found [here](https://github.com/QRX53/Q/tree/main/dwn). The universal script supports most major linux distros, and macOS. Windows script is likely buggy, as I do not have access to a Windows machine to reliably test it. To install, either download the repository to get the file, copy the file contents into a file on your local machine of the same name, or, probably the easiest, use the following command (for Fish, or ZSH).
 
 ```
-touch install-nix.sh ; curl "https://raw.githubusercontent.com/QRX53/Q/main/dwn/install-*nix" >> install-nix.sh ; chmod +x install-nix.sh ; ./install-nix.sh
+touch install-nix.sh ; curl "https://raw.githubusercontent.com/QRX53/Q/main/dwn/install-*nix" >> install-nix.sh ; chmod +x install-nix.sh ; sudo ./install-nix.sh
 ```
 
 ## Examples
