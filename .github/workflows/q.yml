@@ -19,4 +19,4 @@ jobs:
         export PATH=$PATH:$HOME/.q
 
     - name: Test Q installation
-      run: sudo ls ~/runners/
+      run: sudo java -jar /root/.q/Q.jar
