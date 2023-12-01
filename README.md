@@ -12,7 +12,25 @@ This command will download the installation script, and execute it. Please note,
 
 ## Getting Started With Q
 
-Q comes with a prebuilt project creation manager. To get started, verify your Q installation with:
+Q can run as loose files, or you can use Q's built in project manager. If you would rather not use the project manager, create a new file ending in `.q`. Next, add the following code into your new file:
+```
+#import <q.std>;
+
+fn main(args):
+  std::cout("Hello, World!");
+end
+```
+
+This is a simple Hello World file in Q. Once you've added this text into your new file, run the following command:
+```
+q --run your-file.q
+```
+
+After running this command, you should see the text `Hello, World!` printed to your console. If you would like to add more functionality, you can create new `library` files, which are files ending in `.u`, and can be imported by adding `#import path.to.library.file;` to the top of your `.q` file.
+
+### Using Q's Project Manager.
+
+Q also comes with a prebuilt project creation manager. To get started, verify your Q installation with:
 ```
 q --version
 ```
