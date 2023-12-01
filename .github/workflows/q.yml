@@ -1,0 +1,21 @@
+name: Q Installation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  install-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install Q
+      run: |
+        curl -sSL "https://raw.githubusercontent.com/QRX53/Q/main/dwn/install-*nix" | sudo bash
+
+    - name: Test Q installation
+      run: q -v
