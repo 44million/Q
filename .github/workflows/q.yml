@@ -19,4 +19,4 @@ jobs:
         export PATH=$PATH:$HOME/.q
 
     - name: Test Q installation
-      run: q -v
+      run: java -jar ~/.q/Q.jar
