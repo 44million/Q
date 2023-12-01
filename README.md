@@ -1,4 +1,4 @@
-![Q Build](https://github.com/QRX53/Q/actions/workflows/maven.yml/badge.svg) ![Q Install](https://github.com/QRX53/Q/actions/workflows/q.yml/badge.svg)
+![Linux Build](https://github.com/QRX53/Q/actions/workflows/maven-linux.yml/badge.svg) ![macOS Build](https://github.com/QRX53/Q/actions/workflows/maven-macos.yml/badge.svg) ![Q Install](https://github.com/QRX53/Q/actions/workflows/q.yml/badge.svg)
 
 ## Installation
 
