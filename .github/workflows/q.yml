@@ -13,9 +13,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
-          distribution: 'adopt-openj9'
-          java-version: '20'
-          java-package: 'jre'
+          distribution: 'zulu'
+          java-version: '17'
 
       - name: Install Q
         run: |
