@@ -13,6 +13,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Set up Java
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '20.02'
+
     - name: Install Q
       run: |
         curl -sSL "https://raw.githubusercontent.com/QRX53/Q/main/dwn/install-*nix" | sudo bash
