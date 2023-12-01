@@ -32,6 +32,9 @@ display_info() {
 
 # Function to install Q
 install_q() {
+  # Printoff
+  echo "Beginning Q installation process, for slow internet, please allow up to 5 minutes."
+
   # Create installation directory
   mkdir -p "$INSTALL_DIR"
 
