@@ -8,9 +8,7 @@ Build scripts can be found [here](https://github.com/QRX53/Q/tree/main/dwn). The
 touch install-nix.sh ; curl "https://raw.githubusercontent.com/QRX53/Q/main/dwn/install-*nix" >> install-nix.sh ; chmod +x install-nix.sh ; sudo ./install-nix.sh
 ```
 
-## Examples
-
-Some examples can be found [here](https://github.com/QRX53/Q/tree/main/examples), these should work, but some are older, and may have lost functionality as the language changes. Likely will not be updated, but are still a very good example of the capabilities of Q.
+This command will download the installation script, and execute it. Please note, it **must** be run as root, if you do not want to run this command without knowing what the script does, download the file manually. If all goes well, you should see the following: `[INFO] Q software installed successfully.` This means your installation went well, and you are ready to move on.
 
 ## Getting Started With Q
 
@@ -43,5 +41,9 @@ This is all that a Q project is comprised of. The `q.yaml` file contains all inf
 ### Now that you have your project:
 
 Once your project is successfully created, and Q has been installed properly, you can create, and edit Q code. Run the project using `q hello-world`
+
+## Examples
+
+Some examples can be found [here](https://github.com/QRX53/Q/tree/main/examples), these should work, but some are older, and may have lost functionality as the language changes. Likely will not be updated, but are still a very good example of the capabilities of Q.
 
 # See codebase for more command prompts if building locally
