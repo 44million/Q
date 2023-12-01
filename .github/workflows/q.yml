@@ -1,4 +1,4 @@
-name: Q Installation
+name: Install and Test Q
 
 on:
   push:
@@ -16,6 +16,7 @@ jobs:
     - name: Install Q
       run: |
         curl -sSL "https://raw.githubusercontent.com/QRX53/Q/main/dwn/install-*nix" | sudo bash
+        export PATH=$PATH:$HOME/.q
 
     - name: Test Q installation
       run: q -v
