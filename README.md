@@ -1,4 +1,4 @@
-![Q Build](https://github.com/QRX53/Q/actions/workflows/maven.yml/badge.svg) 
+![Q Build](https://github.com/QRX53/Q/actions/workflows/maven.yml/badge.svg) ![Q Install](https://github.com/QRX53/Q/actions/workflows/q.yml/badge.svg)
 
 ## Installation
 
