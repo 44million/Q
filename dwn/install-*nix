@@ -23,10 +23,10 @@ fi
 # Function to display info
 display_info() {
   if [ "$INFO_FLAG" = true ]; then
-    echo "[INFO] Check your installation script before running to ensure proper install locations."
-    echo "[INFO] Installing Q software..."
-    echo "[INFO] Installation directory: $INSTALL_DIR"
-    echo "[INFO] Downloading Q Jar from: $Q_JAR_URL"
+    echo "] Check your installation script before running to ensure proper install locations."
+    echo "] Installing Q software..."
+    echo "] Installation directory: $INSTALL_DIR"
+    echo "] Downloading Q Jar from: $Q_JAR_URL"
   fi
 }
 
@@ -118,7 +118,7 @@ fi
 if [ "$1" == "--update" -o "$1" == "-u" ]; then
   display_info
   if update_q; then
-    echo -e "${GREEN}[INFO] Q software updated successfully.${NC}"
+    echo -e "${GREEN}[INFO] Q software updated successfully to $INSTALL_DIR${NC}"
   else
     ERROR_FLAG=true
   fi
