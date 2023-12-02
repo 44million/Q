@@ -9,12 +9,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-/*
-    Built in library to view the filetree of the compiler in Q itself. not my code
+/**
+ * Built-in library to view the filetree of the compiler in Q itself.
+ * Note: This code was not written by the author of these comments.
  */
-
 public class CompilerFileTree {
 
+    /**
+     * Formats a file size in a human-readable format.
+     *
+     * @param size The size of the file.
+     * @return A human-readable string representation of the file size.
+     */
     public static String HRBC(long size) {
         if (-1000 < size && size < 1000) {
             return size + " B";
@@ -27,6 +33,12 @@ public class CompilerFileTree {
         return String.format("%.1f %cB", size / 1000.0, ci.current());
     }
 
+    /**
+     * Generates a tree representation of the file structure starting from the given path.
+     *
+     * @param path The path to the root directory.
+     * @return An Optional containing the tree representation if the path exists, empty otherwise.
+     */
     public Optional<String> tree(Path path) {
         File file = new File(String.valueOf(path));
         if (!file.exists()) return Optional.empty();
@@ -34,12 +46,18 @@ public class CompilerFileTree {
             return Optional.of(nameOf(file) + " " + HRBC(file.length()));
         }
         if (file.isDirectory()) {
-
             return Optional.of(directoryTree(file, new ArrayList<>()));
         }
         return Optional.empty();
     }
 
+    /**
+     * Recursively generates a tree representation of the directory structure.
+     *
+     * @param folder      The current directory.
+     * @param lastFolders A list indicating whether the previous directories were the last ones.
+     * @return The tree representation of the directory structure.
+     */
     private String directoryTree(File folder, List<Boolean> lastFolders) {
         StringBuilder directory = new StringBuilder();
         if (lastFolders.size() != 0)
@@ -70,6 +88,12 @@ public class CompilerFileTree {
         return directory.toString();
     }
 
+    /**
+     * Determines the name of the file based on its type.
+     *
+     * @param file The file for which to determine the name.
+     * @return The name of the file.
+     */
     private String nameOf(File file) {
         if (file.getName().endsWith(".g4")) {
             return (file.getName().substring(0, file.getName().length() - 3)) + "::LexFile";
@@ -83,12 +107,16 @@ public class CompilerFileTree {
         return file.getName();
     }
 
+    /**
+     * Calculates the total size of a folder, including its subfolders and files.
+     *
+     * @param folder The folder for which to calculate the size.
+     * @return The total size of the folder.
+     */
     private long getFolderSize(File folder) {
         long size = 0;
         File[] files = folder.listFiles();
-
         assert files != null;
-
         for (File file : files) {
             if (file.isFile()) {
                 size += file.length();
@@ -99,12 +127,23 @@ public class CompilerFileTree {
         return size;
     }
 
+    /**
+     * Formats the size of a folder in a human-readable format.
+     *
+     * @param folder The folder for which to format the size.
+     * @return A human-readable string representation of the folder size.
+     */
     private String folderSize(File folder) {
         return HRBC(getFolderSize(folder));
     }
 
+    /**
+     * Sorts an array of files by separating directories and files.
+     *
+     * @param folder The array of files to be sorted.
+     * @return The sorted array of files.
+     */
     private File[] sortFiles(File[] folder) {
-
         Arrays.sort(folder);
         List<File> sorted = new ArrayList<>();
 

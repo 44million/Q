@@ -17,17 +17,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/*
-    The environment that Q is currently running in, this contains everything important.
+/**
+ * The environment that Q is currently running in, containing essential elements.
  */
-
 public class Environment {
 
-    // static and available to use to anyone
+    // Static and available to use by anyone
     public static Environment global = new Environment();
     public static String[] args;
 
-    // General language things
+    // General language elements
     public Map<String, Function> functions = new HashMap<String, Function>();
     public Map<String, Function> globalFns = new HashMap<>();
     public Scope scope = new Scope();
@@ -36,8 +35,7 @@ public class Environment {
     public boolean verbose = false;
     public String shver = "1.2.4";
     public String qversion = "2.4.1";
-    public String releaseNotes = "Q Version: "
-            + this.qversion + "\n\nShell Build: "
+    public String releaseNotes = "Q Version: " + this.qversion + "\n\nShell Build: "
             + this.shver + "\n\nRelease Notes: Q version (" + this.qversion + ") fixes several issues with Q project creation, as well as adding more options to the Q help menu.";
     public String releaseNotesDetailed = this.releaseNotes + "\n\nDetailed Release Notes: Q version (" + this.qversion + ") added `-rn` and `-rnd` to the Q CLI. Changed Shell Build, and QCLI versions in the Env file; as well as updating the basic `q` command to be more helpful to new users.";
     public Parser parser = new Parser();
@@ -65,15 +63,28 @@ public class Environment {
 
     public boolean hasMainExecuted = false;
 
+    /**
+     * Default constructor for the Environment class.
+     */
     public Environment() {
     }
 
+    /**
+     * Check if the given name corresponds to an object in the environment.
+     *
+     * @param name The name to check.
+     * @return True if the object with the given name exists, false otherwise.
+     */
     public boolean getObj(String name) {
         return Util.getWebByName(name) != null || Util.getWinByName(name) != null || this.files.containsKey(name) || this.objs.containsKey(name);
     }
 
+    /**
+     * Destroy an object with the given name.
+     *
+     * @param name The name of the object to destroy.
+     */
     public void destroy(String name) {
-
         if (Util.getWebByName(name) != null) {
             this.webs.remove(Util.getWebByName(name));
         } else if (Util.getWinByName(name) != null) {
@@ -85,11 +96,14 @@ public class Environment {
         } else {
             throw new Problem("No such object to destroy: " + name);
         }
-
     }
 
+    /**
+     * Define a native function in the environment.
+     *
+     * @param e The native function to define.
+     */
     public void defineNativeFunction(Function.INativeFunction e) {
         this.natives.put(e.name(), e);
     }
-
 }

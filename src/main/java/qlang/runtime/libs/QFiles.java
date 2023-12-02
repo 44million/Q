@@ -1,5 +1,6 @@
 package qlang.runtime.libs;
 
+import qlang.core.internal.Log;
 import qlang.core.interp.QParser;
 import qlang.core.lang.Q.Value;
 import qlang.runtime.errors.Problem;
@@ -32,7 +33,7 @@ public class QFiles extends QLibrary {
                 err += " (File not found)";
             }
 
-            System.err.println("[FATAL] " + err);
+            Log.log(Log.Severity.FATAL, err);
             System.exit(0);
         }
     }

@@ -9,17 +9,39 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 
-/*
-    This is the base file loader for Q, this loads it in, and is what is created in Runtime.java
+/**
+ * This class serves as the base file loader for Q, responsible for loading files and creating instances in Runtime.java.
  */
-
 public class QFile {
 
+    /**
+     * The visitor associated with the file loader.
+     */
     private final Visitor v;
+
+    /**
+     * The environment associated with the file loader.
+     */
     private final Environment env;
+
+    /**
+     * The name of the file to be loaded.
+     */
     private final String fileName;
+
+    /**
+     * The parser used for file parsing.
+     */
     private final Parser p;
 
+    /**
+     * Constructs a QFile instance with specified parameters.
+     *
+     * @param v        The visitor associated with the file loader.
+     * @param env      The environment associated with the file loader.
+     * @param fileName The name of the file to be loaded.
+     * @param p        The parser used for file parsing.
+     */
     public QFile(Visitor v, Environment env, String fileName, Parser p) {
         this.v = v;
         this.env = env;
@@ -27,24 +49,50 @@ public class QFile {
         this.p = p;
     }
 
+    /**
+     * Gets the visitor associated with the file loader.
+     *
+     * @return The visitor instance.
+     */
     public Visitor getV() {
         return v;
     }
 
+    /**
+     * Gets the environment associated with the file loader.
+     *
+     * @return The environment instance.
+     */
     public Environment getEnv() {
         return env;
     }
 
+    /**
+     * Gets the name of the file to be loaded.
+     *
+     * @return The name of the file.
+     */
     public String getFileName() {
         return fileName;
     }
 
+    /**
+     * Gets the parser used for file parsing.
+     *
+     * @return The parser instance.
+     */
     public Parser getP() {
         return p;
     }
 
+    /**
+     * Executes the file loader, loading the specified file and handling exceptions.
+     *
+     * @return The current instance of QFile.
+     */
     public QFile execute() {
 
+        // Preloading standard libraries
         {
             Environment.global.allLibs.add("Console");
             Environment.global.allLibs.add("Time");
@@ -60,12 +108,13 @@ public class QFile {
         }
 
         try {
-
+            // Parsing the file
             Parser parser = new Parser(CharStreams.fromFileName(new File(this.fileName).getAbsolutePath()));
             parser.parse(false);
 
         } catch (Exception e) {
 
+            // Exception handling and error reporting
             Exception exception = e;
             if (exception.getMessage() == null) {
                 exception = new Exception("An unknown error occurred, here is the java source problems: " + Arrays.toString(e.getStackTrace()));
@@ -99,7 +148,7 @@ public class QFile {
             if (Environment.global.verbose) {
                 e.printStackTrace();
             }
-            // e.printStackTrace();
+
             if (err.contains("FATAL")) {
                 System.exit(-1);
             } else {

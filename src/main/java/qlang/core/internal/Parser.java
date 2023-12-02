@@ -15,12 +15,9 @@ import java.util.List;
 import java.util.Scanner;
 
 /*
-
     Parser file, used to execute the file itself, this is what gets all of the visitors, and file paths
     and other important lexing steps together
-
  */
-
 public class Parser {
 
     public Visitor v;
@@ -29,24 +26,40 @@ public class Parser {
     private CharStream s;
     private String non;
 
+    /*
+        Default constructor for the Parser class.
+     */
     public Parser() {
 
     }
 
+    /*
+        Constructor for the Parser class with a specified file.
+
+        @param file The file to be parsed.
+     */
     public Parser(File file) {
         this.file = file;
         this.v = new Visitor(new Scope(Environment.global.scope, false), new HashMap<>());
     }
 
+    /*
+        Constructor for the Parser class with a specified character stream.
+
+        @param s The character stream to be parsed.
+     */
     public Parser(CharStream s) {
         this.s = s;
         this.v = new Visitor(new Scope(Environment.global.scope, false), new HashMap<>());
     }
 
+    /*
+        Execute a code block.
+
+        @param str The code block to execute.
+     */
     public static void execBlock(String str) {
-
         QLexer lexer = new QLexer(CharStreams.fromString(str));
-
         lexer.removeErrorListeners();
         lexer.addErrorListener(new BaseErrorListener() {
             @Override
@@ -73,7 +86,6 @@ public class Parser {
         ParseTree tree = parser.parse();
 
         Environment.global.visitor.visit(tree);
-
     }
 
     @NotNull
@@ -115,7 +127,6 @@ public class Parser {
     }
 
     public List<Token> parse(boolean ask) throws IOException {
-
         QLexer lexer = null;
 
         if (ask) {
@@ -129,7 +140,6 @@ public class Parser {
         Util.resolveImport("System");
 
         if (this.file != null) {
-
             lexer = new QLexer(CharStreams.fromFileName(this.file.getName()));
             lexer.removeErrorListeners();
             lexer.addErrorListener(new BaseErrorListener() {
@@ -144,7 +154,6 @@ public class Parser {
             });
             QParser parser = new QParser(new CommonTokenStream(lexer));
             parser.removeErrorListeners();
-
             parser.addErrorListener(new BaseErrorListener() {
                 @Override
                 public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
@@ -256,6 +265,11 @@ public class Parser {
 
     }
 
+    /*
+        Parse a file or a character stream.
+
+        @throws IOException If an I/O error occurs.
+     */
     public void parse() throws IOException {
         Util.resolveImport("System");
 
@@ -353,9 +367,14 @@ public class Parser {
             Environment.global.visitor.visit(tree);
 
         }
-
     }
 
+    /*
+        Set the file to be parsed.
+
+        @param text The text to parse.
+        @return The updated parser.
+     */
     public Parser fromText(String text) {
         this.non = text;
         this.v = new Visitor(new Scope(Environment.global.scope, false), new HashMap<>());

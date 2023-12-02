@@ -5,10 +5,11 @@ import qlang.runtime.libs.util.QLibrary;
 import javax.swing.*;
 import java.awt.*;
 
-/*
-    Windows library, needs rewrite.
+/**
+ * The QWinKit class is a Windows library for Q language, which provides functionality related to GUI operations.
+ * It extends QLibrary and includes methods for window initialization and creation.
+ * Note: This library needs to be rewritten for improvement.
  */
-
 public class QWinKit extends QLibrary {
 
     private final int x;
@@ -20,12 +21,28 @@ public class QWinKit extends QLibrary {
     private int height;
     private boolean has4;
 
+    /**
+     * Constructs a QWinKit instance with the specified name, x-coordinate, and y-coordinate.
+     *
+     * @param name The name of the window.
+     * @param x    The x-coordinate of the window.
+     * @param y    The y-coordinate of the window.
+     */
     public QWinKit(String name, int x, int y) {
         this.x = x;
         this.y = y;
         this.name = name;
     }
 
+    /**
+     * Constructs a QWinKit instance with the specified name, x-coordinate, y-coordinate, width, and height.
+     *
+     * @param name   The name of the window.
+     * @param x      The x-coordinate of the window.
+     * @param y      The y-coordinate of the window.
+     * @param w      The width of the window.
+     * @param h      The height of the window.
+     */
     public QWinKit(String name, int x, int y, int w, int h) {
         this.x = x;
         this.y = y;
@@ -35,6 +52,9 @@ public class QWinKit extends QLibrary {
         this.has4 = true;
     }
 
+    /**
+     * Initializes the window based on its configuration.
+     */
     public void init() {
         if (this.has4) {
             if (this.f == null) {
@@ -56,6 +76,9 @@ public class QWinKit extends QLibrary {
         }
     }
 
+    /**
+     * Creates the window if it does not exist; otherwise, updates the window title.
+     */
     public void create() {
         if (this.f == null) {
             this.f = new JFrame(this.name);
@@ -64,13 +87,22 @@ public class QWinKit extends QLibrary {
         }
     }
 
+    /**
+     * Overrides the getName method from QLibrary.
+     *
+     * @return The name of the AWT library in Q.
+     */
     @Override
     public String getName() {
         return "q.awt";
     }
 
+    /**
+     * Sets the realName property of the QWinKit instance.
+     *
+     * @param name The real name to be set.
+     */
     public void setName(String name) {
         this.realName = name;
     }
-
 }

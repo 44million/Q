@@ -4,10 +4,7 @@ import com.github.tomaslanger.chalk.Chalk;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import qlang.core.internal.Environment;
-import qlang.core.internal.Parser;
-import qlang.core.internal.QYaml;
-import qlang.core.internal.Scope;
+import qlang.core.internal.*;
 import qlang.core.lang.NativeFunctionLoader;
 import qlang.core.lang.Q.QFile;
 import qlang.core.lang.Util;
@@ -69,24 +66,24 @@ public class Runfile {
                 System.exit(0);
             } else if (args[0].equals("--projectinfo") || args[0].equals("-pi")) {
                 if (args.length == 1) {
-                    System.err.println("[FATAL] No project provided for `--projectinfo` argument");
+                    Log.log(Log.Severity.FATAL, "No project provided for `--projectinfo` argument");
                     System.exit(-1);
                 }
 
                 File projectFolder = new File(args[1]);
                 if (!projectFolder.exists()) {
-                    System.err.println("[FATAL] Project folder does not exist: " + projectFolder.getAbsolutePath());
+                    Log.log(Log.Severity.FATAL, "Project folder does not exist: " + projectFolder.getAbsolutePath());
                     System.exit(-1);
                 }
                 if (!projectFolder.isDirectory()) {
-                    System.err.println("[FATAL] Project folder is not a directory: " + projectFolder.getAbsolutePath());
+                    Log.log(Log.Severity.FATAL, "Project folder is not a directory: " + projectFolder.getAbsolutePath());
                     System.exit(-1);
                 }
 
                 File yamlfile = new File(projectFolder.getPath() + File.separator + "q.yaml");
 
                 if (!yamlfile.exists()) {
-                    System.err.println("[FATAL] Project yaml info file does not exist: " + yamlfile.getAbsolutePath());
+                    Log.log(Log.Severity.FATAL, "Project yaml info file does not exist: " + yamlfile.getAbsolutePath());
                     System.exit(-1);
                 }
 
@@ -335,7 +332,7 @@ public class Runfile {
                 }
 
                 if (!exe.isDirectory()) {
-                    System.err.println("[FATAL] Cannot generate executable from file, only a verified Q project.\nTry `q --create project`");
+                    Log.log(Log.Severity.FATAL, "Cannot generate executable from file, only a verified Q project.\nTry `q --create project`");
                     System.exit(-1);
                 }
 
@@ -736,7 +733,7 @@ public class Runfile {
 
         QYaml qy = yaml.load(inputStream);
 
-        String str = String.format("""
+        return String.format("""
                 Information about: %s
                     This project was written by: %s
                     Project size is %smb (%skb)
@@ -744,6 +741,5 @@ public class Runfile {
                     The main file for this project is: %s
                     This is a %s project.
                 """, qy.getName(), qy.getAuthor(), "" + ((projectFolder.length() / 1024) / 1024), (projectFolder.length() / 1024), qy.getVersion(), qy.getHomedir(), qy.getType());
-        return str;
     }
 }

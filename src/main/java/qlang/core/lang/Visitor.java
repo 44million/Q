@@ -99,9 +99,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             Method m = cls.getDeclaredMethod("method name");
             // m.invoke(objectToInvokeOn, params);
 
-            if (objs.size() > 0) {
+            if (!objs.isEmpty()) {
                 m.invoke(objs.toArray());
-            } else if (strings.size() > 0) {
+            } else if (!strings.isEmpty()) {
                 m.invoke(strings.toArray());
             } else {
                 m.invoke(null);
