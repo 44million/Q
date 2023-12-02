@@ -168,9 +168,9 @@ public class QClass implements Cloneable {
         /**
          * Constructs a QObject instance with specified parameters.
          *
-         * @param name  The name of the object.
+         * @param name     The name of the object.
          * @param instance The associated QClass instance.
-         * @param node  Reference to the QParser.BlockContext node associated with the object.
+         * @param node     Reference to the QParser.BlockContext node associated with the object.
          */
         public QObject(String name, QClass instance, QParser.BlockContext node) {
             this.name = name;

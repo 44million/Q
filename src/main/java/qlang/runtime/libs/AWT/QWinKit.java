@@ -37,11 +37,11 @@ public class QWinKit extends QLibrary {
     /**
      * Constructs a QWinKit instance with the specified name, x-coordinate, y-coordinate, width, and height.
      *
-     * @param name   The name of the window.
-     * @param x      The x-coordinate of the window.
-     * @param y      The y-coordinate of the window.
-     * @param w      The width of the window.
-     * @param h      The height of the window.
+     * @param name The name of the window.
+     * @param x    The x-coordinate of the window.
+     * @param y    The y-coordinate of the window.
+     * @param w    The width of the window.
+     * @param h    The height of the window.
      */
     public QWinKit(String name, int x, int y, int w, int h) {
         this.x = x;
