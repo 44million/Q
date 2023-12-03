@@ -120,7 +120,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         if (ctx.Identifier(1) == null) {
             className = "Temp";
         } else {
-            className = ctx.Identifier(1).getText().toString();
+            className = ctx.Identifier(1).getText();
         }
 
         for (var x : ctx.String()) {
@@ -142,12 +142,8 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     @Override
     public Value visitModule(QParser.ModuleContext ctx) {
 
-        String modname = ctx.Identifier().getText().toString();
-        boolean pub = true;
-
-        if (ctx.Public() == null || ctx.Private() != null) {
-            pub = false;
-        }
+        String modname = ctx.Identifier().getText();
+        boolean pub = ctx.Public() != null && ctx.Private() == null;
 
         QModule qmod = new QModule();
         qmod.name = modname;
@@ -158,7 +154,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         if (ctx.modStatement() != null) {
             for (var x : ctx.modStatement().Identifier2()) {
                 for (var y : ctx.modStatement().String()) {
-                    nameAndRegex.put(x.getText().toString(), y.getText().toString());
+                    nameAndRegex.put(x.getText(), y.getText());
                 }
             }
         }
@@ -174,12 +170,12 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         // STRING str -> "Hello";
         // String.STRING str -> "Hello";
 
-        String id0 = ctx.Identifier(0).getText().toString();
+        String id0 = ctx.Identifier(0).getText();
 
         if (Environment.global.modules.containsKey(id0)) {
-            String name = ctx.Identifier(2).getText().toString();
-            String type = ctx.Identifier(1).getText().toString();
-            String toMatch = ctx.String().getText().toString();
+            String name = ctx.Identifier(2).getText();
+            String type = ctx.Identifier(1).getText();
+            String toMatch = ctx.String().getText();
 
             QModule qmod = Environment.global.modules.get(id0);
             if (qmod.matches(name, toMatch)) {
@@ -191,7 +187,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             Environment.global.modules.forEach((s, q) -> {
                 q.nameAndRegex.forEach((name, regex) -> {
                     if (name.equals(id0)) {
-                        String toMatch = ctx.String().getText().toString();
+                        String toMatch = ctx.String().getText();
                         if (q.matches(name, toMatch)) {
                             Environment.global.modValues.put(name, toMatch);
                         } else {
@@ -213,7 +209,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         List<String> names = new ArrayList<String>();
 
         for (var x : ctx.Identifier()) {
-            names.add(x.getText().toString());
+            names.add(x.getText());
         }
 
         for (String s : names) {
@@ -1008,7 +1004,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         }
 
         if (ctx.Load() != null) {
-            String s = ctx.String().getText().toString().replace("\"", "");
+            String s = ctx.String().getText().replace("\"", "");
 
             File pfolder = new File(s);
             if (!pfolder.exists()) {
@@ -1553,12 +1549,12 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         // string + any
         if (lhs.isString()) {
-            return new Value(lhs.asString() + "" + rhs);
+            return new Value(lhs.asString() + rhs);
         }
 
         // any + string
         if (rhs.isString()) {
-            return new Value(lhs + "" + rhs.asString());
+            return new Value(lhs + rhs.asString());
         }
 
         return new Value(lhs.toString() + rhs);

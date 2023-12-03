@@ -1,0 +1,9 @@
+main
+qlang.core.internal
+qlang.core.interp
+qlang.core.lang
+qlang.core.lang.Q
+qlang.runtime.errors
+qlang.runtime.libs
+qlang.runtime.libs.AWT
+qlang.runtime.libs.util

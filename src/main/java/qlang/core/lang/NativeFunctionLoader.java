@@ -445,7 +445,7 @@ public class NativeFunctionLoader {
 
                 String tp = list.get(0).toString();
 
-                char chars[] = tp.toCharArray();
+                char[] chars = tp.toCharArray();
 
                 for (int i = 0; i < chars.length; i++) {
                     char c = chars[i];
