@@ -1,5 +1,3 @@
 # This is to reclassify the JavaDocs folder as Java.
 # Before this, GitHub's language stats section thought the entire repository was in HTML. Had to fix it.
 *.html linguist-language=Java
-*.js linguist-language=Java
-*.css linguist-language=Java
