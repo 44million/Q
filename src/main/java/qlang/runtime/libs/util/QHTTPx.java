@@ -12,12 +12,16 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/*
-    http library, needs rewrite
+/**
+ * Q's native HTTP library, needs a significant re-write, it's very poorly made.
  */
-
 public class QHTTPx implements HttpHandler {
 
+    /**
+     * The GET method for Q's HTTP library
+     *
+     * @param ctx       The ExpressionContext, which turns into the link to try and GET.
+     */
     public static void get(QParser.ObjFunctionCallExpressionContext ctx) {
         String link = ctx.exprList().expression(0)
                 .getText()
@@ -35,6 +39,10 @@ public class QHTTPx implements HttpHandler {
         }
     }
 
+    /**
+     *
+     * @param ctx       the ExpressionContext, which is turned into a String, which turns into a address to try and post to
+     */
     public static void post(QParser.ObjFunctionCallExpressionContext ctx) {
         String link = ctx.exprList().expression(0)
                 .getText()
@@ -52,6 +60,10 @@ public class QHTTPx implements HttpHandler {
         }
     }
 
+    /**
+     *
+     * @param ctx       The ExpressionContext, which again, turns into a link for Q to try and put to.
+     */
     public static void put(QParser.ObjFunctionCallExpressionContext ctx) {
         String link = ctx.exprList().expression(0)
                 .getText()
@@ -69,6 +81,10 @@ public class QHTTPx implements HttpHandler {
         }
     }
 
+    /**
+     *
+     * @param ctx       The ExpressionContext, which again, turns into a link for Q to try and delete.
+     */
     public static void delete(QParser.ObjFunctionCallExpressionContext ctx) {
         String link = ctx.exprList().expression(0)
                 .getText()
@@ -86,6 +102,10 @@ public class QHTTPx implements HttpHandler {
         }
     }
 
+    /**
+     *
+     * @param ctx       The ExpressionContext, which again, turns into a link for Q to try and HEAD.
+     */
     public static void head(QParser.ObjFunctionCallExpressionContext ctx) {
         String link = ctx.exprList().expression(0)
                 .getText()
@@ -103,6 +123,10 @@ public class QHTTPx implements HttpHandler {
         }
     }
 
+    /**
+     *
+     * @param ctx       The ExpressionContext, which again, turns into a link for Q to get options.
+     */
     public static void options(QParser.ObjFunctionCallExpressionContext ctx) {
         String link = ctx.exprList().expression(0)
                 .getText()
@@ -120,6 +144,10 @@ public class QHTTPx implements HttpHandler {
         }
     }
 
+    /**
+     *
+     * @param ctx       The ExpressionContext, which again, turns into a link for Q to try and trace.
+     */
     public static void trace(QParser.ObjFunctionCallExpressionContext ctx) {
         String link = ctx.exprList().expression(0)
                 .getText()
@@ -137,6 +165,10 @@ public class QHTTPx implements HttpHandler {
         }
     }
 
+    /**
+     *
+     * @param he       The HttpExchange variable, which will try and write content to a Q webserver.
+     */
     @Override
     public void handle(HttpExchange he) throws IOException {
         he.sendResponseHeaders(200, Environment.global.response.length());

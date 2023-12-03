@@ -27,6 +27,10 @@ public class QTime extends QLibrary {
                                 
                     """, Instant.now().toEpochMilli(), Instant.now().toString());
 
+    /**
+     *
+     * @return Value        The current time as a Q Value variable.
+     */
     public Value cur() {
         String time = "";
 
@@ -41,6 +45,10 @@ public class QTime extends QLibrary {
         return new Value(time);
     }
 
+    /**
+     *
+     * @return Value        Current date as a Q Value variable
+     */
     public Value date() {
         String date = "";
 
@@ -56,11 +64,19 @@ public class QTime extends QLibrary {
         return new Value(date);
     }
 
+    /**
+     *
+     * @return Value        The current instant as a Q Value variable
+     */
     public Value instant() {
         String s = Instant.now().toString();
         return new Value(s);
     }
 
+    /**
+     *
+     * @return String       The class name, in this case 'q.time'
+     */
     @Override
     public String getName() {
         return "q.time";

@@ -20,6 +20,11 @@ public class QWebServer extends QLibrary {
     public String id;
     private HttpServer server;
 
+    /**
+     *
+     * @param port      The HTTP port to save
+     * @param id        The identifier of the Webserver variable
+     */
     public QWebServer(int port, String id) {
         this.port = port;
         this.id = id;

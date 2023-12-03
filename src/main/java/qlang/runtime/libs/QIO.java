@@ -10,6 +10,10 @@ import qlang.runtime.libs.util.QLibrary;
 
 public class QIO extends QLibrary {
 
+    /**
+     *
+     * @return Name     Return the Q package name as a String, in this case 'q.io'
+     */
     @Override
     public String getName() {
         return "q.io";

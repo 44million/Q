@@ -3,7 +3,7 @@ package qlang.runtime.libs;
 import qlang.runtime.libs.util.QLibrary;
 
 /*
-    Random file, don't know if this even works anymore.
+    Random file, currently not at all functional
  */
 
 public class QRandom extends QLibrary {

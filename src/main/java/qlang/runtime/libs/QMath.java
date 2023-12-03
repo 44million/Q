@@ -113,6 +113,10 @@ public class QMath extends QLibrary {
                         
             """;
 
+    /**
+     *
+     * @return Name     Return the package name as a String, in this case 'q.Math'
+     */
     public String getName() {
         return "q.Math";
     }

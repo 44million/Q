@@ -16,7 +16,10 @@ import java.io.IOException;
 
 public class QFiles extends QLibrary {
 
-
+    /**
+     *
+     * @param ctx           The ExpressionContext Variable.
+     */
     public static void delete(QParser.ObjFunctionCallExpressionContext ctx) {
         if (ctx.exprList().expression(0) == null) {
             throw new Problem("Function 'files::delete(:str)' accepts one argument, the file, or directory in question.");
@@ -38,6 +41,11 @@ public class QFiles extends QLibrary {
         }
     }
 
+    /**
+     *
+     * @param path      The path to find the size of
+     * @return          Returns the size of the given path as a Q Value Variable.
+     */
     public static Value size(String path) {
 
         File file = new File(path);
@@ -49,6 +57,10 @@ public class QFiles extends QLibrary {
 
     }
 
+    /**
+     *
+     * @return Name     Return the Q package as a String, in this case 'q.Files'
+     */
     @Override
     public String getName() {
         return "q.Files";

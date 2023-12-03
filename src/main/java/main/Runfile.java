@@ -2,6 +2,7 @@ package main;
 
 import com.github.tomaslanger.chalk.Chalk;
 import org.jetbrains.annotations.NotNull;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import qlang.core.internal.*;
