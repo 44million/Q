@@ -86,7 +86,7 @@ public class Environment {
      */
     public void destroy(String name) {
         if (Util.getWebByName(name) != null) {
-            this.webs.remove(Util.getWebByName(name));
+            this.webs.remove(name);
         } else if (Util.getWinByName(name) != null) {
             this.wins.remove(Util.getWinByName(name));
         } else if (this.files.containsKey(name)) {

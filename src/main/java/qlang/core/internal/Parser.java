@@ -101,8 +101,7 @@ public class Parser {
             }
         });
         parser.setBuildParseTree(true);
-        ParseTree tree = parser.parse();
-        return tree;
+        return parser.parse();
     }
 
     @NotNull
@@ -118,8 +117,7 @@ public class Parser {
             }
         });
         parser.setBuildParseTree(true);
-        ParseTree tree = parser.parse();
-        return tree;
+        return parser.parse();
     }
 
     public void setFile(File file) {

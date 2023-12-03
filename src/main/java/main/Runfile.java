@@ -17,10 +17,9 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.Scanner;
 
-/*
-    Main file. Contains the CLI tool for Q.
+/**
+ * {@code @Class} Runfile   The main file which contains the CLI flags
  */
-
 public class Runfile {
 
     public static QFile mainFile;

@@ -60,7 +60,7 @@ public class CompilerFileTree {
      */
     private String directoryTree(File folder, List<Boolean> lastFolders) {
         StringBuilder directory = new StringBuilder();
-        if (lastFolders.size() != 0)
+        if (!lastFolders.isEmpty())
             directory.append(!(lastFolders.get(lastFolders.size() - 1)) ? "├─ " : "└─ ");
         directory.append("/").append(folder.getName()).append("::Folder ").append(folderSize(folder));
 
