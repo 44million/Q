@@ -146,7 +146,12 @@ public class QFile {
 
             System.err.println(err);
             if (Environment.global.verbose) {
-                e.printStackTrace();
+                StackTraceElement[] s = e.getStackTrace();
+
+                for (StackTraceElement s1 : s) {
+                    System.err.println(s1.toString());
+                }
+
             }
 
             if (err.contains("FATAL")) {

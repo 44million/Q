@@ -30,7 +30,7 @@ public class NativeFunctionLoader {
 
     }
 
-    public NativeFunctionLoader registerNatives() {
+    public void registerNatives() {
         // register libraries, the text is the name of the library, and then boolean is whether or not it's formatted
         // unformatted livraries look like `.q.std` as opposed to formatted, which is just `std` or `q.std`.
         Util.register("std", true);
@@ -931,38 +931,43 @@ public class NativeFunctionLoader {
             public void exec(List<Value> list) {
                 String method = list.get(0).toString();
 
-                if (method.equals("parseString")) {
-                    String str = list.get(1).toString();
-                    Parser.execBlock(str);
-                } else if (method.equals("parseFile")) {
-                    String file = list.get(1).toString();
-
-                    try {
-                        String fcontents = CharStreams.fromFileName(file).toString();
-                        Parser parser = new Parser().fromText(fcontents);
-                        parser.parse(false);
-                    } catch (IOException e) {
-                        throw new Problem(e.getMessage());
+                switch (method) {
+                    case "parseString" -> {
+                        String str = list.get(1).toString();
+                        Parser.execBlock(str);
                     }
-                } else if (method.equals("parseStringWith")) {
-                    String str = list.get(1).toString();
-                    Parser.execBlock(str);
+                    case "parseFile" -> {
+                        String file = list.get(1).toString();
 
-                    String with = list.get(2).toString();
-                    Parser.execBlock(with);
-                } else if (method.equals("parseFileWith")) {
-                    String file = list.get(1).toString();
-
-                    try {
-                        String fcontents = CharStreams.fromFileName(file).toString();
-                        Parser parser = new Parser().fromText(fcontents);
-                        parser.parse(false);
-                    } catch (IOException e) {
-                        throw new Problem(e.getMessage());
+                        try {
+                            String fcontents = CharStreams.fromFileName(file).toString();
+                            Parser parser = new Parser().fromText(fcontents);
+                            parser.parse(false);
+                        } catch (IOException e) {
+                            throw new Problem(e.getMessage());
+                        }
                     }
+                    case "parseStringWith" -> {
+                        String str = list.get(1).toString();
+                        Parser.execBlock(str);
 
-                    String with = list.get(2).toString();
-                    Parser.execBlock(with);
+                        String with = list.get(2).toString();
+                        Parser.execBlock(with);
+                    }
+                    case "parseFileWith" -> {
+                        String file = list.get(1).toString();
+
+                        try {
+                            String fcontents = CharStreams.fromFileName(file).toString();
+                            Parser parser = new Parser().fromText(fcontents);
+                            parser.parse(false);
+                        } catch (IOException e) {
+                            throw new Problem(e.getMessage());
+                        }
+
+                        String with = list.get(2).toString();
+                        Parser.execBlock(with);
+                    }
                 }
             }
 
@@ -1217,6 +1222,5 @@ public class NativeFunctionLoader {
                 return true;
             }
         });
-        return this;
     }
 }

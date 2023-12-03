@@ -18,6 +18,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import static java.nio.file.Files.walk;
+
 /*
     Misc file, full of stuff I may or may not even need anymore
  */
@@ -111,9 +113,8 @@ public class Util {
         String result = null;
         try (InputStream inputStream = Runtime.getRuntime().exec(cmd).getInputStream();
              Scanner s = new Scanner(inputStream).useDelimiter("\\A")) {
-            result = s.hasNext() ? s.next() : null;
+             result = s.hasNext() ? s.next() : null;
         } catch (IOException e) {
-            //e.printStackTrace();
             throw new Problem(e);
         }
     }
@@ -148,9 +149,8 @@ public class Util {
         } catch (MalformedURLException e1) {
             throw new Problem(e1.getMessage());
         }
-        HttpURLConnection http = null;
+        HttpURLConnection http;
         try {
-            assert url != null;
             http = (HttpURLConnection) url.openConnection();
         } catch (IOException e1) {
             throw new Problem(e1);
@@ -322,14 +322,13 @@ public class Util {
 
     public static void copyDirectory(String sourceDirectoryLocation, String destinationDirectoryLocation)
             throws IOException {
-        Files.walk(Paths.get(sourceDirectoryLocation))
+        walk(Paths.get(sourceDirectoryLocation))
                 .forEach(source -> {
                     Path destination = Paths.get(destinationDirectoryLocation, source.toString()
                             .substring(sourceDirectoryLocation.length()));
                     try {
                         Files.copy(source, destination);
                     } catch (IOException e) {
-                        //e.printStackTrace();
                         throw new Problem(e.getMessage());
                     }
                 });
