@@ -2,7 +2,6 @@
 target/
 *.iml
 .DS_Store
-.gitattributes
 gen/
 .antlr/
 *.pb
