@@ -27,6 +27,10 @@ public class Log {
         }
     }
 
+    public static void silent(Severity s, String message) {
+        // TODO: Implement silent logging
+    }
+
     /**
      * Enum representing different severity levels for logging.
      */

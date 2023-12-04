@@ -1,25 +1,19 @@
 package main;
 
-import com.github.tomaslanger.chalk.Chalk;
 import org.jetbrains.annotations.NotNull;
-import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import qlang.core.internal.*;
 import qlang.core.lang.NativeFunctionLoader;
 import qlang.core.lang.Q.QFile;
-import qlang.core.lang.Util;
 import qlang.core.lang.Visitor;
 import qlang.runtime.errors.Problem;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Objects;
-import java.util.Scanner;
 
 /**
- * {@code @Class} Runfile   The main file which contains the CLI flags
+ * The main file which contains the CLI flags, global ENV variables, and runs the project!
  */
 public class Runfile {
 
@@ -29,599 +23,15 @@ public class Runfile {
 
         Environment.args = args;
 
-        NativeFunctionLoader nfl = new NativeFunctionLoader();
-
-        nfl.registerNatives();
+        new NativeFunctionLoader().registerNatives();
 
         Scope baseScope = new Scope(null, false);
         Visitor globalScope = new Visitor(baseScope, new HashMap<>());
         Environment env = new Environment();
         String fpath = "src/main/QFiles/Main.q";
 
-        if (args.length >= 1) {
-            if (args.length == 1 && !args[0].startsWith("-")) {
-                if (new File(args[0]).isDirectory()) {
-                    File yamlfile = new File(args[0] + "/q.yaml");
-                    try {
-                        InputStream inputStream = new FileInputStream(yamlfile);
-                        Yaml yaml = new Yaml(new Constructor(QYaml.class));
-
-                        QYaml qy = yaml.load(inputStream);
-                        fpath = qy.getHomedir();
-                    } catch (Exception e) {
-                        throw new Problem(e);
-                    }
-                } else {
-                    fpath = args[0];
-                }
-            } else if (args[0].equals("--env") || args[0].equals("-e")) {
-                StringBuilder b = new StringBuilder();
-                Scanner scanner = new Scanner(System.in);
-                while (!Objects.equals(scanner.next(), "--q")) {
-                    System.out.println(">> ");
-                    b.append(scanner.nextLine()).append("\n");
-                }
-                scanner.close();
-                Parser.execBlock(b.toString());
-                System.exit(0);
-            } else if (args[0].equals("--projectinfo") || args[0].equals("-pi")) {
-                if (args.length == 1) {
-                    Log.log(Log.Severity.FATAL, "No project provided for `--projectinfo` argument");
-                    System.exit(-1);
-                }
-
-                File projectFolder = new File(args[1]);
-                if (!projectFolder.exists()) {
-                    Log.log(Log.Severity.FATAL, "Project folder does not exist: " + projectFolder.getAbsolutePath());
-                    System.exit(-1);
-                }
-                if (!projectFolder.isDirectory()) {
-                    Log.log(Log.Severity.FATAL, "Project folder is not a directory: " + projectFolder.getAbsolutePath());
-                    System.exit(-1);
-                }
-
-                File yamlfile = new File(projectFolder.getPath() + File.separator + "q.yaml");
-
-                if (!yamlfile.exists()) {
-                    Log.log(Log.Severity.FATAL, "Project yaml info file does not exist: " + yamlfile.getAbsolutePath());
-                    System.exit(-1);
-                }
-
-                try {
-                    String str = getYamlInfo(yamlfile, projectFolder);
-
-                    System.out.println(Chalk.on(str).bgBlue());
-                    System.exit(0);
-
-                } catch (Exception e) {
-                    throw new Problem(e);
-                }
-
-            } else if (args[0].equals("--releasenotesdetailed") || args[0].equals("-rnd")) {
-
-                System.out.println(Environment.global.releaseNotesDetailed);
-                System.exit(0);
-
-            } else if (args[0].equals("--releasenotes") || args[0].equals("-rn")) {
-
-                System.out.println(Environment.global.releaseNotes);
-                System.exit(0);
-
-            } else if (args[0].equals("--run") || args[0].equals("-r")) {
-                if (args.length == 1) {
-                    System.out.println(Chalk.on("No QFile provided! Try this, `q --run <file>.q`").bgBlue());
-                    System.exit(0);
-                } else {
-                    if (new File(args[1]).isDirectory()) {
-                        File yamlfile = new File(args[1] + "/q.yaml");
-                        try {
-                            InputStream inputStream = new FileInputStream(yamlfile);
-                            Yaml yaml = new Yaml(new Constructor(QYaml.class));
-
-                            QYaml qy = yaml.load(inputStream);
-                            fpath = qy.getHomedir();
-                        } catch (Exception e) {
-                            throw new Problem(e);
-                        }
-                    } else {
-                        fpath = args[1];
-                    }
-                }
-            } else if (args[0].equals("--runblind") || args[0].equals("-rb")) {
-
-                if (args.length == 1) {
-                    System.out.println(Chalk.on("No QFile provided! Try this, `q --runblind <file>.q`").bgBlue());
-                    System.exit(0);
-                }
-
-                Parser p = new Parser();
-                p.setFile(new File(args[1]));
-                try {
-                    p.parse();
-                } catch (IOException e) {
-                    throw new Problem(e);
-                }
-                System.exit(0);
-            } else if (args[0].equals("--help") || args[0].equals("-h")) {
-                System.out.println("""
-                        Format:
-                        --FlagName <options> (-ShortHand <Additional Options>) | Description of flag.
-                                                    
-                        Flags:
-                        --env (-e) | Print the environment
-                        --create (-c) (--sign, -s) (--type <type>, -t <type>) | Creates a new Q project
-                        --runblind <file> (-rb <file>) | Run the file given with no security checks
-                        --run <file> (-r <file>) | Run a file. Same as `q <file>.q`
-                        --projectinfo (-pi <projectfolder>) <projectfolder> | Print information from a project Qyaml file.
-                        --info (-i) | Returns Q version, host, build, dir, and more.
-                        --killall (-ka) | Kills Q processes.
-                        --terminal (-t) | Allows you to enter your code in the terminal directly, rather than a file.
-                        --help (-h) | Returns this menu.
-                        --version (-v) | Get the Q version. Good for checking installation status.
-                        --interact (-in) | interact with the Q CLI
-                        --releasenotes (-rn) | Returns the release notes for the current Q version.
-                        --releasenotesdetailed (-rnd) | Returns the detailed version of the current Q versions release notes
-                                         
-                        The [interact] screen has more advanced flag options.
-                                                    """);
-                System.exit(0);
-            } else if (args[0].equals("--create") || args[0].equals("-c")) {
-                if (args.length == 1) {
-                    Log.log(Log.Severity.FATAL, "`q --create <projectName>` requires field <projectName>");
-                    System.exit(-1);
-                }
-
-                String projectName = args[1];
-                // maybe add more to do with this later, awt projects and such
-                String ptype = "console";
-                String author = "Anonymous";
-                String ppath = "/main.q";
-
-                if (args.length > 2) {
-                    for (int i = 0; i < args.length; i++) {
-                        switch (args[i]) {
-                            case "--sign", "-s" -> author = System.getProperty("user.name");
-                            case "--type", "-t" -> {
-                                try {
-                                    int ix = i;
-                                    ptype = args[ix++];
-                                } catch (Exception e) {
-
-                                    StringBuilder errStrSquiggle = new StringBuilder();
-                                    long size = Arrays.toString(args).toCharArray().length;
-
-                                    for (long xe = 0; xe < size; xe++) {
-                                        errStrSquiggle.append("^");
-                                    }
-
-                                    throw new Problem(String.format("""
-                                            \n
-                                            [FATAL] Invalid value for --type. Valid values are:
-                                            console
-                                            awt
-                                            single-file
-                                            crate
-                                                                                
-                                            See '%s'
-                                                 %s Invalid expression for --type.
-                                                 Try like this: 'q --create project -t console'
-                                            """, Arrays.toString(args), errStrSquiggle.toString()));
-                                }
-                            }
-                            case "--mainfile", "-mf" -> {
-                                try {
-                                    int ix = i;
-                                    ppath = args[ix++];
-                                } catch (Exception e) {
-                                    System.out.println(Chalk.on("[ERROR] No `mainfile` attribute specified for `q --create <project> --mainfile <FILE>`").bgRed());
-                                }
-                            }
-                        }
-                    }
-                }
-
-                String yaml =
-                        String.format("""
-                                ---
-                                # This file was automatically created by the q --create flag.
-                                # Changing these values may impact the way that Q runs the project
-                                # DO NOT change the value names, as this will break q's project system.
-                                name: "%s"
-                                type: "%s"
-                                version: "0.0.1"
-                                # If you would like this to be automatically filled, use the `--sign (-s)` flag
-                                author: "%s"
-                                homedir: "%s"
-                                """, projectName, ptype, author, projectName + "/src/main.q");
-
-                File homedir = new File(projectName + "/src");
-
-                if (!homedir.exists()) {
-                    homedir.mkdirs();
-                }
-
-                File project = new File(projectName + "/src" + ppath);
-
-                if (!project.exists()) {
-                    try {
-                        project.createNewFile();
-                    } catch (IOException e) {
-                        throw new Problem(e);
-                    }
-                }
-
-                File printer = getFile(projectName);
-
-                try {
-                    FileWriter writer = getFileWriter(printer, """
-                            #import <q.std>;
-                                                        
-                            pub async fn print(str):
-                                std::coutln(str);
-                            end
-                            """);
-                    writer.close();
-                } catch (Exception e) {
-                    throw new Problem(e);
-                }
-
-                try {
-                    FileWriter pro = getFileWriter(project, String.format("""
-                            #import %s.src.objs.Printer;
-                                                        
-                            // This file was automatically created by the q --create flag.
-                            class Main {
-                                                        
-                                fn main(args):
-                                    print("Hello, World!");
-                                end
-                                                        
-                            }
-                            """, projectName.replaceFirst("/", "")));
-                    pro.close();
-                } catch (IOException e) {
-                    throw new Problem(e);
-                }
-
-                File yamlfile = new File(projectName + "/" + "q.yaml");
-
-                if (!yamlfile.exists()) {
-                    try {
-                        yamlfile.createNewFile();
-                    } catch (Exception e) {
-                        throw new Problem(e);
-                    }
-                }
-
-                FileWriter fw;
-                try {
-                    fw = new FileWriter(yamlfile);
-                    fw.write(yaml);
-                    fw.close();
-                } catch (Exception e) {
-                    throw new Problem(e);
-                }
-
-                System.out.println(Chalk.on("Created project '" + projectName + "' successfully"));
-                System.exit(0);
-
-            } else if (args[0].equals("--executable") || args[0].equals("-ex")) {
-
-                if (args.length <= 1) {
-                    System.out.println(Chalk.on("[ERROR] `q --executable <executable>` requires field <executable>").bgRed());
-                    System.exit(-1);
-                }
-
-                File exe = new File(args[1]);
-                if (!exe.exists()) {
-                    throw new Problem("Folder '" + args[1] + "' does not exist");
-                }
-
-                if (!exe.isDirectory()) {
-                    Log.log(Log.Severity.FATAL, "Cannot generate executable from file, only a verified Q project.\nTry `q --create project`");
-                    System.exit(-1);
-                }
-
-                System.out.println(Chalk.on("Generating executable '" + args[1] + "'"));
-
-                try {
-                    Util.copyDirectory(exe.getPath(), System.getProperty("user.home") + "/.q/");
-                    File executable = new File(exe.getName() + ".sh");
-                    if (!executable.exists()) {
-                        executable.createNewFile();
-                    }
-
-                    FileWriter fw = getFileWriter(executable, "#!/bin/zsh\n\njava -jar ~/.q/Q.jar --run " + exe.getAbsolutePath() + "/src/main.q");
-                    fw.close();
-                    executable.setExecutable(true);
-                } catch (IOException e) {
-                    throw new Problem(e.getMessage());
-                }
-
-            } else if (args[0].equals("-i") || args[0].equals("--info")) {
-                try {
-                    System.out.printf("""
-                            Version: %s
-                            Build: %s
-                            Host: %s
-                            QJar Directory: %s
-                            Running: %s
-                            Size: %s
-                            %n""", Environment.global.qversion, Environment.global, System.getProperty("user.dir"), System.getProperty("user.home") + "/.q/", false, (java.nio.file.Files.size(new File(System.getProperty("user.home") + "/.q/" + "Q.jar").toPath()) / 1000000) + "mb");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                System.exit(0);
-            } else if (args[0].equals("--killall") || args[0].equals("-ka")) {
-                System.out.println("System permission: denied. Run `killall -9 java` to kill all processes.");
-                System.exit(0);
-            } else if (args[0].equals("--terminal") || args[0].equals("-t")) {
-                StringBuilder total = new StringBuilder();
-                String input = "";
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-                while (!Objects.equals(input, "\n")) {
-                    try {
-                        input = reader.readLine();
-                        total.append(input);
-                    } catch (IOException e) {
-                        //e.printStackTrace();
-                        throw new Problem(e);
-                    }
-                }
-                Parser par = new Parser().fromText(total.toString());
-                try {
-                    par.parse();
-                } catch (IOException e) {
-                    //e.printStackTrace();
-                    throw new Problem(e);
-                }
-            } else if (args[0].equals("-v") || args[0].equals("--version")) {
-                System.out.printf("""
-                        Version: %s
-                        Installation status: ✅
-                                                
-                        """, Environment.global.qversion);
-                System.exit(0);
-            } else if (args[0].equals("--interact") || args[0].equals("-in")) {
-                System.out.println("Q build: "
-                        + Runfile.class.hashCode()
-                        + "\nShell version: "
-                        + Environment.global.shver
-                        + "\n`h` or `help` for help page, `q` or `quit` to exit the interactive shell\n");
-                while (true) {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-                    try {
-                        System.out.print("\n>> ");
-                        String total = reader.readLine();
-                        System.out.println();
-
-                        String[] ary = new String[1];
-
-                        if (total.contains(" ")) {
-                            ary = total.split(" ");
-                        } else {
-                            ary[0] = total;
-                        }
-
-                        for (int i = 0; i < ary.length; i++) {
-                            int nint = i;
-                            nint++;
-                            String next;
-                            String nextnext;
-                            try {
-                                next = ary[nint];
-                            } catch (Exception e) {
-                                next = "";
-                            }
-                            try {
-                                nextnext = ary[nint + 1];
-                            } catch (Exception e) {
-                                nextnext = "";
-                            }
-                            switch (ary[i]) {
-
-                                case "q", "quit" -> System.exit(0);
-                                case "env" -> System.out.println("Env: " + Environment.global);
-                                case "h" -> {
-                                    System.out.println("Q Help Menu:\n");
-                                    System.out.println("""
-                                            q/quit: quit q interactive
-                                            env: Q Environment
-                                            diag: Sys Diag
-                                            filetree [-m <file>, --makefile <file>] [-p, --print]: Generate Q compiler file tree.
-                                            sinfo [-j, --java]? [-q, --q]?: System Info
-                                            sysloc: System location
-                                            github [-p, --public]: Github Repo return value
-                                            uscript [-m, --makefile] [-p, --print]: update script permanent
-                                            readme [-p, --public]: GH README permalink
-                                            cls: Clear console
-                                            """);
-                                }
-                                case "diag" -> {
-                                    System.out.println(Environment.global.hasMainExecuted + " < Has Main Executed?");
-                                    System.out.println(Environment.global.allLibs + " < All Libraries");
-                                    System.out.println(Environment.global.allowedLibs + " < Allowed Libs");
-                                    System.out.println(Environment.global.lst + " < Lst");
-                                    System.out.println(Environment.global.objs + " < Objs");
-                                    System.out.println(Environment.global.natives + " < Natives");
-                                    System.out.println(Environment.global.response + " < Resp");
-                                    System.out.println(Environment.global.classes + " < Classes");
-                                    System.out.println(Environment.global.consts + " < Consts");
-                                    System.out.println(Environment.global.files + " < Files");
-                                    System.out.println(Environment.global.functions + " < Funcs");
-                                    System.out.println(Environment.global.jTextAreaMap + " < JTAMap");
-                                    System.out.println(Environment.global.namespaces + " < Namespaces");
-                                    System.out.println(Environment.global.nativeJava + " < NativeJava");
-                                    System.out.println(Environment.global.nativeNames + " < NativeNames");
-                                    System.out.println(Environment.global.parsed + " < Parsed");
-                                    System.out.println(Environment.global.scope + " < Global Scope");
-                                    System.out.println(Environment.global.visitor + " < Global Visitor");
-                                    System.out.println(Environment.global.webs + " < Webs");
-                                    System.out.println(Environment.global.wins + " < Wins");
-                                    System.out.println(Environment.global + " < Global value");
-                                }
-                                case "sinfo" -> {
-                                    if (next.equals("-j") || next.equals("--java")) {
-                                        System.out.println(
-                                                "ANTLR Version: 4.10.1" +
-                                                        "\nQ build: "
-                                                        + Runfile.class.hashCode()
-                                                        + "\nJava version: " + System.getProperty("java.version")
-                                                        + "\nJRuntime: " + System.getProperty("java.runtime.version") + "\n");
-                                    } else if (next.equals("-q") || next.equals("--q")) {
-                                        System.out.println(
-                                                "\nQ Version: " + Environment.global.qversion
-                                                        + "\nQ System Location: " + System.getProperty("user.home") + "/.q/"
-                                                        + "\nQ Shell version: " + Environment.global.shver
-                                                        + "\nInstallation status: perfect :)\n");
-                                    } else {
-                                        System.out.println(
-                                                "ANTLR Version: 4.10.1\nQ build version: "
-                                                        + Runfile.class.hashCode()
-                                                        + "\nQ Version: " + Environment.global.qversion
-                                                        + "\nQ System Location: " + System.getProperty("user.home") + "/.q/"
-                                                        + "\nQ Shell version: " + Environment.global.shver
-                                                        + "\nInstallation status: perfect :)\n"
-                                                        + "Java version: " + System.getProperty("java.version")
-                                                        + "\nJRuntime: " + System.getProperty("java.runtime.version") + "\n");
-                                    }
-                                }
-                                case "filetree" -> {
-                                    if (next.equals("-p") || next.equals("--print")) {
-                                        System.out.println("""
-                                                <OUTDATED>:
-                                                                                                
-                                                /qlang::Folder 611.1 kB
-                                                ├─ /core::Folder 584.1 kB
-                                                │  ├─ /internal::Folder 37.4 kB
-                                                │  │  ├─ CompilerFileTree::JavaFile 4.0 kB
-                                                │  │  ├─ Environment::JavaFile 2.7 kB
-                                                │  │  ├─ NameSpace::JavaFile 381 B
-                                                │  │  ├─ Parser::JavaFile 14.9 kB
-                                                │  │  ├─ Q::LexFile 7.0 kB
-                                                │  │  └─ Scope::JavaFile 2.3 kB
-                                                │  ├─ /interp::Folder 412.8 kB
-                                                │  │  ├─ Q::InterpreterFile 20.4 kB
-                                                │  │  ├─ Q::TokenInputFile 1.2 kB
-                                                │  │  ├─ QBaseListener::JavaFile 28.7 kB
-                                                │  │  ├─ QBaseVisitor::JavaFile 21.1 kB
-                                                │  │  ├─ QLexer::InterpreterFile 21.5 kB
-                                                │  │  ├─ QLexer::JavaFile 43.7 kB
-                                                │  │  ├─ QLexer::TokenInputFile 1.2 kB
-                                                │  │  ├─ QListener::JavaFile 31.3 kB
-                                                │  │  ├─ QParser::JavaFile 225.4 kB
-                                                │  │  ├─ QVisitor::JavaFile 18.2 kB
-                                                │  │  └─ README.md 103 B
-                                                │  ├─ /lang::Folder 127.7 kB
-                                                │  │  ├─ /Q::Folder 9.2 kB
-                                                │  │  │  ├─ QClass::JavaFile 2.7 kB
-                                                │  │  │  ├─ QFile::JavaFile 3.2 kB
-                                                │  │  │  └─ Value::JavaFile 3.3 kB
-                                                │  │  ├─ Function::JavaFile 5.7 kB
-                                                │  │  ├─ NativeFunctionLoader::JavaFile 27.8 kB
-                                                │  │  ├─ Util::JavaFile 15.7 kB
-                                                │  │  └─ Visitor::JavaFile 69.3 kB
-                                                ├─ /runtime::Folder 20.8 kB
-                                                │  ├─ /errors::Folder 2.0 kB
-                                                │  │  ├─ Problem::JavaFile 1.4 kB
-                                                │  │  ├─ RVal::JavaFile 160 B
-                                                │  │  └─ Tip::JavaFile 416 B
-                                                │  └─ /libs::Folder 18.8 kB
-                                                │     ├─ /AWT::Folder 1.8 kB
-                                                │     │  └─ AWT::JavaFile 1.8 kB
-                                                │     ├─ /util::Folder 4.6 kB
-                                                │     │  ├─ HTTP::JavaFile 4.3 kB
-                                                │     │  └─ QLibrary::JavaFile 291 B
-                                                │     ├─ Files::JavaFile 2.2 kB
-                                                │     ├─ Math::JavaFile 3.2 kB
-                                                │     ├─ OS::JavaFile 1.1 kB
-                                                │     ├─ QRandom::JavaFile 793 B
-                                                │     ├─ Qio::JavaFile 1.8 kB
-                                                │     ├─ Time::JavaFile 1.9 kB
-                                                │     └─ WebServer::JavaFile 1.5 kB
-                                                """);
-                                    } else if (next.equals("-m") || next.equals("--makefile")) {
-                                        if (nextnext == null) {
-                                            System.out.println(Chalk.on("Cannot run `filetree -m <file>` without file name.").bgRed());
-                                        } else {
-                                            File f = new File(nextnext);
-                                            try {
-                                                if (!f.exists()) {
-                                                    f.createNewFile();
-                                                }
-                                                FileWriter fw = getFileWriter(f);
-                                                fw.close();
-                                            } catch (Exception e) {
-                                                throw new Problem(e);
-                                            }
-                                        }
-                                    } else {
-                                        System.out.println(Chalk.on("'filetree' Usage:\nfiletree [-p, --print] [-m <file>, --makefile <file>]").bgRed());
-                                    }
-                                }
-                                case "sysloc" -> System.out.println(System.getProperty("user.home") + "/.q/");
-                                case "github" -> {
-                                    if (next.equals("-p") || next.equals("--public")) {
-                                        System.out.println("https://github.com/QRX53/Q-public");
-                                    } else {
-                                        System.out.println("https://github.com/QRX53/Q");
-                                    }
-                                }
-                                case "uscript" -> {
-                                    if (next.equals("--makefile") || next.equals("-m")) {
-                                        File newf;
-
-                                        if (!nextnext.isEmpty()) {
-                                            newf = new File(nextnext);
-                                        } else {
-                                            newf = new File("install.sh");
-                                        }
-
-                                        if (!newf.exists()) {
-                                            newf.createNewFile();
-                                        }
-
-                                        FileWriter fw = getFileWriter(newf, Util.updateScript);
-                                        fw.close();
-                                        System.out.println(Chalk.on("Successfully written to [" + newf.getName() + "].\nPlease remember you will have to run `chmod a+x " + newf.getName() + "` in order to execute").bgYellow());
-                                    } else if (next.equals("-p") || next.equals("--print")) {
-                                        System.out.println(Util.updateScript);
-                                    } else {
-                                        System.out.println(Chalk.on("'uscript' Usage:\nuscript [-p] [--print] [-m someFile] [--makefile someFile]\n").bgRed());
-                                    }
-                                }
-                                case "readme" -> {
-                                    if (next.equals("-p") || next.equals("--public")) {
-                                        System.out.println(Chalk.on("https://github.com/QRX53/q-public#this-is-the-public-version-of-the-language-so-that-i-dont-have-to-sign-in-on-github-every-time-because-the-personal-access-token-thing-is-stupid-this-wont-be-updated-as-often-only-when-i-need-a-public-copy").bgYellow());
-                                    } else {
-                                        System.out.println(Chalk.on("https://github.com/QRX53/Q#readme").bgYellow());
-                                    }
-                                }
-                                case "cls" ->
-                                        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-                                default -> {
-                                }
-                            }
-
-                        }
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-
-            } else if (args[0].equals("--update") || args[0].equals("-u")) {
-                Log.log(Log.Severity.WARNING, "This flag is not fully completed.");
-            } else if (args[0].startsWith("-")) {
-                System.out.println("Flag not recognized '" + args[0] + "'. Run q --help for more.");
-                System.exit(0);
-            }
-        } else {
-            System.out.printf("Q version %s: ✅\n", Environment.global.qversion);
-            System.out.println("\n\nTo get started run `q --help`, or `q --run <file>.q`");
-            System.exit(0);
-        }
+        CommandLine cli = new CommandLine();
+        fpath = cli.exec(args, fpath);
 
         mainFile = new QFile(globalScope, env, fpath, Environment.global.parser);
         mainFile.execute();
@@ -629,15 +39,22 @@ public class Runfile {
     }
 
     @NotNull
-    private static FileWriter getFileWriter(File project, String projectName) throws IOException {
+    protected static FileWriter getFileWriter(File project, String projectName) throws IOException {
         FileWriter pro = new FileWriter(project);
         pro.write(projectName);
         return pro;
     }
 
+    /**
+     * This method returns a new FileWriter with the project's file structure, generated by the CompilerFileTree class
+     *
+     * @param f                 The input file.
+     * @return                  Returns the filewriter in question
+     * @throws IOException      Throws an IOException in case a file, or folder cannot be found.
+     */
     @NotNull
-    private static FileWriter getFileWriter(File f) throws IOException {
-        FileWriter fw = getFileWriter(f, """
+    protected static FileWriter getFileWriter(File f) throws IOException {
+        return getFileWriter(f, """
                 /qlang::Folder 611.1 kB
                 ├─ /core::Folder 584.1 kB
                 │  ├─ /internal::Folder 37.4 kB
@@ -686,7 +103,6 @@ public class Runfile {
                 │     ├─ Qio::JavaFile 1.8 kB
                 │     ├─ Time::JavaFile 1.9 kB
                 │     └─ WebServer::JavaFile 1.5 kB""");
-        return fw;
     }
 
     /**
@@ -695,7 +111,7 @@ public class Runfile {
      * @return                  The Printer UFile.
      */
     @NotNull
-    private static File getFile(String projectName) {
+    protected static File getFile(String projectName) {
         File printer = new File(projectName + "/src/objs/Printer.u");
 
         if (!new File(projectName + "/src/objs/").exists()) {
@@ -717,9 +133,9 @@ public class Runfile {
      * @param yamlfile          The YAML file to read from.
      * @param projectFolder     The main folder for the project.
      * @return infoString       The String to return
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException    Throws a file not found exception in case the Q project doesn't have a YAML file, or if it was moved.
      */
-    private static String getYamlInfo(File yamlfile, File projectFolder) throws FileNotFoundException {
+    protected static String getYamlInfo(File yamlfile, File projectFolder) throws FileNotFoundException {
         InputStream inputStream = new FileInputStream(yamlfile);
         Yaml yaml = new Yaml(new Constructor(QYaml.class));
 

@@ -33,7 +33,7 @@ public class NativeFunctionLoader {
     /**
      * This method essentially parses all the Native methods that Q offers, so they can be used without the user writing them.
      */
-    public void registerNatives() {
+    public NativeFunctionLoader registerNatives() {
         // register libraries, the text is the name of the library, and then boolean is whether it's formatted
         // unformatted libraries look like `.q.std` as opposed to formatted, which is just `std` or `q.std`.
         Util.register("std", true);
@@ -1225,5 +1225,7 @@ public class NativeFunctionLoader {
                 return true;
             }
         });
+
+        return this;
     }
 }

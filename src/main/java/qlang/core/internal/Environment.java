@@ -33,9 +33,9 @@ public class Environment {
     public Visitor visitor = new Visitor(scope, functions);
     public String response = Util.string();
     public boolean verbose = false;
-    public String shver = "1.2.5";
-    public String qversion = "2.4.2";
-    public String releaseNotes = "Q Version: " + this.qversion + "\n\nShell Build: "
+    public String shver = "v1.2.6";
+    public String qversion = shver;
+    public String releaseNotes = "Q Release: " + this.qversion + "\n\nShell Build: "
             + this.shver + "\n\nRelease Notes: Q version (" + this.qversion + ") fixes several issues with Q project creation, as well as adding more options to the Q help menu.";
     public String releaseNotesDetailed = this.releaseNotes + "\n\nDetailed Release Notes: Q version (" + this.qversion + ") added `-rn` and `-rnd` to the Q CLI. Changed Shell Build, and QCLI versions in the Env file; as well as updating the basic `q` command to be more helpful to new users.";
     public Parser parser = new Parser();
