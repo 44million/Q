@@ -13,14 +13,7 @@ curl -sSL "https://raw.githubusercontent.com/QRX53/Q/main/dwn/install-*nix" | su
 
 This command will download the installation script, and execute it. Please note, if you do
 not want to run this command without knowing what the script does, download the script manually. If all goes well, you
-should see something along the lines of:
-
-```
-Installation complete!
-To get started, run: q --version
-```
-
-This means your installation went well, and you are ready to move on.
+should see something along the lines of: `Installation complete!`. This means your installation went well, and you are ready to move on.
 
 ## Getting Started With Q
 
