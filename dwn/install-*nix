@@ -1,145 +1,84 @@
 #!/bin/bash
 
-# Define colors
-GREEN='\033[0;32m'
-RED='\033[0;31m'
-NC='\033[0m' # No Color
+# Function to print in green
+function print_green() {
+    echo -e "$(tput setaf 2)$1$(tput sgr0)"
+}
 
-# Default installation directory
-INSTALL_DIR="$HOME/.q"
+# Function to print in red
+function print_red() {
+    echo -e "$(tput setaf 1)$1$(tput sgr0)"
+}
 
-# Q Jar URL
-Q_JAR_URL="http://github.com/qRX53/Q/releases/latest/download/Q.jar"
+# Function to print animated progress bar
+function print_progress() {
+    local progress=$1
+    local length=20
+    local i
+    printf "["
+    for ((i = 0; i < length; i++)); do
+        if [ $((i * 100 / length)) -le $progress ]; then
+            printf "="
+        else
+            printf " "
+        fi
+    done
+    printf "] %d%%\r" "$progress"
+}
 
-# Check if the script is running with --info, -i, or -I flag
-if [[ "$1" == "--info" || "$1" == "-i" || "$1" == "-I" || "$2" == "--info" || "$2" == "-i" || "$2" == "-I" ]]; then
-  INFO_FLAG=true
-  ERROR_FLAG=true
+# Step 1: Download the latest release file
+echo
+print_green "Downloading the latest release file..."
+if curl -# -L -o Q.jar "http://github.com/qRX53/Q/releases/latest/download/Q.jar"; then
+    print_green "Download complete."
 else
-  INFO_FLAG=true
-  ERROR_FLAG=true
+    print_red "Error downloading the file. Exiting."
+    exit 1
 fi
 
-# Function to display info
-display_info() {
-  if [ "$INFO_FLAG" = true ]; then
-    echo "] Check your installation script before running to ensure proper install locations."
-    echo "] Installing Q software..."
-    echo "] Installation directory: $INSTALL_DIR"
-    echo "] Downloading Q Jar from: $Q_JAR_URL"
-  fi
-}
-
-# Function to install Q
-install_q() {
-  # Printoff
-  echo "Beginning Q installation process, for slow internet, please allow up to 5 minutes."
-
-  # Create installation directory
-  mkdir -p "$INSTALL_DIR"
-
-  # Check if wget is installed and install it if not
-  if ! command -v wget &>/dev/null; then
-    if [ "$(uname)" == "Darwin" ]; then
-      # macOS uses curl by default, so check if it's available
-      if ! command -v curl &>/dev/null; then
-        echo "[ERROR] Neither wget nor curl is installed. Install one of 
-them and rerun the script."
-        return 1
-      fi
-    else
-      echo "[ERROR] wget is not installed. Install it and rerun the 
-script."
-      return 1
-    fi
-  fi
-
-  # Download Q Jar and place it in the installation directory
-  if [ "$(uname)" == "Darwin" ]; then
-    # macOS uses curl for downloading
-    if curl -sL --progress-bar "$Q_JAR_URL" -o "$INSTALL_DIR/Q.jar"; then
-      return 0 # Download successful
-    else
-      return 1 # Download failed
-    fi
-  else
-    # Linux uses wget for downloading
-    if wget -q --show-progress --progress=dot "$Q_JAR_URL" -O "$INSTALL_DIR/Q.jar"; then
-      return 0 # Download successful
-    else
-      return 1 # Download failed
-    fi
-  fi
-}
-
-# Function to add alias to shell configuration
-add_alias_to_shell() {
-  SHELL_NAME=$(basename "$SHELL")
-  SHELL_CONFIG="$HOME/.${SHELL_NAME}rc" # Detect the current shell and its
-
-  case "$SHELL_NAME" in
-    "bash" | "zsh")
-      # Check if the alias already exists in the shell config
-      if ! grep -q "alias qin='bash $INSTALL_DIR/qin'" "$SHELL_CONFIG";
-then
-        echo "alias qin='bash $INSTALL_DIR/qin'" >> "$SHELL_CONFIG"
-        source "$SHELL_CONFIG" # Reload shell configuration
-      fi
-      ;;
-    "fish")
-      # Check if the alias already exists in the Fish config file
-      FISH_CONFIG="$HOME/.config/fish/config.fish"
-      if ! grep -q "alias qin='bash $INSTALL_DIR/qin'" "$FISH_CONFIG";
-then
-        echo "alias qin='bash $INSTALL_DIR/qin'" >> "$FISH_CONFIG"
-        fish -c "source $FISH_CONFIG" # Reload Fish shell configuration
-      fi
-      ;;
-  esac
-}
-
-# Function to update Q
-update_q() {
-  if [ -f "$INSTALL_DIR/Q.jar" ]; then
-    rm "$INSTALL_DIR/Q.jar" # Remove the old Q Jar
-  fi
-
-  install_q # Reinstall Q
-}
-
-# Main script logic
-
-if [ "$EUID" -ne 0 ]
-  then echo "[ERROR] Please run as root."
-  exit
-fi
-
-# shellcheck disable=SC2166
-if [ "$1" == "--update" -o "$1" == "-u" ]; then
-  display_info
-  if update_q; then
-    echo -e "${GREEN}[INFO] Q software updated successfully to $INSTALL_DIR${NC}"
-  else
-    ERROR_FLAG=true
-  fi
+# Step 2: Create the 'q' script
+echo
+print_green "Creating the 'q' script..."
+if echo "#! /usr/bin/env java -jar" > q && cat Q.jar >> q && chmod +x q; then
+    print_green "'q' script created."
 else
-  display_info
-  if install_q; then
-    # Add execute permissions to the Q.jar file
-    chmod +x "$INSTALL_DIR/Q.jar"
-
-    add_alias_to_shell
-    echo -e "${GREEN}[INFO] Q software installed successfully to $INSTALL_DIR${NC}"
-  else
-    ERROR_FLAG=true
-  fi
+    print_red "Error creating the 'q' script. Exiting."
+    exit 1
 fi
 
-# Print usage instructions if the info flag is not set
-if [ "$INFO_FLAG" = false ]; then
-  if [ "$ERROR_FLAG" = true ]; then
-    if [[ "$1" == "--info" || "$1" == "-i" || "$1" == "-I" ]]; then
-      echo -e "${RED}[ERROR] Unable to download Q software.${NC}"
-    fi
-  fi
+# Step 3: Move the 'q' script to /usr/local/bin
+echo
+print_green "Moving the 'q' script to /usr/local/bin..."
+if sudo mv q /usr/local/bin/; then
+    print_green "'q' script moved to /usr/local/bin."
+else
+    print_red "Error moving the 'q' script. Exiting."
+    exit 1
 fi
+
+# Step 4: Update PATH
+echo
+print_green "Updating PATH..."
+if echo 'export PATH="/usr/local/bin/q:$PATH"' >> ~/.bashrc && source ~/.bashrc; then
+    print_green "PATH updated."
+else
+    print_red "Error updating PATH. Exiting."
+    exit 1
+fi
+
+# All steps completed
+echo
+print_green "Installation complete!"
+
+# Clean up: Remove the downloaded jar file
+echo
+print_green "Cleaning up..."
+if rm Q.jar; then
+    print_green "Clean up complete."
+else
+    print_red "Error cleaning up. Please remove 'Q.jar' manually."
+fi
+
+# Print next steps
+echo
+print_green "To get started, run: q --version"
