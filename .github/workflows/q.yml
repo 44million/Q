@@ -17,7 +17,7 @@ jobs:
           java-version: '17'
 
       - name: Java Install
-        run: apt-get install libc6-i386
+        run: sudo apt-get install libc6-i386
 
       - name: Install Q
         run: |
