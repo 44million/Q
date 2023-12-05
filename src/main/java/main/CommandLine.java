@@ -12,9 +12,7 @@ import qlang.core.lang.Util;
 import qlang.runtime.errors.Problem;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 import static main.Runfile.*;
 
@@ -28,6 +26,63 @@ public class CommandLine {
      */
     public CommandLine() {
 
+    }
+
+    private String printoff(String cmd, String shorthand, String msg, String options, String required) {
+
+        return String.format("""
+                Usage: q %s | %s
+                
+                Options and Additional Flags:
+                    %s
+                    Options Required: %s
+                    
+                Purpose:
+                    %s
+                """, cmd, shorthand, options, required, msg);
+    }
+
+    public String minfo(String cmd) {
+        if (matches(cmd, "--env", "-e")) {
+            System.out.println(printoff("--env", "-e", "Create a virtual environment to execute short Q snippets in the terminal.", "None", "No"));
+        } else if (matches(cmd, "--projectinfo", "-pi")) {
+            System.out.println(printoff("--projectinfo", "-pi", "Print information about a Q generated project. Reads from the q.yaml file.", "<folder-name> : The name of the folder to get information about.", "All"));
+        } else if (matches(cmd, "--releasenotesdetailed", "-rnd")) {
+            System.out.println(printoff("--releasenotesdetailed", "-rnd", "Print detailed release notes about the current Q version (" + Environment.global.shver + ")", "None", "No"));
+        } else if (matches(cmd, "--releasenotes", "-rn")) {
+            System.out.println(printoff("--releasenotes", "-rn", "Get quick palletable notes about the current Q release version (" + Environment.global.shver + ")", "None", "No"));
+        } else if (matches(cmd, "--run", "-r")) {
+            System.out.println(printoff("--run", "-r", "Q's built in run command to run either Q projects, or loose Q files.", "<file-name> | <folder-name> : The File/Folder to attempt to interpret and run.", "Either"));
+        } else if (matches(cmd, "--runblind", "-rb")) {
+            System.out.println(printoff("--runblind", "-rb", "Flag to run a loose Q file with no security, or optimization checks.\nDirectly parses the contents of the file given.", "<file-name> : The File to run", "All"));
+        } else if (matches(cmd, "--help", "-h")) {
+            System.out.println(printoff("--help", "-h", "Prints a collection of useful Q commands to a help menu.", "None", "No"));
+        } else if (matches(cmd, "--create", "-c")) {
+            System.out.println(printoff("--create",
+                    "-c",
+                    "Built in command to generate a new Q project.\nGenerates a sample file, a YAML settings file, and a file directory.\nAccepts several different arguments for additional flag (--type), including:\n\tConsole, AWT, single-file, Crate.",
+                    "<project-name>, (--sign) | (-s),\n\t(--type) <type> | (-t) <type>,\n\t(--mainfile) <path-to-mainfile> | (-mf) <path-to-mainfile>",
+                    "Some: <project-name>"));
+        } else if (matches(cmd, "--executable", "-ex")) {
+            System.out.println(printoff("--executable", "-ex", "Entirely non-functional. Do Not Use.", "<folder-name>", "All"));
+        } else if (matches(cmd, "--info", "-i")) {
+            System.out.println(printoff("--info", "-i", "This flag returns several key and important details regarding Q's current installation.", "None", "No"));
+        } else if (matches(cmd, "--killall", "-ka")) {
+            System.out.println(printoff("--killall", "-ka", "End all running Q processes.", "None", "No"));
+        } else if (matches(cmd, "--terminal", "-t")) {
+            System.out.println(printoff("--terminal", "-t", "Currently non-functional. Very similar to the `--env` flag.", "None", "No"));
+        } else if (matches(cmd, "--version", "-v")) {
+            System.out.println(printoff("--version", "-v", "Returns the current Q version. Useful to check installation status.", "None", "No"));
+        } else if (matches(cmd, "--interact", "-in")) {
+            System.out.println(printoff("--interact", "-in", "Create a new Q interactive shell, useful for Java-side debugging.", "None", "No"));
+        } else if (matches(cmd, "--update", "-u")) {
+            System.out.println(printoff("--update", "-u", "Currently non-functional, but in theory will run Q's update script.", "None", "No"));
+        } else if (matches(cmd, "--moreinfo", "-mi")) {
+            System.out.println(printoff("--moreinfo", "-mi", "Print detailed information about each of Q's flags.", "--<flag> | -<shorthand>", "Either"));
+        } else {
+            System.out.println("'" + cmd + "' is unknown by Q's interpreting system, are you sure q is the right command for that flag?");
+        }
+        return "";
     }
 
     /**
@@ -76,17 +131,17 @@ public class CommandLine {
                 --FlagName (-shorthand) <Options> | Description of flag.
                                                             
                 Flags:
-                --env (-e) | Print the environment
-                --create (-c) (--sign, -s) (--type <type> (-t)) | Creates a new Q project
-                --runblind (-rb) <file> | Run the file given with no security checks
-                --run <file> (-r) | Run a file. Same as `q <file>.q`
+                --env (-e) | Create a virtual environment to run short Q snippets directly in the terminal.
+                --create (-c) (--sign, -s) (--type <type> (-t)) | Creates a new Q project.
+                --runblind (-rb) <file> | Run the file given with no security checks.
+                --run <file> (-r) | Run a file. Same as `q <file>.q`.
                 --projectinfo (-pi) <project> | Print information from a project Qyaml file.
                 --info (-i) | Returns Q version, host, build, dir, and more.
                 --killall (-ka) | Kills Q processes.
                 --terminal (-t) | Allows you to enter your code in the terminal directly, rather than a file.
                 --help (-h) | Returns this menu.
                 --version (-v) | Get the Q version. Good for checking installation status.
-                --interact (-in) | interact with the Q CLI
+                --interact (-in) | interact with the Q CLI.
                 --releasenotes (-rn) | Returns the release notes for the current Q version.
                 --releasenotesdetailed (-rnd) | Returns the detailed version of the current Q versions release notes
                                                  
@@ -217,6 +272,10 @@ public class CommandLine {
             } else if (matches(zero, "--help", "-h")) {
                 System.out.println(this.helpMenu());
                 System.exit(0);
+            }  else if (matches(zero, "--moreinfo", "-mi")) {
+                for (int i = 1; i < args.length; i++) {
+                    minfo(args[i]);
+                }
             } else if (matches(zero, "--create", "-c")) {
                 if (args.length == 1) {
                     Log.log(Log.Severity.FATAL, "`q --create <projectName>` requires field <projectName>");
@@ -390,23 +449,18 @@ public class CommandLine {
                     throw new Problem(e.getMessage());
                 }
 
-            } else if (matches(zero, "--input", "-i")) {
-                try {
-                    System.out.printf("""
-                            Version: %s
-                            Build: %s
-                            Host: %s
-                            QJar Directory: %s
-                            Running: %s
-                            Size: %s
-                            %n""", Environment.global.qversion, Environment.global, System.getProperty("user.dir"), System.getProperty("user.home") + "/.q/", false, (java.nio.file.Files.size(new File(System.getProperty("user.home") + "/.q/" + "Q.jar").toPath()) / 1000000) + "mb");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+            } else if (matches(zero, "--info", "-i")) {
+                System.out.printf("""
+                        Version: %s
+                        Build: %s
+                        Host: %s
+                        QJar Directory: %s
+                        Running: %s
+                        Size: %s
+                        %n""", Environment.global.qversion, Environment.global, System.getProperty("user.dir"), System.getProperty("user.home") + "/.q/", false, "191" + "mb");
                 System.exit(0);
             } else if (matches(zero, "--killall", "-ka")) {
-                System.out.println("System permission: denied. Run `killall -9 java` to kill all processes.");
-                System.exit(0);
+                System.exit(-1);
             } else if (matches(zero, "--terminal", "-t")) {
                 StringBuilder total = getStringBuilder();
                 Parser par = new Parser().fromText(total.toString());
