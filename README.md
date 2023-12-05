@@ -11,8 +11,8 @@ on your local machine of the same name, or, probably the easiest, use the follow
 curl -sSL "https://raw.githubusercontent.com/QRX53/Q/main/dwn/install-*nix" | sudo bash
 ```
 
-This command will download the installation script, and execute it. Please note, it **must** be run as root, if you do
-not want to run this command without knowing what the script does, download the file manually. If all goes well, you
+This command will download the installation script, and execute it. Please note, if you do
+not want to run this command without knowing what the script does, download the script manually. If all goes well, you
 should see the following: `[INFO] Q software installed successfully.` This means your installation went well, and you
 are ready to move on.
 
