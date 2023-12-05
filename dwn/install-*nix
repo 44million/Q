@@ -29,7 +29,7 @@ function print_progress() {
 # Step 1: Download the latest release file
 print_progress
 echo
-print_green "Downloading the latest release file..."
+echo "Downloading the latest release file..."
 if curl -# -L -o Q.jar "http://github.com/qRX53/Q/releases/latest/download/Q.jar"; then
     print_green "Download complete."
 else
@@ -39,7 +39,7 @@ fi
 
 # Step 2: Create the 'q' script
 echo
-print_green "Creating the 'q' script..."
+echo "Creating the 'q' script..."
 if echo "#! /usr/bin/env java -jar" > q && cat Q.jar >> q && chmod +x q; then
     print_green "'q' script created."
 else
@@ -49,9 +49,9 @@ fi
 
 # Step 3: Move the 'q' script to /usr/local/bin
 echo
-print_green "Moving the 'q' script to /usr/local/bin..."
+echo "Moving the 'q' script to /usr/local/bin..."
 if sudo mv q /usr/local/bin/; then
-    print_green "'q' script moved to /usr/local/bin."
+    print_green "'q' executable moved to /usr/local/bin."
 else
     print_red "Error moving the 'q' script. Exiting."
     exit 1
@@ -59,7 +59,7 @@ fi
 
 # Step 4: Update PATH
 echo
-print_green "Updating PATH..."
+"Updating PATH..."
 if echo 'export PATH="/usr/local/bin/q:$PATH"' >> ~/.bashrc && source ~/.bashrc; then
     print_green "PATH updated."
 else
@@ -73,7 +73,7 @@ print_green "Installation complete!"
 
 # Clean up: Remove the downloaded jar file
 echo
-print_green "Cleaning up..."
+"Cleaning up..."
 if rm Q.jar; then
     print_green "Clean up complete."
 else
