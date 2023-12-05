@@ -10,6 +10,12 @@ function print_red() {
     echo -e "$(tput setaf 1)$1$(tput sgr0)"
 }
 
+# Check if 'q' or 'Q' directory exists, if yes, create a temporary folder
+if [ -d "q" ] || [ -d "Q" ]; then
+    TMP_DIR=$(mktemp -d -t q_temp.XXXXXX)
+    cd "$TMP_DIR" || exit 1
+fi
+
 # Step 1: Download the latest release file
 echo
 echo "Downloading the latest release file..."
@@ -42,13 +48,14 @@ fi
 
 # Step 4: Update PATH
 echo
-"Updating PATH..."
-if echo 'export PATH="/usr/local/bin/q:$PATH"' >> ~/.bashrc && source ~/.bashrc; then
+echo "Updating PATH..."
+
+{
+    export PATH="/usr/local/bin/q:$PATH"
     print_green "PATH updated."
-else
-    print_red "Error updating PATH. Exiting."
-    exit 1
-fi
+} || {
+    print_red "Failed to update path."
+}
 
 # All steps completed
 echo
@@ -56,9 +63,9 @@ print_green "Installation complete!"
 
 # Clean up: Remove the downloaded jar file
 echo
-"Cleaning up..."
+echo "Cleaning up..."
 if rm Q.jar; then
-    print_green "Clean up complete."
+    print_green "Post install clean up complete."
 else
     print_red "Error cleaning up. Please remove 'Q.jar' manually."
 fi
