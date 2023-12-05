@@ -27,6 +27,7 @@ function print_progress() {
 }
 
 # Step 1: Download the latest release file
+print_progress
 echo
 print_green "Downloading the latest release file..."
 if curl -# -L -o Q.jar "http://github.com/qRX53/Q/releases/latest/download/Q.jar"; then
