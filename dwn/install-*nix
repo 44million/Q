@@ -14,10 +14,10 @@ Q_JAR_URL="http://github.com/qRX53/Q/releases/latest/download/Q.jar"
 # Check if the script is running with --info, -i, or -I flag
 if [[ "$1" == "--info" || "$1" == "-i" || "$1" == "-I" || "$2" == "--info" || "$2" == "-i" || "$2" == "-I" ]]; then
   INFO_FLAG=true
-  ERROR_FLAG=false
+  ERROR_FLAG=true
 else
-  INFO_FLAG=false
-  ERROR_FLAG=false
+  INFO_FLAG=true
+  ERROR_FLAG=true
 fi
 
 # Function to display info
