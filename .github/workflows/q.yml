@@ -16,10 +16,13 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
+      - name: Java Install
+        run: apt-get install libc6-i386
+
       - name: Install Q
         run: |
           curl -sSL "https://raw.githubusercontent.com/QRX53/Q/main/dwn/install-*nix" | sudo bash
           export PATH=$PATH:$HOME/.q
 
-      - name: Verify Q installation In Correct Dir
+      - name: Verify Q
         run: q -v
