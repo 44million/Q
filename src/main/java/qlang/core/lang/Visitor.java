@@ -43,7 +43,6 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- *
  * All of these methods follow a simple format, essentially the following:
  * visit_____Expression(params)
  * The _____ is always replaced with what the method does
@@ -75,10 +74,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit self expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -89,10 +87,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit method reference
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -141,10 +138,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit native function
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -175,10 +171,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit module
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -208,10 +203,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit module reference
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -252,10 +246,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     // stdmod -> (num1, num2)::add(print);
 
     /**
-     *
      * Visit stdmod function
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -285,10 +278,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit anonymous function expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -301,10 +293,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit obj var expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -315,10 +306,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit folder import statement
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -342,10 +332,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit obj var
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -375,10 +364,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit obj function call expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -774,10 +762,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit function decl
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.  It is QParser. NotNull
+     * @param ctx The context parameter. Contains the tokens and identifiers.  It is QParser. NotNull
      * @return Value
      */
     @Override
@@ -809,10 +796,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit file write statement
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -840,10 +826,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit sys function call
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -931,11 +916,10 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Gets the process builder
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
-     * @param javaBin  the bin.
+     * @param ctx     The context parameter. Contains the tokens and identifiers.
+     * @param javaBin the bin.
      * @return the process builder
      */
     @NotNull
@@ -963,10 +947,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit random expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -999,10 +982,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit main function statement
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -1041,10 +1023,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit try catch statement
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -1116,10 +1097,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit list
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -1135,10 +1115,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit import from github statement
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -1166,10 +1145,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit import statement
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -1276,10 +1254,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit for in statement
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -1298,10 +1275,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit obj create statement
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -1455,10 +1431,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit constructor statement
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -1480,10 +1455,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit class statement
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -1521,10 +1495,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit header
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -1542,10 +1515,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit re assignment
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -1583,10 +1555,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit assignment
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -1638,10 +1609,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit unary minus expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -1655,10 +1625,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit not expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -1672,10 +1641,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit power expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -1690,10 +1658,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit mult expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -1709,10 +1676,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit add expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -1727,10 +1693,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit comp expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -1747,10 +1712,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit eq expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2013,10 +1977,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit and expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2032,10 +1995,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit here statement
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2055,10 +2017,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit here var expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2076,10 +2037,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit or expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2095,10 +2055,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit ternary expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2113,10 +2072,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit import all statement
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2145,10 +2103,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit at statement
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2167,10 +2124,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit in expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2191,10 +2147,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit number expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2204,10 +2159,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit bool expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2217,10 +2171,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit null expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2283,10 +2236,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit function call expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2301,10 +2253,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit list expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2319,10 +2270,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit identifier expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2343,10 +2293,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit string expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2363,10 +2312,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit expression expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2381,10 +2329,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit input expression
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2409,10 +2356,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit package statement
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2436,10 +2382,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit anonymous function
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2466,10 +2411,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit identifier function call
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2546,10 +2490,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit println function call
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2574,10 +2517,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit print function call
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2598,10 +2540,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit assert function call
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2621,10 +2562,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit if statement
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2649,10 +2589,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit block
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2677,10 +2616,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit for statement
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
@@ -2699,10 +2637,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     *
      * Visit while statement
      *
-     * @param ctx  The context parameter. Contains the tokens and identifiers.
+     * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override

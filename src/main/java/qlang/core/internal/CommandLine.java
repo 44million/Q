@@ -52,10 +52,10 @@ public class CommandLine {
         return total;
     }
 
-    private String printoff(String cmd, String shorthand, String msg, String options, String required) {
+    private String prettyPrintflagInfo(String cmd, String shorthand, String msg, String options, String required) {
 
         return String.format("""
-                Usage: q %s | %s
+                Usage: `q %s` | `q %s`
                                 
                 Options and Additional Flags:
                     %s
@@ -66,45 +66,52 @@ public class CommandLine {
                 """, cmd, shorthand, options, required, msg);
     }
 
-    public void minfo(String cmd) {
+    /**
+     * Takes in a string as an argument, and matches the string against every Q flag in the program right now.
+     * If it matches one, it'll get more information about the flag, and how to use it.
+     *
+     * @param cmd The flag to get more information about
+     */
+    public void moreInfo(String cmd) {
         if (matches(cmd, "--env", "-e")) {
-            System.out.println(printoff("--env", "-e", "Create a virtual environment to execute short Q snippets in the terminal.", "None", "No"));
+            System.out.println(prettyPrintflagInfo("--env", "-e", "Create a virtual environment to execute short Q snippets in the terminal.", "None", "No"));
         } else if (matches(cmd, "--projectinfo", "-pi")) {
-            System.out.println(printoff("--projectinfo", "-pi", "Print information about a Q generated project. Reads from the q.yaml file.", "<folder-name> : The name of the folder to get information about.", "All"));
+            System.out.println(prettyPrintflagInfo("--projectinfo", "-pi", "Print information about a Q generated project. Reads from the q.yaml file.", "<folder-name> : The name of the folder to get information about.", "All"));
         } else if (matches(cmd, "--releasenotesdetailed", "-rnd")) {
-            System.out.println(printoff("--releasenotesdetailed", "-rnd", "Print detailed release notes about the current Q version (" + Environment.global.shver + ")", "None", "No"));
+            System.out.println(prettyPrintflagInfo("--releasenotesdetailed", "-rnd", "Print detailed release notes about the current Q version (" + Environment.global.shver + ")", "None", "No"));
         } else if (matches(cmd, "--releasenotes", "-rn")) {
-            System.out.println(printoff("--releasenotes", "-rn", "Get quick palletable notes about the current Q release version (" + Environment.global.shver + ")", "None", "No"));
+            System.out.println(prettyPrintflagInfo("--releasenotes", "-rn", "Get quick palletable notes about the current Q release version (" + Environment.global.shver + ")", "None", "No"));
         } else if (matches(cmd, "--run", "-r")) {
-            System.out.println(printoff("--run", "-r", "Q's built in run command to run either Q projects, or loose Q files.", "<file-name> | <folder-name> : The File/Folder to attempt to interpret and run.", "Either"));
+            System.out.println(prettyPrintflagInfo("--run", "-r", "Q's built in run command to run either Q projects, or loose Q files.", "<file-name> | <folder-name> : The File/Folder to attempt to interpret and run.", "Either"));
         } else if (matches(cmd, "--runblind", "-rb")) {
-            System.out.println(printoff("--runblind", "-rb", "Flag to run a loose Q file with no security, or optimization checks.\nDirectly parses the contents of the file given.", "<file-name> : The File to run", "All"));
+            System.out.println(prettyPrintflagInfo("--runblind", "-rb", "Flag to run a loose Q file with no security, or optimization checks.\nDirectly parses the contents of the file given.", "<file-name> : The File to run", "All"));
         } else if (matches(cmd, "--help", "-h")) {
-            System.out.println(printoff("--help", "-h", "Prints a collection of useful Q commands to a help menu.", "None", "No"));
+            System.out.println(prettyPrintflagInfo("--help", "-h", "Prints a collection of useful Q commands to a help menu.", "None", "No"));
         } else if (matches(cmd, "--create", "-c")) {
-            System.out.println(printoff("--create",
+            System.out.println(prettyPrintflagInfo("--create",
                     "-c",
                     "Built in command to generate a new Q project.\nGenerates a sample file, a YAML settings file, and a file directory.\nAccepts several different arguments for additional flag (--type), including:\n\tConsole, AWT, single-file, Crate.",
                     "<project-name>, (--sign) | (-s),\n\t(--type) <type> | (-t) <type>,\n\t(--mainfile) <path-to-mainfile> | (-mf) <path-to-mainfile>",
                     "Some: <project-name>"));
         } else if (matches(cmd, "--executable", "-ex")) {
-            System.out.println(printoff("--executable", "-ex", "Entirely non-functional. Do Not Use.", "<folder-name>", "All"));
+            System.out.println(prettyPrintflagInfo("--executable", "-ex", "Entirely non-functional. Do Not Use.", "<folder-name>", "All"));
         } else if (matches(cmd, "--info", "-i")) {
-            System.out.println(printoff("--info", "-i", "This flag returns several key and important details regarding Q's current installation.", "None", "No"));
+            System.out.println(prettyPrintflagInfo("--info", "-i", "This flag returns several key and important details regarding Q's current installation.", "None", "No"));
         } else if (matches(cmd, "--killall", "-ka")) {
-            System.out.println(printoff("--killall", "-ka", "End all running Q processes.", "None", "No"));
+            System.out.println(prettyPrintflagInfo("--killall", "-ka", "End all running Q processes.", "None", "No"));
         } else if (matches(cmd, "--terminal", "-t")) {
-            System.out.println(printoff("--terminal", "-t", "Currently non-functional. Very similar to the `--env` flag.", "None", "No"));
+            System.out.println(prettyPrintflagInfo("--terminal", "-t", "Currently non-functional. Very similar to the `--env` flag.", "None", "No"));
         } else if (matches(cmd, "--version", "-v")) {
-            System.out.println(printoff("--version", "-v", "Returns the current Q version. Useful to check installation status.", "None", "No"));
+            System.out.println(prettyPrintflagInfo("--version", "-v", "Returns the current Q version. Useful to check installation status.", "None", "No"));
         } else if (matches(cmd, "--interact", "-in")) {
-            System.out.println(printoff("--interact", "-in", "Create a new Q interactive shell, useful for Java-side debugging.", "None", "No"));
+            System.out.println(prettyPrintflagInfo("--interact", "-in", "Create a new Q interactive shell, useful for Java-side debugging.", "None", "No"));
         } else if (matches(cmd, "--update", "-u")) {
-            System.out.println(printoff("--update", "-u", "Currently non-functional, but in theory will run Q's update script.", "None", "No"));
+            System.out.println(prettyPrintflagInfo("--update", "-u", "Currently non-functional, but in theory will run Q's update script.", "None", "No"));
         } else if (matches(cmd, "--moreinfo", "-mi")) {
-            System.out.println(printoff("--moreinfo", "-mi", "Print detailed information about each of Q's flags.", "--<flag> | -<shorthand>", "Either"));
+            System.out.println(prettyPrintflagInfo("--moreinfo", "-mi", "Print detailed information about each of Q's flags.", "--<flag> | -<shorthand>", "Either"));
         } else {
             System.out.println("'" + cmd + "' is unknown by Q's interpreting system, are you sure q is the right command for that flag?");
+            System.exit(-1);
         }
     }
 
@@ -182,7 +189,8 @@ public class CommandLine {
             } else if (matches(zero, "--env", "-e")) {
                 StringBuilder b = new StringBuilder();
                 Scanner scanner = new Scanner(System.in);
-                while (!Objects.equals(scanner.next(), "--q")) {
+                Log.log(Log.Severity.TIP, "Welcome to Q's built in terminal code editor. Enter your code, or use `--quit`, or `-q` to quit.");
+                while (!Objects.equals(scanner.next(), "--quit") && !Objects.equals(scanner.next(), "-q")) {
                     System.out.println(">> ");
                     b.append(scanner.nextLine()).append("\n");
                 }
@@ -277,7 +285,7 @@ public class CommandLine {
                 }
 
                 for (int i = 1; i < args.length; i++) {
-                    minfo(args[i]);
+                    moreInfo(args[i]);
                 }
             } else if (matches(zero, "--create", "-c")) {
                 if (args.length == 1) {
