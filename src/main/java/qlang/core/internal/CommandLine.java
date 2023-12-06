@@ -569,7 +569,7 @@ public class CommandLine {
                                     } else if (next.equals("-q") || next.equals("--q")) {
                                         System.out.println(
                                                 "\nQ Version: " + Environment.global.qversion
-                                                        + "\nQ System Location: " + System.getProperty("user.home") + "/.q/"
+                                                        + "\nQ System Location: " + Environment.global.installLocation
                                                         + "\nQ Shell version: " + Environment.global.shver
                                                         + "\nInstallation status: perfect :)\n");
                                     } else {
@@ -577,9 +577,9 @@ public class CommandLine {
                                                 "ANTLR Version: 4.10.1\nQ build version: "
                                                         + Runfile.class.hashCode()
                                                         + "\nQ Version: " + Environment.global.qversion
-                                                        + "\nQ System Location: " + System.getProperty("user.home") + "/.q/"
+                                                        + "\nQ System Location: " + Environment.global.installLocation
                                                         + "\nQ Shell version: " + Environment.global.shver
-                                                        + "\nInstallation status: perfect :)\n"
+                                                        + "\nInstallation status: Perfect :)\n"
                                                         + "Java version: " + System.getProperty("java.version")
                                                         + "\nJRuntime: " + System.getProperty("java.runtime.version") + "\n");
                                     }
@@ -657,9 +657,10 @@ public class CommandLine {
                                         System.out.println(Chalk.on("'filetree' Usage:\nfiletree [-p, --print] [-m <file>, --makefile <file>]").bgRed());
                                     }
                                 }
-                                case "sysloc" -> System.out.println(System.getProperty("user.home") + "/.q/");
+                                case "sysloc" -> System.out.println(Environment.global.installLocation);
                                 case "github" -> {
                                     if (next.equals("-p") || next.equals("--public")) {
+                                        Log.log(Log.Severity.WARNING, "This repository is very outdated, and unlikely to be updated.\nQ is currently open source, so this repository is unneeded.");
                                         System.out.println("https://github.com/QRX53/Q-public");
                                     } else {
                                         System.out.println("https://github.com/QRX53/Q");

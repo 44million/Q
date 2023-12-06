@@ -39,6 +39,7 @@ public class Environment {
             + this.shver + "\n\nRelease Notes: Q version (" + this.qversion + ") fixes several issues with Q project creation, as well as adding more options to the Q help menu.";
     public String releaseNotesDetailed = this.releaseNotes + "\n\nDetailed Release Notes: Q version (" + this.qversion + ") added `-rn` and `-rnd` to the Q CLI. Changed Shell Build, and QCLI versions in the Env file; as well as updating the basic `q` command to be more helpful to new users.";
     public Parser parser = new Parser();
+    public String installLocation = "/usr/local/bin";
 
     // Lists<>
     public List<File> parsed = new ArrayList<>();
