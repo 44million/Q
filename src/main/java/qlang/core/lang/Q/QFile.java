@@ -2,8 +2,8 @@ package qlang.core.lang.Q;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.jetbrains.annotations.NotNull;
-import qlang.core.internal.Environment;
 import qlang.core.internal.Parser;
+import qlang.core.lang.Environment;
 import qlang.core.lang.Visitor;
 
 import java.io.File;
@@ -48,6 +48,45 @@ public class QFile {
         this.env = env;
         this.fileName = fileName;
         this.p = p;
+    }
+
+    /**
+     * This method will construct an error string based on what error Q is throwing.
+     *
+     * @param e The exception to get the message from
+     * @return Return the String of the error message
+     */
+    @NotNull
+    private static String getString(Exception e) {
+        Exception exception = e;
+        if (exception.getMessage() == null) {
+            exception = new Exception("An unknown error occurred, here is the java source problems: " + Arrays.toString(e.getStackTrace()));
+        }
+
+        String err = "\n\n[FATAL] " + exception.getMessage();
+
+        if (exception.getMessage().contains("/src/main/QFiles/Main.q")) {
+            err = "";
+        }
+
+        if (exception.getMessage().endsWith(".q") || (exception.getMessage().endsWith(".u")) || exception instanceof FileNotFoundException) {
+            err += " (File not found)";
+        }
+
+        if (exception.getMessage().contains("Cannot read field \"sore\"")) {
+            err += " (Check to see that all libraries in use have been imported)";
+        }
+
+        if (exception instanceof IndexOutOfBoundsException) {
+            err += " (An array starts at index zero)";
+        }
+
+        if (exception.getMessage().contains("Could not read file")) {
+            err = err.replaceFirst("\n", "");
+            err = err.replaceFirst("\n", "");
+            err += "\n{\n\tDoes it exist, and do you have access to it?\n}";
+        }
+        return err;
     }
 
     /**
@@ -135,38 +174,5 @@ public class QFile {
             }
         }
         return this;
-    }
-
-    @NotNull
-    private static String getString(Exception e) {
-        Exception exception = e;
-        if (exception.getMessage() == null) {
-            exception = new Exception("An unknown error occurred, here is the java source problems: " + Arrays.toString(e.getStackTrace()));
-        }
-
-        String err = "\n\n[FATAL] " + exception.getMessage();
-
-        if (exception.getMessage().contains("/src/main/QFiles/Main.q")) {
-            err = "";
-        }
-
-        if (exception.getMessage().endsWith(".q") || (exception.getMessage().endsWith(".u")) || exception instanceof FileNotFoundException) {
-            err += " (File not found)";
-        }
-
-        if (exception.getMessage().contains("Cannot read field \"sore\"")) {
-            err += " (Check to see that all libraries in use have been imported)";
-        }
-
-        if (exception instanceof IndexOutOfBoundsException) {
-            err += " (An array starts at index zero)";
-        }
-
-        if (exception.getMessage().contains("Could not read file")) {
-            err = err.replaceFirst("\n", "");
-            err = err.replaceFirst("\n", "");
-            err += "\n{\n\tDoes it exist, and do you have access to it?\n}";
-        }
-        return err;
     }
 }

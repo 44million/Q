@@ -3,9 +3,9 @@ package qlang.core.internal;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.jetbrains.annotations.NotNull;
-import qlang.core.interp.QLexer;
-import qlang.core.interp.QParser;
-import qlang.core.lang.Util;
+import qlang.core.interpreter.QLexer;
+import qlang.core.interpreter.QParser;
+import qlang.core.lang.Environment;
 import qlang.core.lang.Visitor;
 
 import java.io.File;
@@ -135,7 +135,7 @@ public class Parser {
             this.str = s;
         }
 
-        Util.resolveImport("System");
+        Utilities.resolveImport("System");
 
         if (this.file != null) {
             lexer = new QLexer(CharStreams.fromFileName(this.file.getName()));
@@ -269,7 +269,7 @@ public class Parser {
         @throws IOException If an I/O error occurs.
      */
     public void parse() throws IOException {
-        Util.resolveImport("System");
+        Utilities.resolveImport("System");
 
         if (this.file != null) {
 

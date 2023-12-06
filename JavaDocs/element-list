@@ -1,9 +1,11 @@
 main
 qlang.core.internal
-qlang.core.interp
+qlang.core.internal.oneOff
+qlang.core.interpreter
 qlang.core.lang
 qlang.core.lang.Q
 qlang.runtime.errors
-qlang.runtime.libs
-qlang.runtime.libs.AWT
-qlang.runtime.libs.util
+qlang.runtime.STDLibs.AWT
+qlang.runtime.STDLibs.etc
+qlang.runtime.STDLibs.io
+qlang.runtime.STDLibs.util

@@ -10,22 +10,25 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import qlang.core.internal.*;
-import qlang.core.interp.QBaseVisitor;
-import qlang.core.interp.QLexer;
-import qlang.core.interp.QParser;
+import qlang.core.internal.Parser;
+import qlang.core.internal.Scope;
+import qlang.core.internal.Utilities;
+import qlang.core.interpreter.QBaseVisitor;
+import qlang.core.interpreter.QLexer;
+import qlang.core.interpreter.QParser;
 import qlang.core.lang.Q.QClass;
 import qlang.core.lang.Q.QModule;
+import qlang.core.lang.Q.QYaml;
 import qlang.core.lang.Q.Value;
+import qlang.runtime.STDLibs.AWT.QWinKit;
+import qlang.runtime.STDLibs.io.QFiles;
+import qlang.runtime.STDLibs.io.QIO;
+import qlang.runtime.STDLibs.io.QOS;
+import qlang.runtime.STDLibs.io.QWebServer;
+import qlang.runtime.STDLibs.util.QHTTPx;
 import qlang.runtime.errors.Problem;
 import qlang.runtime.errors.RVal;
 import qlang.runtime.errors.Tip;
-import qlang.runtime.libs.AWT.QWinKit;
-import qlang.runtime.libs.QFiles;
-import qlang.runtime.libs.QIO;
-import qlang.runtime.libs.QOS;
-import qlang.runtime.libs.QWebServer;
-import qlang.runtime.libs.util.QHTTPx;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,7 +58,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     public boolean lib;
     public String curClass = "Unnamed";
     public Visitor parent;
-    public String packageName = Util.string();
+    public String packageName = Utilities.string();
 
     public Visitor(Scope scope, Map<String, Function> functions) {
         this.scope = scope;
@@ -125,7 +128,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
         for (var x : ctx.String()) {
             jcode += "\n" + x.toString();
             jcode = jcode.replaceFirst("\"", "");
-            jcode = Util.replaceLast(jcode, "\"", "");
+            jcode = Utilities.replaceLast(jcode, "\"", "");
         }
 
         if (Environment.global.getObj(ctx.Identifier(0).toString())) {
@@ -251,7 +254,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         File folder = new File(path);
 
-        Util.lpFolder(folder);
+        Utilities.lpFolder(folder);
 
         return Value.VOID;
 
@@ -313,7 +316,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
             String p = Objects.requireNonNullElse(this.parent, this).packageName;
 
-            Util.check(Environment.global.natives.get(method).parent(), parentClass, ctx, Util.getOrDefault(false, this), this.curClass, p);
+            Utilities.check(Environment.global.natives.get(method).parent(), parentClass, ctx, Utilities.getOrDefault(false, this), this.curClass, p);
 
             List<Value> l = new ArrayList<>();
 
@@ -346,7 +349,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         } else if (parentClass.equals("Files")) {
 
-            Util.check("Files", "Files", ctx, Util.getOrDefault(false, this), this.curClass, this.packageName);
+            Utilities.check("Files", "Files", ctx, Utilities.getOrDefault(false, this), this.curClass, this.packageName);
 
             switch (method) {
                 case "delete":
@@ -373,7 +376,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         } else if (parentClass.equals("http")) {
 
-            Util.check("http", "http", ctx, Util.getOrDefault(false, this), this.curClass, this.packageName);
+            Utilities.check("http", "http", ctx, Utilities.getOrDefault(false, this), this.curClass, this.packageName);
 
             switch (method) {
                 case "get" -> QHTTPx.get(ctx);
@@ -385,19 +388,19 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 case "trace" -> QHTTPx.trace(ctx);
             }
 
-        } else if (Util.getWinByName(parentClass) != null) {
+        } else if (Utilities.getWinByName(parentClass) != null) {
 
             try {
 
                 switch (method) {
                     case "render":
 
-                        if (Util.getWinByName(parentClass) == null) {
+                        if (Utilities.getWinByName(parentClass) == null) {
                             return Value.VOID;
                         } else {
-                            assert Util.getWinByName(parentClass) != null;
-                            if (Util.getWinByName(parentClass) != null) {
-                                Objects.requireNonNull(Util.getWinByName(parentClass)).init();
+                            assert Utilities.getWinByName(parentClass) != null;
+                            if (Utilities.getWinByName(parentClass) != null) {
+                                Objects.requireNonNull(Utilities.getWinByName(parentClass)).init();
                             }
                         }
                         return Value.VOID;
@@ -414,8 +417,8 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                         String name = v.get(0).asString();
 
                         if (Environment.global.jTextAreaMap.containsKey(name)) {
-                            if (Util.getWinByName(parentClass) != null) {
-                                Objects.requireNonNull(Util.getWinByName(parentClass)).f.add(Environment.global.jTextAreaMap.get(name));
+                            if (Utilities.getWinByName(parentClass) != null) {
+                                Objects.requireNonNull(Utilities.getWinByName(parentClass)).f.add(Environment.global.jTextAreaMap.get(name));
                             }
                         }
 
@@ -433,14 +436,14 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
                         int comp = v.get(0).asDouble().intValue();
 
-                        assert Util.getWinByName(parentClass) != null;
-                        return new Value(Objects.requireNonNull(Util.getWinByName(parentClass)).f.getComponent(comp));
+                        assert Utilities.getWinByName(parentClass) != null;
+                        return new Value(Objects.requireNonNull(Utilities.getWinByName(parentClass)).f.getComponent(comp));
 
                     }
                     case "getComponentCount":
-                        return new Value(Objects.requireNonNull(Util.getWinByName(parentClass)).f.getComponentCount());
+                        return new Value(Objects.requireNonNull(Utilities.getWinByName(parentClass)).f.getComponentCount());
                     case "setTitle":
-                        Objects.requireNonNull(Util.getWinByName(parentClass)).f.setTitle(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
+                        Objects.requireNonNull(Utilities.getWinByName(parentClass)).f.setTitle(ctx.exprList().expression(0).getText().replaceAll("\"", ""));
                         break;
                     case "setLayout": {
 
@@ -456,9 +459,11 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
                         switch (layout) {
                             case "grid" ->
-                                    Objects.requireNonNull(Util.getWinByName(parentClass)).f.setLayout(new GridLayout(v.get(1).asDouble().intValue(), v.get(2).asDouble().intValue()));
-                            case "flow" -> Objects.requireNonNull(Util.getWinByName(parentClass)).f.setLayout(new FlowLayout());
-                            case "border" -> Objects.requireNonNull(Util.getWinByName(parentClass)).f.setLayout(new BorderLayout());
+                                    Objects.requireNonNull(Utilities.getWinByName(parentClass)).f.setLayout(new GridLayout(v.get(1).asDouble().intValue(), v.get(2).asDouble().intValue()));
+                            case "flow" ->
+                                    Objects.requireNonNull(Utilities.getWinByName(parentClass)).f.setLayout(new FlowLayout());
+                            case "border" ->
+                                    Objects.requireNonNull(Utilities.getWinByName(parentClass)).f.setLayout(new BorderLayout());
                         }
 
                         break;
@@ -470,13 +475,13 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
                         switch (operation) {
                             case "EXIT_ON_CLOSE" ->
-                                    Objects.requireNonNull(Util.getWinByName(parentClass)).f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                    Objects.requireNonNull(Utilities.getWinByName(parentClass)).f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                             case "DISPOSE_ON_CLOSE" ->
-                                    Objects.requireNonNull(Util.getWinByName(parentClass)).f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                    Objects.requireNonNull(Utilities.getWinByName(parentClass)).f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                             case "HIDE_ON_CLOSE" ->
-                                    Objects.requireNonNull(Util.getWinByName(parentClass)).f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                                    Objects.requireNonNull(Utilities.getWinByName(parentClass)).f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                             case "DO_NOTHING_ON_CLOSE" ->
-                                    Objects.requireNonNull(Util.getWinByName(parentClass)).f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                                    Objects.requireNonNull(Utilities.getWinByName(parentClass)).f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                             default -> throw new Problem("Invalid close operation", ctx, this.curClass);
                         }
 
@@ -484,7 +489,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
                     case "create":
                         try {
-                            Objects.requireNonNull(Util.getWinByName(parentClass)).create();
+                            Objects.requireNonNull(Utilities.getWinByName(parentClass)).create();
                         } catch (Exception e) {
                             throw new Problem(e);
                         }
@@ -499,8 +504,8 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                             }
                         }
 
-                        assert Util.getWinByName(parentClass) != null;
-                        Objects.requireNonNull(Util.getWinByName(parentClass)).f.setLocation(v.get(0).asDouble().intValue(), v.get(1).asDouble().intValue());
+                        assert Utilities.getWinByName(parentClass) != null;
+                        Objects.requireNonNull(Utilities.getWinByName(parentClass)).f.setLocation(v.get(0).asDouble().intValue(), v.get(1).asDouble().intValue());
 
                         break;
                     }
@@ -508,7 +513,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
                         try {
 
-                            if (Util.getWinByName(parentClass) == null) {
+                            if (Utilities.getWinByName(parentClass) == null) {
                                 return Value.VOID;
                             }
 
@@ -524,7 +529,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                                 throw new Problem("Window::addText() only accepts 1 (one) arguments.", ctx);
                             }
 
-                            JFrame x = Objects.requireNonNull(Util.getWinByName(parentClass)).f;
+                            JFrame x = Objects.requireNonNull(Utilities.getWinByName(parentClass)).f;
 
                             if (x == null) {
                                 throw new Problem("Could not find object '" + parentClass + "'", ctx);
@@ -543,10 +548,10 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 throw new Problem(e.getMessage(), ctx, this.curClass);
             }
 
-        } else if (Util.getWebByName(parentClass) != null) {
+        } else if (Utilities.getWebByName(parentClass) != null) {
 
-            if (method.equals("kill") && Util.getWebByName(parentClass) != null) {
-                Util.getWebByName(parentClass).stop();
+            if (method.equals("kill") && Utilities.getWebByName(parentClass) != null) {
+                Utilities.getWebByName(parentClass).stop();
             } else if (method.equals("changeText")) {
 
                 List<Value> l = new ArrayList<>();
@@ -557,8 +562,8 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                     }
                 }
 
-                if (Util.getWebByName(parentClass) != null) {
-                    Util.getWebByName(parentClass).setText(l.get(0).toString());
+                if (Utilities.getWebByName(parentClass) != null) {
+                    Utilities.getWebByName(parentClass).setText(l.get(0).toString());
                     return Value.VOID;
                 }
 
@@ -841,7 +846,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 return new Value(new Random().nextInt());
             }
             case "str" -> {
-                return new Value(Util.string());
+                return new Value(Utilities.string());
             }
             case "bool" -> {
                 int i = new Random().nextInt(2);
@@ -978,7 +983,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 replace("https://github.com/", "https://raw.githubusercontent.com/")
                 .replace("/blob", "");
 
-        String fileContents = Util.getTextFromLink(link);
+        String fileContents = Utilities.getTextFromLink(link);
 
         Parser parser = new Parser().fromText(fileContents);
         try {
@@ -1049,7 +1054,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                     throw new Problem(e);
                 }
             } else {
-                Util.register(text.toString(), false);
+                Utilities.register(text.toString(), false);
                 if (text.toString().replace(".q.", "").equals("Console")) {
                     new QIO().init();
                 }
@@ -1122,13 +1127,13 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 x = this.visit(ctx.exprList().expression(0));
             }
             try {
-                Util.check("http", "http", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.packageName);
+                Utilities.check("http", "http", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.packageName);
             } catch (Exception e) {
                 if (e instanceof NullPointerException) {
                     Scope sc = new Scope();
 
                     while (sc != null) {
-                        Util.check("http", "http", ctx, sc.sore, this.curClass, this.packageName);
+                        Utilities.check("http", "http", ctx, sc.sore, this.curClass, this.packageName);
                         sc = sc.parent();
                     }
 
@@ -1174,7 +1179,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
 
         } else if (ctx.Identifier(0).getText().equals("File")) {
 
-            Util.check("Files", "Files", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.packageName);
+            Utilities.check("Files", "Files", ctx, this.scope.parent().parent().parent().parent().sore, this.curClass, this.packageName);
             String id = ctx.Identifier(0).getText();
 
             if (ctx.exprList().expression() == null) {
@@ -1192,7 +1197,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             Environment.global.files.put(id, file);
         } else if (ctx.Identifier(0).getText().equals("Window")) {
 
-            Util.check("awt", "awt", ctx, this.curClass, this.packageName);
+            Utilities.check("awt", "awt", ctx, this.curClass, this.packageName);
 
             List<Value> list = new ArrayList<>();
             if (ctx.exprList() != null) {
@@ -1230,7 +1235,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
             }
         } else if (ctx.Identifier(0).getText().equals("QTextArea")) {
             // new QTextArea as qta("Hello, World!");
-            Util.check("awt", "awt", ctx, this.curClass, this.packageName);
+            Utilities.check("awt", "awt", ctx, this.curClass, this.packageName);
 
             List<Value> list = new ArrayList<>();
             if (ctx.exprList() != null) {
@@ -1707,7 +1712,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 default -> ".q." + g;
             };
 
-            Util.register(fin, false);
+            Utilities.register(fin, false);
         }
 
         return Value.VOID;
@@ -1853,7 +1858,7 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     @Override
     public Value visitInputExpression(QParser.InputExpressionContext ctx) {
 
-        Util.check("std", "std", ctx, Util.getOrDefault(false, this), this.curClass, this.packageName);
+        Utilities.check("std", "std", ctx, Utilities.getOrDefault(false, this), this.curClass, this.packageName);
 
         TerminalNode inputString = ctx.String();
         try {
@@ -1938,9 +1943,9 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
                 fw.write(jcode);
                 fw.close();
 
-                String afterClass = Util.replaceLast(createdFile.getName(), ".java", ".class");
+                String afterClass = Utilities.replaceLast(createdFile.getName(), ".java", ".class");
 
-                String s3 = Util.execCmd("java " + className);
+                String s3 = Utilities.execCmd("java " + className);
                 System.out.println(s3);
 
                 createdFile.delete();

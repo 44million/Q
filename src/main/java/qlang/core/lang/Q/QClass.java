@@ -1,10 +1,10 @@
 package qlang.core.lang.Q;
 
-import qlang.core.internal.Environment;
 import qlang.core.internal.Scope;
-import qlang.core.interp.QParser;
+import qlang.core.internal.Utilities;
+import qlang.core.interpreter.QParser;
+import qlang.core.lang.Environment;
 import qlang.core.lang.Function;
-import qlang.core.lang.Util;
 import qlang.core.lang.Visitor;
 
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ public class QClass implements Cloneable {
      * Default constructor for the base Object class.
      */
     public QClass() {
-        this.name = Util.string();
+        this.name = Utilities.string();
         this.functions = new HashMap<>();
         this.scope = Environment.global.scope;
         this.constArgs = new ArrayList<>();
