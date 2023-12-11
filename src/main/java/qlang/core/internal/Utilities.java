@@ -436,6 +436,91 @@ public class Utilities {
     }
 
     /**
+     * Writes content imported from GitHub to a local file in ~/.q/ so it can be reused without needing a wifi connection.
+     *
+     * @param content  The content to write to the file
+     * @param fileName The name to write it to.
+     * @throws IOException Throws an IOException in case it cannot write to the file.
+     */
+    public static void writeToFolder(String content, String fileName) throws IOException {
+        String folderPath = System.getProperty("user.home") + "/.q/gh-imports";
+        File folder = new File(folderPath);
+
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+
+        String filePath = folderPath + File.separator + fileName;
+
+        if (new File(filePath).exists()) {
+            // If there's already a file of the same name, then don't create a new one.
+            return;
+        }
+
+        try (FileWriter writer = new FileWriter(filePath)) {
+            writer.write(content);
+            Log.log(Log.Severity.TIP, "Wrote GitHub content to '" + filePath + "'.");
+        } catch (Exception e) {
+            Log.log(Log.Severity.ERROR, e.getMessage());
+        }
+    }
+
+    public static boolean writeToFolderExists(String fileName) {
+        String filePath = System.getProperty("user.home") + "/.q/gh-imports" + File.separator + fileName;
+
+        // If there's already a file of the same name, then return true
+        return new File(filePath).exists();
+    }
+
+    public static boolean getFromFolder(String fileName, String contents) {
+        String filePath = System.getProperty("user.home") + "/.q/gh-imports" + File.separator + fileName;
+
+        try {
+            String contents2 = Files.readString(new File(filePath).toPath());
+
+            if (contents.equals(contents2)) {
+                return true;
+            }
+        } catch (IOException e) {
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     * This method checks if a file at ~/.q/gh-imports exists.
+     * If it does, then it'll parse all the files within.
+     */
+    public static void parseFilesInFolder() {
+        String folderPath = System.getProperty("user.home") + "/.q/gh-imports";
+        File folder = new File(folderPath);
+
+        if (folder.exists() && folder.isDirectory()) {
+            File[] files = folder.listFiles();
+
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        try {
+                            String fileContents = new String(Files.readAllBytes(file.toPath()));
+                            Parser parser = new Parser().fromText(fileContents);
+                            try {
+                                parser.parse(false);
+                            } catch (Exception e) {
+                                // Handle parsing exception for the specific file
+                                e.printStackTrace();
+                            }
+                        } catch (IOException e) {
+                            // Handle IO exception
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * FileUtil class, only used for Q side operations for the most part.
      */
     public static class FileUtil {

@@ -27,14 +27,12 @@ class UnitTest {
             std::workspace("make", "UnitFolderTest");
             std::workspace("makefile", "UnitFolderTest/HelloWorld.untst");
 
-            std::coutln(std::getClass());
+            std::coutln("std::getclass results: " + std::getClass());
 
-            std::coutln(std::compilerFileTree());
+            std::coutln("std::fns results", std::fns());
 
-            std::coutln(std::fns());
-
-            std::coutln(std::libraries());
-            std::coutln(std::parsed());
+            std::coutln("std::libraries results", std::libraries());
+            std::coutln("std::parsed results", std::parsed());
 
             std::coutln(std::split("Hello, World", ","));
 
@@ -49,7 +47,7 @@ class UnitTest {
             std::coutln(Math::getQCode());
             std::coutln(Math::toInt("15"));
 
-            std::coutln(Files::countLines("UnitTest.l"));
+            std::coutln(Files::countLines("unittest/src/main.q"));
             Files::writeFile("UnitFolderTest/HelloWorld.untst", "Hello, World!", false);
             //std::coutln(Files::absPath("UnitTest.l"));
             std::coutln(Files::here());
@@ -58,20 +56,22 @@ class UnitTest {
             std::coutln(Files::size("UnitTest.l"));
             std::coutln(Files::exists("UnitTest.l"));
 
-            http::get("discord.com");
+            http::get("https://www.google.com");
             // Not going to test it here, but theres also
             /*
                 post, put, delete, head, options, trace
             */
 
-            //new Window as w();
-            //w::render();
+            new Window as w("Helloooo, World!", 600, 450);
+            w::render();
 
             new WebServer as web(8008);
-            web::fromFile("src/main/QFiles/index.html");
+            // This is functional, fills the webserver with a given html file
+            // web::fromFile("src/main/QFiles/index.html");
             web::changeText("<b>Hello, World</b>");
             web::update();
-            web::kill();
+            std::coutln("Go to localhost:8008 to see your new website!");
+            // web::kill();
 
             io::printf("Hello, %s", "World");
             io::err("Goodbye, World.");
@@ -116,5 +116,12 @@ class UnitTest {
 
     end
 
+    fn main(args):
+
+        std::coutln("Unit Test Commencing:");
+
+        runsystemtests("Hellooo", 4, 17);
+        runfunctiontests(5, 18, 408);
+    end
 
 }

@@ -10,6 +10,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
+import qlang.core.internal.Log;
 import qlang.core.internal.Parser;
 import qlang.core.internal.Scope;
 import qlang.core.internal.Utilities;
@@ -41,6 +42,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static qlang.core.internal.Utilities.*;
 
 /**
  * All of these methods follow a simple format, essentially the following:
@@ -1115,30 +1118,42 @@ public class Visitor extends QBaseVisitor<Value> implements Cloneable {
     }
 
     /**
-     * Visit import from github statement
+     * Visit import from GitHub statement
      *
      * @param ctx The context parameter. Contains the tokens and identifiers.
      * @return Value
      */
     @Override
     public Value visitImportFromGithubStatement(QParser.ImportFromGithubStatementContext ctx) {
-
-
-        Value o = this.visit(ctx.expression());
-
-        String link = o.asString();
-
-        link = link.
-                replace("https://github.com/", "https://raw.githubusercontent.com/")
-                .replace("/blob", "");
-
-        String fileContents = Utilities.getTextFromLink(link);
-
-        Parser parser = new Parser().fromText(fileContents);
         try {
-            parser.parse(false);
+            Value o = this.visit(ctx.expression());
+            String link = o.asString();
+
+            if (!link.startsWith("https://")) {
+                link = "https://" + link;
+            }
+
+            link = link.replace("https://github.com/", "https://raw.githubusercontent.com/").replace("/blob", "");
+
+            String fileContents = Utilities.getTextFromLink(link);
+
+            // Extract the file name from the link for writing to the folder
+            String fileName = link.substring(link.lastIndexOf('/') + 1);
+
+            if (writeToFolderExists(fileName) && getFromFolder(fileName, fileContents)) {
+                Log.log(Log.Severity.TIP, "File '" + fileName + "' was already cached. Using existing file.");
+            } else {
+                writeToFolder(fileContents, fileName);
+            }
+
+            Parser parser = new Parser().fromText(fileContents);
+            try {
+                parser.parse(false);
+            } catch (Exception e) {
+                throw new Problem(e.getMessage(), ctx, this.curClass, new Tip("GitHub takes some time to update the 'https://raw.githubusercontent.com/' domain, so allow up to an hour for the file to be updated and ready for lexing.\n"));
+            }
         } catch (Exception e) {
-            throw new Problem(e.getMessage(), ctx, this.curClass, new Tip("GitHub takes some time to update the 'https://raw.githubusercontent.com/' domain, so allow up to an hour for the file to be updated and ready for lexing.\n"));
+            throw new Problem(e);
         }
 
         return Value.VOID;
