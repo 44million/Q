@@ -83,9 +83,9 @@ the name, author, and version of the project. All of this information can be que
 Once your project is successfully created, and Q has been installed properly, you can create, and edit Q code. Run the
 project using `q hello-world`
 
-## Examples
+## Examples and Documentation
 
 Some examples can be found [here](https://github.com/QRX53/Q/tree/main/examples), these are very good showcases of Q's
-use cases and flexibility.
+use cases and flexibility. A full documentation of Q can be found [here](https://qrx53.github.io/Q/).
 
-## Use `q -h` to get information about Q's CLI system.
+## Use `q -h` for more information.
