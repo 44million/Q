@@ -11,22 +11,22 @@ import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import qlang.core.internal.Log;
-import qlang.core.internal.Parser;
 import qlang.core.internal.Scope;
-import qlang.core.internal.Utilities;
+import qlang.core.internal.Value;
 import qlang.core.interpreter.QBaseVisitor;
 import qlang.core.interpreter.QLexer;
 import qlang.core.interpreter.QParser;
 import qlang.core.lang.Q.QClass;
 import qlang.core.lang.Q.QModule;
 import qlang.core.lang.Q.QYaml;
-import qlang.core.lang.Q.Value;
 import qlang.runtime.STDLibs.AWT.QWinKit;
 import qlang.runtime.STDLibs.io.QFiles;
 import qlang.runtime.STDLibs.io.QIO;
 import qlang.runtime.STDLibs.io.QOS;
 import qlang.runtime.STDLibs.io.QWebServer;
 import qlang.runtime.STDLibs.util.QHTTPx;
+import qlang.runtime.core.Parser;
+import qlang.runtime.core.Utilities;
 import qlang.runtime.errors.Problem;
 import qlang.runtime.errors.RVal;
 import qlang.runtime.errors.Tip;
@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static qlang.core.internal.Utilities.*;
+import static qlang.runtime.core.Utilities.*;
 
 /**
  * All of these methods follow a simple format, essentially the following:

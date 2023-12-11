@@ -3,7 +3,7 @@ package qlang.core.lang;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import qlang.core.internal.Scope;
-import qlang.core.lang.Q.Value;
+import qlang.core.internal.Value;
 import qlang.runtime.errors.RVal;
 
 import java.io.*;

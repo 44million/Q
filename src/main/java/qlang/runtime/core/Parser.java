@@ -1,8 +1,9 @@
-package qlang.core.internal;
+package qlang.runtime.core;
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.jetbrains.annotations.NotNull;
+import qlang.core.internal.Scope;
 import qlang.core.interpreter.QLexer;
 import qlang.core.interpreter.QParser;
 import qlang.core.lang.Environment;

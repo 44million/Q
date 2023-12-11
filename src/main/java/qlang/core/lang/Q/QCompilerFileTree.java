@@ -1,4 +1,4 @@
-package qlang.core.internal.oneOff;
+package qlang.core.lang.Q;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -13,7 +13,7 @@ import java.util.Optional;
  * Built-in library to view the filetree of the compiler in Q itself.
  * Note: This code was not written by the author of these comments.
  */
-public class CompilerFileTree {
+public class QCompilerFileTree {
 
     /**
      * Formats a file size in a human-readable format.

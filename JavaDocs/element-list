@@ -1,9 +1,9 @@
 main
 qlang.core.internal
-qlang.core.internal.oneOff
 qlang.core.interpreter
 qlang.core.lang
 qlang.core.lang.Q
+qlang.runtime.core
 qlang.runtime.errors
 qlang.runtime.STDLibs.AWT
 qlang.runtime.STDLibs.etc

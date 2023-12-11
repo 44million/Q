@@ -1,7 +1,7 @@
 package qlang.runtime.STDLibs.io;
 
-import qlang.core.internal.Parser;
 import qlang.runtime.STDLibs.util.QLibrary;
+import qlang.runtime.core.Parser;
 import qlang.runtime.errors.Problem;
 
 /*

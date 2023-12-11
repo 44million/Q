@@ -1,7 +1,8 @@
-package qlang.core.internal;
+package qlang.runtime.core;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.jetbrains.annotations.NotNull;
+import qlang.core.internal.Log;
 import qlang.core.lang.Environment;
 import qlang.core.lang.Visitor;
 import qlang.runtime.STDLibs.AWT.QWinKit;

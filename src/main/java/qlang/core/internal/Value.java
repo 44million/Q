@@ -1,4 +1,4 @@
-package qlang.core.lang.Q;
+package qlang.core.internal;
 
 import java.io.File;
 import java.util.List;

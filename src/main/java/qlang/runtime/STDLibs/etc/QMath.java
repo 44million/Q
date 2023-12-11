@@ -1,7 +1,7 @@
 package qlang.runtime.STDLibs.etc;
 
-import qlang.core.internal.Parser;
 import qlang.runtime.STDLibs.util.QLibrary;
+import qlang.runtime.core.Parser;
 
 /*
     Math library. Don't even know if this is functional anymore, I haven't updated it in a long time.

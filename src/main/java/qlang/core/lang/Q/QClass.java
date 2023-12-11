@@ -1,11 +1,12 @@
 package qlang.core.lang.Q;
 
 import qlang.core.internal.Scope;
-import qlang.core.internal.Utilities;
+import qlang.core.internal.Value;
 import qlang.core.interpreter.QParser;
 import qlang.core.lang.Environment;
 import qlang.core.lang.Function;
 import qlang.core.lang.Visitor;
+import qlang.runtime.core.Utilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;

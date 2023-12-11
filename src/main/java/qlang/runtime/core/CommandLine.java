@@ -1,10 +1,11 @@
-package qlang.core.internal;
+package qlang.runtime.core;
 
 import com.github.tomaslanger.chalk.Chalk;
 import main.Runfile;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
+import qlang.core.internal.Log;
 import qlang.core.lang.Environment;
 import qlang.core.lang.Q.QYaml;
 import qlang.runtime.errors.Problem;

@@ -1,8 +1,8 @@
 package qlang.runtime.STDLibs.etc;
 
-import qlang.core.internal.Parser;
-import qlang.core.lang.Q.Value;
+import qlang.core.internal.Value;
 import qlang.runtime.STDLibs.util.QLibrary;
+import qlang.runtime.core.Parser;
 
 import java.io.IOException;
 import java.time.Instant;

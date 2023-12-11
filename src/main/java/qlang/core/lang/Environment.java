@@ -1,13 +1,13 @@
 package qlang.core.lang;
 
 import org.antlr.v4.runtime.Token;
-import qlang.core.internal.Parser;
 import qlang.core.internal.Scope;
-import qlang.core.internal.Utilities;
 import qlang.core.lang.Q.QClass;
 import qlang.core.lang.Q.QModule;
 import qlang.runtime.STDLibs.AWT.QWinKit;
 import qlang.runtime.STDLibs.io.QWebServer;
+import qlang.runtime.core.Parser;
+import qlang.runtime.core.Utilities;
 import qlang.runtime.errors.Problem;
 
 import javax.swing.*;

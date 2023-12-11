@@ -3,13 +3,13 @@ package main;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import qlang.core.internal.CommandLine;
 import qlang.core.internal.NativeFunctionLoader;
 import qlang.core.internal.Scope;
 import qlang.core.lang.Environment;
 import qlang.core.lang.Q.QFile;
 import qlang.core.lang.Q.QYaml;
 import qlang.core.lang.Visitor;
+import qlang.runtime.core.CommandLine;
 import qlang.runtime.errors.Problem;
 
 import java.io.*;

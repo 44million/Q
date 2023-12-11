@@ -2,9 +2,9 @@ package qlang.core.lang.Q;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.jetbrains.annotations.NotNull;
-import qlang.core.internal.Parser;
 import qlang.core.lang.Environment;
 import qlang.core.lang.Visitor;
+import qlang.runtime.core.Parser;
 
 import java.io.File;
 import java.io.FileNotFoundException;

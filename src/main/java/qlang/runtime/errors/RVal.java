@@ -1,6 +1,6 @@
 package qlang.runtime.errors;
 
-import qlang.core.lang.Q.Value;
+import qlang.core.internal.Value;
 
 /**
  * The RVal class represents a runtime exception specific to Q language.

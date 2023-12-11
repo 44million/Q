@@ -1,8 +1,8 @@
 package qlang.runtime.STDLibs.io;
 
 import qlang.core.internal.Log;
+import qlang.core.internal.Value;
 import qlang.core.interpreter.QParser;
-import qlang.core.lang.Q.Value;
 import qlang.runtime.STDLibs.util.QLibrary;
 import qlang.runtime.errors.Problem;
 
