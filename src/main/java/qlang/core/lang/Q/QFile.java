@@ -70,7 +70,7 @@ public class QFile {
         }
 
         if (exception.getMessage().endsWith(".q") || (exception.getMessage().endsWith(".u")) || exception instanceof FileNotFoundException) {
-            err += " (File not found)";
+
         }
 
         if (exception.getMessage().contains("Cannot read field \"sore\"")) {
