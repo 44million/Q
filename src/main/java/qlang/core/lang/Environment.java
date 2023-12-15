@@ -33,7 +33,7 @@ public class Environment {
     public Visitor visitor = new Visitor(scope, functions);
     public String response = Utilities.string();
     public boolean verbose = false;
-    public String shver = "v1.2.07";
+    public String shver = "v1.2.08";
     public String qversion = shver;
     public String releaseNotes = "Q Release: " + this.qversion + "\n\nShell Build: "
             + this.shver + "\n\nRelease Notes: Q version (" + this.qversion + ") fixes several issues with Q project creation, as well as adding more options to the Q help menu.";

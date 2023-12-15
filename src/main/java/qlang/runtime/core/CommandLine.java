@@ -243,7 +243,7 @@ public class CommandLine {
 
             } else if (matches(zero, "--run", "-r")) {
                 if (args.length == 1) {
-                    System.out.println(Chalk.on("No QFile provided! Try this, `q --run <file>.q`").bgBlue());
+                    System.out.println(("No QFile provided! Try this, `q --run <file>.q`"));
                     System.exit(0);
                 } else {
                     if (new File(args[1]).isDirectory()) {
@@ -264,7 +264,7 @@ public class CommandLine {
             } else if (matches(zero, "--runblind", "-rb")) {
 
                 if (args.length == 1) {
-                    System.out.println(Chalk.on("No QFile provided! Try this, `q --runblind <file>.q`").bgBlue());
+                    System.out.println("No QFile provided! Try this, `q --runblind <file>.q`");
                     System.exit(0);
                 }
 
@@ -725,8 +725,8 @@ public class CommandLine {
                 System.exit(0);
             }
         } else {
-            System.out.println(Chalk.on(String.format("Q Release %s: ✅\n", Environment.global.qversion)).bgGreen());
-            System.out.println(Chalk.on("\nTo get started run `q --help`.").bgGreen());
+            System.out.printf("Q Release %s: ✅\n%n", Environment.global.qversion);
+            System.out.println("\nTo get started run `q --help`.");
             System.exit(0);
         }
         return fpath;
