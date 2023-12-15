@@ -722,10 +722,13 @@ public class CommandLine {
 
             } else if (matches(zero, "--uninstall", "-unin")) {
                 try {
+
+                    Log.log(Log.Severity.TIP, "Uninstalling Q...\nYou cannot undo this action.");
+
                     File qExec = new File("/usr/local/bin/q");
 
                     if (qExec.exists()) {
-                        qExec.delete();
+                        qExec.deleteOnExit();
                     }
                 } catch (Exception e) {
                     Log.log(Log.Severity.FATAL, "Failed to delete `/usr/local/bin/q`. Likely due to permissions errors.");

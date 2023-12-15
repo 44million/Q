@@ -77,7 +77,7 @@ function customize_installation() {
 
   # Build the project
   echo "Building the project..."
-  "$maven_command" || { print_red "Error building the project"; exit 1; }
+  $maven_command || { print_red "Error building the project"; exit 1; }
   print_green "$(calculate_percentage 2) - Project built successfully!"
 
   # Rename the JAR file
@@ -161,15 +161,28 @@ fi
 
 cd "$temp_dir" || { print_red "Error changing to temporary directory"; exit 1; }
 
+# Check for silent mode
+if [ "$silent_mode" == true ]; then
+  exec > /dev/null 2>&1
+fi
+
 # Step 1: Clone the repository
-echo "Cloning the repository..."
-git clone http://github.com/QRX53/Q || { print_red "Error cloning repository"; exit 1; }
+if [ "$silent_mode" == true ]; then
+  git clone -q http://github.com/QRX53/Q || { print_red "Error cloning repository"; exit 1; }
+else
+  echo "Cloning the repository..."
+  git clone http://github.com/QRX53/Q || { print_red "Error cloning repository"; exit 1; }
+fi
 print_green "$(calculate_percentage 1) - Repository cloned successfully!"
 
 # Step 2: Build the project
 cd Q || { print_red "Error changing to Q directory"; exit 1; }
-echo "Building the project..."
-"$maven_command" || { print_red "Error building the project"; exit 1; }
+if [ "$silent_mode" == true ]; then
+  mvn -q clean compile assembly:single || { print_red "Error building the project"; exit 1; }
+else
+  echo "Building the project..."
+  mvn clean compile assembly:single || { print_red "Error building the project"; exit 1; }
+fi
 print_green "$(calculate_percentage 2) - Project built successfully!"
 
 # Step 3: Rename the JAR file
