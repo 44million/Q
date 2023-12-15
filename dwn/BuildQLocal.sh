@@ -13,9 +13,9 @@ function print_red() {
 # Function to get the greeting based on the current time
 function get_greeting() {
   current_hour=$(date +%H)
-  if ((current_hour >= 0 && current_hour < 12)); then
-    echo "Good morning"
-  elif ((current_hour >= 12 && current_hour < 18)); then
+  if ((current_hour >= 20 || current_hour < 5)); then
+    echo "Good evening"
+  elif ((current_hour >= 5 && current_hour < 17)); then
     echo "Good afternoon"
   else
     echo "Good evening"
