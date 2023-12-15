@@ -152,6 +152,7 @@ public class CommandLine {
                 --interact (-in) | interact with the Q CLI.
                 --releasenotes (-rn) | Returns the release notes for the current Q version.
                 --releasenotesdetailed (-rnd) | Returns the detailed version of the current Q versions release notes
+                --uninstall (-unin) | Uninstalls Q. Cannot be undone.
                                                  
                 The [interact] screen has more advanced flag options.
                         """);
