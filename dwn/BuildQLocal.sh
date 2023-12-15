@@ -16,7 +16,7 @@ function get_greeting() {
   if ((current_hour >= 20 || current_hour < 5)); then
     echo "Good evening"
   elif ((current_hour >= 5 && current_hour < 17)); then
-    echo "Good afternoon"
+    echo "Hello"
   else
     echo "Good evening"
   fi
@@ -44,19 +44,19 @@ function customize_installation() {
   echo "Customizing installation..."
 
   # Prompt user for Maven command
-  read -p "Enter Maven command (default: 'mvn clean compile assembly:single'): " maven_command
+  read -rp "Enter Maven command (default: 'mvn clean compile assembly:single'): " maven_command
   maven_command=${maven_command:-"mvn clean compile assembly:single"}
 
   # Prompt user for installation directory
-  read -p "Enter installation directory (default: '/usr/local/bin/'): " install_dir
+  read -rp "Enter installation directory (default: '/usr/local/bin/'): " install_dir
   install_dir=${install_dir:-"/usr/local/bin/"}
 
   # Prompt user for PATH update
-  read -p "Do you want to update the PATH? (yes/no, default: yes): " update_path
+  read -rp "Do you want to update the PATH? (yes/no, default: yes): " update_path
   update_path=${update_path:-"yes"}
 
   # Prompt user for running in a temporary folder
-  read -p "Run in a temporary folder? (yes/no, default: yes): " temp_folder
+  read -rp "Run in a temporary folder? (yes/no, default: yes): " temp_folder
   temp_folder=${temp_folder:-"yes"}
 
   # Move to the chosen directory
@@ -77,7 +77,7 @@ function customize_installation() {
 
   # Build the project
   echo "Building the project..."
-  $maven_command || { print_red "Error building the project"; exit 1; }
+  "$maven_command" || { print_red "Error building the project"; exit 1; }
   print_green "$(calculate_percentage 2) - Project built successfully!"
 
   # Rename the JAR file

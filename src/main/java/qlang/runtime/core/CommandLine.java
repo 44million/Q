@@ -108,6 +108,8 @@ public class CommandLine {
             System.out.println(prettyPrintflagInfo("--interact", "-in", "Create a new Q interactive shell, useful for Java-side debugging.", "None", "No"));
         } else if (matches(cmd, "--update", "-u")) {
             System.out.println(prettyPrintflagInfo("--update", "-u", "Currently non-functional, but in theory will run Q's update script.", "None", "No"));
+        } else if (matches(cmd, "--uninstall", "-unin")) {
+            System.out.println(prettyPrintflagInfo("--uninstall", "-unin", "Removes your Q installation. Cannot be undone.", "None", "No"));
         } else if (matches(cmd, "--moreinfo", "-mi")) {
             System.out.println(prettyPrintflagInfo("--moreinfo", "-mi", "Print detailed information about each of Q's flags.", "--<flag> | -<shorthand>", "Either"));
         } else {
@@ -717,6 +719,16 @@ public class CommandLine {
                     }
                 }
 
+            } else if (matches(zero, "--uninstall", "-unin")) {
+                try {
+                    File qExec = new File("/usr/local/bin/q");
+
+                    if (qExec.exists()) {
+                        qExec.delete();
+                    }
+                } catch (Exception e) {
+                    Log.log(Log.Severity.FATAL, "Failed to delete `/usr/local/bin/q`. Likely due to permissions errors.");
+                }
             } else if (matches(zero, "--update", "-u")) {
                 Log.log(Log.Severity.WARNING, "This flag is not fully completed.");
                 System.exit(0);
