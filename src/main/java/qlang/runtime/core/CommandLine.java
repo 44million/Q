@@ -7,6 +7,7 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import qlang.core.internal.Log;
 import qlang.core.lang.Environment;
+import qlang.core.lang.Q.QCompilerFileTree;
 import qlang.core.lang.Q.QYaml;
 import qlang.runtime.errors.Problem;
 
@@ -134,29 +135,31 @@ public class CommandLine {
      * @return String       Returns the String containing the help menu. Returned instead of printed in case I need it elsewhere.
      */
     public String helpMenu() {
-        return ("""
-                Usage:
-                --FlagName (-shorthand) <Options> | Description of flag.
-                                                            
-                Flags:
-                --env (-e) | Create a virtual environment to run short Q snippets directly in the terminal.
-                --create (-c) (--sign, -s) (--type <type> (-t)) | Creates a new Q project.
-                --runblind (-rb) <file> | Run the file given with no security checks.
-                --run <file> (-r) | Run a file. Same as `q <file>.q`.
-                --projectinfo (-pi) <project> | Print information from a project Qyaml file.
-                --info (-i) | Returns Q version, host, build, dir, and more.
-                --killall (-ka) | Kills Q processes.
-                --terminal (-t) | Allows you to enter your code in the terminal directly, rather than a file.
-                --help (-h) | Returns this menu.
-                --version (-v) | Get the Q version. Good for checking installation status.
-                --interact (-in) | interact with the Q CLI.
-                --releasenotes (-rn) | Returns the release notes for the current Q version.
-                --releasenotesdetailed (-rnd) | Returns the detailed version of the current Q versions release notes
-                --uninstall (-unin) | Uninstalls Q. Cannot be undone.
-                                                 
-                The [interact] screen has more advanced flag options.
-                        """);
+        return """
+           Usage:
+           --FlagName (-shorthand) <Options> | Description of flag.
+          
+           Flags:
+           --env (-e)                      | Create a virtual environment to run short Q snippets directly in the terminal.
+           --create (-c) [--sign, -s] [--type <type> (-t)] | Creates a new Q project.
+           --runblind (-rb) <file>         | Run the file given with no security checks.
+           --run <file> (-r)               | Run a file. Same as `q <file>.q`.
+           --projectinfo (-pi) <project>   | Print information from a project Qyaml file.
+           --info (-i)                     | Returns Q version, host, build, dir, and more.
+           --killall (-ka)                 | Kills Q processes.
+           --terminal (-t)                 | Allows you to enter your code in the terminal directly, rather than a file.
+           --help (-h)                     | Returns this menu.
+           --version (-v)                  | Get the Q version. Good for checking installation status.
+           --interact (-in)                | Interact with the Q CLI.
+           --releasenotes (-rn)            | Returns the release notes for the current Q version.
+           --releasenotesdetailed (-rnd)   | Returns the detailed version of the current Q version's release notes.
+           --uninstall (-unin)             | Uninstalls Q. Cannot be undone.
+          
+           The [interact] screen has more advanced flag options.
+           """;
     }
+
+
 
     /**
      * The exec method runs through all of Q's flags, and matches the input against them.
@@ -597,6 +600,7 @@ public class CommandLine {
                                     }
                                 }
                                 case "filetree" -> {
+
                                     if (next.equals("-p") || next.equals("--print")) {
                                         System.out.println("""
                                                 <OUTDATED>:
